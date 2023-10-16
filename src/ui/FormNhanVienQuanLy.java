@@ -5,11 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import java.awt.BorderLayout;
 
-public class MainFrm extends JFrame {
-//	lbl,txt,btn,...
+public class FormNhanVienQuanLy extends JFrame {
+
 	private JPanel contentPane;
 
 	/**
@@ -19,7 +19,7 @@ public class MainFrm extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrm frame = new MainFrm();
+					FormNhanVienQuanLy frame = new FormNhanVienQuanLy();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,20 +31,19 @@ public class MainFrm extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainFrm() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+	public FormNhanVienQuanLy() {
+		setTitle("Nhan vien quan ly");
+		setSize(1000, 600);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(null);
+		getContentPane().add(contentPane, BorderLayout.CENTER);
 		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
-		
-		JLabel lblName = new JLabel("New label");
-		panel.add(lblName);
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(467, 11, 46, 14);
+		contentPane.add(lblNewLabel);
 	}
 
 }
