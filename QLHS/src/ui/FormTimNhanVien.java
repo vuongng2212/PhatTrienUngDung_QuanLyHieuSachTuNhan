@@ -6,7 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+
 import java.awt.BorderLayout;
 
 import javax.swing.Icon;
@@ -14,17 +17,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.BevelBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-public class FormNhanVienQuanLy extends JFrame {
+public class FormTimNhanVien extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtTen;
@@ -32,15 +38,16 @@ public class FormNhanVienQuanLy extends JFrame {
 	private JTextField txtEmail;
 	private JTextField txtDoB;
 	private JTable tbl;
+	private Image img_logo = new ImageIcon(FormTimSach.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(180, 130,Image.SCALE_SMOOTH );
+	private Image img_employee = new ImageIcon(FormTimSach.class.getResource("/image/employee.jpg")).getImage().getScaledInstance(100, 50,Image.SCALE_SMOOTH );
+	private Image img_user = new ImageIcon(FormTimSach.class.getResource("/image/user.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
+	private Image img_logout = new ImageIcon(FormTimSach.class.getResource("/image/logout.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormNhanVienQuanLy frame = new FormNhanVienQuanLy();
+					FormTimNhanVien frame = new FormTimNhanVien();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,10 +56,7 @@ public class FormNhanVienQuanLy extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public FormNhanVienQuanLy() {
+	public FormTimNhanVien() {
 		setTitle("Nhan vien quan ly");
 		setSize(900, 600);
 		setLocationRelativeTo(null);
@@ -70,36 +74,77 @@ public class FormNhanVienQuanLy extends JFrame {
 		contentPane.add(westPane);
 		westPane.setLayout(null);
 		
-		JButton btnNhanVien = new JButton("Nhân viên");
-		btnNhanVien.setBounds(90, 100, 100, 50);
-		westPane.add(btnNhanVien);
-		
-		JButton btnPhanCongCa = new JButton("Phân công ca");
-		btnPhanCongCa.setBounds(90, 180, 100, 50);
-		westPane.add(btnPhanCongCa);
-		
-		JButton btnSanPham = new JButton("Sản phẩm");
-		btnSanPham.setBounds(90, 260, 100, 50);
-		westPane.add(btnSanPham);
-		
-		JButton btnDatHang = new JButton("Đặt hàng");
-		btnDatHang.setBounds(90, 340, 100, 50);
-		westPane.add(btnDatHang);
-		
-		JButton btnHelp = new JButton("Trợ giúp");
-		btnHelp.setBounds(90, 420, 100, 50);
-		westPane.add(btnHelp);
-		
 		JLabel lblTenNV = new JLabel("User:");
 		lblTenNV.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTenNV.setForeground(new Color(0, 0, 160));
 		lblTenNV.setBounds(10, 520, 56, 14);
 		westPane.add(lblTenNV);
 		
-		JLabel lblNewLabel = new JLabel("LOGO");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 11, 180, 80);
-		westPane.add(lblNewLabel);
+		JLabel lblLogo = new JLabel();
+		lblLogo.setIcon(new ImageIcon(img_logo));
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogo.setBounds(10, 11, 180, 80);
+		westPane.add(lblLogo);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(43, 102, 101, 150);
+		westPane.add(menuBar);
+		menuBar.setLayout(new GridLayout(0,1));
+//		JPanel panel = new JPanel();
+//		panel.setBounds(10, 111, 180, 398);
+//		westPane.add(panel);
+		
+		JMenu mnNhanVien = new JMenu("Nhân viên");
+		menuBar.add(mnNhanVien);
+		
+		JMenuItem mnQLNV = new JMenuItem("Quản lý nhân viên");
+		mnQLNV.setHorizontalAlignment(SwingConstants.CENTER);
+		mnNhanVien.add(mnQLNV);
+		
+		JMenuItem mnTimNV = new JMenuItem("Tìm nhân viên");
+		mnTimNV.setHorizontalAlignment(SwingConstants.CENTER);
+		mnNhanVien.add(mnTimNV);
+		
+		JMenu mnCa = new JMenu("Phân công ca");
+		menuBar.add(mnCa);
+		
+		JMenu mnSanPham = new JMenu("Sản phẩm");
+		menuBar.add(mnSanPham);
+		
+		JMenuItem mnTimSP = new JMenuItem("Tìm sản phẩm");
+		mnSanPham.add(mnTimSP);
+		
+		JMenu mnDatHang = new JMenu("Đặt hàng");
+		menuBar.add(mnDatHang);
+		
+		JMenuItem mnTaoPhieuDH = new JMenuItem("Tạo phiếu đặt hàng");
+		mnDatHang.add(mnTaoPhieuDH);
+		
+		JMenu mnHelp = new JMenu("Trợ giúp");
+		menuBar.add(mnHelp);
+		
+		
+//		JMenuBar menuBar = new JMenuBar();
+//		menuBar.setLayout(new GridLayout(0,1));
+//		menuBar.setBounds(89, 102, 101, 150);
+//		JMenu fileMenu = new JMenu("Nhân viên");
+//		menuBar.add(fileMenu);
+//		JMenuItem menuItem1 = new JMenuItem("Quản lý nhân viên", KeyEvent.VK_N);
+//	    fileMenu.add(menuItem1);
+//	    JMenuItem menuItem2 = new JMenuItem("Tìm nhân viên", KeyEvent.VK_O);
+//	    fileMenu.add(menuItem2);
+//	    JMenu editMenu = new JMenu("Edit");
+//	    editMenu.setMnemonic(KeyEvent.VK_E);
+//	    menuBar.add(editMenu);
+//	    JMenuItem menuItem3 = new JMenuItem("Cut", KeyEvent.VK_C);
+//	    editMenu.add(menuItem3);
+//	    JMenu sourceMenu = new JMenu("Source");
+//	    sourceMenu.setMnemonic(KeyEvent.VK_S);
+//	    menuBar.add(sourceMenu);
+//	    JMenu refactorMenu = new JMenu("Refactor");
+//	    refactorMenu.setMnemonic(KeyEvent.VK_R);
+//	    menuBar.add(refactorMenu);
+//		westPane.add(menuBar);
 		
 		JPanel headPanel = new JPanel();
 		headPanel.setForeground(new Color(192, 192, 192));
@@ -192,21 +237,18 @@ public class FormNhanVienQuanLy extends JFrame {
 		
 //		JPanel tblPanel = new JPanel();
 //		tblPanel.setBounds(199, 221, 685, 340);
+//		JTable table = new JTable();
+//		String[] headers = "STT;Mã nhân viên;Họ và tên;Giới tính; Ngày sinh;SDT;Địa chỉ;Email".split(";");
+//		DefaultTableModel tableModel = new DefaultTableModel(headers, 0);
+//		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+//				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		scroll.setViewportView(table = new JTable(tableModel));
+//		table.setRowHeight(25);
+//		table.setAutoCreateRowSorter(true);
+//		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+//		tblPanel.add(scroll);
 //		contentPane.add(tblPanel);
-//		String[] collumns = {
-//			"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
-//		};
-//		tbl = new JTable(null,collumns);
-//		tbl.setModel(new DefaultTableModel(
-//			new Object[][] {
-//			},
-//			new String[] {
-//				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
-//			}
-//		));
-//		JScrollPane sp = new JScrollPane(tbl);
-//		contentPane.add(sp);
-//		tblPanel.add(tbl);
+
 	}
 	private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
 	    Image img = icon.getImage();  
