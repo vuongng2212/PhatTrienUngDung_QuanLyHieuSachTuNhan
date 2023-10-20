@@ -13,6 +13,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginForm extends JFrame {
 
@@ -62,6 +64,11 @@ public class LoginForm extends JFrame {
 		contentPane.add(txtPass);
 
 		btnDangnhap = new JButton("LOGIN");
+		btnDangnhap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Hello");
+			}
+		});
 		btnDangnhap.setForeground(new Color(0, 0, 160));
 		btnDangnhap.setBackground(new Color(0, 255, 255));
 
