@@ -11,6 +11,11 @@ import java.awt.Color;
 
 public class PanelBill extends JPanel {
 
+	public JPanel panelTitle;
+	public JLabel lblNewLabel;
+	public JLabel lblNewLabel_1;
+	public  panelBanHang banHang = new panelBanHang();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -19,7 +24,7 @@ public class PanelBill extends JPanel {
 //		setSize(1534,1017);
 		setLayout(null);
 		
-		JPanel panelTitle = new JPanel();
+		panelTitle = new JPanel();
 		panelTitle.setBounds(0, 0, 1534, 61);
 		add(panelTitle);
 		panelTitle.setLayout(null);
@@ -30,7 +35,7 @@ public class PanelBill extends JPanel {
 		panelTitle.add(panelTitleNhap);
 		panelTitleNhap.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("HÓA ĐƠN BÁN HÀNG");
+		lblNewLabel = new JLabel("HÓA ĐƠN BÁN HÀNG");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel.setBounds(0, 0, 767, 61);
@@ -42,7 +47,7 @@ public class PanelBill extends JPanel {
 		panelTitle.add(panelTitleBan);
 		panelTitleBan.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("HÓA ĐƠN NHẬP HÀNG");
+		lblNewLabel_1 = new JLabel("HÓA ĐƠN NHẬP HÀNG");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(0, 0, 767, 61);
@@ -50,7 +55,7 @@ public class PanelBill extends JPanel {
 		
 		JPanel panelCtn = new JPanel();
 		panelCtn.setBounds(0, 61, 1534, 956);
-		panelCtn.add(new panelBanHang());
+		panelCtn.add(banHang);
 		add(panelCtn);
 		panelCtn.setLayout(null);
 	}

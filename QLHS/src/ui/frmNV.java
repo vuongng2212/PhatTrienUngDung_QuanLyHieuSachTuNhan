@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -29,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 
 public class frmNV extends JFrame {
 
@@ -308,6 +310,46 @@ public class frmNV extends JFrame {
 				//thêm các thay đổi vào bên trong 
 				system.lbllSystem.setText(rd.getString("heThong"));
 				system.lbllSystem.setFont(listCountries.get(index).getFont());
+				
+				//Change text for frm Bill
+				bill.lblNewLabel.setText(rd.getString("banhang")); //Ban Hang
+				bill.lblNewLabel.setFont(listCountries.get(index).getFont());
+				bill.lblNewLabel_1.setText(rd.getString("nhaphang")); //Nhap hang
+				bill.lblNewLabel_1.setFont(listCountries.get(index).getFont());
+				
+				//Change text for Bill.panelBanHang
+				bill.banHang.lblTcGi.setText(rd.getString("tacGia"));
+				bill.banHang.lblNhXutBn.setText(rd.getString("NXB"));
+				bill.banHang.lbllSoLuong.setText(rd.getString("soluong"));
+				bill.banHang.lblTimKH.setText(rd.getString("timKH"));
+				bill.banHang.lbllKH.setText(rd.getString("maKH"));
+				bill.banHang.lblTnKhchHng.setText(rd.getString("tenKH"));
+				bill.banHang.lblSi.setText(rd.getString("SDT"));
+				bill.banHang.lblaCh.setText(rd.getString("diaChi"));
+				bill.banHang.lbllLoai.setText(rd.getString("loaiKH"));
+				bill.banHang.lbllTongTien.setText(rd.getString("tongTien"));
+				bill.banHang.lbllTienNhan.setText(rd.getString("tienNhan"));
+				bill.banHang.lblTienTra.setText(rd.getString("tienTra"));
+				bill.banHang.btnHuy.setText(rd.getString("huyBo"));
+				bill.banHang.btnThanhToan.setText(rd.getString("thanhToan"));
+				bill.banHang.btnInHD.setText(rd.getString("inHD"));
+				bill.banHang.lbllTitle.setText(rd.getString("banhang"));
+				bill.banHang.lbllProduct.setText(rd.getString("timsach"));
+				bill.banHang.lbllMaSach.setText(rd.getString("maSach"));
+				bill.banHang.lbllTenSach.setText(rd.getString("tenSach"));
+				bill.banHang.lblDanhMc.setText(rd.getString("danhMuc"));
+				
+				
+				bill.banHang.btnNewButton.setText(rd.getString("them"));
+				bill.banHang.btnLmMi.setText(rd.getString("lammoi"));
+//				
+				
+				
+				
+				
+				
+			
+				
 				
 				//Change currency
 				NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(locale);

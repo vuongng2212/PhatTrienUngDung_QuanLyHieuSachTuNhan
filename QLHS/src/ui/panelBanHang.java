@@ -11,6 +11,8 @@ import java.awt.Graphics;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
@@ -24,21 +26,43 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 public class panelBanHang extends JPanel {
-	private JTextField txtMaSach;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTable table_product;
-	private JTable table_bill;
-	private JTextField textField_4;
-	private JTextField textField_6;
-	private JTextField txtLoaiKH;
-	private JTextField txtTongTien;
-	private JTextField txtTienNhan;
-	private JTextField txtTienTra;
-	private JTextField txtTenKH;
-	private JTextField txtDiaChi;
+	public JTextField textField;
+	public JTextField textField_1;
+	public JTextField textField_2;
+	public JTextField textField_3;
+	public JTable table_product;
+	public JTable table_bill;
+	public JTextField textField_4;
+	public JTextField textField_6;
+	public JTextField txtLoaiKH;
+	public JTextField txtTongTien;
+	public JTextField txtTienNhan;
+	public JTextField txtTienTra;
+	public JTextField txtTenKH;
+	public JTextField txtDiaChi;
+	public JLabel lblTcGi;
+	public JLabel lblNhXutBn;
+	public JLabel lbllSoLuong;
+	public JLabel lblTimKH;
+	public JLabel lbllKH;
+	public JLabel lblTnKhchHng;
+	public JLabel lblSi;
+	public JLabel lblaCh;
+	public JLabel lbllLoai;
+	public JLabel lbllTongTien;
+	public JLabel lbllTienNhan;
+	public JLabel lblTienTra;
+	public JButton btnHuy;
+	public JButton btnThanhToan;
+	public JButton btnInHD;
+	public JLabel lbllTitle;
+	public JLabel lbllProduct;
+	public JLabel lbllTenSach;
+	public JLabel lblDanhMc;
+	public JButton btnNewButton;
+	public JButton btnLmMi;
+	public JTextField textField_5;
+	public JLabel lbllMaSach;
 
 	/**
 	 * Create the panel.
@@ -53,7 +77,7 @@ public class panelBanHang extends JPanel {
 		add(Title);
 		Title.setLayout(null);
 		
-		JLabel lbllTitle = new JLabel("HÓA ĐƠN BÁN HÀNG");
+		lbllTitle = new JLabel("HÓA ĐƠN BÁN HÀNG");
 		lbllTitle.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lbllTitle.setForeground(new Color(0, 204, 51));
 		lbllTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -62,64 +86,69 @@ public class panelBanHang extends JPanel {
 		
 		JPanel txtSach = new JPanel();
 		txtSach.setBounds(0, 100, 1534, 89);
-		txtSach.setBackground(new Color(255, 255, 204));
+		txtSach.setBackground(new Color(102, 204, 255));
 		add(txtSach);
 		txtSach.setLayout(null);
 		
-		JLabel lbllProduct = new JLabel("Tìm Sách");
+		lbllProduct = new JLabel("Tìm Sách");
 		lbllProduct.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllProduct.setBounds(10, 11, 100, 23);
 		txtSach.add(lbllProduct);
 		
-		txtMaSach = new JTextField();
-		txtMaSach.setBounds(81, 40, 210, 23);
-		txtSach.add(txtMaSach);
-		txtMaSach.setColumns(10);
-		
-		JLabel lbllMaSach = new JLabel("Mã Sách");
-		lbllMaSach.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllMaSach.setBounds(10, 40, 100, 23);
-		txtSach.add(lbllMaSach);
-		
-		JLabel lbllTenSach = new JLabel("Tên Sách");
+		lbllTenSach = new JLabel("Tên Sách");
+		lbllTenSach.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTenSach.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTenSach.setBounds(301, 40, 100, 23);
+		lbllTenSach.setBounds(680, 45, 157, 23);
 		txtSach.add(lbllTenSach);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(375, 40, 210, 23);
+		textField.setBounds(847, 47, 210, 23);
 		txtSach.add(textField);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(687, 40, 210, 23);
+		textField_1.setBounds(849, 13, 210, 23);
 		txtSach.add(textField_1);
 		
-		JLabel lblDanhMc = new JLabel("Danh Mục");
+		lblDanhMc = new JLabel("Danh Mục");
+		lblDanhMc.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDanhMc.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblDanhMc.setBounds(606, 40, 100, 23);
+		lblDanhMc.setBounds(680, 11, 144, 23);
 		txtSach.add(lblDanhMc);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(973, 40, 210, 23);
+		textField_2.setBounds(1274, 47, 210, 23);
 		txtSach.add(textField_2);
 		
-		JLabel lblTcGi = new JLabel("Tác Giả");
+		lblTcGi = new JLabel("Tác Giả");
+		lblTcGi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTcGi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTcGi.setBounds(907, 38, 100, 23);
+		lblTcGi.setBounds(1140, 45, 124, 23);
 		txtSach.add(lblTcGi);
 		
-		JLabel lblNhXutBn = new JLabel("Nhà Xuất Bản");
+		lblNhXutBn = new JLabel("Nhà Xuất Bản");
+		lblNhXutBn.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNhXutBn.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNhXutBn.setBounds(1204, 40, 100, 23);
+		lblNhXutBn.setBounds(1096, 11, 168, 23);
 		txtSach.add(lblNhXutBn);
 		
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
-		textField_3.setBounds(1314, 40, 210, 23);
+		textField_3.setBounds(1274, 13, 210, 23);
 		txtSach.add(textField_3);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(376, 13, 210, 23);
+		txtSach.add(textField_5);
+		
+		lbllMaSach = new JLabel("Mã Sách");
+		lbllMaSach.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllMaSach.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllMaSach.setBounds(228, 11, 138, 23);
+		txtSach.add(lbllMaSach);
 		
 		JPanel panelListSach = new JPanel();
 		panelListSach.setBounds(0, 187, 1534, 302);
@@ -159,29 +188,33 @@ public class panelBanHang extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lbllSoLuong = new JLabel("Số Lượng");
+		lbllSoLuong = new JLabel("Số Lượng");
 		lbllSoLuong.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllSoLuong.setBounds(10, 11, 78, 18);
+		lbllSoLuong.setBounds(10, 11, 129, 18);
 		panel.add(lbllSoLuong);
 		
 		JSpinner spinner = new JSpinner();
-		spinner.setBounds(98, 12, 44, 20);
+		spinner.setBounds(149, 12, 44, 20);
 		panel.add(spinner);
 		
-		JButton btnNewButton = new JButton("Thêm");
+		btnNewButton = new JButton("Thêm");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton.setBackground(new Color(102, 204, 0));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setBounds(167, 11, 89, 23);
+		btnNewButton.setBounds(229, 11, 89, 23);
 		panel.add(btnNewButton);
 		
-		JButton btnLmMi = new JButton("Làm Mới");
+		btnLmMi = new JButton("Làm Mới");
 		btnLmMi.setBackground(new Color(102, 204, 0));
 		btnLmMi.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnLmMi.setBounds(276, 11, 89, 23);
+		btnLmMi.setBounds(328, 11, 96, 23);
 		panel.add(btnLmMi);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 530, 964, 426);
+		panel_1.setBounds(0, 530, 921, 426);
 		panel_1.setBorder( TopcreateStrikethroughBorder());
 		add(panel_1);
 		panel_1.setLayout(null);
@@ -203,11 +236,11 @@ public class panelBanHang extends JPanel {
 		
 		model2.addRow(rowData2);
 //		table_bill
-		table_bill.setBounds(0, 0, 964, 426);
+		table_bill.setBounds(0, 0, 919, 426);
 		panel_1.add(table_bill);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(963, 489, 571, 467);
+		panel_2.setBounds(922, 489, 612, 467);
 		add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -220,42 +253,42 @@ public class panelBanHang extends JPanel {
 		panel_3.setBorder(createStrikethroughBorder());
 		panel_3.setLayout(null);
 		
-		JLabel lblTimKH = new JLabel("Tìm Khách Hàng");
+		lblTimKH = new JLabel("Tìm Khách Hàng");
 		lblTimKH.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblTimKH.setBounds(10, 0, 138, 28);
 		panel_3.add(lblTimKH);
 		
-		JLabel lbllKH = new JLabel("Mã Khách Hàng");
+		lbllKH = new JLabel("Mã Khách Hàng");
 		lbllKH.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lbllKH.setBounds(10, 40, 99, 25);
 		panel_2.add(lbllKH);
 		
 		textField_4 = new JTextField();
-		textField_4.setBounds(119, 43, 144, 20);
+		textField_4.setBounds(155, 43, 144, 20);
 		panel_2.add(textField_4);
 		textField_4.setColumns(10);
 		
-		JLabel lblTnKhchHng = new JLabel("Tên Khách Hàng");
+		lblTnKhchHng = new JLabel("Tên Khách Hàng");
 		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblTnKhchHng.setBounds(284, 43, 109, 25);
+		lblTnKhchHng.setBounds(309, 40, 125, 25);
 		panel_2.add(lblTnKhchHng);
 		
 		textField_6 = new JTextField();
 		textField_6.setColumns(10);
-		textField_6.setBounds(119, 74, 144, 20);
+		textField_6.setBounds(155, 74, 144, 20);
 		panel_2.add(textField_6);
 		
-		JLabel lblSi = new JLabel("Số Điện Thoại");
+		lblSi = new JLabel("Số Điện Thoại");
 		lblSi.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblSi.setBounds(10, 76, 99, 25);
 		panel_2.add(lblSi);
 		
-		JLabel lblaCh = new JLabel("Địa Chỉ");
+		lblaCh = new JLabel("Địa Chỉ");
 		lblaCh.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblaCh.setBounds(284, 71, 83, 25);
+		lblaCh.setBounds(314, 71, 120, 25);
 		panel_2.add(lblaCh);
 		
-		JLabel lbllLoai = new JLabel("Loại Khách Hàng");
+		lbllLoai = new JLabel("Loại Khách Hàng");
 		lbllLoai.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lbllLoai.setBounds(10, 112, 109, 25);
 		panel_2.add(lbllLoai);
@@ -267,22 +300,22 @@ public class panelBanHang extends JPanel {
 		panel_2.add(txtLoaiKH);
 		txtLoaiKH.setColumns(10);
 		
-		JLabel lbllTongTien = new JLabel("Tổng Tiền");
+		lbllTongTien = new JLabel("Tổng Tiền");
 		lbllTongTien.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTongTien.setBounds(10, 148, 83, 38);
+		lbllTongTien.setBounds(10, 148, 129, 38);
 		panel_2.add(lbllTongTien);
 		
 		txtTongTien = new JTextField();
 		txtTongTien.setBackground(new Color(204, 255, 0));
 		txtTongTien.setFont(new Font("Tahoma", Font.BOLD, 15));
-		txtTongTien.setBounds(119, 149, 138, 38);
+		txtTongTien.setBounds(149, 146, 138, 38);
 		txtTongTien.setEditable(false);
 		panel_2.add(txtTongTien);
 		txtTongTien.setColumns(10);
 		
-		JLabel lbllTienNhan = new JLabel("Tiền Nhận");
+		lbllTienNhan = new JLabel("Tiền Nhận");
 		lbllTienNhan.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTienNhan.setBounds(10, 204, 99, 38);
+		lbllTienNhan.setBounds(10, 204, 129, 38);
 		panel_2.add(lbllTienNhan);
 		
 		txtTienNhan = new JTextField();
@@ -290,12 +323,12 @@ public class panelBanHang extends JPanel {
 		txtTienNhan.setEditable(false);
 		txtTienNhan.setColumns(10);
 		txtTienNhan.setBackground(new Color(204, 255, 0));
-		txtTienNhan.setBounds(119, 205, 138, 38);
+		txtTienNhan.setBounds(149, 205, 138, 38);
 		panel_2.add(txtTienNhan);
 		
-		JLabel lblTienTra = new JLabel("Tiền Trả");
+		lblTienTra = new JLabel("Tiền Trả");
 		lblTienTra.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTienTra.setBounds(10, 262, 99, 38);
+		lblTienTra.setBounds(10, 262, 129, 38);
 		panel_2.add(lblTienTra);
 		
 		txtTienTra = new JTextField();
@@ -303,35 +336,35 @@ public class panelBanHang extends JPanel {
 		txtTienTra.setEditable(false);
 		txtTienTra.setColumns(10);
 		txtTienTra.setBackground(new Color(204, 255, 0));
-		txtTienTra.setBounds(119, 263, 138, 38);
+		txtTienTra.setBounds(149, 263, 138, 38);
 		panel_2.add(txtTienTra);
 		
-		JButton btnHuy = new JButton("Hủy Bỏ");
+		btnHuy = new JButton("Hủy Bỏ");
 		btnHuy.setBackground(new Color(255, 0, 0));
 		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnHuy.setBounds(69, 382, 120, 38);
+		btnHuy.setBounds(69, 382, 138, 38);
 		panel_2.add(btnHuy);
 		
-		JButton btnThanhToan = new JButton("Thanh Toán");
+		btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThanhToan.setBackground(new Color(102, 204, 0));
-		btnThanhToan.setBounds(240, 382, 120, 38);
+		btnThanhToan.setBounds(227, 382, 138, 38);
 		panel_2.add(btnThanhToan);
 		
-		JButton btnInHD = new JButton("In Hóa Đơn");
+		btnInHD = new JButton("In Hóa Đơn");
 		btnInHD.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnInHD.setBackground(new Color(102, 204, 0));
-		btnInHD.setBounds(405, 382, 120, 38);
+		btnInHD.setBounds(405, 382, 154, 38);
 		panel_2.add(btnInHD);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setColumns(10);
-		txtTenKH.setBounds(395, 43, 166, 20);
+		txtTenKH.setBounds(436, 40, 166, 20);
 		panel_2.add(txtTenKH);
 		
 		txtDiaChi = new JTextField();
 		txtDiaChi.setColumns(10);
-		txtDiaChi.setBounds(395, 74, 166, 20);
+		txtDiaChi.setBounds(436, 74, 166, 20);
 		panel_2.add(txtDiaChi);
 	}
 	private static Border createStrikethroughBorder() {
