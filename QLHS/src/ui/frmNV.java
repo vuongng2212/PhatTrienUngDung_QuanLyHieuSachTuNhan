@@ -7,6 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import entity.Country;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JComboBox;
@@ -39,7 +41,7 @@ public class frmNV extends JFrame {
 	private Image img_thongKe = new ImageIcon(frmNV.class.getResource("/image/thongKe_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
 	private Image img_customer = new ImageIcon(frmNV.class.getResource("/image/customer_icon.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_user = new ImageIcon(frmNV.class.getResource("/image/user.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
-	private Image img_logout = new ImageIcon(frmNV.class.getResource("/image/logout.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	private Image img_logout = new ImageIcon(frmNV.class.getResource("/image/logout.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1550, 1500,Image.SCALE_SMOOTH );
 	
 	private final JLabel lblNewLabel = new JLabel("");
@@ -52,6 +54,8 @@ public class frmNV extends JFrame {
 	private JPanel panel_image_title;
 	private JComboBox comboCountries;
 	private JLabel lbllDateShow;
+	private JLabel lbllDate;
+	private final LoginForm frmLogin = new LoginForm();
 	
 	/**
 	 * Launch the application.
@@ -85,10 +89,15 @@ public class frmNV extends JFrame {
 		
 		
 		system = new panelSystem();
+		system.setVisible(false);
 		product = new panelProduct();
+		product.setVisible(false);
 		bill = new PanelBill();
+		bill.setVisible(false);
 		customer = new PanelCustomer();
+		customer.setVisible(false);
 		thongke = new PanelThongKe();
+		thongke.setVisible(false);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(217,217,217));
@@ -211,21 +220,51 @@ public class frmNV extends JFrame {
 		
 		JLabel icon_user = new JLabel("");
 		icon_user.setHorizontalAlignment(SwingConstants.CENTER);
-		icon_user.setBounds(10, 149, 61, 59);
+		icon_user.setBounds(10, 138, 61, 59);
 		icon_user.setIcon(new ImageIcon(img_user));
 		panel_1.add(icon_user);
 		
 		JLabel lblNewLabel_3 = new JLabel("User:  Văn A");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3.setBounds(81, 149, 195, 59);
+		lblNewLabel_3.setBounds(81, 138, 195, 59);
 		panel_1.add(lblNewLabel_3);
 		
 		
 		JLabel icon_logout = new JLabel("");
 		icon_logout.setHorizontalAlignment(SwingConstants.CENTER);
-		icon_logout.setBounds(306, 156, 69, 52);
+		icon_logout.setBounds(316, 141, 51, 49);
 		icon_logout.setIcon(new ImageIcon(img_logout));
 		panel_1.add(icon_logout);
+		icon_logout.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int option  = JOptionPane.showConfirmDialog(null, "Xác nhận Đăng Xuất?","Xác Nhận",JOptionPane.YES_NO_OPTION);
+				if(option == JOptionPane.YES_OPTION) {
+					frmLogin.setVisible(true);
+					frmNV.this.dispose();
+
+				}
+			}
+		});
 		
 		JLabel lbllNgonNgu = new JLabel("Ngôn Ngữ");
 		lbllNgonNgu.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -263,7 +302,8 @@ public class frmNV extends JFrame {
 				lbllKH.setFont(listCountries.get(index).getFont());
 				lbllThongKe.setText(rd.getString("thongKe"));
 				lbllThongKe.setFont(listCountries.get(index).getFont());
-				
+				lbllDate.setText(rd.getString("lich"));
+				lbllDate.setFont(listCountries.get(index).getFont());
 				//Change Text Frm Show
 				//thêm các thay đổi vào bên trong 
 				system.lbllSystem.setText(rd.getString("heThong"));
@@ -277,9 +317,9 @@ public class frmNV extends JFrame {
 		comboCountries.setBounds(125, 11, 174, 34);
 		panel_1.add(comboCountries);
 		
-		JLabel lbllDate = new JLabel("Lịch");
+		lbllDate = new JLabel("Lịch");
 		lbllDate.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDate.setBounds(10, 104, 92, 34);
+		lbllDate.setBounds(10, 102, 92, 34);
 		panel_1.add(lbllDate);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE,dd/MM/yyyy",new Locale("vi"));

@@ -5,6 +5,7 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 public class PanelThongKe extends JPanel {
 
@@ -23,6 +24,11 @@ public class PanelThongKe extends JPanel {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel.setBounds(304, 97, 575, 407);
 		add(lblNewLabel);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.info);
+		panel.setBounds(0, 0, 606, 66);
+		add(panel);
 	}
 
 }
