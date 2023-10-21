@@ -14,6 +14,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -37,12 +40,13 @@ public class FormNVQuanLy extends JFrame{
 	JLabel lblBG;
 	private Image img_logo = new ImageIcon(FormNVQuanLy.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(280, 200,Image.SCALE_SMOOTH );
 	private Image img_employee = new ImageIcon(FormNVQuanLy.class.getResource("/image/employee.jpg")).getImage().getScaledInstance(100, 50,Image.SCALE_SMOOTH );
-	private Image img_user = new ImageIcon(FormNVQuanLy.class.getResource("/image/user.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
-	private Image img_logout = new ImageIcon(FormNVQuanLy.class.getResource("/image/logout.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
+	private Image img_user = new ImageIcon(FormNVQuanLy.class.getResource("/image/user.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
+	private Image img_logout = new ImageIcon(FormNVQuanLy.class.getResource("/image/logout.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_background = new ImageIcon(FormNVQuanLy.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1920, 816,Image.SCALE_SMOOTH );
 	private PanelTimNV PnTimNV = new PanelTimNV();
 	private PanelDatHang pnDH = new PanelDatHang();
 	private PanelQLNV pnQLNV = new PanelQLNV();
+	private JLabel lblAccountIcon;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -148,6 +152,32 @@ public class FormNVQuanLy extends JFrame{
 		mnHelp = new JMenu("Trợ giúp");
 		mnHelp.setFont(new Font("Tahoma", Font.BOLD, 20));
 		mnBar.add(mnHelp);
+		
+		JLabel lblDate = new JLabel("");
+		lblDate.setBounds(105, 161, 180, 18);
+		northPanel.add(lblDate);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE,dd/MM/yyyy",new Locale("vi"));
+		String currentDate = dateFormat.format(new Date());
+		lblDate.setText(currentDate);
+		lblDate.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		lblAccountIcon = new JLabel("");
+		lblAccountIcon.setIcon(new ImageIcon(img_user));
+		lblAccountIcon.setBounds(1520, 129, 60, 60);
+		northPanel.add(lblAccountIcon);
+		
+		JButton btnLogOut = new JButton("");
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginForm lg = new LoginForm();
+				lg.setVisible(true);
+				FormNVQuanLy.this.dispose();	
+			}
+		});
+		btnLogOut.setBackground(new Color(192, 192, 192));
+		btnLogOut.setIcon(new ImageIcon(img_logout));
+		btnLogOut.setBounds(1821, 129, 60, 60);
+		northPanel.add(btnLogOut);
 		
 		lblBG = new JLabel("");
 		lblBG.setIcon(new ImageIcon(img_background));
