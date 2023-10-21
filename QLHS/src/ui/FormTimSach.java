@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 
 
 public class FormTimSach extends JFrame {
-
 	private JPanel contentPane;
 	private Image img_logo = new ImageIcon(FormTimSach.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(200, 200,Image.SCALE_SMOOTH );
 	private Image img_system = new ImageIcon(FormTimSach.class.getResource("/image/system_icon.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
