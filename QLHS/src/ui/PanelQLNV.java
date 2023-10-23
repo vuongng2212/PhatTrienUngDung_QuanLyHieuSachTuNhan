@@ -2,6 +2,9 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -13,6 +16,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DateFormatter;
+
+import com.toedter.calendar.JDateChooser;
 
 public class PanelQLNV extends JPanel {
 
@@ -82,12 +88,6 @@ public class PanelQLNV extends JPanel {
 		cbGT.setBounds(205, 143, 70, 30);
 		westPanel.add(cbGT);
 		
-		JTextField txtNgaySinh = new JTextField();
-		txtNgaySinh.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtNgaySinh.setColumns(10);
-		txtNgaySinh.setBounds(205, 184, 130, 30);
-		westPanel.add(txtNgaySinh);
-		
 		JButton btnSua = new JButton("Sửa");
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnSua.setBackground(new Color(0, 128, 255));
@@ -151,6 +151,12 @@ public class PanelQLNV extends JPanel {
 		btnXoa.setBounds(265, 445, 100, 30);
 		westPanel.add(btnXoa);
 		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(205, 184, 160, 30);
+		dateChooser.getDate();
+		dateChooser.setDateFormatString("dd-MM-yyyy");
+		westPanel.add(dateChooser);
+		
 		
 		String[] headers = { "STT", "Mã nhân viên", "Họ và tên", "Giới tính", "Ngày sinh", "SĐT", "Địa chỉ", "Email", "Chức vụ"};
 		DefaultTableModel tableModel = new DefaultTableModel(headers, 0);
@@ -170,5 +176,4 @@ public class PanelQLNV extends JPanel {
 		table.getColumnModel().getColumn(8).setPreferredWidth(100);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 	}
-
 }

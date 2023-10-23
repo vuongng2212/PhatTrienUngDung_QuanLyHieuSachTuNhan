@@ -13,12 +13,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import com.toedter.calendar.JDateChooser;
 
 public class PanelTimNV extends JPanel {
 	private JTextField txtTen;
 	private JTextField txtSDT;
 	private JTextField txtDiaChi;
-	private JTextField txtNgaySinh;
 	private JTextField txtMa;
 	private JTextField txtEmail;
 	/**
@@ -86,12 +86,6 @@ public class PanelTimNV extends JPanel {
 		cbGT.setBounds(205, 331, 100, 30);
 		westPanel.add(cbGT);
 		
-		txtNgaySinh = new JTextField();
-		txtNgaySinh.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		txtNgaySinh.setColumns(10);
-		txtNgaySinh.setBounds(205, 372, 100, 30);
-		westPanel.add(txtNgaySinh);
-		
 		JButton btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnLamMoi.setBackground(new Color(0, 128, 255));
@@ -110,6 +104,12 @@ public class PanelTimNV extends JPanel {
 		lblTimNV.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblTimNV.setBounds(0, 0, 400, 50);
 		westPanel.add(lblTimNV);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(205, 372, 160, 30);
+		dateChooser.getDate();
+		dateChooser.setDateFormatString("dd-MM-yyyy");
+		westPanel.add(dateChooser);
 		
 		JPanel tblPanel = new JPanel();
 		tblPanel.setBounds(400, 200, 1520, 817);
@@ -134,5 +134,4 @@ public class PanelTimNV extends JPanel {
 		table.getColumnModel().getColumn(8).setPreferredWidth(100);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 	}
-
 }
