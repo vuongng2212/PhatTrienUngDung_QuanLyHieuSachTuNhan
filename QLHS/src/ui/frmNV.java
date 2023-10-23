@@ -36,12 +36,12 @@ public class frmNV extends JFrame {
 
 	List<Country>listCountries = new ArrayList<Country>();
 	private JPanel contentPane;
-	private Image img_logo = new ImageIcon(frmNV.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(300, 300,Image.SCALE_SMOOTH );
-	private Image img_system = new ImageIcon(frmNV.class.getResource("/image/system_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
-	private Image img_product = new ImageIcon(frmNV.class.getResource("/image/product_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
-	private Image img_payment = new ImageIcon(frmNV.class.getResource("/image/payment_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
-	private Image img_thongKe = new ImageIcon(frmNV.class.getResource("/image/thongKe_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
-	private Image img_customer = new ImageIcon(frmNV.class.getResource("/image/customer_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_logo = new ImageIcon(frmNV.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(250, 250,Image.SCALE_SMOOTH );
+	private Image img_system = new ImageIcon(frmNV.class.getResource("/image/system_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
+	private Image img_product = new ImageIcon(frmNV.class.getResource("/image/product_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
+	private Image img_payment = new ImageIcon(frmNV.class.getResource("/image/payment_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
+	private Image img_thongKe = new ImageIcon(frmNV.class.getResource("/image/thongKe_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
+	private Image img_customer = new ImageIcon(frmNV.class.getResource("/image/customer_icon.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_user = new ImageIcon(frmNV.class.getResource("/image/user.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_logout = new ImageIcon(frmNV.class.getResource("/image/logout.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1550, 1500,Image.SCALE_SMOOTH );
@@ -52,7 +52,9 @@ public class frmNV extends JFrame {
 	private PanelBill bill;
 	private PanelCustomer customer;
 	private PanelThongKe thongke;
+	private PanelCRUDKHang panelCRUDKHang;
 	private JLabel lbllImage;
+	private PanelSearchProduct panelSearchProduct;
 	private JPanel panel_image_title;
 	private JComboBox comboCountries;
 	private JLabel lbllDateShow;
@@ -80,8 +82,8 @@ public class frmNV extends JFrame {
 	 */
 	public frmNV() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1936, 1056);
-//		setSize(1936,1056);
+//		setBounds(0, 0, 1936, 1056);
+		setSize(1936,1056);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,39 +102,42 @@ public class frmNV extends JFrame {
 		customer.setVisible(false);
 		thongke = new PanelThongKe();
 		thongke.setVisible(false);
+		panelCRUDKHang = new PanelCRUDKHang(customer);
+		panelCRUDKHang.setVisible(false);
+		panelSearchProduct = new PanelSearchProduct();
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(217,217,217));
-		panel.setBounds(0, 0, 272, 1017);
+		panel.setBounds(0, 0, 385, 1017);
 		
 		contentPane.add(panel);
 		panel.setLayout(null);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 272, 212);
+		lblNewLabel.setBounds(0, 0, 240, 204);
 		lblNewLabel.setIcon(new ImageIcon(img_logo));
 		panel.add(lblNewLabel);
 		
 		JPanel panelHeThong = new JPanel();
 		panelHeThong.addMouseListener(new PanelButtonMouseAdapter(panelHeThong,system));
-		panelHeThong.setBounds(0, 212, 272, 78);
+		panelHeThong.setBounds(0, 309, 385, 98);
 		panelHeThong.setBackground(new Color(217,217,217));
 		panel.add(panelHeThong);
 		panelHeThong.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setBounds(0, 0, 108, 68);
+		lblNewLabel_1.setBounds(0, 0, 167, 98);
 		lblNewLabel_1.setIcon(new ImageIcon(img_system));
 		panelHeThong.add(lblNewLabel_1);
 		
 		JLabel lbllHeThong = new JLabel("Hệ Thống");
 		lbllHeThong.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllHeThong.setBounds(118, 0, 154, 68);
+		lbllHeThong.setBounds(177, 0, 208, 98);
 		panelHeThong.add(lbllHeThong);
 		
 		JPanel PanelSanPham = new JPanel();
 		PanelSanPham.addMouseListener(new PanelButtonMouseAdapter(PanelSanPham,product));
-		PanelSanPham.setBounds(0, 290, 272, 67);
+		PanelSanPham.setBounds(0, 407, 385, 98);
 		
 		PanelSanPham.setBackground(new Color(217,217,217));
 		
@@ -141,13 +146,13 @@ public class frmNV extends JFrame {
 		
 		JLabel lbllSanPham = new JLabel("");
 		lbllSanPham.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllSanPham.setBounds(10, 0, 97, 63);
+		lbllSanPham.setBounds(10, 0, 155, 98);
 		lbllSanPham.setIcon(new ImageIcon(img_product));
 		PanelSanPham.add(lbllSanPham);
 		
 		JLabel lbllProduct = new JLabel("Sản Phẩm");
 		lbllProduct.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllProduct.setBounds(116, 0, 156, 63);
+		lbllProduct.setBounds(177, 0, 208, 98);
 		PanelSanPham.add(lbllProduct);
 		
 		JPanel panelHD = new JPanel();
@@ -161,13 +166,13 @@ public class frmNV extends JFrame {
 		
 		JLabel lbllHoaDon = new JLabel("");
 		lbllHoaDon.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllHoaDon.setBounds(10, 0, 94, 98);
+		lbllHoaDon.setBounds(10, 0, 147, 98);
 		lbllHoaDon.setIcon(new ImageIcon(img_payment));
 		panelHD.add(lbllHoaDon);
 		
 		JLabel lbllHD = new JLabel("Hóa Đơn");
 		lbllHD.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllHD.setBounds(114, 0, 159, 98);
+		lbllHD.setBounds(177, 0, 208, 98);
 		panelHD.add(lbllHD);
 		
 		JPanel panelKH = new JPanel();
@@ -182,12 +187,12 @@ public class frmNV extends JFrame {
 		
 		JLabel lbllKH = new JLabel("Khách Hàng");
 		lbllKH.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllKH.setBounds(114, 0, 159, 98);
+		lbllKH.setBounds(177, 0, 208, 98);
 		panelKH.add(lbllKH);
 		
 		JLabel lbllKhachHang = new JLabel("");
 		lbllKhachHang.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllKhachHang.setBounds(10, 0, 94, 98);
+		lbllKhachHang.setBounds(10, 0, 139, 98);
 		lbllKhachHang.setIcon(new ImageIcon(img_customer));
 		panelKH.add(lbllKhachHang);
 		
@@ -202,12 +207,12 @@ public class frmNV extends JFrame {
 		
 		JLabel lbllThongKe = new JLabel("Thống Kê");
 		lbllThongKe.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllThongKe.setBounds(115, 0, 155, 98);
+		lbllThongKe.setBounds(177, 0, 208, 98);
 		panelThongKe.add(lbllThongKe);
 		
 		JLabel lbllTK = new JLabel("");
 		lbllTK.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllTK.setBounds(10, 0, 80, 98);
+		lbllTK.setBounds(10, 0, 155, 98);
 		lbllTK.setIcon(new ImageIcon(img_thongKe));
 		panelThongKe.add(lbllTK);
 		
@@ -339,16 +344,8 @@ public class frmNV extends JFrame {
 				bill.banHang.lbllTenSach.setText(rd.getString("tenSach"));
 				bill.banHang.lblDanhMc.setText(rd.getString("danhMuc"));
 				
-				
 				bill.banHang.btnNewButton.setText(rd.getString("them"));
 				bill.banHang.btnLmMi.setText(rd.getString("lammoi"));
-//				
-				
-				
-				
-				
-				
-			
 				
 				
 				//Change currency
@@ -393,12 +390,15 @@ public class frmNV extends JFrame {
 		
 		panel_image_title.setLayout(null);
 		
+		FillMovePanel();
 		
 		panelFrm.add(system);
 		panelFrm.add(product);
 		panelFrm.add(bill);
 		panelFrm.add(customer);
 		panelFrm.add(thongke);
+		panelFrm.add(panelCRUDKHang);
+		panelFrm.add(panelSearchProduct);
 		
 //		menuClicked(system);
 //		
@@ -419,7 +419,7 @@ public class frmNV extends JFrame {
 	private void FillCountries() {
 		listCountries.add(new Country("vi-VN", "VietNam", new Font("Tahoma", Font.BOLD, 20)));
 		listCountries.add(new Country("en-US","English",new Font("Tahoma", Font.BOLD, 20)));
-		listCountries.add(new Country("ja-JP","Japan",new Font("MS Gothic", Font.PLAIN, 20)));
+//		listCountries.add(new Country("ja-JP","Japan",new Font("MS Gothic", Font.PLAIN, 20)));
 		for (Country country : listCountries) {
 			comboCountries.addItem(country.getName());
 		}
@@ -459,5 +459,11 @@ public class frmNV extends JFrame {
 		
 			panel.setBackground(new Color(112,128,144));
 		}
+	}
+	private void FillMovePanel() {
+		customer.crudkHang = panelCRUDKHang;
+		product.panelSearchProduct = panelSearchProduct;
+		panelSearchProduct.panelProduct = product;
+		
 	}
 }
