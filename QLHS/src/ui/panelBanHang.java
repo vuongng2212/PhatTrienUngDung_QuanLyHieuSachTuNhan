@@ -7,9 +7,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
@@ -26,6 +28,8 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 public class panelBanHang extends JPanel {
+	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	
 	public JTextField textField;
 	public JTextField textField_1;
 	public JTextField textField_2;
@@ -63,6 +67,7 @@ public class panelBanHang extends JPanel {
 	public JButton btnLmMi;
 	public JTextField textField_5;
 	public JLabel lbllMaSach;
+	private JButton btnSearch;
 
 	/**
 	 * Create the panel.
@@ -149,6 +154,14 @@ public class panelBanHang extends JPanel {
 		lbllMaSach.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllMaSach.setBounds(228, 11, 138, 23);
 		txtSach.add(lbllMaSach);
+		
+		btnSearch = new JButton("");
+		btnSearch.setBounds(581, 11, 63, 31);
+		btnSearch.setBackground(null);
+		btnSearch.setOpaque(false);
+		btnSearch.setBorderPainted(false);
+		btnSearch.setIcon(new ImageIcon(img_title));
+		txtSach.add(btnSearch);
 		
 		JPanel panelListSach = new JPanel();
 		panelListSach.setBounds(0, 187, 1534, 302);

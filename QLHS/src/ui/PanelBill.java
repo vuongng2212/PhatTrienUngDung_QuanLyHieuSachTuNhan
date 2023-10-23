@@ -9,6 +9,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTree;
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 public class PanelBill extends JPanel {
 
 	public JPanel panelTitle;
@@ -55,7 +58,14 @@ public class PanelBill extends JPanel {
 		
 		JPanel panelCtn = new JPanel();
 		panelCtn.setBounds(0, 61, 1534, 956);
+		banHang.setLocation(0, 11);
 		panelCtn.add(banHang);
+		
+//		JButton btnTimKiemKH = new JButton("");
+//		btnTimKiemKH.setIcon(new ImageIcon());
+//		btnTimKiemKH.setBackground(new Color(255, 255, 255));
+//		btnTimKiemKH.setBounds(600, 114, 52, 23);
+//		banHang.add(btnTimKiemKH);
 		add(panelCtn);
 		panelCtn.setLayout(null);
 	}
