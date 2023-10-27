@@ -45,13 +45,21 @@ public class FormNVQuanLy extends JFrame{
 	private JLabel lblBG;
 	private JComboBox comboBox;
 	private Image img_logo = new ImageIcon(FormNVQuanLy.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(280, 200,Image.SCALE_SMOOTH );
-	private Image img_employee = new ImageIcon(FormNVQuanLy.class.getResource("/image/employee.jpg")).getImage().getScaledInstance(100, 50,Image.SCALE_SMOOTH );
+	private Image img_employee = new ImageIcon(FormNVQuanLy.class.getResource("/image/employee.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_user = new ImageIcon(FormNVQuanLy.class.getResource("/image/user.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_logout = new ImageIcon(FormNVQuanLy.class.getResource("/image/logout.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_background = new ImageIcon(FormNVQuanLy.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1920, 816,Image.SCALE_SMOOTH );
+	private Image img_home = new ImageIcon(FormNVQuanLy.class.getResource("/image/home.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
+	private Image img_product = new ImageIcon(FormNVQuanLy.class.getResource("/image/product_icon.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
+	private Image img_ca = new ImageIcon(FormNVQuanLy.class.getResource("/image/shift.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
+	private Image img_help = new ImageIcon(FormNVQuanLy.class.getResource("/image/help.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
+	private Image img_tim = new ImageIcon(FormNVQuanLy.class.getResource("/image/find.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	private Image img_PhieuDH = new ImageIcon(FormNVQuanLy.class.getResource("/image/deitailss.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	private Image img_control = new ImageIcon(FormNVQuanLy.class.getResource("/image/control.jpg")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private PanelTimNV PnTimNV = new PanelTimNV();
 	private PanelDatHang pnDH = new PanelDatHang();
 	private PanelQLNV pnQLNV = new PanelQLNV();
+	private PanelShift pnShift = new PanelShift();
 	private JLabel lblAccountIcon;
 
 	public static void main(String[] args) {
@@ -106,21 +114,23 @@ public class FormNVQuanLy extends JFrame{
 		
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(new Color(192, 192, 192));
-		menuPanel.setBounds(396, 0, 1524, 50);
+		menuPanel.setBounds(396, 0, 1524, 60);
 		northPanel.add(menuPanel);
 		menuPanel.setLayout(null);
 		
 		JMenuBar mnBar = new JMenuBar();
 		mnBar.setBackground(new Color(255, 255, 255));
-		mnBar.setBounds(0, 0, 700, 50);
+		mnBar.setBounds(0, 0, 1524, 60);
 		mnBar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		menuPanel.add(mnBar);
 		
 		mnTrangChu = new JMenu("Trang chủ");
+		mnTrangChu.setIcon(new ImageIcon(img_home));
 		mnTrangChu.setFont(new Font("Tahoma", Font.BOLD, 20));
 		mnBar.add(mnTrangChu);
 		
 		mnNhanVien = new JMenu("Nhân viên");
+		mnNhanVien.setIcon(new ImageIcon(img_employee));
 		mnNhanVien.setFont(new Font("Tahoma", Font.BOLD, 20));
 		mnNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
 		mnBar.add(mnNhanVien);
@@ -128,18 +138,20 @@ public class FormNVQuanLy extends JFrame{
 		
 		
 		mnTimNV = new JMenuItem("Tìm nhân viên");
+		mnTimNV.setIcon(new ImageIcon(img_tim));
 		mnTimNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		mnNhanVien.add(mnTimNV);
 		
 		mnQLNV = new JMenuItem("Quản lý nhân viên");
+		mnQLNV.setIcon(new ImageIcon(img_control));
 		mnQLNV.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		mnNhanVien.add(mnQLNV);
 		
 		mnTaoPhieuDH = new JMenuItem("Tạo phiếu đặt sách");
+		mnTaoPhieuDH.setIcon(new ImageIcon(img_PhieuDH));
 		mnNhanVien.add(mnTaoPhieuDH);
 		mnTaoPhieuDH.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		mnTaoPhieuDH.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -150,18 +162,22 @@ public class FormNVQuanLy extends JFrame{
 		});
 		
 		mnPCC = new JMenu("Ca làm việc");
+		mnPCC.setIcon(new ImageIcon(img_ca));
 		mnPCC.setFont(new Font("Tahoma", Font.BOLD, 20));
 		mnBar.add(mnPCC);
 		
 		mnSanPham = new JMenu("Sách");
+		mnSanPham.setIcon(new ImageIcon(img_product));
 		mnSanPham.setFont(new Font("Tahoma", Font.BOLD, 20));
 		mnBar.add(mnSanPham);
 		
 		mnTimSP = new JMenuItem("Tìm sách");
+		mnTimSP.setIcon(new ImageIcon(img_tim));
 		mnTimSP.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		mnSanPham.add(mnTimSP);
 		
 		mnHelp = new JMenu("Trợ giúp");
+		mnHelp.setIcon(new ImageIcon(img_help));
 		mnHelp.setFont(new Font("Tahoma", Font.BOLD, 20));
 		mnBar.add(mnHelp);
 		
@@ -207,7 +223,7 @@ public class FormNVQuanLy extends JFrame{
 		lblBG.setBounds(0, 200, 1920, 816);
 		clearPanel();
 		contentPane.add(lblBG);
-		
+//		Xu ly su kien Panel
 		mnTimNV.addActionListener(new ActionListener() {
 			
 			@Override
@@ -237,12 +253,22 @@ public class FormNVQuanLy extends JFrame{
 				contentPane.add(lblBG);
 			}
 		});
+		mnPCC.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				clearPanel();
+				contentPane.add(pnShift);
+				pnShift.setVisible(true);
+			}
+		});
 	}
 	public void clearPanel() {
 		contentPane.remove(lblBG);
 		PnTimNV.setVisible(false);
 		pnDH.setVisible(false);
 		pnQLNV.setVisible(false);
+		pnShift.setVisible(false);
 	}
 	private void FillCountries() {
 		listCountries.add(new Country("vi-VN", "VietNam", new Font("Tahoma", Font.BOLD, 20)));

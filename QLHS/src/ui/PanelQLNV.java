@@ -166,14 +166,14 @@ public class PanelQLNV extends JPanel {
 		add(scroll);
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.setRowHeight(25);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-		table.getColumnModel().getColumn(3).setPreferredWidth(50);
-		table.getColumnModel().getColumn(4).setPreferredWidth(100);
-		table.getColumnModel().getColumn(6).setPreferredWidth(150);
-		table.getColumnModel().getColumn(7).setPreferredWidth(150);
-		table.getColumnModel().getColumn(8).setPreferredWidth(100);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(1).setPreferredWidth(10);
+		table.getColumnModel().getColumn(2).setPreferredWidth(10);
+		table.getColumnModel().getColumn(3).setPreferredWidth(10);
+		table.getColumnModel().getColumn(4).setPreferredWidth(10);
+		table.getColumnModel().getColumn(6).setPreferredWidth(10);
+		table.getColumnModel().getColumn(7).setPreferredWidth(10);
+		table.getColumnModel().getColumn(8).setPreferredWidth(1000);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 	}
 }
