@@ -40,6 +40,7 @@ public class panelProduct extends JPanel {
 	 * Create the panel.
 	 */
 	public panelProduct() {
+		this.setVisible(false);
 		setBounds(0,0,1534,1017);
 		setLayout(null);
 		

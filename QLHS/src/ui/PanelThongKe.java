@@ -97,7 +97,7 @@ public class PanelThongKe extends JPanel {
 		btnThongKe.setBackground(new Color(0, 255, 255));
 		btnThongKe.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThongKe.setIcon(new ImageIcon(img_statics));
-		btnThongKe.setBounds(1195, 11, 191, 48);
+		btnThongKe.setBounds(1195, 11, 209, 48);
 		panel_1.add(btnThongKe);
 		
 		JButton btnChiTiet = new JButton("Chi Tiết Hóa Đơn");
@@ -108,7 +108,7 @@ public class PanelThongKe extends JPanel {
 			}
 		});
 		btnChiTiet.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnChiTiet.setBounds(1195, 70, 191, 48);
+		btnChiTiet.setBounds(1195, 70, 209, 48);
 		panel_1.add(btnChiTiet);
 		
 		JRadioButton radioBtnNgay = new JRadioButton("Thống Kê Theo Ngày");

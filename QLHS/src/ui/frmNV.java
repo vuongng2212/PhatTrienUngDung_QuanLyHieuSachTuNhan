@@ -1,8 +1,11 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -21,30 +24,48 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import entity.Country;
 
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class frmNV extends JFrame {
 
 	List<Country>listCountries = new ArrayList<Country>();
 	private JPanel contentPane;
 	private Image img_logo = new ImageIcon(frmNV.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(250, 250,Image.SCALE_SMOOTH );
-	private Image img_system = new ImageIcon(frmNV.class.getResource("/image/system_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
-	private Image img_product = new ImageIcon(frmNV.class.getResource("/image/product_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
-	private Image img_payment = new ImageIcon(frmNV.class.getResource("/image/payment_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
-	private Image img_thongKe = new ImageIcon(frmNV.class.getResource("/image/thongKe_icon.png")).getImage().getScaledInstance(80, 80,Image.SCALE_SMOOTH );
-	private Image img_customer = new ImageIcon(frmNV.class.getResource("/image/customer_icon.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	private Image img_system = new ImageIcon(frmNV.class.getResource("/image/system_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_product = new ImageIcon(frmNV.class.getResource("/image/product_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_searchCustomer = new ImageIcon(frmNV.class.getResource("/image/searchCustomer.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_managerCustomer = new ImageIcon(frmNV.class.getResource("/image/manager_customer.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	
+	
+	private Image img_payment = new ImageIcon(frmNV.class.getResource("/image/payment_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_thongKe = new ImageIcon(frmNV.class.getResource("/image/thongKe_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_customer = new ImageIcon(frmNV.class.getResource("/image/customer_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_user = new ImageIcon(frmNV.class.getResource("/image/user.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_logout = new ImageIcon(frmNV.class.getResource("/image/logout.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1550, 1500,Image.SCALE_SMOOTH );
+	private Image img_logo_test = new ImageIcon(frmNV.class.getResource("/image/title.jpg")).getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH );
+	
+	
 	
 	private final JLabel lblNewLabel = new JLabel("");
 	private panelSystem system;
@@ -81,6 +102,15 @@ public class frmNV extends JFrame {
 	 * Create the frame.
 	 */
 	public frmNV() {
+		
+//		  try {
+//	            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//	        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+//	            e.printStackTrace();
+//	        }
+		  
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		setBounds(0, 0, 1936, 1056);
 		setSize(1936,1056);
@@ -91,22 +121,22 @@ public class frmNV extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		system = new panelSystem();
-		system.setVisible(false);
 		product = new panelProduct();
-		product.setVisible(false);
+		
 		bill = new PanelBill();
 		bill.setVisible(false);
 		customer = new PanelCustomer();
-		customer.setVisible(false);
+		
 		thongke = new PanelThongKe();
-		thongke.setVisible(false);
+		
 		panelCRUDKHang = new PanelCRUDKHang(customer);
-		panelCRUDKHang.setVisible(false);
+		
 		panelSearchProduct = new PanelSearchProduct();
 		
 		JPanel panel = new JPanel();
+		
+
+		
 		panel.setBackground(new Color(217,217,217));
 		panel.setBounds(0, 0, 385, 1017);
 		
@@ -118,7 +148,6 @@ public class frmNV extends JFrame {
 		panel.add(lblNewLabel);
 		
 		JPanel panelHeThong = new JPanel();
-		panelHeThong.addMouseListener(new PanelButtonMouseAdapter(panelHeThong,system));
 		panelHeThong.setBounds(0, 309, 385, 98);
 		panelHeThong.setBackground(new Color(217,217,217));
 		panel.add(panelHeThong);
@@ -279,6 +308,7 @@ public class frmNV extends JFrame {
 		panel_1.add(lbllNgonNgu);
 		
 		comboCountries = new JComboBox();
+		comboCountries.setFont(new Font("Tahoma", Font.BOLD, 16));
 		FillCountries();
 		comboCountries.addItemListener(new ItemListener() {
 			
@@ -371,7 +401,7 @@ public class frmNV extends JFrame {
 		panel_1.add(lbllDateShow);
 		
 		JPanel panelFrm = new JPanel();
-		panelFrm.setBounds(386, 0, 1534, 1017);
+		panelFrm.setBounds(386, 41, 1534, 976);
 		contentPane.add(panelFrm);
 	
 		
@@ -384,24 +414,208 @@ public class frmNV extends JFrame {
 		
 		
 		panel_image_title = new JPanel();
+		
 		panel_image_title.setBounds(0, 0, 1534, 1006);
 		panel_image_title.add(lbllImage);
-		panelFrm.add(panel_image_title);
+		
 		
 		panel_image_title.setLayout(null);
 		
 		FillMovePanel();
-		
-		panelFrm.add(system);
+		product.setVisible(false);
+		thongke.setVisible(false);
+		customer.setVisible(false);
+		panelCRUDKHang.setVisible(false);
+		panelSearchProduct.setVisible(false);
+		panel_image_title.setVisible(true);
 		panelFrm.add(product);
 		panelFrm.add(bill);
+		
+		
+		system = new panelSystem();
+		system.setBounds(0, -70, 1554, 1015);
+		bill.banHang.add(system);
+		panelHeThong.addMouseListener(new PanelButtonMouseAdapter(panelHeThong,system));
+		system.setVisible(false);
 		panelFrm.add(customer);
 		panelFrm.add(thongke);
 		panelFrm.add(panelCRUDKHang);
 		panelFrm.add(panelSearchProduct);
+		panelFrm.add(panel_image_title);
 		
-//		menuClicked(system);
-//		
+		JPanel panelMenu = new JPanel();
+		panelMenu.setBackground(new Color(0, 255, 0));
+		panelMenu.setBounds(386, 0, 904, 41);
+		contentPane.add(panelMenu);
+		panelMenu.setLayout(null);
+		
+		JMenuBar menuBarSystem = new JMenuBar();
+		menuBarSystem.setBounds(0, 0, 900, 41);
+		
+		
+
+		
+		  JMenu menuSystem = new JMenu("Hệ Thống");
+		  menuSystem.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		  menuSystem.setBorder(new LineBorder(Color.black, 1));
+		  menuSystem.setBackground(new Color(0, 128, 0));
+		  menuSystem.setIcon(new ImageIcon(img_system));
+		  menuSystem.setHorizontalAlignment(SwingConstants.CENTER);
+		  menuSystem.setPreferredSize(new Dimension(180, 41));
+		  JMenuItem itemQLtaiKhoan = new JMenuItem("Quản lí tài khoản", new ImageIcon(img_customer));
+		  itemQLtaiKhoan.setHorizontalAlignment(SwingConstants.LEFT);
+		  itemQLtaiKhoan.setFont(new Font("Tímes New Roman",Font.BOLD,12));
+		  itemQLtaiKhoan.setPreferredSize(new Dimension(180, 41));
+		  JMenuItem itemXemLichLam = new JMenuItem("Xem lịch làm", new ImageIcon(img_customer));
+		  itemXemLichLam.setFont(new Font("Tímes New Roman",Font.BOLD,12));
+		  itemXemLichLam.setPreferredSize(new Dimension(180, 41));
+		  menuSystem.add(itemQLtaiKhoan);
+		  menuSystem.add(itemXemLichLam);
+		  
+		  
+		  JMenu menuSanPham = new JMenu("Sản Phẩm");
+		  menuSanPham.setBorder(new LineBorder(Color.black, 1));
+		  menuSanPham.setBackground(new Color(0, 128, 0));
+		  menuSanPham.setFont(new Font("Times New Roman", Font.BOLD, 18)); ///
+		  menuSanPham.setIcon(new ImageIcon(img_product));
+		  menuSanPham.setHorizontalAlignment(SwingConstants.RIGHT);
+		  menuSanPham.setPreferredSize(new Dimension(180, 41));
+//		  JMenuItem menuItem = new JMenuItem("MenuItem", new ImageIcon(img_logo_test));
+
+		  
+		  JMenuItem menuTimSP = new JMenuItem("Tìm Sản Phẩm", new ImageIcon(img_customer));
+		  menuTimSP.setFont(new Font("Tímes New Roman",Font.BOLD,12));
+		  menuTimSP.setPreferredSize(new Dimension(180, 41));
+		  JMenuItem menuItemQLSP = new JMenuItem("Quản Lí Sản Phẩm", new ImageIcon(img_customer));
+		  menuItemQLSP.setFont(new Font("Tímes New Roman",Font.BOLD,12));
+		  menuItemQLSP.setPreferredSize(new Dimension(180, 41));
+		  menuSanPham.add(menuTimSP);
+		  menuSanPham.add(menuItemQLSP);
+		  
+		  
+		  JMenu menuHoaDon = new JMenu("Hóa Đơn");
+		  menuHoaDon.setBorder(new LineBorder(Color.black, 1));
+		  menuHoaDon.setBackground(new Color(0, 128, 0));
+		  menuHoaDon.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
+		  menuHoaDon.setIcon(new ImageIcon(img_payment));
+		  menuHoaDon.setHorizontalAlignment(SwingConstants.RIGHT);
+		  menuHoaDon.setPreferredSize(new Dimension(180, 41));
+		  
+		  JMenuItem menuTaoHD = new JMenuItem("Tạo Hóa Đơn", new ImageIcon(img_customer));
+		  menuTaoHD.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuTaoHD.setPreferredSize(new Dimension(180, 41));
+//		  JMenuItem menuItem = new JMenuItem("Quản Lí Khách Hàng", new ImageIcon(img_customer));
+//		  menuItemQlKH.setFont(new Font("Times New Roman", Font.BOLD, 14)); ////
+		  menuHoaDon.add(menuTaoHD);
+		  
+		  JMenu menuKhachHang = new JMenu("Khách Hàng");
+		  menuKhachHang.setBorder(new LineBorder(Color.black, 1));
+		  menuKhachHang.setBackground(new Color(0, 128, 0));
+		  menuKhachHang.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
+		  menuKhachHang.setIcon(new ImageIcon(img_customer));
+		  menuKhachHang.setHorizontalAlignment(SwingConstants.RIGHT);
+		  menuKhachHang.setPreferredSize(new Dimension(180, 41));
+		  
+		  JMenuItem menuItemTimKH = new JMenuItem("Tìm Khách Hàng", new ImageIcon(img_searchCustomer));
+		  menuItemTimKH.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+//		  menuItemTimKH.setIcon(new ImageIcon(img_searchCustomer));
+		  menuItemTimKH.setPreferredSize(new Dimension(180, 41));
+		  JMenuItem menuItemQlKH = new JMenuItem("Quản Lí Khách Hàng", new ImageIcon(img_managerCustomer));
+		  menuItemQlKH.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuItemQlKH.setPreferredSize(new Dimension(180, 41));
+		  menuKhachHang.add(menuItemTimKH);
+		  menuKhachHang.add(menuItemQlKH);
+		  
+		  
+		  JMenu menuThongKe = new JMenu("Thống Kê");
+		  menuThongKe.setBorder(new LineBorder(Color.black, 1));
+		  menuThongKe.setBackground(new Color(0, 128, 0));
+		  menuThongKe.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
+		  menuThongKe.setIcon(new ImageIcon(img_thongKe));
+		  menuThongKe.setHorizontalAlignment(SwingConstants.RIGHT);
+		  menuThongKe.setPreferredSize(new Dimension(180, 41));
+		  
+		  JMenuItem menuThongKeSP = new JMenuItem("Thống Kê Sản Phẩm", new ImageIcon(img_customer));
+		  menuThongKeSP.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuThongKeSP.setPreferredSize(new Dimension(180, 41));
+		  JMenuItem menuThongKeThuNhap = new JMenuItem("Thu Nhập", new ImageIcon(img_customer));
+		  menuThongKeThuNhap.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuThongKeThuNhap.setPreferredSize(new Dimension(180, 41));
+		  JMenuItem menuThongKeKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_customer));
+		  menuThongKeKhuyenMai.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuThongKeKhuyenMai.setPreferredSize(new Dimension(180, 41));
+		  
+		  menuThongKe.add(menuThongKeSP);
+		  menuThongKe.add(menuThongKeThuNhap);
+		  menuThongKe.add(menuThongKeKhuyenMai);
+		  
+		  
+		  
+		  menuBarSystem.add(menuSystem);
+		  menuBarSystem.add(menuSanPham);
+		  menuBarSystem.add(menuHoaDon);
+		  menuBarSystem.add(menuKhachHang);
+		  menuBarSystem.add(menuThongKe);
+		  
+	
+		  
+
+		  itemQLtaiKhoan.addMouseListener(new MouseAdapter() {
+//				@Override
+//				public void mouseClicked(MouseEvent e) {
+//					
+//					menuClicked(jpanelShow);
+//				}
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					
+					itemQLtaiKhoan.setBackground(Color.red);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					
+					itemQLtaiKhoan.setBackground(Color.red);
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					
+					itemQLtaiKhoan.setBackground(Color.red);
+				}
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+				
+					itemQLtaiKhoan.setBackground(Color.red);
+				}
+		  });
+		  
+
+		  
+
+
+			
+		panelMenu.add(menuBarSystem);
+
+		
+		
+		JLabel lbllNgonNgu_1 = new JLabel("Ngôn Ngữ");
+		lbllNgonNgu_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllNgonNgu_1.setBounds(1299, 0, 102, 41);
+		contentPane.add(lbllNgonNgu_1);
+		
+		JComboBox comboCountries_1 = new JComboBox();
+		comboCountries_1.setBounds(1404, 0, 139, 41);
+		contentPane.add(comboCountries_1);
+		
+		JLabel icon_logout_1 = new JLabel("");
+		icon_logout_1.setHorizontalAlignment(SwingConstants.CENTER);
+		icon_logout_1.setBounds(1856, 0, 40, 41);
+		contentPane.add(icon_logout_1);
+		
+		
+		
+		
+		
 		
 	}
 	
@@ -411,10 +625,16 @@ public class frmNV extends JFrame {
 		product.setVisible(false);
 		bill.setVisible(false);
 		customer.setVisible(false);
-		thongke.setVisible(false);
+		thongke.setVisible(false);		
 		
-		panel.setVisible(true);
+//		system.setVisible(false);
+//		product.setVisible(false);
+//		thongke.setVisible(false);
+//		customer.setVisible(false);
+		panelCRUDKHang.setVisible(false);
+		panelSearchProduct.setVisible(false);
 		
+		panel.setVisible(true);	
 	}
 	private void FillCountries() {
 		listCountries.add(new Country("vi-VN", "VietNam", new Font("Tahoma", Font.BOLD, 20)));

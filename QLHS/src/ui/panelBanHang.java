@@ -73,6 +73,7 @@ public class panelBanHang extends JPanel {
 	 * Create the panel.
 	 */
 	public panelBanHang() {
+//		this.setVisible(false);
 		setBounds(0,0,1534,956);
 		setLayout(null);
 		

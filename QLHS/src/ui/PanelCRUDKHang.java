@@ -33,10 +33,12 @@ public class PanelCRUDKHang extends JPanel {
 	private PanelCustomer panelCustomer;
 	public PanelCRUDKHang(PanelCustomer panelCustomer) {
 		this.panelCustomer = panelCustomer;
+		panelCustomer.setVisible(false);
 		this.init();
 	}
 	
 	public PanelCRUDKHang() {
+		this.setVisible(false);
 		setBounds(0,0,1534,1017);
 		setLayout(null);
 		

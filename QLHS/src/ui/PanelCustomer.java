@@ -29,6 +29,7 @@ public class PanelCustomer extends JPanel {
 
 	
 	public PanelCustomer() {
+		this.setVisible(false);
 		setBounds(0,0,1534,1017);
 		setLayout(null);
 		
