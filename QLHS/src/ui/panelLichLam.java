@@ -5,14 +5,14 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class panelSystem extends JPanel {
+public class panelLichLam extends JPanel {
 
 	public JLabel lbllSystem;
 
 	/**
 	 * Create the panel.
 	 */
-	public panelSystem() {
+	public panelLichLam() {
 		setBounds(0,0,1534,1017);
 //		setSize(1534,1017);
 		setLayout(null);

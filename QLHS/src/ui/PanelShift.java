@@ -1,0 +1,146 @@
+package ui;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.JButton;
+import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+
+public class PanelShift extends JPanel {
+	private JTextField textField;
+	private Image img_TimNV = new ImageIcon(FormNVQuanLy.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	/**
+	 * Create the panel.
+	 */
+	public PanelShift() {
+		setBounds(0, 200, 1920, 816);
+		setLayout(null);
+		
+		JPanel headerPanel = new JPanel();
+		headerPanel.setBounds(0, 0, 1920, 50);
+		add(headerPanel);
+		headerPanel.setLayout(null);
+		
+		JLabel lblTieuDe = new JLabel("Phân công ca làm việc");
+		lblTieuDe.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTieuDe.setBounds(880, 11, 232, 28);
+		headerPanel.add(lblTieuDe);
+		
+		String[] headers = { "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2"};
+		DefaultTableModel tableModel = new DefaultTableModel(headers, 0);
+		JTable table = new JTable();
+		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(0, 130, 1450, 689);
+		add(scroll);
+		scroll.setViewportView(table = new JTable(tableModel));
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(1450, 130, 489, 686);
+		add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNgayLamViec = new JLabel("Ngày làm việc");
+		lblNgayLamViec.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNgayLamViec.setBounds(22, 55, 115, 30);
+		panel.add(lblNgayLamViec);
+		
+		JLabel lblCa = new JLabel("Ca");
+		lblCa.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblCa.setBounds(22, 96, 115, 30);
+		panel.add(lblCa);
+		
+		JLabel lblMaNV = new JLabel("Mã nhân viên");
+		lblMaNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblMaNV.setBounds(22, 137, 115, 30);
+		panel.add(lblMaNV);
+		
+		JLabel lblTenNV = new JLabel("Tên nhân viên");
+		lblTenNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTenNV.setBounds(22, 178, 115, 30);
+		panel.add(lblTenNV);
+		
+		JLabel lblHrsStart = new JLabel("Giờ bắt đầu");
+		lblHrsStart.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblHrsStart.setBounds(22, 216, 115, 30);
+		panel.add(lblHrsStart);
+		
+		JLabel lblHrsEnd = new JLabel("Giờ kết thúc");
+		lblHrsEnd.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblHrsEnd.setBounds(22, 257, 115, 30);
+		panel.add(lblHrsEnd);
+		
+		JPanel panelThongTinCa = new JPanel();
+		panelThongTinCa.setBounds(0, 0, 479, 44);
+		panel.add(panelThongTinCa);
+		
+		JLabel lblThongTinCa = new JLabel("Thông tin ca làm việc");
+		panelThongTinCa.add(lblThongTinCa);
+		lblThongTinCa.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		JButton btnLuu = new JButton("Lưu");
+		btnLuu.setBackground(new Color(0, 255, 64));
+		btnLuu.setForeground(new Color(255, 255, 255));
+		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnLuu.setBounds(22, 324, 89, 30);
+		panel.add(btnLuu);
+		
+		textField = new JTextField();
+		textField.setBounds(147, 139, 86, 30);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnTimNV = new JButton("");
+		btnTimNV.setIcon(new ImageIcon(img_TimNV));
+		btnTimNV.setBounds(243, 137, 30, 30);
+		panel.add(btnTimNV);
+		
+		JButton btnXoa = new JButton("Xóa ca");
+		btnXoa.setForeground(Color.WHITE);
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnXoa.setBackground(new Color(255, 0, 0));
+		btnXoa.setBounds(184, 324, 89, 30);
+		panel.add(btnXoa);
+		
+		JLabel lblStart = new JLabel("Ngày bắt đầu");
+		lblStart.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblStart.setBounds(10, 89, 100, 30);
+		add(lblStart);
+		
+		JLabel lblEnd = new JLabel("Ngày kết thúc");
+		lblEnd.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEnd.setBounds(400, 89, 100, 30);
+		add(lblEnd);
+		JDateChooser dateChooserStart = new JDateChooser();
+		dateChooserStart.setDateFormatString("dd-MM-yyyy");
+		dateChooserStart.setBounds(120, 89, 140, 30);
+		add(dateChooserStart);
+		
+		JDateChooser dateChooserEnd = new JDateChooser();
+		dateChooserEnd.setDateFormatString("dd-MM-yyyy");
+		dateChooserEnd.setBounds(510, 89, 140, 30);
+		add(dateChooserEnd);
+		
+		JButton btnTim = new JButton("Tìm");
+		btnTim.setBackground(new Color(0, 255, 64));
+		btnTim.setBounds(700, 89, 89, 30);
+		add(btnTim);
+		table.setRowHeight(25);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(1).setPreferredWidth(10);
+		table.getColumnModel().getColumn(2).setPreferredWidth(10);
+		table.getColumnModel().getColumn(3).setPreferredWidth(10);
+		table.getColumnModel().getColumn(4).setPreferredWidth(10);
+		table.getColumnModel().getColumn(6).setPreferredWidth(10);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+	}
+}

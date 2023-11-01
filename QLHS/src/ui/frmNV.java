@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -56,6 +58,16 @@ public class frmNV extends JFrame {
 	private Image img_searchCustomer = new ImageIcon(frmNV.class.getResource("/image/searchCustomer.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_managerCustomer = new ImageIcon(frmNV.class.getResource("/image/manager_customer.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	
+	private Image img_thuNhap = new ImageIcon(frmNV.class.getResource("/image/thuNhap.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_thongKeSP = new ImageIcon(frmNV.class.getResource("/image/thongKeSP.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_khuyenMai = new ImageIcon(frmNV.class.getResource("/image/khuyenMai.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_taoHD = new ImageIcon(frmNV.class.getResource("/image/taoHD.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_searchProduct = new ImageIcon(frmNV.class.getResource("/image/searchProduct.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_managerProduct = new ImageIcon(frmNV.class.getResource("/image/managerbook.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_quanLiHT = new ImageIcon(frmNV.class.getResource("/image/quanliHT.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_xemLich = new ImageIcon(frmNV.class.getResource("/image/iconXemLich.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	
+	
 	
 	private Image img_payment = new ImageIcon(frmNV.class.getResource("/image/payment_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_thongKe = new ImageIcon(frmNV.class.getResource("/image/thongKe_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
@@ -68,7 +80,7 @@ public class frmNV extends JFrame {
 	
 	
 	private final JLabel lblNewLabel = new JLabel("");
-	private panelSystem system;
+	private panelLichLam system;
 	private panelProduct product;
 	private PanelBill bill;
 	private PanelCustomer customer;
@@ -81,7 +93,21 @@ public class frmNV extends JFrame {
 	private JLabel lbllDateShow;
 	private JLabel lbllDate;
 	private final LoginForm frmLogin = new LoginForm();
+	private JMenuItem itemQLtaiKhoan;
+	private JMenu menuSystem;
+	private JMenu menuSanPham;
+	private JMenuItem menuTimSP;
+	private JMenuItem menuItemQLSP;
+	private JMenu menuHoaDon;
+	private JMenuItem menuTaoHD;
+	private JMenu menuKhachHang;
+	private JMenuItem menuItemTimKH;
+	private JMenuItem menuItemQlKH;
+	private JMenu menuThongKe;
+	private JMenuItem menuThongKeSP;
+	private JMenuItem menuThongKeKhuyenMai;
 	
+	private PanelProfit profit;
 	/**
 	 * Launch the application.
 	 */
@@ -133,12 +159,15 @@ public class frmNV extends JFrame {
 		
 		panelSearchProduct = new PanelSearchProduct();
 		
+		profit = new PanelProfit();
+		
+		
 		JPanel panel = new JPanel();
 		
 
 		
 		panel.setBackground(new Color(217,217,217));
-		panel.setBounds(0, 0, 385, 1017);
+		panel.setBounds(0, 0, 233, 1017);
 		
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -161,7 +190,7 @@ public class frmNV extends JFrame {
 		
 		JLabel lbllHeThong = new JLabel("Hệ Thống");
 		lbllHeThong.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllHeThong.setBounds(177, 0, 208, 98);
+		lbllHeThong.setBounds(177, 0, 57, 98);
 		panelHeThong.add(lbllHeThong);
 		
 		JPanel PanelSanPham = new JPanel();
@@ -186,7 +215,7 @@ public class frmNV extends JFrame {
 		
 		JPanel panelHD = new JPanel();
 		panelHD.addMouseListener(new PanelButtonMouseAdapter(panelHD,bill));
-		panelHD.setBounds(0, 504, 385, 98);
+		panelHD.setBounds(0, 504, 233, 98);
 		panel.add(panelHD);
 		
 		panelHD.setBackground(new Color(217,217,217));
@@ -201,7 +230,7 @@ public class frmNV extends JFrame {
 		
 		JLabel lbllHD = new JLabel("Hóa Đơn");
 		lbllHD.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllHD.setBounds(177, 0, 208, 98);
+		lbllHD.setBounds(177, 0, 57, 98);
 		panelHD.add(lbllHD);
 		
 		JPanel panelKH = new JPanel();
@@ -428,11 +457,12 @@ public class frmNV extends JFrame {
 		panelCRUDKHang.setVisible(false);
 		panelSearchProduct.setVisible(false);
 		panel_image_title.setVisible(true);
+		profit.setVisible(false);
 		panelFrm.add(product);
 		panelFrm.add(bill);
+		panelFrm.add(profit);
 		
-		
-		system = new panelSystem();
+		system = new panelLichLam();
 		system.setBounds(0, -70, 1554, 1015);
 		bill.banHang.add(system);
 		panelHeThong.addMouseListener(new PanelButtonMouseAdapter(panelHeThong,system));
@@ -444,7 +474,7 @@ public class frmNV extends JFrame {
 		panelFrm.add(panel_image_title);
 		
 		JPanel panelMenu = new JPanel();
-		panelMenu.setBackground(new Color(0, 255, 0));
+		panelMenu.setBackground(new Color(255, 255, 255));
 		panelMenu.setBounds(386, 0, 904, 41);
 		contentPane.add(panelMenu);
 		panelMenu.setLayout(null);
@@ -455,25 +485,36 @@ public class frmNV extends JFrame {
 		
 
 		
-		  JMenu menuSystem = new JMenu("Hệ Thống");
+		  menuSystem = new JMenu("Hệ Thống");
 		  menuSystem.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		  menuSystem.setBorder(new LineBorder(Color.black, 1));
 		  menuSystem.setBackground(new Color(0, 128, 0));
 		  menuSystem.setIcon(new ImageIcon(img_system));
 		  menuSystem.setHorizontalAlignment(SwingConstants.CENTER);
 		  menuSystem.setPreferredSize(new Dimension(180, 41));
-		  JMenuItem itemQLtaiKhoan = new JMenuItem("Quản lí tài khoản", new ImageIcon(img_customer));
+		  itemQLtaiKhoan = new JMenuItem("Quản lí tài khoản", new ImageIcon(img_quanLiHT));
 		  itemQLtaiKhoan.setHorizontalAlignment(SwingConstants.LEFT);
+		  
+		  itemQLtaiKhoan.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				menuClicked(profit);
+				
+			}
+		});
+		  
 		  itemQLtaiKhoan.setFont(new Font("Tímes New Roman",Font.BOLD,12));
 		  itemQLtaiKhoan.setPreferredSize(new Dimension(180, 41));
-		  JMenuItem itemXemLichLam = new JMenuItem("Xem lịch làm", new ImageIcon(img_customer));
+		  JMenuItem itemXemLichLam = new JMenuItem("Xem lịch làm", new ImageIcon(img_xemLich));
 		  itemXemLichLam.setFont(new Font("Tímes New Roman",Font.BOLD,12));
 		  itemXemLichLam.setPreferredSize(new Dimension(180, 41));
 		  menuSystem.add(itemQLtaiKhoan);
 		  menuSystem.add(itemXemLichLam);
 		  
 		  
-		  JMenu menuSanPham = new JMenu("Sản Phẩm");
+		  menuSanPham = new JMenu("Sản Phẩm");
 		  menuSanPham.setBorder(new LineBorder(Color.black, 1));
 		  menuSanPham.setBackground(new Color(0, 128, 0));
 		  menuSanPham.setFont(new Font("Times New Roman", Font.BOLD, 18)); ///
@@ -483,32 +524,54 @@ public class frmNV extends JFrame {
 //		  JMenuItem menuItem = new JMenuItem("MenuItem", new ImageIcon(img_logo_test));
 
 		  
-		  JMenuItem menuTimSP = new JMenuItem("Tìm Sản Phẩm", new ImageIcon(img_customer));
+		  menuTimSP = new JMenuItem("Tìm Sản Phẩm", new ImageIcon(img_searchProduct));
 		  menuTimSP.setFont(new Font("Tímes New Roman",Font.BOLD,12));
 		  menuTimSP.setPreferredSize(new Dimension(180, 41));
-		  JMenuItem menuItemQLSP = new JMenuItem("Quản Lí Sản Phẩm", new ImageIcon(img_customer));
+		  menuTimSP.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(panelSearchProduct);
+			}
+		});
+		  menuItemQLSP = new JMenuItem("Quản Lí Sản Phẩm", new ImageIcon(img_managerProduct));
 		  menuItemQLSP.setFont(new Font("Tímes New Roman",Font.BOLD,12));
 		  menuItemQLSP.setPreferredSize(new Dimension(180, 41));
+		  menuItemQLSP.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(product);
+			}
+		});
 		  menuSanPham.add(menuTimSP);
 		  menuSanPham.add(menuItemQLSP);
 		  
 		  
-		  JMenu menuHoaDon = new JMenu("Hóa Đơn");
+		  menuHoaDon = new JMenu("Hóa Đơn");
 		  menuHoaDon.setBorder(new LineBorder(Color.black, 1));
 		  menuHoaDon.setBackground(new Color(0, 128, 0));
+		  
 		  menuHoaDon.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
 		  menuHoaDon.setIcon(new ImageIcon(img_payment));
 		  menuHoaDon.setHorizontalAlignment(SwingConstants.RIGHT);
 		  menuHoaDon.setPreferredSize(new Dimension(180, 41));
 		  
-		  JMenuItem menuTaoHD = new JMenuItem("Tạo Hóa Đơn", new ImageIcon(img_customer));
+		  menuTaoHD = new JMenuItem("Tạo Hóa Đơn", new ImageIcon(img_taoHD));
 		  menuTaoHD.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuTaoHD.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(bill);
+			}
+		});
 		  menuTaoHD.setPreferredSize(new Dimension(180, 41));
 //		  JMenuItem menuItem = new JMenuItem("Quản Lí Khách Hàng", new ImageIcon(img_customer));
 //		  menuItemQlKH.setFont(new Font("Times New Roman", Font.BOLD, 14)); ////
 		  menuHoaDon.add(menuTaoHD);
 		  
-		  JMenu menuKhachHang = new JMenu("Khách Hàng");
+		  menuKhachHang = new JMenu("Khách Hàng");
 		  menuKhachHang.setBorder(new LineBorder(Color.black, 1));
 		  menuKhachHang.setBackground(new Color(0, 128, 0));
 		  menuKhachHang.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
@@ -516,18 +579,32 @@ public class frmNV extends JFrame {
 		  menuKhachHang.setHorizontalAlignment(SwingConstants.RIGHT);
 		  menuKhachHang.setPreferredSize(new Dimension(180, 41));
 		  
-		  JMenuItem menuItemTimKH = new JMenuItem("Tìm Khách Hàng", new ImageIcon(img_searchCustomer));
+		  menuItemTimKH = new JMenuItem("Tìm Khách Hàng", new ImageIcon(img_searchCustomer));
 		  menuItemTimKH.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 //		  menuItemTimKH.setIcon(new ImageIcon(img_searchCustomer));
 		  menuItemTimKH.setPreferredSize(new Dimension(180, 41));
-		  JMenuItem menuItemQlKH = new JMenuItem("Quản Lí Khách Hàng", new ImageIcon(img_managerCustomer));
+		  menuItemTimKH.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(customer);
+			}
+		});
+		  menuItemQlKH = new JMenuItem("Quản Lí Khách Hàng", new ImageIcon(img_managerCustomer));
 		  menuItemQlKH.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuItemQlKH.setPreferredSize(new Dimension(180, 41));
+		  menuItemQlKH.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(panelCRUDKHang);
+			}
+		});
 		  menuKhachHang.add(menuItemTimKH);
 		  menuKhachHang.add(menuItemQlKH);
 		  
 		  
-		  JMenu menuThongKe = new JMenu("Thống Kê");
+		  menuThongKe = new JMenu("Thống Kê");
 		  menuThongKe.setBorder(new LineBorder(Color.black, 1));
 		  menuThongKe.setBackground(new Color(0, 128, 0));
 		  menuThongKe.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
@@ -535,13 +612,13 @@ public class frmNV extends JFrame {
 		  menuThongKe.setHorizontalAlignment(SwingConstants.RIGHT);
 		  menuThongKe.setPreferredSize(new Dimension(180, 41));
 		  
-		  JMenuItem menuThongKeSP = new JMenuItem("Thống Kê Sản Phẩm", new ImageIcon(img_customer));
+		  menuThongKeSP = new JMenuItem("Thống Kê Sản Phẩm", new ImageIcon(img_thongKeSP));
 		  menuThongKeSP.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeSP.setPreferredSize(new Dimension(180, 41));
-		  JMenuItem menuThongKeThuNhap = new JMenuItem("Thu Nhập", new ImageIcon(img_customer));
+		  JMenuItem menuThongKeThuNhap = new JMenuItem("Thu Nhập", new ImageIcon(img_thuNhap));
 		  menuThongKeThuNhap.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeThuNhap.setPreferredSize(new Dimension(180, 41));
-		  JMenuItem menuThongKeKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_customer));
+		  menuThongKeKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_khuyenMai));
 		  menuThongKeKhuyenMai.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeKhuyenMai.setPreferredSize(new Dimension(180, 41));
 		  
@@ -626,7 +703,7 @@ public class frmNV extends JFrame {
 		bill.setVisible(false);
 		customer.setVisible(false);
 		thongke.setVisible(false);		
-		
+		profit.setVisible(false);
 //		system.setVisible(false);
 //		product.setVisible(false);
 //		thongke.setVisible(false);
