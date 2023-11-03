@@ -3,6 +3,10 @@ package entity;
 public class Account {
 	private String maNV, pwd;
 
+	public Account() {
+		super();
+	}
+
 	public Account(String maNV, String pwd) {
 		super();
 		this.maNV = maNV;

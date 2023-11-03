@@ -1,58 +1,66 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import connectDB.ConnectDB;
 import entity.NhanVien;
 import list.DanhSachNhanVien;
 
 public class DAO_NhanVien {
-	public DanhSachNhanVien getAll() {
-		DanhSachNhanVien dsNhanVien = new DanhSachNhanVien();
+	public ArrayList<NhanVien> getAll() {
+		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from NhanVien";
+			String sql = "select * from nhanVien";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			dsNhanVien.themNhanVien(new NhanVien());
-
+			dsNhanVien.add(new NhanVien(rs.getString("maNV"),rs.getString("tenNV"),rs.getDate("ngaySinh"),rs.getInt("gioiTinh"),rs.getString("soDienThoai"),rs.getString("diaChi"),rs.getString("email"),rs.getString("ChucVu")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-			return dsNhanVien;	
+		return dsNhanVien;	
+
 	}	
 	
 		
 
-	public void add(NhanVien nv) {
+	public boolean add(NhanVien nv) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "INSERT INTO NhanVien (MaNhanVien, HoTen, CMT, SDT, Gmail, DiaChi, GioiTinh, chucVu, Pwd) "
-				+ "values(?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT [dbo].[nhanVien] VALUES"
+				+ "(?,?,?,?,?,?,?,?)";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, nv.getMaNV());
+			stm.setString(2, nv.getTenNV());
+			stm.setDate(3, nv.getDoB());
+			stm.setInt(4, nv.getGioiTinh());
+			stm.setString(5, nv.getSDT());
 			stm.setString(6, nv.getDiaChi());
-			stm.setBoolean(7, nv.getGioiTinh());
-			stm.setString(8, nv.getChucVu());
+			stm.setString(7, nv.getEmail());
+			stm.setString(8, "QL");
 			System.out.println(stm);
 			stm.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			return false;
 		}
 		finally {
 			close(stm);
 		}
+		return true;
 	}
 
 	public boolean updateNhanVien(NhanVien nv) {
@@ -60,14 +68,18 @@ public class DAO_NhanVien {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "Update NhanVien set HoTen = ?, CMT = ?, SDT = ?, Gmail = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ?, Pwd =?\r\n"
-				+ "where MaNhanVien = ?";
+		String sql = "Update nhanVien set tenNV = ?, ngaySinh = ?, gioiTinh = ?, soDienThoai = ?, diaChi = ?, email = ?, chucVu = ?\r\n"
+				+ "where maNV = ?";
 		try {
 			stm = con.prepareStatement(sql);
+			stm.setString(1, nv.getTenNV());
+			stm.setDate(2, nv.getDoB());
+			stm.setInt(3, nv.getGioiTinh());
+			stm.setString(4, nv.getSDT());
 			stm.setString(5, nv.getDiaChi());
-			stm.setBoolean(6, nv.getGioiTinh());
+			stm.setString(6, nv.getEmail());
 			stm.setString(7, nv.getChucVu());
-			stm.setString(9, nv.getMaNV());
+			stm.setString(8, nv.getMaNV());
 
 			stm.executeUpdate();
 		} catch (SQLException e) {
@@ -85,7 +97,7 @@ public class DAO_NhanVien {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DELETE from NhanVien where MaNhanVien = ?";
+		String sql = "DELETE from nhanVien where maNV = ?";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, maNV);
@@ -93,9 +105,103 @@ public class DAO_NhanVien {
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
-	
+	public ArrayList<NhanVien> findNV(String tenNV, String sdt, String email, Integer gt, String ns) {
+		ArrayList<NhanVien> ds = new ArrayList<NhanVien>();
+		Date date = Date.valueOf(ns);
+		String strTen = "tenNV = ?",strSDT = "soDienThoai = ?",strEmail = "email = ?";
+		String strDate = "ngaySinh = ?";
+		String strGender = "gioiTinh = ?";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		if(tenNV.equals("")) {
+			strTen = "tenNV IS NOT NULL";
+		}
+		if(sdt.equals("")) {
+			strSDT = "soDienThoai IS NOT NULL";
+		}
+		if(email.equals("")) {
+			strEmail = "email IS NOT NULL";
+		}
+		if(ns.equals("")) {
+			strDate = "ngaySinh IS NOT NULL";
+		}
+		String sql = "SELECT * FROM NhanVien WHERE ("
+				+ strTen + " and "
+				+ strSDT + " and "
+				+ strEmail + " and "
+				+ strDate + " and "
+				+ strGender + ")";
+		System.out.println(strTen+strSDT+strEmail+strDate+strGender);
+		System.out.println(sql);
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, tenNV);
+			stm.setString(2, sdt);
+			stm.setString(3, email);
+			stm.setDate(4, date);
+			stm.setInt(5, gt);
+			System.out.println(stm);
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				System.out.println(rs.getString("tenNV"));
+				ds.add(new NhanVien(rs.getString("maNV"),rs.getString("tenNV"),rs.getDate("ngaySinh"),rs.getInt("gioiTinh"),rs.getString("soDienThoai"),rs.getString("diaChi"),rs.getString("email"),rs.getString("ChucVu")));
+			}		
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		return ds;
+	}
+	public ArrayList<NhanVien> findNV2(String tenNV, String sdt, String email, Integer gt, String ns) {
+		ArrayList<NhanVien> ds = new ArrayList<NhanVien>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		
+		Date date = Date.valueOf(ns);
+		String strTen = "tenNV = ";
+		String strSDT = "soDienThoai = ";
+		String strEmail = "email = ";
+		String strDate = "ngaySinh = ";
+		String strGender = "gioiTinh = ";
+		if(tenNV.equals("")) {
+			strTen = "tenNV IS NOT NULL";
+		}
+		if(sdt.equals("")) {
+			strSDT = "soDienThoai IS NOT NULL";
+		}
+		if(email.equals("")) {
+			strEmail = "email IS NOT NULL";
+		}
+		if(ns.equals("")) {
+			strDate = "ngaySinh IS NOT NULL";
+		}
+		
+//		String sql = "SELECT * FROM NhanVien WHERE ("
+//				+ strTen + " " + tenNV + " and " 
+//				+ strSDT + " " + sdt + " and " 
+//				+ strEmail + " " + email + " and "
+//				+ strDate + " " + date + " and " 
+//				+ strGender + " " + gt + ")" ;
+		String sql = "SELECT * FROM NhanVien WHERE tenNV = 'Duong Quang'";
+		System.out.println(strTen+strSDT+strEmail+strDate+strGender);
+		System.out.println(sql);
+		try {
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			ds.add(new NhanVien(rs.getString("maNV"),rs.getString("tenNV"),rs.getDate("ngaySinh"),rs.getInt("gioiTinh"),rs.getString("soDienThoai"),rs.getString("diaChi"),rs.getString("email"),rs.getString("ChucVu")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
 	private void close(PreparedStatement stm) {
 		// TODO Auto-generated method stub
 		if(stm!=null) {
