@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
 
 public class PanelCustomer extends JPanel {
 	private JTextField txtMaKH;
@@ -26,7 +27,8 @@ public class PanelCustomer extends JPanel {
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/search.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	private Image img_reload = new ImageIcon(frmNV.class.getResource("/image/reload.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	public PanelCRUDKHang crudkHang;
-
+	private JTable table_1;
+	DefaultTableModel model;
 	
 	public PanelCustomer() {
 		this.setVisible(false);
@@ -129,81 +131,24 @@ public class PanelCustomer extends JPanel {
 		panelTable.setBounds(0, 307, 1534, 627);
 		panelTable.setLayout(null);
 		tableCustom.setBounds(1532, 373, -1533, -368);
-		DefaultTableModel mode = (DefaultTableModel) tableCustom.getModel();
-//		for (int i = 0; i <= 20; i++) {
-//			mode.addRow(new Object[] {i,"Ra Ven",10,"001 00 1 00 1","PP"});
-//		}
-//		panelTable.add(tableCustom);
-		
+		DefaultTableModel mode = (DefaultTableModel) tableCustom.getModel();		
 		panelContent.add(panelTable);
 		
-		
-		
-		Object[][] data = {
-				{"123","Nguyen Van","ádasdasd","Điện Thoại","Địa Chỉ","Loại Khách"},{"123","Nguyen Van","ádasdasd","Điện Thoại","Địa Chỉ","Loại Khách"},{"123","Nguyen Van","ádasdasd","Điện Thoại","Địa Chỉ","Loại Khách"}
-		};
-		String[] columnNames = {"Mã Khách Hàng","Họ Tên","Địa Chỉ","Điện Thoại","Địa Chỉ","Loại Khách"};
-		
-//		DefaultTableModel model = new DefaultTableModel(data,columnNames);
-//		model.addRow(new Object[] {"","","","","",""});
-		
-//		table = new JTable(new DefaultTableModel(
-//			new Object[][] {
-//				{"123", "Nguyen Van", "\u00E1dasdasd", "\u0110i\u1EC7n Tho\u1EA1i", "\u0110\u1ECBa Ch\u1EC9", "Lo\u1EA1i Kh\u00E1ch"},
-//				{"123", "Nguyen Van", "\u00E1dasdasd", "\u0110i\u1EC7n Tho\u1EA1i", "\u0110\u1ECBa Ch\u1EC9", "Lo\u1EA1i Kh\u00E1ch"},
-//				{"123", "Nguyen Van", "\u00E1dasdasd", "\u0110i\u1EC7n Tho\u1EA1i", "\u0110\u1ECBa Ch\u1EC9", "Lo\u1EA1i Kh\u00E1ch"},
-//			},
-//			new String[] {
-//				"M\u00E3 Kh\u00E1ch H\u00E0ng", "H\u1ECD T\u00EAn", "\u0110\u1ECBa Ch\u1EC9", "\u0110i\u1EC7n Tho\u1EA1i", "\u0110\u1ECBa Ch\u1EC9", "Lo\u1EA1i Kh\u00E1ch"
-//			}
-//		));
-		table = new JTable();
-		String[] column = {"Mã Khách Hàng","Họ Tên","Địa Chỉ","Điện Thoại","Địa Chỉ","Loại Khách"};
-		DefaultTableModel model = new DefaultTableModel(column,0);
-		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setBounds(10, 11, 1534, 627);
-		scrollPane.setViewportView(table = new JTable(model));
-		table.setRowHeight(25);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-		table.getColumnModel().getColumn(3).setPreferredWidth(50);
-		table.getColumnModel().getColumn(4).setPreferredWidth(100);
-		table.getColumnModel().getColumn(5).setPreferredWidth(150);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 0, 1514, 627);
 		panelTable.add(scrollPane);
-//		model.setColumnIdentifiers(column);
-//		table.setModel(model);
-//		table.setBackground(Color.white);
-//		table.setForeground(Color.black);
-//		table.setSelectionBackground(Color.red);
-//		table.setGridColor(Color.red);
-//		table.setSelectionForeground(Color.white);
-//		table.setFont(new Font("Tahoma",Font.BOLD,15));
-//		table.setRowHeight(30);
-//		table.setAutoCreateRowSorter(true);
 		
-//		JScrollPane pane = new JScrollPane(table);
-//		pane.setForeground(Color.red);
-//		pane.setBackground(Color.white);
-//		
-		Object[] row  = new Object[6];
-//		panelTable.add(pane);
-//		pane.setob
-//		table = new JTable(new DefaultTableModel(
-//			new Object[][] {
-//			},
-//			new String[] {
-//				"M\u00E3 Kh\u00E1ch H\u00E0ng", "H\u1ECD T\u00EAn", "\u0110\u1ECBa Ch\u1EC9", "\u0110i\u1EC7n Tho\u1EA1i", "\u0110\u1ECBa Ch\u1EC9", "Lo\u1EA1i Kh\u00E1ch"
-//			}
-//		));
+		table_1 = new JTable();
+		model = new DefaultTableModel();
+		Object[] column = {"Mã Khách Hàng","Tên Khách Hàng","Số Điện Thoại","Địa Chỉ","Loại Khách Hàng"};
+		Object[] row = new Object[5];
+		model.setColumnIdentifiers(column);
+		table_1.setModel(model);
+		scrollPane.setViewportView(table_1);
+		table_1.setBackground(SystemColor.activeCaptionBorder);
 		
 		
-//		table.setFont(new Font("Tahoma", Font.BOLD, 11));
-//		table.setBounds(10, 11, 1534, 627);
-//		JScrollPane  scoJScrollPane = new JScrollPane(table);
-//		
 		
-//		panelTable.add(table);
+
 	}
 }

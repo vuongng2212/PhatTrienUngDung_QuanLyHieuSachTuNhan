@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelTimNV extends JPanel {
 	private JTextField txtTen;
@@ -93,6 +95,10 @@ public class PanelTimNV extends JPanel {
 		westPanel.add(btnLamMoi);
 		
 		JButton btnTim = new JButton("Tìm");
+		btnTim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnTim.setForeground(new Color(0, 0, 160));
 		btnTim.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnTim.setBackground(Color.GREEN);

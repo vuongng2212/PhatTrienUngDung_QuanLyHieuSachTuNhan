@@ -14,7 +14,7 @@ import list.DanhSachKhachHang;
 import list.DanhSachSanPham;
 
 public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>{
-
+	
 	@Override
 	public DanhSachKhachHang getAll() {
 		DanhSachKhachHang dsKH = new DanhSachKhachHang();
@@ -35,6 +35,7 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 
 	@Override
 	public void add(KhachHang obj) {
+		System.out.println("Bat Dau Ket Noi Ket noi");
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -117,5 +118,7 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 			}
 		}
 	}
-	
+	public static void testing() {
+		System.out.println("ahihi");
+	}
 }

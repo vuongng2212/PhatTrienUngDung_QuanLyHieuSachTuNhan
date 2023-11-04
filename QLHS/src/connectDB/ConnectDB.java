@@ -20,9 +20,9 @@ public class ConnectDB {
 	//test connect sql
 	public void connect() throws SQLException {
 
-        String URL = "jdbc:sqlserver://localhost:1433;databaseName=qlhs;";
+        String URL = "jdbc:sqlserver://localhost:1433;databaseName=qlSachTuNhan;";
         String user = "sa";
-        String pass = "123";
+        String pass = "0986038781";
         connection = DriverManager.getConnection(URL, user, pass);
         if (connection != null) {
             DatabaseMetaData dm = (DatabaseMetaData) connection.getMetaData();
@@ -47,6 +47,6 @@ public class ConnectDB {
 	public static Connection getConnection() {
 		return connection;
 	}
-
+	
 
 }
