@@ -19,11 +19,11 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from NhanVien";
+			String sql = "select * from sanPham";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			dsSP.add(new SanPham());
+			dsSP.add(new SanPham(rs.getString("maSP"), rs.getString("tenSP"), rs.getString("tenTacGia"), rs.getString("nhaXB"), rs.getInt("namXB"), rs.getInt("soLuong"), rs.getDouble("donGiaGoc"), rs.getDouble("donGiaMua"), rs.getString("tinhTrang"), rs.getString("danhMuc")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();

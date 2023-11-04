@@ -3,6 +3,8 @@ package dao;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.nio.file.Path;
+import java.sql.Date;
+import java.util.Calendar;
 
 import javax.imageio.ImageIO;
 
@@ -29,16 +31,27 @@ public class TestQR {
 //    }
 	public static void main(String[] args) throws Exception {
         
-        try {
-        	String pathToStore = "D:\\QRCodeGenerated.jpg";
-            BufferedImage readerImage = ImageIO.read(new FileInputStream(pathToStore));
-            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(readerImage)));
-            Result resultObj = new MultiFormatReader().decode(binaryBitmap);
-             
-            System.out.println(resultObj.getText());
-             
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//        	String pathToStore = "D:\\QRCodeGenerated.jpg";
+//            BufferedImage readerImage = ImageIO.read(new FileInputStream(pathToStore));
+//            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(readerImage)));
+//            Result resultObj = new MultiFormatReader().decode(binaryBitmap);
+//             
+//            System.out.println(resultObj.getText());
+//             
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//        }
+		Date test = new Date(2023,12,22);
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		System.out.println(test);
+		System.out.println(date);
+		if(date.before(test)) {
+			System.out.println("before");
+		}
+		else {
+			System.out.println("after");
+		}
+		
     }
 }

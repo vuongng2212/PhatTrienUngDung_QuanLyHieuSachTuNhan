@@ -192,22 +192,6 @@ public class PanelQLNV extends JPanel implements MouseListener{
 		
 		
 		String[] headers = { "STT", "Mã nhân viên", "Họ và tên","Ngày sinh",  "Giới tính",  "SĐT", "Địa chỉ", "Email", "Chức vụ"};
-//		DefaultTableModel tableModel = new DefaultTableModel(headers, 0);
-//		JTable table = new JTable();
-//		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//		scroll.setBounds(400, 0, 1520, 817);
-//		add(scroll);
-//		scroll.setViewportView(table = new JTable(tableModel));
-//		table.setRowHeight(25);
-//		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(3).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(4).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(6).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(7).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(8).setPreferredWidth(1000);
-//		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(400, 0, 1520, 817);

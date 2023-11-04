@@ -12,17 +12,11 @@ public class ConnectDB {
 	public static ConnectDB getInstance() {
 		return instance;
 	}
-	
-//	public static Connection getConnection() {
-//		return connection;
-//	}
-	
-	//test connect sql
 	public void connect() throws SQLException {
 
         String URL = "jdbc:sqlserver://localhost:1433;databaseName=qlSachTuNhan;";
         String user = "sa";
-        String pass = "0986038781";
+        String pass = "123";
         connection = DriverManager.getConnection(URL, user, pass);
         if (connection != null) {
             DatabaseMetaData dm = (DatabaseMetaData) connection.getMetaData();

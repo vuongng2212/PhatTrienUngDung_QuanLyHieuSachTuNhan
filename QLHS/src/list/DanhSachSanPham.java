@@ -1,5 +1,6 @@
 package list;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import entity.SanPham;
@@ -108,5 +109,14 @@ public class DanhSachSanPham implements listInterface<SanPham>{
 	@Override
 	public int getCount() {
 		return list.size();
+	}
+	
+	public void clear() {
+	    for (int i = 0; i < list.size(); i++)
+	    	list.remove(i);
+	}
+	
+	public ArrayList<SanPham> getListData(){
+		return list;
 	}
 }
