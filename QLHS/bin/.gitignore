@@ -1,16 +1,2 @@
-/ui/
-<<<<<<< HEAD
-/dao/
 /connectDB/
-=======
-<<<<<<< HEAD
-/dao/
-/entity/
-/list/
-=======
-/entity/
-/list/
-/dao/
->>>>>>> 3c82329c50c263d6a4e8331082536be2203c7ec8
->>>>>>> 100909d938fc9b96ab0f60a71edb9fcd0d040588
-/interfaces/
+/ui/

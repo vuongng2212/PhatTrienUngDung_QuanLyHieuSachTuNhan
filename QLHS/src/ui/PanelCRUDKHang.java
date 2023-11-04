@@ -13,6 +13,7 @@ import java.awt.Image;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import connectDB.ConnectDB;
 import dao.DAO_KhachHang;
 import entity.KhachHang;
 import entity.SanPham;
@@ -26,6 +27,7 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 public class PanelCRUDKHang extends JPanel {
 	private JTextField txtMaKH;
@@ -51,6 +53,13 @@ public class PanelCRUDKHang extends JPanel {
 	//
  	
  	public PanelCRUDKHang(PanelCustomer panelCustomer) {
+ 		listKH = new DanhSachKhachHang();
+ 		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.panelCustomer = panelCustomer;
 		panelCustomer.setVisible(false);
 		this.init();
@@ -164,6 +173,7 @@ public class PanelCRUDKHang extends JPanel {
 				daoKh = new DAO_KhachHang();
 
 				kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
+				
 				System.out.println(kh.toString());
 				if(daoKh.add(kh)) {
 					listKH.add(kh);
@@ -368,15 +378,26 @@ public class PanelCRUDKHang extends JPanel {
 		JButton btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(".....");
 			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("") || txtLoaiKH.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
+			
 			}else {
-				row[0] = txtMaKH.getText();
-				row[1] = txtTenKH.getText();
-				row[2] = txtPhone.getText();
-				row[3] = txtDiaChi.getText();
-				row[4] = txtLoaiKH.getText();
-				model.addRow(row);
+				System.out.println("Bat dau");
+				daoKh = new DAO_KhachHang();
+
+				kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
+				
+				System.out.println(kh.toString());
+				if(daoKh.add(kh)) {
+					listKH.add(kh);
+					row[0] = txtMaKH.getText();
+					row[1] = txtTenKH.getText();
+					row[2] = txtPhone.getText();
+					row[3] = txtDiaChi.getText();
+					row[4] = txtLoaiKH.getText();
+					model.addRow(row);
+				}
 				
 				txtMaKH.setText("");
 				txtTenKH.setText("");
@@ -439,14 +460,6 @@ public class PanelCRUDKHang extends JPanel {
 		btnXoa.setFont(new Font("Times New Roman", Font.BOLD, 13));
 		btnXoa.setBounds(989, 132, 104, 30);
 		panel_1.add(btnXoa);
-		
-		JButton btnSearch = new JButton("");
-		btnSearch.setIcon(new ImageIcon(img_find));
-		btnSearch.setOpaque(false);
-		btnSearch.setBackground(null);
-		btnSearch.setBorderPainted(false);
-		btnSearch.setBounds(400, 23, 42, 30);
-		panel_1.add(btnSearch);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 285, 1534, 732);

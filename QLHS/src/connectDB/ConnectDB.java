@@ -47,6 +47,8 @@ public class ConnectDB {
 	public static Connection getConnection() {
 		return connection;
 	}
-	
+	public static void main(String[] args) throws SQLException {
+		new ConnectDB().connect();
+	}
 
 }
