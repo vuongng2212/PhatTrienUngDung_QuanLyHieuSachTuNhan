@@ -22,7 +22,7 @@ public class ConnectDB {
 
         String URL = "jdbc:sqlserver://localhost:1433;databaseName=qlSachTuNhan;";
         String user = "sa";
-        String pass = "0986038781";
+        String pass = "123";
         connection = DriverManager.getConnection(URL, user, pass);
         if (connection != null) {
             DatabaseMetaData dm = (DatabaseMetaData) connection.getMetaData();
@@ -47,6 +47,6 @@ public class ConnectDB {
 	public static Connection getConnection() {
 		return connection;
 	}
-	
+
 
 }

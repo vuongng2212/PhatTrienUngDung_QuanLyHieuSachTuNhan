@@ -37,7 +37,7 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 	}
 
 	@Override
-	public boolean add(KhuyenMai obj) {
+	public void add(KhuyenMai obj) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -57,11 +57,9 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
 		}
 		finally {
 			close(stm);
-			return true;
 		}
 		
 	}

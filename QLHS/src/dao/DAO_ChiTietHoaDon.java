@@ -35,7 +35,7 @@ public class DAO_ChiTietHoaDon implements daoInterface<ChiTietHoaDon, DanhSachCh
 	}
 
 	@Override
-	public boolean add(ChiTietHoaDon obj) {
+	public void add(ChiTietHoaDon obj) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
@@ -54,11 +54,9 @@ public class DAO_ChiTietHoaDon implements daoInterface<ChiTietHoaDon, DanhSachCh
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
 		}
 		finally {
 			close(stm);
-			return true;
 		}
 		
 	}
