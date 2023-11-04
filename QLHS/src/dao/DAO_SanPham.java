@@ -31,7 +31,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			return dsSP;	
 	}
 	@Override
-	public void add(SanPham sp) {
+	public boolean add(SanPham sp) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -55,9 +55,11 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			return false;
 		}
 		finally {
 			close(stm);
+			return true;
 		}
 	}
 	@Override
