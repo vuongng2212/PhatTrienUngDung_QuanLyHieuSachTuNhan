@@ -30,6 +30,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		}
 			return dsSP;	
 	}
+	@SuppressWarnings("finally")
 	@Override
 	public boolean add(SanPham sp) {
 		// TODO Auto-generated method stub
