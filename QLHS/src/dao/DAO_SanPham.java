@@ -19,11 +19,11 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from sanPham";
+			String sql = "select * from NhanVien";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			dsSP.add(new SanPham(rs.getString("maSP"), rs.getString("tenSP"), rs.getString("tenTacGia"), rs.getString("danhMuc"), rs.getString("nhaXB"), rs.getInt("namXB"), rs.getInt("soLuong"), rs.getFloat("donGiaGoc"), rs.getFloat("donGiaMua"), rs.getString("tinhTrang")));
+			dsSP.add(new SanPham());
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			return dsSP;	
 	}
 	@Override
-	public void add(SanPham sp) {
+	public boolean add(SanPham sp) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -55,9 +55,11 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			return false;
 		}
 		finally {
 			close(stm);
+			return true;
 		}
 	}
 	@Override
