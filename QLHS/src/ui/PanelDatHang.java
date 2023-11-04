@@ -4,6 +4,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import connectDB.ConnectDB;
+import dao.DAO_NhanVien;
+import dao.DAO_SanPham;
+import entity.NhanVien;
+import entity.SanPham;
+import list.DanhSachNhanVien;
+import list.DanhSachSanPham;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -12,6 +21,8 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class PanelDatHang extends JPanel {
@@ -21,29 +32,42 @@ public class PanelDatHang extends JPanel {
 	private JTable table, tableTTSP;
 	private DefaultTableModel tableModel,tableModelTTSP;
 	private JTextField textField_2;
+	private DanhSachSanPham lsSP;
+	private DAO_SanPham DAO_SP;
+	private int stt =1;
 	/**
 	 * Create the panel.
 	 */
 	public PanelDatHang() {
+		lsSP = new DanhSachSanPham();
+		
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		setBounds(0, 200, 1920, 816);
 		setLayout(null);
 		JPanel tblPanel = new JPanel();
 		tblPanel.setBounds(0, 0, 1170, 816);
 		add(tblPanel);
-		String[] headers = { "STT", "Mã sách", "Tên sách", "Thể loại", "NXB", "Năm XB", "Số lượng", "Đơn giá", "Tình trạng", "Khuyến mãi"};
+		String[] headers = { "STT", "Mã sách", "Tên sách", "Danh mục", "NXB", "Năm XB", "Số lượng", "Đơn giá", "Tình trạng"};
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 60, 1170, 655);
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.setRowHeight(25);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-		table.getColumnModel().getColumn(3).setPreferredWidth(50);
-		table.getColumnModel().getColumn(4).setPreferredWidth(100);
-		table.getColumnModel().getColumn(6).setPreferredWidth(150);
-		table.getColumnModel().getColumn(7).setPreferredWidth(150);
-		table.getColumnModel().getColumn(8).setPreferredWidth(100);
+//		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+//		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+//		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+//		table.getColumnModel().getColumn(6).setPreferredWidth(150);
+//		table.getColumnModel().getColumn(7).setPreferredWidth(150);
+//		table.getColumnModel().getColumn(8).setPreferredWidth(100);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		tblPanel.setLayout(null);
 		tblPanel.add(scroll);
@@ -120,7 +144,7 @@ public class PanelDatHang extends JPanel {
 		JPanel tbl = new JPanel();
 		tbl.setBounds(1200, 240, 720, 584);
 		add(tbl);
-		String[] headers1 = { "STT", "Mã sách", "Tên sách", "Thể loại", "Số lượng", "Đơn giá"};
+		String[] headers1 = { "STT", "Mã sách", "Tên sách", "Danh mục", "Số lượng", "Đơn giá"};
 		tableModelTTSP = new DefaultTableModel(headers1, 0);
 		JScrollPane scroll1 = new JScrollPane(tableTTSP, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll1.setBounds(0, 60, 720, 415);
@@ -210,7 +234,29 @@ public class PanelDatHang extends JPanel {
 		lblNgayTao.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNgayTao.setBounds(1395, 137, 150, 25);
 		add(lblNgayTao);
+		findSP();
 		
-		
+	}
+	
+	public void deleteAllDataJtable() {
+		DefaultTableModel dm = (DefaultTableModel)table.getModel();
+		while(dm.getRowCount() > 0)
+		{
+		    dm.removeRow(0);
+		}
+	}
+	public void findSP() {
+		deleteAllDataJtable();
+		DAO_SP = new DAO_SanPham();
+
+		lsSP.clear();
+		stt =1;
+		for(SanPham sp: DAO_SP.getAll().getListData()) {
+			lsSP.add(sp);
+			System.out.println(sp.getDanhMuc());
+			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc(),sp.getTinhTrang()};
+			tableModel.addRow(row);
+		}
+
 	}
 }

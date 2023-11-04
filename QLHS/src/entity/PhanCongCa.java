@@ -1,6 +1,6 @@
 package entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class PhanCongCa {
 	private String maNV;
@@ -9,7 +9,7 @@ public class PhanCongCa {
 	public PhanCongCa() {
 		super();
 	}
-	public PhanCongCa(String maNV, Date ngayLV, Integer maCa) {
+	public PhanCongCa(String maNV, Integer maCa , Date ngayLV) {
 		super();
 		this.maNV = maNV;
 		this.ngayLV = ngayLV;

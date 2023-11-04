@@ -109,4 +109,14 @@ public class DanhSachSanPham implements listInterface<SanPham>{
 	public int getCount() {
 		return list.size();
 	}
+	//add by Vuong
+	public void clear() {
+	    for (int i = 0; i < list.size(); i++)
+	    	list.remove(i);
+	}
+	public ArrayList<SanPham> getListData(){
+		ArrayList<SanPham> tmpLs = list;
+		return tmpLs;
+	}
+	
 }

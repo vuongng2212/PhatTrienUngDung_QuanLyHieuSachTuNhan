@@ -7,22 +7,45 @@ import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import connectDB.ConnectDB;
+import dao.DAO_NhanVien;
+import dao.DAO_PhanCongCa;
+import entity.PhanCongCa;
+import list.DanhSachNhanVien;
+import list.DanhSachPhanCongCa;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
+import java.sql.Date;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelShift extends JPanel {
 	private JTextField textField;
+	private JTable table;
+	private DefaultTableModel tableModel;
+	private DanhSachPhanCongCa ls;
+	private DAO_PhanCongCa DAO_pcc;
 	private Image img_TimNV = new ImageIcon(FormNVQuanLy.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	/**
 	 * Create the panel.
 	 */
 	public PanelShift() {
+		ls = new DanhSachPhanCongCa();
+		
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setBounds(0, 200, 1920, 816);
 		setLayout(null);
 		
@@ -36,13 +59,20 @@ public class PanelShift extends JPanel {
 		lblTieuDe.setBounds(880, 11, 232, 28);
 		headerPanel.add(lblTieuDe);
 		
-		String[] headers = { "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2", "Thứ 2"};
-		DefaultTableModel tableModel = new DefaultTableModel(headers, 0);
-		JTable table = new JTable();
+		String[] headers = { "", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 130, 1450, 689);
 		add(scroll);
 		scroll.setViewportView(table = new JTable(tableModel));
+		table.setRowHeight(25);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(1).setPreferredWidth(10);
+		table.getColumnModel().getColumn(2).setPreferredWidth(10);
+		table.getColumnModel().getColumn(3).setPreferredWidth(10);
+		table.getColumnModel().getColumn(4).setPreferredWidth(10);
+		table.getColumnModel().getColumn(6).setPreferredWidth(10);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(1450, 130, 489, 686);
@@ -87,29 +117,14 @@ public class PanelShift extends JPanel {
 		panelThongTinCa.add(lblThongTinCa);
 		lblThongTinCa.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
-		JButton btnLuu = new JButton("Lưu");
-		btnLuu.setBackground(new Color(0, 255, 64));
-		btnLuu.setForeground(new Color(255, 255, 255));
-		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnLuu.setBounds(22, 324, 89, 30);
-		panel.add(btnLuu);
+		
 		
 		textField = new JTextField();
 		textField.setBounds(147, 139, 86, 30);
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnTimNV = new JButton("");
-		btnTimNV.setIcon(new ImageIcon(img_TimNV));
-		btnTimNV.setBounds(243, 137, 30, 30);
-		panel.add(btnTimNV);
 		
-		JButton btnXoa = new JButton("Xóa ca");
-		btnXoa.setForeground(Color.WHITE);
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnXoa.setBackground(new Color(255, 0, 0));
-		btnXoa.setBounds(184, 324, 89, 30);
-		panel.add(btnXoa);
 		
 		JLabel lblStart = new JLabel("Ngày bắt đầu");
 		lblStart.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -130,17 +145,35 @@ public class PanelShift extends JPanel {
 		dateChooserEnd.setBounds(510, 89, 140, 30);
 		add(dateChooserEnd);
 		
+		JButton btnTimNV = new JButton("");
+		btnTimNV.setIcon(new ImageIcon(img_TimNV));
+		btnTimNV.setBounds(243, 137, 30, 30);
+		panel.add(btnTimNV);
+		
+		JButton btnXoa = new JButton("Xóa ca");
+		btnXoa.setForeground(Color.WHITE);
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnXoa.setBackground(new Color(255, 0, 0));
+		btnXoa.setBounds(184, 324, 89, 30);
+		panel.add(btnXoa);
+		JButton btnLuu = new JButton("Lưu");
+		btnLuu.setBackground(new Color(0, 255, 64));
+		btnLuu.setForeground(new Color(255, 255, 255));
+		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnLuu.setBounds(22, 324, 89, 30);
+		panel.add(btnLuu);
+		
 		JButton btnTim = new JButton("Tìm");
+		btnTim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Date start = new Date(dateChooserStart.getDate().getTime());
+				Date end = new Date(dateChooserEnd.getDate().getTime());
+				System.out.println(start + "" + end);
+			}
+		});
 		btnTim.setBackground(new Color(0, 255, 64));
 		btnTim.setBounds(700, 89, 89, 30);
 		add(btnTim);
-		table.setRowHeight(25);
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(10);
-		table.getColumnModel().getColumn(2).setPreferredWidth(10);
-		table.getColumnModel().getColumn(3).setPreferredWidth(10);
-		table.getColumnModel().getColumn(4).setPreferredWidth(10);
-		table.getColumnModel().getColumn(6).setPreferredWidth(10);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		
 	}
 }

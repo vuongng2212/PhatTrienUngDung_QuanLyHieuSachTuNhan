@@ -123,7 +123,7 @@ public class PanelTimNV extends JPanel {
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setBounds(205, 350, 160, 30);
 		dateChooser.getDate();
-		dateChooser.setDateFormatString("yyyy-[m]m-[d]d");
+		dateChooser.setDateFormatString("yyyy-MM-dd");
 		westPanel.add(dateChooser);
 		
 		String[] headers = { "STT", "Mã nhân viên", "Họ và tên", "Ngày sinh", "Giới tính", "SĐT", "Địa chỉ", "Email", "Chức vụ"};
@@ -165,18 +165,18 @@ public class PanelTimNV extends JPanel {
 		JButton btnTim = new JButton("Tìm");
 		btnTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				String ten = txtTen.getText().trim();
-//				String sdt = txtSDT.getText().trim();
-//				String email = txtEmail.getText().trim();
-//				String d = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText().trim();
-////				Date sqlDate = new Date(dateChooser.getDate().getTime());
-//				String gioiTinh = cbGT.getSelectedItem().toString();
-//				Integer gt = 0;
-//				if(gioiTinh=="Nam"){
-//					gt = 1;
-//				}
-//				System.out.println(ten+sdt+email+d+gt);
-				loadData("h", "ads", "ads", 1, "ads");
+				String ten = txtTen.getText().trim();
+				String sdt = txtSDT.getText().trim();
+				String email = txtEmail.getText().trim();
+				String d = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText().trim();
+//				Date sqlDate = new Date(dateChooser.getDate().getTime());
+				String gioiTinh = cbGT.getSelectedItem().toString();
+				Integer gt = 0;
+				if(gioiTinh=="Nam"){
+					gt = 1;
+				}
+				System.out.println("ns = " + d);
+				loadData(ten, sdt, email, gt, d);
 			}
 		});
 		btnTim.setForeground(new Color(0, 0, 160));

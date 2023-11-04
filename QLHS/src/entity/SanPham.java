@@ -22,8 +22,8 @@ public class SanPham {
 
 
 
-	public SanPham(String maSP, String tenSP, String tenTG, String nhaXB, int namXB, int soLuong, double donGiaGoc,
-			double donGiaMua, String tinhTrang, String danhMuc) {
+	public SanPham(String maSP, String tenSP, String tenTG, String danhMuc, String nhaXB, int namXB, int soLuong, double donGiaGoc,
+			double donGiaMua, String tinhTrang) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
@@ -34,7 +34,7 @@ public class SanPham {
 		this.donGiaGoc = donGiaGoc;
 		this.donGiaMua = donGiaMua;
 		this.tinhTrang = tinhTrang;
-		this.danhMuc = danhMuc;
+		
 	}
 
 

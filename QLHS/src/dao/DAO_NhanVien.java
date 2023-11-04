@@ -147,7 +147,6 @@ public class DAO_NhanVien {
 			System.out.println(stm);
 			ResultSet rs = stm.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getString("tenNV"));
 				ds.add(new NhanVien(rs.getString("maNV"),rs.getString("tenNV"),rs.getDate("ngaySinh"),rs.getInt("gioiTinh"),rs.getString("soDienThoai"),rs.getString("diaChi"),rs.getString("email"),rs.getString("ChucVu")));
 			}		
 		} catch (SQLException e) {
@@ -163,12 +162,11 @@ public class DAO_NhanVien {
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
 		
-		Date date = Date.valueOf(ns);
-		String strTen = "tenNV = ";
-		String strSDT = "soDienThoai = ";
-		String strEmail = "email = ";
-		String strDate = "ngaySinh = ";
-		String strGender = "gioiTinh = ";
+		String strTen = "tenNV = '"+tenNV+"'";
+		String strSDT = "soDienThoai = '"+tenNV+"'";
+		String strEmail = "email = '"+ email +"'";
+		String strDate = "ngaySinh = '" +ns+ "'";
+		String strGender = "gioiTinh = " + gt;
 		if(tenNV.equals("")) {
 			strTen = "tenNV IS NOT NULL";
 		}
@@ -182,14 +180,8 @@ public class DAO_NhanVien {
 			strDate = "ngaySinh IS NOT NULL";
 		}
 		
-//		String sql = "SELECT * FROM NhanVien WHERE ("
-//				+ strTen + " " + tenNV + " and " 
-//				+ strSDT + " " + sdt + " and " 
-//				+ strEmail + " " + email + " and "
-//				+ strDate + " " + date + " and " 
-//				+ strGender + " " + gt + ")" ;
-		String sql = "SELECT * FROM NhanVien WHERE tenNV = 'Duong Quang'";
-		System.out.println(strTen+strSDT+strEmail+strDate+strGender);
+		String sql = "SELECT * FROM NhanVien WHERE " +strTen + " and "+strSDT+ " and "+strEmail+ " and "+strDate+ " and "+strGender;
+//		System.out.println(strTen+strSDT+strEmail+strDate+strGender);
 		System.out.println(sql);
 		try {
 			Statement statement =con.createStatement();
