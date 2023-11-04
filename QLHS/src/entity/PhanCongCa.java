@@ -9,6 +9,10 @@ public class PhanCongCa {
 	public PhanCongCa() {
 		super();
 	}
+	public PhanCongCa(String maNV) {
+		super();
+		this.maNV = maNV;
+	}
 	public PhanCongCa(String maNV, Integer maCa , Date ngayLV) {
 		super();
 		this.maNV = maNV;

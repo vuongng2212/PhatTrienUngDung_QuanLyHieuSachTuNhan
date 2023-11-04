@@ -12,7 +12,7 @@ import connectDB.ConnectDB;
 import entity.PhanCongCa;
 
 public class DAO_PhanCongCa {
-	public ArrayList<PhanCongCa> get1Shift(Date start, Date end, Integer shift) {
+	public ArrayList<PhanCongCa> get1Shift(String start, String end, Integer shift) {
 		ArrayList<PhanCongCa> ds = new ArrayList<PhanCongCa>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();

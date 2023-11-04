@@ -23,7 +23,7 @@ public class DanhSachPhanCongCa {
 		return s;
 	}
 
-	public boolean them(PhanCongCa ca) {
+	public boolean add(PhanCongCa ca) {
 		date = new Date(Calendar.getInstance().getTime().getTime());
 		for (int i = 0; i < list.size(); i++)
 			if (list.get(i).getMaNV().equalsIgnoreCase(ca.getMaNV()) && !list.get(i).getNgayLV().before(date) && !list.get(i).getNgayLV().after(date)) {

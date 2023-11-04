@@ -10,6 +10,8 @@ import com.toedter.calendar.JDateChooser;
 import connectDB.ConnectDB;
 import dao.DAO_NhanVien;
 import dao.DAO_PhanCongCa;
+import entity.Ca;
+import entity.NhanVien;
 import entity.PhanCongCa;
 import list.DanhSachNhanVien;
 import list.DanhSachPhanCongCa;
@@ -19,6 +21,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -166,9 +172,12 @@ public class PanelShift extends JPanel {
 		JButton btnTim = new JButton("Tìm");
 		btnTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Date start = new Date(dateChooserStart.getDate().getTime());
-				Date end = new Date(dateChooserEnd.getDate().getTime());
+//				String start = ((JTextField)dateChooserStart.getDateEditor().getUiComponent()).getText().trim();
+//				String end = ((JTextField)dateChooserStart.getDateEditor().getUiComponent()).getText().trim();
+				String start = new Date(dateChooserStart.getDate().getTime()).toString();
+				String end = new Date(dateChooserEnd.getDate().getTime()).toString();
 				System.out.println(start + "" + end);
+				loadData(start, end, 1);
 			}
 		});
 		btnTim.setBackground(new Color(0, 255, 64));
@@ -176,4 +185,32 @@ public class PanelShift extends JPanel {
 		add(btnTim);
 		
 	}
+	public void deleteAllDataJtable() {
+		DefaultTableModel dm = (DefaultTableModel)table.getModel();
+		while(dm.getRowCount() > 0)
+		{
+		    dm.removeRow(0);
+		}
+	}
+	public void loadData(String start, String end, Integer shift ) {
+		deleteAllDataJtable();
+		DAO_pcc = new DAO_PhanCongCa();
+
+		ls.clear();
+		ArrayList<String> ca = new ArrayList<String>();
+
+		for(PhanCongCa pcc: DAO_pcc.get1Shift(start, end, shift)) {
+			ca.add(pcc.getMaNV());
+			System.out.println(pcc.getMaNV());
+		}
+		
+		tableModel.addRow(ca.toArray());
+	}
+	 private Object[] appendValue(Object[] obj, Object newObj) {
+
+		ArrayList<Object> temp = new ArrayList<Object>(Arrays.asList(obj));
+		temp.add(newObj);
+		return temp.toArray();
+
+	  }
 }
