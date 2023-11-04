@@ -1,6 +1,7 @@
 package entity;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.Objects;
 
 public class PhieuDatHang {
 	private String maDH, maNV;
@@ -39,6 +40,27 @@ public class PhieuDatHang {
 	}
 	public void setChietKhau(Double chietKhau) {
 		this.chietKhau = chietKhau;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(chietKhau, maDH, maNV, ngayDH);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PhieuDatHang other = (PhieuDatHang) obj;
+		return Objects.equals(chietKhau, other.chietKhau) && Objects.equals(maDH, other.maDH)
+				&& Objects.equals(maNV, other.maNV) && Objects.equals(ngayDH, other.ngayDH);
+	}
+	@Override
+	public String toString() {
+		return "PhieuDatHang [maDH=" + maDH + ", maNV=" + maNV + ", ngayDH=" + ngayDH + ", chietKhau=" + chietKhau
+				+ "]";
 	}
 	
 }

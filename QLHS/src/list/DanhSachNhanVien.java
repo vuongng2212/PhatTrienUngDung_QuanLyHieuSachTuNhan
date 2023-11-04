@@ -59,11 +59,12 @@ public class DanhSachNhanVien {
 //			private String SDT, diaChi, email, chucVu;
 			if (list.get(i).getMaNV().equalsIgnoreCase(nv.getMaNV())) {
 				list.get(i).setTenNV(nv.getTenNV());
+				list.get(i).setDoB(nv.getDoB());
 				list.get(i).setGioiTinh(nv.getGioiTinh());
 				list.get(i).setSDT(nv.getSDT());
 				list.get(i).setDiaChi(nv.getDiaChi());
 				list.get(i).setEmail(nv.getEmail());
-				list.get(i).setChucVu(nv.getChucVu());
+//				list.get(i).setChucVu(nv.getChucVu());
 				return true;
 			}
 		return false;
@@ -75,5 +76,9 @@ public class DanhSachNhanVien {
 
 	public int getCountNV() {
 		return list.size();
+	}
+	public void clear() {
+	    for (int i = 0; i < list.size(); i++)
+	    	list.remove(i);
 	}
 }

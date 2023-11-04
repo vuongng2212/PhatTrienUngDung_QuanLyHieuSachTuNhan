@@ -34,6 +34,7 @@ import javax.swing.event.MenuKeyListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.MenuKeyEvent;
+import javax.swing.border.BevelBorder;
 
 
 public class FormNVQuanLy extends JFrame{
@@ -81,10 +82,9 @@ public class FormNVQuanLy extends JFrame{
 		
 //		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setSize(1936,1056);
-		
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		setLocationRelativeTo(null);
 		
 		contentPane = new JPanel();
 		contentPane.setBounds(0, 0, 1936,1056);
@@ -119,7 +119,8 @@ public class FormNVQuanLy extends JFrame{
 		menuPanel.setLayout(null);
 		
 		JMenuBar mnBar = new JMenuBar();
-		mnBar.setBackground(new Color(255, 255, 255));
+		mnBar.setBorderPainted(false);
+		mnBar.setBackground(new Color(192, 192, 192));
 		mnBar.setBounds(0, 0, 1524, 60);
 		mnBar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		menuPanel.add(mnBar);

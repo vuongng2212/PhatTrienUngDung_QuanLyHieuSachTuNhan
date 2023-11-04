@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import dao.DAO_KhachHang;
 import entity.KhachHang;
 import entity.SanPham;
+import list.DanhSachKhachHang;
 
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -44,6 +45,7 @@ public class PanelCRUDKHang extends JPanel {
  	private Object[] row;
  	
  	//
+ 	private DanhSachKhachHang listKH;
  	private DAO_KhachHang daoKh;
  	private KhachHang kh;
 	//
@@ -153,19 +155,26 @@ public class PanelCRUDKHang extends JPanel {
 		JButton btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(".....");
 			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("") || txtLoaiKH.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
-				DAO_KhachHang.testing();
+			
 			}else {
 				System.out.println("Bat dau");
 				daoKh = new DAO_KhachHang();
-				row[0] = txtMaKH.getText();
-				row[1] = txtTenKH.getText();
-				row[2] = txtPhone.getText();
-				row[3] = txtDiaChi.getText();
-				row[4] = txtLoaiKH.getText();
-				model.addRow(row);
-				DAO_KhachHang.testing();
+
+				kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
+				System.out.println(kh.toString());
+				if(daoKh.add(kh)) {
+					listKH.add(kh);
+					row[0] = txtMaKH.getText();
+					row[1] = txtTenKH.getText();
+					row[2] = txtPhone.getText();
+					row[3] = txtDiaChi.getText();
+					row[4] = txtLoaiKH.getText();
+					model.addRow(row);
+				}
+				
 				txtMaKH.setText("");
 				txtTenKH.setText("");
 				txtPhone.setText("");

@@ -38,7 +38,7 @@ public class DAO_HoaDon implements daoInterface<HoaDon, DanhSachHoaDon>{
 	}
 
 	@Override
-	public void add(HoaDon obj) {
+	public boolean add(HoaDon obj) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String dateString  = dateFormat.format(obj.getNgayTaoHD());
 		ConnectDB.getInstance();
@@ -59,9 +59,11 @@ public class DAO_HoaDon implements daoInterface<HoaDon, DanhSachHoaDon>{
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			return false;
 		}
 		finally {
 			close(stm);
+			return true;
 		}
 		
 	}
