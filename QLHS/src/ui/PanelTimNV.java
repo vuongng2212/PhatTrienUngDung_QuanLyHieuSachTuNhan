@@ -167,8 +167,8 @@ public class PanelTimNV extends JPanel {
 		JButton btnTim = new JButton("Tìm");
 		btnTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 //				String ten = txtTen.getText().trim();
 //				String sdt = txtSDT.getText().trim();
 //				String email = txtEmail.getText().trim();
@@ -180,8 +180,8 @@ public class PanelTimNV extends JPanel {
 //					gt = 1;
 //				}
 //				System.out.println(ten+sdt+email+d+gt);
-				loadData("h", "ads", "ads", 1, "ads");
->>>>>>> 100909d938fc9b96ab0f60a71edb9fcd0d040588
+//				loadData("h", "ads", "ads", 1, "ads");
+//>>>>>>> 100909d938fc9b96ab0f60a71edb9fcd0d040588
 			}
 		});
 		btnTim.setForeground(new Color(0, 0, 160));
