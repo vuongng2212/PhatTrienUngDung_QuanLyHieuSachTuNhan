@@ -62,6 +62,8 @@ public class PanelCRUDKHang extends JPanel {
 		}
 		this.panelCustomer = panelCustomer;
 		panelCustomer.setVisible(false);
+		daoKh = new DAO_KhachHang();
+		listKH = daoKh.getAll();
 		this.init();
 	}
 	
@@ -169,28 +171,30 @@ public class PanelCRUDKHang extends JPanel {
 				JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
 			
 			}else {
-				System.out.println("Bat dau");
-				daoKh = new DAO_KhachHang();
+				if((listKH.timKHTheoMa(txtMaKH.getText())==-1)) {
+					System.out.println("Bat dau");
+					
 
-				kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
-				
-				System.out.println(kh.toString());
-				if(daoKh.add(kh)) {
-					listKH.add(kh);
-					row[0] = txtMaKH.getText();
-					row[1] = txtTenKH.getText();
-					row[2] = txtPhone.getText();
-					row[3] = txtDiaChi.getText();
-					row[4] = txtLoaiKH.getText();
-					model.addRow(row);
+					kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
+					
+					System.out.println(kh.toString());
+					if(daoKh.add(kh)) {
+						listKH.add(kh);
+						row[0] = txtMaKH.getText();
+						row[1] = txtTenKH.getText();
+						row[2] = txtPhone.getText();
+						row[3] = txtDiaChi.getText();
+						row[4] = txtLoaiKH.getText();
+						model.addRow(row);
+					}
+					
+					txtMaKH.setText("");
+					txtTenKH.setText("");
+					txtPhone.setText("");
+					txtDiaChi.setText("");
+					txtLoaiKH.setText("");
+					JOptionPane.showMessageDialog(null, "Thêm Thành Công");
 				}
-				
-				txtMaKH.setText("");
-				txtTenKH.setText("");
-				txtPhone.setText("");
-				txtDiaChi.setText("");
-				txtLoaiKH.setText("");
-				JOptionPane.showMessageDialog(null, "Thêm Thành Công");
 			}
 				
 			}
@@ -206,6 +210,8 @@ public class PanelCRUDKHang extends JPanel {
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
+				String maKH = model.getValueAt(i, 0).toString();
+				
 				if(i>=0) {
 					model.setValueAt(txtMaKH.getText(), i, 0);
 					model.setValueAt(txtTenKH.getText(), i, 1);
@@ -232,7 +238,11 @@ public class PanelCRUDKHang extends JPanel {
 				int i = table.getSelectedRow();
 				
 				if(i>=0) {
+					
+					daoKh.delete(txtMaKH.getText());
+					listKH.xoa(i);
 					model.removeRow(i);
+					
 					JOptionPane.showMessageDialog(null, "Xóa Thành Công");
 				
 					}else {
@@ -383,28 +393,32 @@ public class PanelCRUDKHang extends JPanel {
 				JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
 			
 			}else {
-				System.out.println("Bat dau");
-				daoKh = new DAO_KhachHang();
+				if(listKH.timKHTheoMa(txtMaKH.getText())==-1 && !listKH.ktraTonTaiSDT(txtPhone.getText())) {
+					System.out.println("Bat dau");
+					daoKh = new DAO_KhachHang();
 
-				kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
-				
-				System.out.println(kh.toString());
-				if(daoKh.add(kh)) {
-					listKH.add(kh);
-					row[0] = txtMaKH.getText();
-					row[1] = txtTenKH.getText();
-					row[2] = txtPhone.getText();
-					row[3] = txtDiaChi.getText();
-					row[4] = txtLoaiKH.getText();
-					model.addRow(row);
+					kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
+					
+					System.out.println(kh.toString());
+					if(daoKh.add(kh)) {
+						listKH.add(kh);
+						row[0] = txtMaKH.getText();
+						row[1] = txtTenKH.getText();
+						row[2] = txtPhone.getText();
+						row[3] = txtDiaChi.getText();
+						row[4] = txtLoaiKH.getText();
+						model.addRow(row);
+					}
+					
+					txtMaKH.setText("");
+					txtTenKH.setText("");
+					txtPhone.setText("");
+					txtDiaChi.setText("");
+					txtLoaiKH.setText("");
+					JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+				}else {
+					JOptionPane.showMessageDialog(null, "Vui long tranh trung lap");
 				}
-				
-				txtMaKH.setText("");
-				txtTenKH.setText("");
-				txtPhone.setText("");
-				txtDiaChi.setText("");
-				txtLoaiKH.setText("");
-				JOptionPane.showMessageDialog(null, "Thêm Thành Công");
 			}
 				
 			}
@@ -420,13 +434,34 @@ public class PanelCRUDKHang extends JPanel {
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
+				
+				
 				if(i>=0) {
+					
+//					listKH.update(kh)
+//					txtMaKH.setText(model.getValueAt(i, 0).toString());
+//					txtTenKH.setText(model.getValueAt(i, 1).toString());
+//					txtPhone.setText(model.getValueAt(i, 2).toString());
+//					txtDiaChi.setText(model.getValueAt(i, 3).toString());
+//					txtLoaiKH.setText(model.getValueAt(i, 4).toString());
+					KhachHang kh = new KhachHang();
+					kh.setMaKH(txtMaKH.getText());
+					kh.setTenKH(txtTenKH.getText());
+					kh.setSdt(txtPhone.getText());
+					kh.setDiaChi(txtDiaChi.getText());
+					kh.setLoaiKH(txtLoaiKH.getText());
+					listKH.update(kh);
+					daoKh.update(kh);
+					
+					
+					
 					model.setValueAt(txtMaKH.getText(), i, 0);
 					model.setValueAt(txtTenKH.getText(), i, 1);
 					model.setValueAt(txtPhone.getText(), i, 2);
 					model.setValueAt(txtDiaChi.getText(), i, 3);
 					model.setValueAt(txtLoaiKH.getText(), i, 4);
 					JOptionPane.showMessageDialog(null, "Đã Sửa Thành Công");
+				
 				}else {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn hàng cần sửa");
 				}
@@ -446,6 +481,8 @@ public class PanelCRUDKHang extends JPanel {
 				int i = table.getSelectedRow();
 				
 				if(i>=0) {
+					daoKh.delete(txtMaKH.getText());
+					listKH.xoa(i);
 					model.removeRow(i);
 					JOptionPane.showMessageDialog(null, "Xóa Thành Công");
 				
@@ -489,7 +526,20 @@ public class PanelCRUDKHang extends JPanel {
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
+		
+		/////////////////
+//		listKH.add(kh);
+		for (KhachHang kh : listKH.getList()) {
+			row[0] = kh.getMaKH();
+			row[1] = kh.getTenKH();
+			row[2] = kh.getSdt();
+			row[3] = kh.getDiaChi();
+			row[4] = kh.getLoaiKH();
+			model.addRow(row);
 			
+		}
+		
+		
 
 		setBounds(0,0,1534,1017);
 		setLayout(null);

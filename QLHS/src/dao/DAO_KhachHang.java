@@ -19,13 +19,18 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 	public DanhSachKhachHang getAll() {
 		DanhSachKhachHang dsKH = new DanhSachKhachHang();
 		ConnectDB.getInstance();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		Connection con = ConnectDB.getConnection();
 		try {
 			String sql = "select * from khachHang";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			dsKH.add(new KhachHang());
+			dsKH.add(new KhachHang(rs.getString("maKH"),rs.getString("tenKH"),rs.getString("SDT"),rs.getString("diaChi"),rs.getString("loaiKH")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();

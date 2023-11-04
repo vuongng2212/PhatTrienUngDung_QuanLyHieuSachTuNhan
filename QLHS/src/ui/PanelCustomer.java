@@ -10,11 +10,20 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import connectDB.ConnectDB;
+import dao.DAO_KhachHang;
+import entity.KhachHang;
+import list.DanhSachKhachHang;
+
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 
@@ -29,8 +38,18 @@ public class PanelCustomer extends JPanel {
 	public PanelCRUDKHang crudkHang;
 	private JTable table_1;
 	DefaultTableModel model;
+	private DanhSachKhachHang listKH;
+	private DAO_KhachHang daoKh;
+	private Object[] row;
 	
 	public PanelCustomer() {
+		listKH = new DanhSachKhachHang();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		this.setVisible(false);
 		setBounds(0,0,1534,1017);
 		setLayout(null);
@@ -97,7 +116,27 @@ public class PanelCustomer extends JPanel {
 		JButton btnTimKiem = new JButton("Tìm Kiếm Khách Hàng");
 		btnTimKiem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(!txtMaKH.getText().equals("") && txtTenKH.getText().equals("") && txtSDT.getText().equals("")) {
+					int i = listKH.timKHTheoMa(txtMaKH.getText());
+					if(i!=-1) {
+						row[0] = listKH.getList().get(i).getMaKH();
+						row[1] = listKH.getList().get(i).getTenKH();
+						row[2] = listKH.getList().get(i).getSdt();
+						row[3] = listKH.getList().get(i).getDiaChi();
+						row[4] = listKH.getList().get(i).getLoaiKH();
+						model.addRow(row);
+					}else if(txtMaKH.getText().equals("") && !txtTenKH.getText().equals("") && txtSDT.getText().equals("")) {
+						ArrayList<KhachHang> listkhTemp = listKH.timKHTheoTen(txtTenKH.getText());
+						for (KhachHang khachHang : listkhTemp) {
+							row[0] = khachHang.getMaKH();
+							row[1] = khachHang.getTenKH();
+							row[2] = khachHang.getSdt();
+							row[3] = khachHang.getDiaChi();
+							row[4] = khachHang.getLoaiKH();
+							model.addRow(row);
+						}
+					}
+				}
 			}
 		});
 		btnTimKiem.setBackground(new Color(0, 255, 255));
@@ -147,6 +186,14 @@ public class PanelCustomer extends JPanel {
 		scrollPane.setViewportView(table_1);
 		table_1.setBackground(SystemColor.activeCaptionBorder);
 		
+		for (KhachHang kh : listKH.getList()) {
+			row[0] = kh.getMaKH();
+			row[1] = kh.getTenKH();
+			row[2] = kh.getSdt();
+			row[3] = kh.getDiaChi();
+			row[4] = kh.getLoaiKH();
+			model.addRow(row);
+		}
 		
 		
 

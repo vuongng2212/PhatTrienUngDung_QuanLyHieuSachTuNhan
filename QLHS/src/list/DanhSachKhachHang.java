@@ -67,6 +67,7 @@ public class DanhSachKhachHang implements listInterface<KhachHang>{
 		}
 		return -1;
 	}
+//	public boolean ktraTrungSDT
 //	public int timKHTheoTen(String tenKH) {
 //		for(int i=0;i<list.size();i++) {
 //			if(list.get(i).getTenKH().equalsIgnoreCase(tenKH))
@@ -76,7 +77,7 @@ public class DanhSachKhachHang implements listInterface<KhachHang>{
 //	}
 	public ArrayList<KhachHang>timKHTheoTen(String tenKH){
 		ArrayList<KhachHang>listKH = new ArrayList<KhachHang>();
-		for (KhachHang khachHang : listKH) {
+		for (KhachHang khachHang : list) {
 			if(khachHang.getTenKH().equalsIgnoreCase(tenKH))
 				listKH.add(khachHang);
 		}
@@ -106,6 +107,15 @@ public class DanhSachKhachHang implements listInterface<KhachHang>{
 		}
 		return listKh;
 	}	
+	
+	public ArrayList<KhachHang> getList() {
+		return list;
+	}
+
+	public void setList(ArrayList<KhachHang> list) {
+		this.list = list;
+	}
+
 	@Override
 	public int getCount() {
 		return list.size();
