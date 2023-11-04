@@ -12,12 +12,6 @@ public class ConnectDB {
 	public static ConnectDB getInstance() {
 		return instance;
 	}
-	
-//	public static Connection getConnection() {
-//		return connection;
-//	}
-	
-	//test connect sql
 	public void connect() throws SQLException {
 
         String URL = "jdbc:sqlserver://localhost:1433;databaseName=qlSachTuNhan;";
