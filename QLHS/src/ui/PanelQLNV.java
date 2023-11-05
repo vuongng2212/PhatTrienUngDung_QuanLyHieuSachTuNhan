@@ -201,16 +201,18 @@ public class PanelQLNV extends JPanel implements MouseListener{
 			public void mousePressed(MouseEvent e) {
 				int row = table.getSelectedRow();
 				System.out.println(row);
-				txtMa.setText(table.getValueAt(row, 1).toString());
-				txtTen.setText(table.getValueAt(row, 2).toString());
-				String gt = table.getValueAt(row, 4).toString();
-				txtSDT.setText(table.getValueAt(row, 5).toString());
-				txtDiaChi.setText(table.getValueAt(row, 6).toString());
-				txtEmail.setText(table.getValueAt(row, 7).toString());
-				String cv = table.getValueAt(row, 8).toString();
-				
-				cbGT.setSelectedItem(gt);
-				cbCV.setSelectedItem(cv);
+				if(row != -1) {
+					txtMa.setText(table.getValueAt(row, 1).toString());
+					txtTen.setText(table.getValueAt(row, 2).toString());
+					String gt = table.getValueAt(row, 4).toString();
+					txtSDT.setText(table.getValueAt(row, 5).toString());
+					txtDiaChi.setText(table.getValueAt(row, 6).toString());
+					txtEmail.setText(table.getValueAt(row, 7).toString());
+					String cv = table.getValueAt(row, 8).toString();
+					
+					cbGT.setSelectedItem(gt);
+					cbCV.setSelectedItem(cv);
+				}
 				
 			}
 		});
@@ -349,7 +351,7 @@ public class PanelQLNV extends JPanel implements MouseListener{
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		int row = table.getSelectedRow();
-		System.out.println(row);
+//		System.out.println(row);
 		txtMa.setText(table.getValueAt(row, 1).toString());
 		txtTen.setText(table.getValueAt(row, 2).toString());
 		txtSDT.setText(table.getValueAt(row, 2).toString());

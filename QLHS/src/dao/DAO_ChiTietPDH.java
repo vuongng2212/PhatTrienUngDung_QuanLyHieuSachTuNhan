@@ -11,16 +11,16 @@ import connectDB.ConnectDB;
 import entity.ChiTietPhieuDH;
 
 public class DAO_ChiTietPDH {
-	public ArrayList<ChiTietPhieuDH> getAll() {
+	public ArrayList<ChiTietPhieuDH> getAll(String maDH) {
 		ArrayList<ChiTietPhieuDH> ds = new ArrayList<ChiTietPhieuDH>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from chiTietDatHang";
+			String sql = "select * from chiTietDatHang where maDH = N'"+maDH+"'";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			ds.add(new ChiTietPhieuDH());
+			ds.add(new ChiTietPhieuDH(rs.getString("maDH"),rs.getString("maSP"),rs.getInt("soLuong")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();

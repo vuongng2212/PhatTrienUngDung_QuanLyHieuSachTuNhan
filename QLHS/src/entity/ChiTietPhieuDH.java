@@ -8,6 +8,13 @@ public class ChiTietPhieuDH {
 		super();
 	}
 
+	public ChiTietPhieuDH(String maDH, String maSP, Integer soLuong) {
+		super();
+		this.maDH = maDH;
+		this.maSP = maSP;
+		this.soLuong = soLuong;
+	}
+
 	public ChiTietPhieuDH(String maDH, String maSP, Integer soLuong, Integer donGiaNhap) {
 		super();
 		this.maDH = maDH;

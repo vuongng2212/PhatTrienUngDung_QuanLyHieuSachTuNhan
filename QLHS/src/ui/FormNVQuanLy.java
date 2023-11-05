@@ -55,12 +55,14 @@ public class FormNVQuanLy extends JFrame{
 	private Image img_ca = new ImageIcon(FormNVQuanLy.class.getResource("/image/shift.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_help = new ImageIcon(FormNVQuanLy.class.getResource("/image/help.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_tim = new ImageIcon(FormNVQuanLy.class.getResource("/image/find.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	private Image img_nhapsach = new ImageIcon(FormNVQuanLy.class.getResource("/image/import_book.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_PhieuDH = new ImageIcon(FormNVQuanLy.class.getResource("/image/deitailss.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_control = new ImageIcon(FormNVQuanLy.class.getResource("/image/control.jpg")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private PanelTimNV PnTimNV = new PanelTimNV();
 	private PanelDatHang pnDH = new PanelDatHang();
 	private PanelQLNV pnQLNV = new PanelQLNV();
 	private PanelShift pnShift = new PanelShift();
+	private PanelNhapSach pnNhapSach = new PanelNhapSach();
 	private JLabel lblAccountIcon;
 
 	public static void main(String[] args) {
@@ -177,6 +179,11 @@ public class FormNVQuanLy extends JFrame{
 		mnTimSP.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		mnSanPham.add(mnTimSP);
 		
+		JMenuItem mnNhapSach = new JMenuItem("Nhập sách");
+		mnNhapSach.setIcon(new ImageIcon(img_nhapsach));
+		mnNhapSach.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		mnSanPham.add(mnNhapSach);
+		
 		mnHelp = new JMenu("Trợ giúp");
 		mnHelp.setIcon(new ImageIcon(img_help));
 		mnHelp.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -263,6 +270,15 @@ public class FormNVQuanLy extends JFrame{
 				pnShift.setVisible(true);
 			}
 		});
+		mnNhapSach.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				clearPanel();
+				contentPane.add(pnNhapSach);
+				pnNhapSach.setVisible(true);
+			}
+		});
 	}
 	public void clearPanel() {
 		contentPane.remove(lblBG);
@@ -270,6 +286,7 @@ public class FormNVQuanLy extends JFrame{
 		pnDH.setVisible(false);
 		pnQLNV.setVisible(false);
 		pnShift.setVisible(false);
+		pnNhapSach.setVisible(false);
 	}
 	private void FillCountries() {
 		listCountries.add(new Country("vi-VN", "VietNam", new Font("Tahoma", Font.BOLD, 20)));

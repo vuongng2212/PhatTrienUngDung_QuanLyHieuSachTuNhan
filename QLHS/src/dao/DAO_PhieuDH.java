@@ -20,7 +20,7 @@ public class DAO_PhieuDH {
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			ds.add(new PhieuDatHang());
+			ds.add(new PhieuDatHang(rs.getString("maDatHang"),rs.getString("maNv"),rs.getDate("ngayDatHang"),rs.getDouble("chietKhau")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();

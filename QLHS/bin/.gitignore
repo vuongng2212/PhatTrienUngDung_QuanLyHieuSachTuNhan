@@ -1,22 +1,4 @@
-<<<<<<< HEAD
-/connectDB/
 /ui/
-=======
-/bridj-0.7.0.jar
-/connectDB/
-/core-3.5.2.jar
 /dao/
-/entity/
-/image/
-/interfaces/
-/javase-3.5.2.jar
-/jcalendar-1.4.jar
 /list/
-/log4j-1.2.17.jar
-/resources/
-/slf4j-api-1.7.2.jar
-/slf4j-log4j12-1.6.2.jar
-/sqljdbc42.jar
-/ui/
-/webcam-capture-0.3.12.jar
->>>>>>> cdc8b3587237e8276c7bf25d40217110384a33d8
+/entity/
