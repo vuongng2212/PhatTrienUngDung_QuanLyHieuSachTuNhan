@@ -11,6 +11,14 @@ public class DanhSachSanPham implements listInterface<SanPham>{
 	
 	
 	
+	public ArrayList<SanPham> getList() {
+		return list;
+	}
+
+	public void setList(ArrayList<SanPham> list) {
+		this.list = list;
+	}
+
 	public DanhSachSanPham() {
 		list = new ArrayList<SanPham>();
 	}
