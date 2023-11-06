@@ -78,8 +78,10 @@ public class DanhSachKhachHang implements listInterface<KhachHang>{
 	public ArrayList<KhachHang>timKHTheoTen(String tenKH){
 		ArrayList<KhachHang>listKH = new ArrayList<KhachHang>();
 		for (KhachHang khachHang : list) {
-			if(khachHang.getTenKH().equalsIgnoreCase(tenKH))
+			if(khachHang.getTenKH().equalsIgnoreCase(tenKH)) {
 				listKH.add(khachHang);
+			}
+				
 		}
 		return listKH;
 	}

@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -36,20 +37,27 @@ public class PanelCustomer extends JPanel {
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/search.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	private Image img_reload = new ImageIcon(frmNV.class.getResource("/image/reload.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	public PanelCRUDKHang crudkHang;
+	
 	private JTable table_1;
-	DefaultTableModel model;
+	private DefaultTableModel model;
 	private DanhSachKhachHang listKH;
-	private DAO_KhachHang daoKh;
+	private DAO_KhachHang daoKh = new DAO_KhachHang();
 	private Object[] row;
 	
 	public PanelCustomer() {
 		listKH = new DanhSachKhachHang();
+		row = new Object[5];
+//		Object[] column = {"Mã Khách Hàng","Tên Khách Hàng","Số Điện Thoại","Địa Chỉ","Loại Khách Hàng"};
+//		model.setColumnIdentifiers(column);
+//		table.setModel(model);
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
+		listKH = daoKh.getAll();
+		
 		this.setVisible(false);
 		setBounds(0,0,1534,1017);
 		setLayout(null);
@@ -117,17 +125,40 @@ public class PanelCustomer extends JPanel {
 		btnTimKiem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!txtMaKH.getText().equals("") && txtTenKH.getText().equals("") && txtSDT.getText().equals("")) {
+					
+//					System.out.println("Bat dau");
+//					System.out.println(i);
+//					for (KhachHang kh : listKH.getList()) {
+//						System.out.println(kh.toString());
+//					}
+//					listKH = daoKh.getAll();
 					int i = listKH.timKHTheoMa(txtMaKH.getText());
+//					System.out.println(listKH.getList().get(i).toString());
+					System.out.println(i);
 					if(i!=-1) {
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.setRowCount(0);
+						
 						row[0] = listKH.getList().get(i).getMaKH();
 						row[1] = listKH.getList().get(i).getTenKH();
 						row[2] = listKH.getList().get(i).getSdt();
 						row[3] = listKH.getList().get(i).getDiaChi();
 						row[4] = listKH.getList().get(i).getLoaiKH();
 						model.addRow(row);
-					}else if(txtMaKH.getText().equals("") && !txtTenKH.getText().equals("") && txtSDT.getText().equals("")) {
-						ArrayList<KhachHang> listkhTemp = listKH.timKHTheoTen(txtTenKH.getText());
+					}
+				}
+				if(txtMaKH.getText().equals("") && !txtTenKH.getText().equals("") && txtSDT.getText().equals("")) {
+					
+					ArrayList<KhachHang> listkhTemp = listKH.timKHTheoTen(txtTenKH.getText());
+					
+					if(listkhTemp.size()!=0) {
+						System.out.println("ahiih");
+						System.out.println(listkhTemp.size());
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.setRowCount(0);
+						
 						for (KhachHang khachHang : listkhTemp) {
+							
 							row[0] = khachHang.getMaKH();
 							row[1] = khachHang.getTenKH();
 							row[2] = khachHang.getSdt();
@@ -135,6 +166,29 @@ public class PanelCustomer extends JPanel {
 							row[4] = khachHang.getLoaiKH();
 							model.addRow(row);
 						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Khong tim thay ");
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.setRowCount(0);
+					}
+				}
+				if(txtMaKH.getText().equals("") && txtTenKH.getText().equals("") && !txtSDT.getText().equals(e)) {
+					int i = listKH.timKHTheoSDT(txtSDT.getText());
+					System.out.println(i);
+					if(i!=-1) {
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.setRowCount(0);
+						
+						row[0] = listKH.getList().get(i).getMaKH();
+						row[1] = listKH.getList().get(i).getTenKH();
+						row[2] = listKH.getList().get(i).getSdt();
+						row[3] = listKH.getList().get(i).getDiaChi();
+						row[4] = listKH.getList().get(i).getLoaiKH();
+						model.addRow(row);
+					}else {
+						JOptionPane.showMessageDialog(null, "Khong tim thay ");
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.setRowCount(0);
 					}
 				}
 			}

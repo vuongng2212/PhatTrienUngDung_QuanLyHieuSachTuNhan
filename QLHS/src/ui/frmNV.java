@@ -167,19 +167,20 @@ public class frmNV extends JFrame {
 
 		
 		panel.setBackground(new Color(217,217,217));
-		panel.setBounds(0, 0, 233, 1017);
+		panel.setBounds(0, 0, 388, 1017);
 		
 		contentPane.add(panel);
 		panel.setLayout(null);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 240, 204);
+		lblNewLabel.setBounds(0, 0, 385, 219);
 		lblNewLabel.setIcon(new ImageIcon(img_logo));
 		panel.add(lblNewLabel);
 		
 		JPanel panelHeThong = new JPanel();
+		
 		panelHeThong.setBounds(0, 309, 385, 98);
 		panelHeThong.setBackground(new Color(217,217,217));
-		panel.add(panelHeThong);
+//		panel.add(panelHeThong);
 		panelHeThong.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
@@ -199,7 +200,7 @@ public class frmNV extends JFrame {
 		
 		PanelSanPham.setBackground(new Color(217,217,217));
 		
-		panel.add(PanelSanPham);
+//		panel.add(PanelSanPham);
 		PanelSanPham.setLayout(null);
 		
 		JLabel lbllSanPham = new JLabel("");
@@ -216,7 +217,7 @@ public class frmNV extends JFrame {
 		JPanel panelHD = new JPanel();
 		panelHD.addMouseListener(new PanelButtonMouseAdapter(panelHD,bill));
 		panelHD.setBounds(0, 504, 233, 98);
-		panel.add(panelHD);
+//		panel.add(panelHD);
 		
 		panelHD.setBackground(new Color(217,217,217));
 		
@@ -238,7 +239,7 @@ public class frmNV extends JFrame {
 		panelKH.setBounds(0, 602, 385, 98);
 
 		panelKH.setBackground(new Color(217,217,217));
-		panel.add(panelKH);
+//		panel.add(panelKH);
 		
 		
 		panelKH.setLayout(null);
@@ -257,7 +258,7 @@ public class frmNV extends JFrame {
 		JPanel panelThongKe = new JPanel();
 		panelThongKe.addMouseListener(new PanelButtonMouseAdapter(panelThongKe,thongke));
 		panelThongKe.setBounds(0, 700, 385, 98);
-		panel.add(panelThongKe);
+//		panel.add(panelThongKe);
 		
 		panelThongKe.setBackground(new Color(217,217,217));
 		
