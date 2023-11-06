@@ -4,11 +4,25 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class PhieuDatHang {
-	private String maDH, maNV;
+	private String maDH, maNV,tenNV;
 	private Date ngayDH;
 	private Double chietKhau;
 	public PhieuDatHang() {
 		super();
+	}
+	public String getTenNV() {
+		return tenNV;
+	}
+	public void setTenNV(String tenNV) {
+		this.tenNV = tenNV;
+	}
+	public PhieuDatHang(String maDH, String maNV, String tenNV, Date ngayDH, Double chietKhau) {
+		super();
+		this.maDH = maDH;
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+		this.ngayDH = ngayDH;
+		this.chietKhau = chietKhau;
 	}
 	public PhieuDatHang(String maDH, String maNV, Date ngayDH, Double chietKhau) {
 		super();

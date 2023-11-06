@@ -65,19 +65,19 @@ public class PanelShift extends JPanel {
 		lblTieuDe.setBounds(880, 11, 232, 28);
 		headerPanel.add(lblTieuDe);
 		
-		String[] headers = { "", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+		String[] headers = { "", "Thứ 2\nhello", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 130, 1450, 689);
 		add(scroll);
 		scroll.setViewportView(table = new JTable(tableModel));
-		table.setRowHeight(25);
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(10);
-		table.getColumnModel().getColumn(2).setPreferredWidth(10);
-		table.getColumnModel().getColumn(3).setPreferredWidth(10);
-		table.getColumnModel().getColumn(4).setPreferredWidth(10);
-		table.getColumnModel().getColumn(6).setPreferredWidth(10);
+		table.setRowHeight(200);
+//		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(10);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(10);
+//		table.getColumnModel().getColumn(3).setPreferredWidth(10);
+//		table.getColumnModel().getColumn(4).setPreferredWidth(10);
+//		table.getColumnModel().getColumn(6).setPreferredWidth(10);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		JPanel panel = new JPanel();
@@ -176,7 +176,7 @@ public class PanelShift extends JPanel {
 //				String end = ((JTextField)dateChooserStart.getDateEditor().getUiComponent()).getText().trim();
 				String start = new Date(dateChooserStart.getDate().getTime()).toString();
 				String end = new Date(dateChooserEnd.getDate().getTime()).toString();
-				System.out.println(start + "" + end);
+//				System.out.println(start + "" + end);
 				loadData(start, end, 1);
 			}
 		});
@@ -200,7 +200,7 @@ public class PanelShift extends JPanel {
 		ArrayList<String> ca = new ArrayList<String>();
 
 		for(PhanCongCa pcc: DAO_pcc.get1Shift(start, end, shift)) {
-			ca.add(pcc.getMaNV());
+			ca.add(pcc.getMaNV()+"\n"+pcc.getNgayLV());
 			System.out.println(pcc.getMaNV());
 		}
 		

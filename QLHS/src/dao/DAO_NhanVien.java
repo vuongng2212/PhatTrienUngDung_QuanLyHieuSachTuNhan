@@ -162,9 +162,9 @@ public class DAO_NhanVien {
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
 		
-		String strTen = "tenNV = '"+tenNV+"'";
-		String strSDT = "soDienThoai = '"+tenNV+"'";
-		String strEmail = "email = '"+ email +"'";
+		String strTen = "tenNV = N'"+tenNV+"'";
+		String strSDT = "soDienThoai = N'"+tenNV+"'";
+		String strEmail = "email = N'"+ email +"'";
 		String strDate = "ngaySinh = '" +ns+ "'";
 		String strGender = "gioiTinh = " + gt;
 		if(tenNV.equals("")) {

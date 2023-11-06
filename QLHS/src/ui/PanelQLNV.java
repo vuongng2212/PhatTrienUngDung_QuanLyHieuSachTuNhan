@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,13 +34,14 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 
-public class PanelQLNV extends JPanel implements MouseListener{
+public class PanelQLNV extends JPanel{
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private DanhSachNhanVien ls;
 	private DAO_NhanVien DAO_NV;
 	private JTextField txtMa,txtTen,txtSDT,txtDiaChi,txtEmail;
 	private JComboBox cbGT,cbCV;
+	private JDateChooser dateChooser;
 	private int stt = 1;
 	/**
 	 * Create the panel.
@@ -184,7 +189,7 @@ public class PanelQLNV extends JPanel implements MouseListener{
 		btnXoa.setBounds(265, 445, 100, 30);
 		westPanel.add(btnXoa);
 		
-		JDateChooser dateChooser = new JDateChooser();
+		dateChooser = new JDateChooser();
 		dateChooser.setBounds(205, 184, 160, 30);
 		dateChooser.getDate();
 		dateChooser.setDateFormatString("dd-MM-yyyy");
@@ -201,16 +206,18 @@ public class PanelQLNV extends JPanel implements MouseListener{
 			public void mousePressed(MouseEvent e) {
 				int row = table.getSelectedRow();
 				System.out.println(row);
-				txtMa.setText(table.getValueAt(row, 1).toString());
-				txtTen.setText(table.getValueAt(row, 2).toString());
-				String gt = table.getValueAt(row, 4).toString();
-				txtSDT.setText(table.getValueAt(row, 5).toString());
-				txtDiaChi.setText(table.getValueAt(row, 6).toString());
-				txtEmail.setText(table.getValueAt(row, 7).toString());
-				String cv = table.getValueAt(row, 8).toString();
-				
-				cbGT.setSelectedItem(gt);
-				cbCV.setSelectedItem(cv);
+				if(row != -1) {
+					txtMa.setText(table.getValueAt(row, 1).toString());
+					txtTen.setText(table.getValueAt(row, 2).toString());
+					String gt = table.getValueAt(row, 4).toString();
+					txtSDT.setText(table.getValueAt(row, 5).toString());
+					txtDiaChi.setText(table.getValueAt(row, 6).toString());
+					txtEmail.setText(table.getValueAt(row, 7).toString());
+					String cv = table.getValueAt(row, 8).toString();
+					
+					cbGT.setSelectedItem(gt);
+					cbCV.setSelectedItem(cv);
+				}
 				
 			}
 		});
@@ -269,29 +276,34 @@ public class PanelQLNV extends JPanel implements MouseListener{
 		JButton btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String ma = txtMa.getText();
-				String ten = txtTen.getText();
-				Date ns = new Date(dateChooser.getDate().getTime());
-				String gioiTinh = cbGT.getSelectedItem().toString();
-				Integer gt = 0;
-				if(gioiTinh=="Nam"){
-					gt = 1;
+				if(validData()) {
+					String ma = txtMa.getText();
+					String ten = txtTen.getText();
+					Date ns = new Date(dateChooser.getDate().getTime());
+					java.util.Date date = new java.util.Date(ns.getTime());
+					System.out.println(date);
+					String gioiTinh = cbGT.getSelectedItem().toString();
+					Integer gt = 0;
+					if(gioiTinh=="Nam"){
+						gt = 1;
+					}
+					String sdt = txtSDT.getText();
+					String diaChi = txtDiaChi.getText();
+					String email = txtEmail.getText();
+					String CV = cbCV.getSelectedItem().toString();
+					NhanVien nv = new NhanVien(ma, ten, ns, gt, sdt, diaChi, email, CV);
+//					System.out.println(nv.toString());
+					if(DAO_NV.add(nv)) {
+						ls.themNhanVien(nv);
+						Object row[] = {stt++,ma, ten, ns.toString(), gioiTinh, sdt, diaChi, email, CV};
+						tableModel.addRow(row);
+						JOptionPane.showMessageDialog(getParent(), "Thêm Nhân viên thành công!");
+					}
+					else {
+						JOptionPane.showMessageDialog(getParent(), "Thêm Nhân viên thất bại!");
+					}
 				}
-				String sdt = txtSDT.getText();
-				String diaChi = txtDiaChi.getText();
-				String email = txtEmail.getText();
-				String CV = cbCV.getSelectedItem().toString();
-				NhanVien nv = new NhanVien(ma, ten, ns, gt, sdt, diaChi, email, CV);
-				System.out.println(nv.toString());
-				if(DAO_NV.add(nv)) {
-					ls.themNhanVien(nv);
-					Object row[] = {stt++,ma, ten, ns.toString(), gioiTinh, sdt, diaChi, email, CV};
-					tableModel.addRow(row);
-					JOptionPane.showMessageDialog(getParent(), "Thêm Nhân viên thành công!");
-				}
-				else {
-					JOptionPane.showMessageDialog(getParent(), "Thêm Nhân viên thất bại!");
-				}
+				
 			}
 		});
 		btnThem.setForeground(new Color(0, 0, 160));
@@ -340,35 +352,40 @@ public class PanelQLNV extends JPanel implements MouseListener{
 		txtDiaChi.setText("");
 		txtEmail.setText("");
 	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+	private boolean validData() {
+		String maNV = txtMa.getText().trim();
+		String tenNV = txtTen.getText().trim();
+		String sdt = txtSDT.getText().trim();
+		String gmail = txtEmail.getText().trim();
+		String diachi = txtDiaChi.getText().trim();
+
+		Pattern p = Pattern.compile("^(NV)[0-9]{3}");
+		if (!(maNV.length() > 0 && p.matcher(maNV).find())) {
+			JOptionPane.showMessageDialog(getParent(), "Loi ma nv");
+			return false;
+		}
 		
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		int row = table.getSelectedRow();
-		System.out.println(row);
-		txtMa.setText(table.getValueAt(row, 1).toString());
-		txtTen.setText(table.getValueAt(row, 2).toString());
-		txtSDT.setText(table.getValueAt(row, 2).toString());
-		txtDiaChi.setText(table.getValueAt(row, 1).toString());
-		txtEmail.setText(table.getValueAt(row, 2).toString());
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		Pattern p1 = Pattern.compile("[a-zA-Z]+");
+		if (!(tenNV.length() > 0 && p1.matcher(tenNV).find())) {
+			JOptionPane.showMessageDialog(getParent(), "Loi ten nv");
+			return false;
+		}
+
+		Pattern p3 = Pattern.compile("[0-9]{10}");
+		if (!(sdt.length() > 0 && p3.matcher(sdt).find())) {
+			JOptionPane.showMessageDialog(getParent(), "Loi SDT");
+			return false;
+		}
+
+		Pattern p4 = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+				+ "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+		if (!(gmail.length() > 0 && p4.matcher(gmail).find())) {
+			JOptionPane.showMessageDialog(getParent(), "Loi email");
+			return false;
+		}
+//		Date ns = new Date(dateChooser.getDate().getTime());
+//		java.util.Date date = new java.util.Date(ns.getTime());
+
+		return true;
 	}
 }
