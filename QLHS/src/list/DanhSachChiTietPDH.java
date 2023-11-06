@@ -10,7 +10,7 @@ public class DanhSachChiTietPDH {
 		list = new ArrayList<ChiTietPhieuDH>();
 	}
 
-	public String LayDanhSachNhanVien() {
+	public String LayDanhSach() {
 		String s = "";
 		for (ChiTietPhieuDH pdh : list)
 			s += pdh + "\n";

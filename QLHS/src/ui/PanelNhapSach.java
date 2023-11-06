@@ -20,6 +20,8 @@ import list.DanhSachPhieuDH;
 import list.DanhSachSanPham;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -37,10 +39,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PanelNhapSach extends JPanel {
+	private JLabel lblTenNV;
 	private JTextField txtChietKhau;
 	private JTable table, tableTTSP;
 	private DefaultTableModel tableModel,tableModelTTSP;
-	private JTextField textField_2;
 	private DanhSachPhieuDH ls;
 	private DanhSachChiTietPDH lsChiTietPhieuDH;
 	private DAO_PhieuDH DAO_PhieuDH;
@@ -68,45 +70,35 @@ public class PanelNhapSach extends JPanel {
 		JPanel tblPanel = new JPanel();
 		tblPanel.setBounds(0, 0, 1170, 816);
 		add(tblPanel);
-		String[] headers = { "STT", "Mã đặt hàng","Mã nhân viên","Ngày đặt hàng","Chiết khấu"};
-		tableModel = new DefaultTableModel(headers, 0);
-		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scroll.setBounds(0, 93, 1170, 625);
-		scroll.setViewportView(table = new JTable(tableModel));
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				rowValue = table.getSelectedRow();
-//				System.out.println(row);
-				if(rowValue != -1) {
-					maDH = table.getValueAt(rowValue, 1).toString();
-					findChiTietPhieuDH(maDH);
-					System.out.println(maDH);
-				}
-			}
-		});
-		table.setRowHeight(30);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-//		table.getColumnModel().getColumn(3).setPreferredWidth(50);
-//		table.getColumnModel().getColumn(4).setPreferredWidth(100);
-//		table.getColumnModel().getColumn(6).setPreferredWidth(150);
-//		table.getColumnModel().getColumn(7).setPreferredWidth(150);
-//		table.getColumnModel().getColumn(8).setPreferredWidth(100);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		tblPanel.setLayout(null);
-		tblPanel.add(scroll);
+		
+		
+		JLabel lblValueMaDH = new JLabel("");
+		lblValueMaDH.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblValueMaDH.setBounds(1395, 52, 150, 25);
+		add(lblValueMaDH);
+		
+		txtChietKhau = new JTextField();
+		txtChietKhau.setBounds(1395, 173, 50, 25);
+		add(txtChietKhau);
+		txtChietKhau.setColumns(10);
+		txtChietKhau.setEditable(false);
+		
+		lblTenNV = new JLabel("");
+		lblTenNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTenNV.setBounds(1395, 96, 150, 25);
+		add(lblTenNV);
+		
+		JLabel lblNgayTao = new JLabel("");
+		lblNgayTao.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNgayTao.setBounds(1395, 137, 150, 25);
+		add(lblNgayTao);
 		
 		JLabel lblTimDonDH = new JLabel("Tìm đơn đặt hàng");
 		lblTimDonDH.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTimDonDH.setBounds(450, 0, 200, 29);
 		tblPanel.add(lblTimDonDH);
 		
-		JButton btnTim = new JButton("Tìm");
-		btnTim.setBackground(new Color(0, 128, 255));
-		btnTim.setBounds(560, 52, 90, 30);
-		tblPanel.add(btnTim);
+		
 		
 		JLabel lblStart = new JLabel("Ngày bắt đầu");
 		lblStart.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -158,11 +150,7 @@ public class PanelNhapSach extends JPanel {
 		lblHDDH.setBounds(215, 11, 305, 30);
 		tbl.add(lblHDDH);
 		
-		JButton btnNhap = new JButton("Đã nhập sách");
-		btnNhap.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnNhap.setBackground(new Color(0, 255, 64));
-		btnNhap.setBounds(539, 500, 170, 45);
-		tbl.add(btnNhap);
+		
 		
 		JLabel lblTTPhieuDH = new JLabel("Thông tin phiếu đặt hàng");
 		lblTTPhieuDH.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -189,27 +177,69 @@ public class PanelNhapSach extends JPanel {
 		add(lblChietKhau);
 		lblChietKhau.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		txtChietKhau = new JTextField();
-		txtChietKhau.setBounds(1395, 173, 50, 25);
-		add(txtChietKhau);
-		txtChietKhau.setColumns(10);
+		String[] headers = { "STT", "Mã đặt hàng","Mã nhân viên","Ngày đặt hàng","Chiết khấu"};
+		tableModel = new DefaultTableModel(headers, 0);
+		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(0, 93, 1170, 625);
+		scroll.setViewportView(table = new JTable(tableModel));
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				rowValue = table.getSelectedRow();
+//				System.out.println(row);
+				if(rowValue != -1) {
+					maDH = table.getValueAt(rowValue, 1).toString();
+					String ngayDat = table.getValueAt(rowValue, 3).toString();
+					lblValueMaDH.setText(maDH);
+					lblNgayTao.setText(ngayDat);
+					findChiTietPhieuDH(maDH);
+//					System.out.println(maDH);
+				}
+			}
+		});
+		table.setRowHeight(30);
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(200);
+//		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+//		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+//		table.getColumnModel().getColumn(6).setPreferredWidth(150);
+//		table.getColumnModel().getColumn(7).setPreferredWidth(150);
+//		table.getColumnModel().getColumn(8).setPreferredWidth(100);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		tblPanel.setLayout(null);
+		tblPanel.add(scroll);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(1395, 62, 100, 25);
-		add(textField_2);
+		JButton btnTim = new JButton("Tìm");
+		btnTim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String start = new Date(dateChooserStart.getDate().getTime()).toString();
+				String end = new Date(dateChooserEnd.getDate().getTime()).toString();
+//				System.out.println(start+" "+end);
+				findPhieuDH(start, end);
+			}
+		});
+		btnTim.setBackground(new Color(0, 128, 255));
+		btnTim.setBounds(560, 52, 90, 30);
+		tblPanel.add(btnTim);
 		
-		JLabel lblTenNV = new JLabel("New label");
-		lblTenNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTenNV.setBounds(1395, 96, 150, 25);
-		add(lblTenNV);
-		
-		JLabel lblNgayTao = new JLabel("New label");
-		lblNgayTao.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNgayTao.setBounds(1395, 137, 150, 25);
-		add(lblNgayTao);
-		findPhieuDH();
-		
+		JButton btnNhap = new JButton("Đã nhập sách");
+		btnNhap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for(int i=0;i<lsChiTietPhieuDH.getCount();i++) {
+
+					DAO_CTPhieuDH = new DAO_ChiTietPDH();
+					DAO_CTPhieuDH.updateSL(lsChiTietPhieuDH.getList().get(i));
+
+				}
+				
+				
+			}
+		});
+		btnNhap.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnNhap.setBackground(new Color(0, 255, 64));
+		btnNhap.setBounds(539, 500, 170, 45);
+		tbl.add(btnNhap);
 	}
 	
 	public void deleteAllDataJtable(JTable table) {
@@ -219,16 +249,19 @@ public class PanelNhapSach extends JPanel {
 		    dm.removeRow(0);
 		}
 	}
-	public void findPhieuDH() {
+	public void findPhieuDH(String start, String end) {
 		deleteAllDataJtable(table);
 		DAO_PhieuDH = new DAO_PhieuDH();
 
 		ls.clear();
 		stt =1;
-		for(PhieuDatHang pdh: DAO_PhieuDH.getAll()) {
+		
+		for(PhieuDatHang pdh: DAO_PhieuDH.getAll(start,end)) {
 			ls.them(pdh);
 			Object row[] = {stt++,pdh.getMaDH(),pdh.getMaNV(),pdh.getNgayDH(),pdh.getChietKhau()};
 			tableModel.addRow(row);
+			lblTenNV.setText(pdh.getTenNV());
+			txtChietKhau.setText(String.valueOf(pdh.getChietKhau()));
 		}
 	}
 	public void findChiTietPhieuDH(String maDH) {
@@ -239,7 +272,7 @@ public class PanelNhapSach extends JPanel {
 		stt_ctpdh =1;
 		for(ChiTietPhieuDH pdh: DAO_CTPhieuDH.getAll(maDH)) {
 			lsChiTietPhieuDH.them(pdh);
-			Object row[] = {stt_ctpdh++,pdh.getMaDH(),pdh.getMaSP(),"",pdh.getSoLuong()};
+			Object row[] = {stt_ctpdh++,pdh.getMaDH(),pdh.getMaSP(),pdh.getTenSP(),pdh.getSoLuong()};
 			tableModelTTSP.addRow(row);
 		}
 	}

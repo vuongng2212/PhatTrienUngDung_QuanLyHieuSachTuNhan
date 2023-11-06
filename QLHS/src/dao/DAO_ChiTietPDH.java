@@ -16,11 +16,11 @@ public class DAO_ChiTietPDH {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from chiTietDatHang where maDH = N'"+maDH+"'";
+			String sql = "select maDH,ctdh.maSP,tenSP,ctdh.soLuong from chiTietDatHang ctdh join sanPham sp on ctdh.maSP = sp.maSP where maDH = N'"+maDH+"'";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			ds.add(new ChiTietPhieuDH(rs.getString("maDH"),rs.getString("maSP"),rs.getInt("soLuong")));
+			ds.add(new ChiTietPhieuDH(rs.getString("maDH"),rs.getString("maSP"),rs.getString("tenSP"),rs.getInt("soLuong")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -35,13 +35,36 @@ public class DAO_ChiTietPDH {
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
 		String sql = "INSERT chiTietDatHang VALUES"
-				+ "(?,?,?,?)";
+				+ "(?,?,?)";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, pdh.getMaDH());
 			stm.setString(2, pdh.getMaSP());
 			stm.setInt(3, pdh.getSoLuong());
-			stm.setDouble(4, pdh.getDonGiaNhap());
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
+	
+	public boolean updateSL(ChiTietPhieuDH pdh) {
+		// TODO Auto-generated method stub
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "UPDATE sanPham SET soLuong = soLuong + ? "
+				+ "where maSP = ?";
+		System.out.println(pdh.getMaSP()+" "+pdh.getSoLuong());
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setInt(1, pdh.getSoLuong());
+			stm.setString(2, pdh.getMaSP());
 			stm.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception

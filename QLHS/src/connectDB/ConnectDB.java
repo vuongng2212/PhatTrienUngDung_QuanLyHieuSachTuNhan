@@ -18,13 +18,13 @@ public class ConnectDB {
         String user = "sa";
         String pass = "123";
         connection = DriverManager.getConnection(URL, user, pass);
-        if (connection != null) {
-            DatabaseMetaData dm = (DatabaseMetaData) connection.getMetaData();
-            System.out.println("Tên Driver: " + dm.getDriverName());
-            System.out.println("Phiên bản Driver: " + dm.getDriverVersion());
-            System.out.println("Tên Cơ sở dữ liệu: " + dm.getDatabaseProductName());
-            System.out.println("Phiên bản Cơ sở dữ liệu: " + dm.getDatabaseProductVersion());
-        }               
+//        if (connection != null) {
+//            DatabaseMetaData dm = (DatabaseMetaData) connection.getMetaData();
+//            System.out.println("Tên Driver: " + dm.getDriverName());
+//            System.out.println("Phiên bản Driver: " + dm.getDriverVersion());
+//            System.out.println("Tên Cơ sở dữ liệu: " + dm.getDatabaseProductName());
+//            System.out.println("Phiên bản Cơ sở dữ liệu: " + dm.getDatabaseProductVersion());
+//        }               
 
     }
 	public void disconect() {

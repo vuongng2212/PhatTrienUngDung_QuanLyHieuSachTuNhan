@@ -176,7 +176,7 @@ public class PanelShift extends JPanel {
 //				String end = ((JTextField)dateChooserStart.getDateEditor().getUiComponent()).getText().trim();
 				String start = new Date(dateChooserStart.getDate().getTime()).toString();
 				String end = new Date(dateChooserEnd.getDate().getTime()).toString();
-				System.out.println(start + "" + end);
+//				System.out.println(start + "" + end);
 				loadData(start, end, 1);
 			}
 		});
