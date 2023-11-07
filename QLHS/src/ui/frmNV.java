@@ -758,6 +758,7 @@ public class frmNV extends JFrame {
 			panel.setBackground(new Color(112,128,144));
 		}
 	}
+	
 	private void FillMovePanel() {
 		customer.crudkHang = panelCRUDKHang;
 		product.panelSearchProduct = panelSearchProduct;
