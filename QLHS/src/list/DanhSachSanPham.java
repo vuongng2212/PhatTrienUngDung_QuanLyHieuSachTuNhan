@@ -62,6 +62,129 @@ public class DanhSachSanPham implements listInterface<SanPham>{
 		}
 		return -1;
 	}
+	public ArrayList<SanPham>timSPTheoTenSach(String tenSach){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenSP().equalsIgnoreCase(tenSach))
+				listSP.add(sanPham);
+		}
+		
+		return listSP;
+	}
+	public ArrayList<SanPham>timSPTheoTenSachVaTgia(String tenSach,String tacGia){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenSP().equalsIgnoreCase(tenSach) && sanPham.getTenTG().equalsIgnoreCase(tacGia)) {
+				listSP.add(sanPham);
+			}
+		}
+		
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTenSachVaDanhMuc(String tenSach,String danhMuc){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenSP().equalsIgnoreCase(tenSach) && sanPham.getDanhMuc().equalsIgnoreCase(danhMuc)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTenSachVaNXB(String tenSach,String nxb){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenSP().equalsIgnoreCase(tenSach) && sanPham.getNhaXB().equalsIgnoreCase(nxb)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTacGiaVaDanhMuc(String tacGia,String danhMuc){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenTG().equalsIgnoreCase(tacGia) && sanPham.getDanhMuc().equalsIgnoreCase(danhMuc)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTacGiaVaNXB(String tacGia,String nxb){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenTG().equalsIgnoreCase(tacGia) && sanPham.getNhaXB().equalsIgnoreCase(nxb)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoDanhMucVaNXB(String danhMuc,String nxb){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getDanhMuc().equalsIgnoreCase(danhMuc) && sanPham.getNhaXB().equalsIgnoreCase(nxb)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTacGiavaDanhMucVaNXB(String tacGia,String danhMuc,String nxb){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenTG().equalsIgnoreCase(tacGia) && sanPham.getDanhMuc().equalsIgnoreCase(danhMuc) && sanPham.getNhaXB().equalsIgnoreCase(nxb)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTenSachvaTacGiaVaDanhMuc(String tenSach,String tacGia,String danhMuc){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenTG().equalsIgnoreCase(tacGia) && sanPham.getDanhMuc().equalsIgnoreCase(danhMuc) && sanPham.getTenSP().equalsIgnoreCase(tenSach)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTenSachvaDanhMucVaNXB(String tenSach,String danhMuc,String nxb){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenSP().equalsIgnoreCase(tenSach) && sanPham.getDanhMuc().equalsIgnoreCase(danhMuc) && sanPham.getNhaXB().equalsIgnoreCase(nxb)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	public ArrayList<SanPham>timSPTheoTenSachvaTacGiaVaNXB(String tenSach,String tacGia,String nxb){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenSP().equalsIgnoreCase(tenSach) && sanPham.getTenTG().equalsIgnoreCase(tacGia) && sanPham.getNhaXB().equalsIgnoreCase(nxb)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	
+	
+	public ArrayList<SanPham>timSPTheoTenSachvaTacGiavaDanhMucVaNXB(String tenSach ,String tacGia,String danhMuc,String nxb){
+		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
+		for (SanPham sanPham : list) {
+			if(sanPham.getTenSP().equalsIgnoreCase(tenSach) && sanPham.getTenTG().equalsIgnoreCase(tacGia) && sanPham.getDanhMuc().equalsIgnoreCase(danhMuc) && sanPham.getNhaXB().equalsIgnoreCase(nxb)) {
+				listSP.add(sanPham);
+			}
+		}
+		return listSP;
+	}
+	
+	
 	public ArrayList<SanPham>timSPTheoTacGia(String tacGia){
 		ArrayList<SanPham>listSP = new ArrayList<SanPham>();
 		for (SanPham sanPham : list) {

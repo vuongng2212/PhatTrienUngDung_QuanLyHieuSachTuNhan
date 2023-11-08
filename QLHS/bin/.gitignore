@@ -1,2 +1,11 @@
+<<<<<<< HEAD
 /list/
 /ui/
+=======
+/dao/
+/ui/
+/connectDB/
+/entity/
+/interfaces/
+/list/
+>>>>>>> e2b4ee02f8158c00dbc74c44e2066d32770c6b91

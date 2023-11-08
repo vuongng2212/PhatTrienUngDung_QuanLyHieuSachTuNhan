@@ -4,17 +4,27 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import connectDB.ConnectDB;
+import dao.DAO_SanPham;
+import entity.KhachHang;
+import entity.SanPham;
+import list.DanhSachSanPham;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class PanelSearchProduct extends JPanel {
@@ -27,11 +37,25 @@ public class PanelSearchProduct extends JPanel {
 	private Image img_search = new ImageIcon(frmNV.class.getResource("/image/search.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	private Image img_back = new ImageIcon(frmNV.class.getResource("/image/backing.png")).getImage().getScaledInstance(28, 28,Image.SCALE_SMOOTH );
 	public panelProduct panelProduct;
-
-	
-	
+	private JTable table;
+	private DefaultTableModel model;
+	private DanhSachSanPham listsp;
+	private DAO_SanPham daosp;
+	private Object[] row;
 	
 	public PanelSearchProduct() {
+		daosp = new DAO_SanPham();
+		listsp = new DanhSachSanPham();
+		row = new Object[10];
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		listsp = daosp.getAll();
+		
+		
 		setBounds(0,0,1534,956);
 		setLayout(null);
 		
@@ -116,6 +140,226 @@ public class PanelSearchProduct extends JPanel {
 		panel.add(txtNXB);
 		
 		JButton btnSearch = new JButton("Tìm");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listsp = daosp.getAll();
+				
+				if(!txtTenSach.getText().equals("") && txtTacGia.getText().equals("") && txtDanhMuc.getText().equals("") && txtNXB.getText().equals("")) {
+					
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSach(txtTenSach.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(txtTenSach.getText().equals("") && !txtTacGia.getText().equals("") && txtDanhMuc.getText().equals("") && txtNXB.getText().equals("")){
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTacGia(txtTacGia.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(txtTenSach.getText().equals("") && txtTacGia.getText().equals("") && !txtDanhMuc.getText().equals("") && txtNXB.getText().equals("")) {
+					System.out.println("danh muc");
+					ArrayList<SanPham>listTemp = listsp.timSPTheoDanhMuc(txtDanhMuc.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(txtTenSach.getText().equals("") && txtTacGia.getText().equals("") && txtDanhMuc.getText().equals("") && !txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoNhaXB(txtNXB.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(!txtTenSach.getText().equals("") && !txtTacGia.getText().equals("") && txtDanhMuc.getText().equals("") && txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSachVaTgia(txtTenSach.getText(), txtTacGia.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(!txtTenSach.getText().equals("") && txtTacGia.getText().equals("") && !txtDanhMuc.getText().equals("") && txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSachVaDanhMuc(txtTenSach.getText(), txtDanhMuc.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(!txtTenSach.getText().equals("") && txtTacGia.getText().equals("") && txtDanhMuc.getText().equals("") && !txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSachVaNXB(txtTenSach.getText(), txtNXB.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(!txtTenSach.getText().equals("") && !txtTacGia.getText().equals("") && !txtDanhMuc.getText().equals("") && txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSachvaTacGiaVaDanhMuc(txtTenSach.getText(), txtTacGia.getText(),txtDanhMuc.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(!txtTenSach.getText().equals("") && !txtTacGia.getText().equals("") && txtDanhMuc.getText().equals("") && !txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSachvaTacGiaVaNXB(txtTenSach.getText(), txtTacGia.getText(),txtNXB.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(!txtTenSach.getText().equals("") && txtTacGia.getText().equals("") && !txtDanhMuc.getText().equals("") && !txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSachvaDanhMucVaNXB(txtTenSach.getText(), txtDanhMuc.getText(),txtNXB.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else if(!txtTenSach.getText().equals("") && !txtTacGia.getText().equals("") && !txtDanhMuc.getText().equals("") && !txtNXB.getText().equals("")) {
+					ArrayList<SanPham>listTemp = listsp.timSPTheoTenSachvaTacGiavaDanhMucVaNXB(txtTenSach.getText(),txtTacGia.getText(), txtDanhMuc.getText(),txtNXB.getText());
+					 if(listTemp.size()!=0) {
+						 DefaultTableModel model =(DefaultTableModel) table.getModel();
+						 model.setRowCount(0);
+							for (SanPham sp : listTemp) {
+								row[0] = sp.getMaSP();
+								row[1] = sp.getTenSP();
+								row[2] = sp.getTenTG();
+								row[3] = sp.getDanhMuc();
+								row[4] = sp.getNhaXB();
+								row[5] = sp.getNamXB();
+								row[6] = sp.getSoLuong();
+								row[7] = sp.getDonGiaGoc();
+								row[8] = sp.getDonGiaMua();
+								row[9] = sp.getTinhTrang();
+								model.addRow(row);
+							}
+					 }
+				}else {
+					JOptionPane.showMessageDialog(null, "Khong tim thay");					
+				}
+			}
+		});
 		btnSearch.setBackground(new Color(240, 128, 128));
 		btnSearch.setForeground(new Color(0, 128, 0));
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -124,6 +368,11 @@ public class PanelSearchProduct extends JPanel {
 		panel.add(btnSearch);
 		
 		JButton btnRefresh = new JButton("Làm Mới");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refresh();
+			}
+		});
 		btnRefresh.setBackground(new Color(240, 128, 128));
 		btnRefresh.setForeground(new Color(0, 191, 255));
 		btnRefresh.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -136,9 +385,9 @@ public class PanelSearchProduct extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 
-		JTable table = new JTable();
-		String[] column = {"Mã Sách","Tên Sách","Danh Mục","Tên Tác Giả","Nhà XB","năm XB","Số Lượng","Đơn Giá","Tình Trạng","Khuyến Mãi"};
-		DefaultTableModel model = new DefaultTableModel(column,0);
+		table = new JTable();
+		String[] column = {"Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá","Tình Trạng","Khuyến Mãi"};
+		model = new DefaultTableModel(column,0);
 		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(0, 0, 1534, 663);
 		scrollPane.setViewportView(table = new JTable(model));
@@ -156,7 +405,29 @@ public class PanelSearchProduct extends JPanel {
 		table.getColumnModel().getColumn(9).setPreferredWidth(150);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		panel_1.add(scrollPane);
+		refresh();
 		
 	}
-
+	private void refresh() {
+		listsp = daosp.getAll();
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		model.setRowCount(0);
+		for (SanPham sp : listsp.getList()) {
+			row[0] = sp.getMaSP();
+			row[1] = sp.getTenSP();
+			row[2] = sp.getTenTG();
+			row[3] = sp.getDanhMuc();
+			row[4] = sp.getNhaXB();
+			row[5] = sp.getNamXB();
+			row[6] = sp.getSoLuong();
+			row[7] = sp.getDonGiaGoc();
+			row[8] = sp.getDonGiaMua();
+			row[9] = sp.getTinhTrang();
+			model.addRow(row);
+		}
+		txtDanhMuc.setText("");
+		txtNXB.setText("");
+		txtTacGia.setText("");
+		txtTenSach.setText("");
+	}
 }
