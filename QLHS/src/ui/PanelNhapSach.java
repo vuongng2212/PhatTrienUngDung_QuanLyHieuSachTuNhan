@@ -47,6 +47,7 @@ public class PanelNhapSach extends JPanel {
 	private DanhSachChiTietPDH lsChiTietPhieuDH;
 	private DAO_PhieuDH DAO_PhieuDH;
 	private DAO_ChiTietPDH DAO_CTPhieuDH;
+	private String start,end;
 	private int stt =1;
 	private int stt_ctpdh =1;
 	private String maDH;
@@ -177,7 +178,7 @@ public class PanelNhapSach extends JPanel {
 		add(lblChietKhau);
 		lblChietKhau.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		String[] headers = { "STT", "Mã đặt hàng","Mã nhân viên","Ngày đặt hàng","Chiết khấu"};
+		String[] headers = { "STT", "Mã đặt hàng","Mã nhân viên","Ngày đặt hàng","Chiết khấu","Trạng thái"};
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 93, 1170, 625);
@@ -186,14 +187,12 @@ public class PanelNhapSach extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				rowValue = table.getSelectedRow();
-//				System.out.println(row);
 				if(rowValue != -1) {
 					maDH = table.getValueAt(rowValue, 1).toString();
 					String ngayDat = table.getValueAt(rowValue, 3).toString();
 					lblValueMaDH.setText(maDH);
 					lblNgayTao.setText(ngayDat);
 					findChiTietPhieuDH(maDH);
-//					System.out.println(maDH);
 				}
 			}
 		});
@@ -213,9 +212,8 @@ public class PanelNhapSach extends JPanel {
 		JButton btnTim = new JButton("Tìm");
 		btnTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String start = new Date(dateChooserStart.getDate().getTime()).toString();
-				String end = new Date(dateChooserEnd.getDate().getTime()).toString();
-//				System.out.println(start+" "+end);
+				start = new Date(dateChooserStart.getDate().getTime()).toString();
+				end = new Date(dateChooserEnd.getDate().getTime()).toString();
 				findPhieuDH(start, end);
 			}
 		});
@@ -226,11 +224,26 @@ public class PanelNhapSach extends JPanel {
 		JButton btnNhap = new JButton("Đã nhập sách");
 		btnNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(int i=0;i<lsChiTietPhieuDH.getCount();i++) {
-
-					DAO_CTPhieuDH = new DAO_ChiTietPDH();
-					DAO_CTPhieuDH.updateSL(lsChiTietPhieuDH.getList().get(i));
-
+				
+				
+				if(rowValue!=-1) {
+					String tt = table.getValueAt(rowValue, 5).toString();
+					if(tt.equals("Chờ xử lý")) {
+						for(int i=0;i<lsChiTietPhieuDH.getCount();i++) {
+							DAO_CTPhieuDH = new DAO_ChiTietPDH();
+							if(DAO_CTPhieuDH.updateSL(lsChiTietPhieuDH.getList().get(i)) == false) {
+								JOptionPane.showMessageDialog(getParent(), "Có lỗi xảy ra! Vui lòng kiểm tra lại...");
+							}
+						}
+						lsChiTietPhieuDH.clear();
+						DAO_PhieuDH = new DAO_PhieuDH();
+						DAO_PhieuDH.updateTrangThai(maDH, 1);
+						findPhieuDH(start, end);
+					}
+					else {
+						JOptionPane.showMessageDialog(getParent(), "Đơn đặt sách đã được nhập vào hệ thống");
+					}
+					
 				}
 				
 				
@@ -258,7 +271,12 @@ public class PanelNhapSach extends JPanel {
 		
 		for(PhieuDatHang pdh: DAO_PhieuDH.getAll(start,end)) {
 			ls.them(pdh);
-			Object row[] = {stt++,pdh.getMaDH(),pdh.getMaNV(),pdh.getNgayDH(),pdh.getChietKhau()};
+			int tt = pdh.getTrangThai();
+			String trangThai = "Chờ xử lý";
+			if(tt==1) {
+				trangThai = "Đã nhập";
+			}
+			Object row[] = {stt++,pdh.getMaDH(),pdh.getMaNV(),pdh.getNgayDH(),pdh.getChietKhau(),trangThai};
 			tableModel.addRow(row);
 			lblTenNV.setText(pdh.getTenNV());
 			txtChietKhau.setText(String.valueOf(pdh.getChietKhau()));

@@ -60,7 +60,6 @@ public class DAO_ChiTietPDH {
 		PreparedStatement stm = null;
 		String sql = "UPDATE sanPham SET soLuong = soLuong + ? "
 				+ "where maSP = ?";
-		System.out.println(pdh.getMaSP()+" "+pdh.getSoLuong());
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setInt(1, pdh.getSoLuong());
@@ -76,7 +75,7 @@ public class DAO_ChiTietPDH {
 		}
 		return true;
 	}
-
+	
 	public void delete(String maDH) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();

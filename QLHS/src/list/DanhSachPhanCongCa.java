@@ -59,7 +59,6 @@ public class DanhSachPhanCongCa {
 		return list.size();
 	}
 	public void clear() {
-	    for (int i = 0; i < list.size(); i++)
-	    	list.remove(i);
+		list.clear();
 	}
 }

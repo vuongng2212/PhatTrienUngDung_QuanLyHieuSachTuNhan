@@ -119,8 +119,7 @@ public class DanhSachSanPham implements listInterface<SanPham>{
 	}
 	
 	public void clear() {
-	    for (int i = 0; i < list.size(); i++)
-	    	list.remove(i);
+		list.clear();
 	}
 	
 	public ArrayList<SanPham> getListData(){
