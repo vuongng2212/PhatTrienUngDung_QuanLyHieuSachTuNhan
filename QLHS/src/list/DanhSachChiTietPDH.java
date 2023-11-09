@@ -19,7 +19,7 @@ public class DanhSachChiTietPDH {
 
 	public boolean them(ChiTietPhieuDH pdh) {
 		for (int i = 0; i < list.size(); i++)
-			if (list.get(i).getMaDH().equalsIgnoreCase(pdh.getMaDH()) && list.get(i).getMaSP().equalsIgnoreCase(pdh.getMaSP())) {
+			if (list.get(i).getMaSP().equalsIgnoreCase(pdh.getMaSP())) {
 				return false;
 			}
 		list.add(pdh);
@@ -56,8 +56,11 @@ public class DanhSachChiTietPDH {
 	public int getCount() {
 		return list.size();
 	}
+//	public void clear() {
+//	    for (int i = 0; i <= list.size(); i++)
+//	    	list.remove(i);
+//	}
 	public void clear() {
-	    for (int i = 0; i < list.size(); i++)
-	    	list.remove(i);
+		list.clear();
 	}
 }

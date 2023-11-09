@@ -15,6 +15,14 @@ public class ChiTietPhieuDH {
 		this.maSP = maSP;
 		this.soLuong = soLuong;
 	}
+	
+	public ChiTietPhieuDH(String maSP, String tenSP, Integer soLuong, Double donGiaNhap) {
+		super();
+		this.maSP = maSP;
+		this.tenSP = tenSP;
+		this.soLuong = soLuong;
+		this.donGiaNhap = donGiaNhap;
+	}
 
 	public ChiTietPhieuDH(String maDH, String maSP, String tenSP, Integer soLuong) {
 		super();

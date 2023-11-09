@@ -7,6 +7,17 @@ public class PhieuDatHang {
 	private String maDH, maNV,tenNV;
 	private Date ngayDH;
 	private Double chietKhau;
+	private int trangThai;
+	
+	public PhieuDatHang(String maDH, String maNV, String tenNV, Date ngayDH, Double chietKhau, int trangThai) {
+		super();
+		this.maDH = maDH;
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+		this.ngayDH = ngayDH;
+		this.chietKhau = chietKhau;
+		this.trangThai = trangThai;
+	}
 	public PhieuDatHang() {
 		super();
 	}
@@ -55,6 +66,14 @@ public class PhieuDatHang {
 	public void setChietKhau(Double chietKhau) {
 		this.chietKhau = chietKhau;
 	}
+
+	public int getTrangThai() {
+		return trangThai;
+	}
+	public void setTrangThai(int trangThai) {
+		this.trangThai = trangThai;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(chietKhau, maDH, maNV, ngayDH);

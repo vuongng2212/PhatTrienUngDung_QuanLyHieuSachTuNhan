@@ -244,18 +244,19 @@ public class PanelDatHang extends JPanel {
 						String tenSach = table.getModel().getValueAt(row, 2).toString();
 						String donGia = table.getModel().getValueAt(row, 7).toString();
 						
-						ChiTietPhieuDH ctPDH = new ChiTietPhieuDH(txtMaDH.getText(), maSach,tenSach, Integer.parseInt(sl), Double.parseDouble(donGia));
+						ChiTietPhieuDH ctPDH = new ChiTietPhieuDH(maSach,tenSach, Integer.parseInt(sl), Double.parseDouble(donGia));
 						
 						
 						if(lsCTPDH.them(ctPDH) == false) {
 							for(int i=0; i<lsCTPDH.getCount();i++) {
-								if(lsCTPDH.getList().get(i).getMaDH().equals(ctPDH.getMaDH()) && lsCTPDH.getList().get(i).getMaSP().equals(ctPDH.getMaSP())) {
+								if(lsCTPDH.getList().get(i).getMaSP().equals(ctPDH.getMaSP())) {
 									int newSL = lsCTPDH.getList().get(i).getSoLuong()+ctPDH.getSoLuong();
 									lsCTPDH.getList().get(i).setSoLuong(newSL);
-									System.out.println(newSL);
 								}
 							}
 						}
+						
+						
 						deleteAllDataJtable(tableTTSP);
 						sttCTDH = 1;
 						thanhTien = 0;
@@ -264,12 +265,8 @@ public class PanelDatHang extends JPanel {
 							tableModelTTSP.addRow(rowTTSP);
 							thanhTien += pdh.getDonGiaNhap() * pdh.getSoLuong();
 						}
-//						lblValueTT.setText(String.valueOf(thanhTien));
-//						thanhTien += Integer.parseInt(sl) * Double.parseDouble(donGia);
-//						Object rowTTSP[]= {sttCTDH++,maSach,tenSach,sl,donGia};
-//						tableModelTTSP.addRow(rowTTSP);
+//						System.out.println(lsCTPDH.getList().toString());
 						lblValueTT.setText(String.valueOf(thanhTien));
-						System.out.println(lsCTPDH.LayDanhSach());
 					}
 				}
 				else {
@@ -297,7 +294,6 @@ public class PanelDatHang extends JPanel {
 						thanhTien += pdh.getDonGiaNhap() * pdh.getSoLuong();
 					}
 					lblValueTT.setText(String.valueOf(thanhTien));
-//					System.out.println(lsCTPDH.getList());
 				}
 				else {
 					JOptionPane.showMessageDialog(getParent(), "Vui lòng chọn sản phẩm muốn xóa");
@@ -319,23 +315,31 @@ public class PanelDatHang extends JPanel {
 				Date currentDate = new Date();
 				java.sql.Date ngayDH = new java.sql.Date(currentDate.getTime());
 				String ck = txtChietKhau.getText().trim();
-				
-				
-				System.out.println(lsCTPDH.getList());
+
 				if(validData()) {
 					PhieuDatHang pDHtmp = new PhieuDatHang(maDH, maNV, ngayDH, Double.parseDouble(ck));
 					if(DAO_PDH.add(pDHtmp)) {
+						
 						for(int i=0; i<lsCTPDH.getCount(); i++) {
-							DAO_CTPDH = new DAO_ChiTietPDH();
-							String maDHString = lsCTPDH.getList().get(i).getMaDH();
+							DAO_ChiTietPDH DAO_ct = new DAO_ChiTietPDH();
+							String maDHString = txtMaDH.getText();
 							String maSP = lsCTPDH.getList().get(i).getMaSP();
 							int sl = lsCTPDH.getList().get(i).getSoLuong();
 							ChiTietPhieuDH ct = new ChiTietPhieuDH(maDHString, maSP, sl);
-							DAO_CTPDH.add(ct);
+							DAO_ct.add(ct);
 						}
-						JOptionPane.showMessageDialog(getParent(), "Đặt sách thành công");
-						lsCTPDH.clear();
+						
+						System.out.println(lsCTPDH.getCount());
+					    lsCTPDH.clear();
+					    System.out.println(lsCTPDH.getCount());
 						deleteAllDataJtable(tableTTSP);
+						txtChietKhau.setText("");
+						txtMaDH.setText("");
+						txtSoLuongNhap.setText("");
+						lblValueTT.setText("0");
+						thanhTien = 0;
+						JOptionPane.showMessageDialog(getParent(), "Đặt sách thành công");
+						
 					}
 					else {
 						JOptionPane.showMessageDialog(getParent(), "Đặt sách thất bại");
