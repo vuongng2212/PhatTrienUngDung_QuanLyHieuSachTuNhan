@@ -8,12 +8,20 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+
+import connectDB.ConnectDB;
+import dao.DAO_account;
+import entity.Account;
+
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class LoginForm extends JFrame {
@@ -23,7 +31,7 @@ public class LoginForm extends JFrame {
 	private JTextField txtUser, txtPass;
 	private JButton btnDangnhap;
 	private JLabel lblKhachHang;
-
+	private DAO_account DAO_acc;
 	public static void main(String[] args) {
 		try {
 			LoginForm frame = new LoginForm();
@@ -34,6 +42,12 @@ public class LoginForm extends JFrame {
 	}
 
 	public LoginForm() {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setTitle("LOGIN");
 		setSize(550, 300);
 		setLocationRelativeTo(null);
@@ -63,10 +77,42 @@ public class LoginForm extends JFrame {
 		txtPass.setBounds(180, 137, 200, 40);
 		contentPane.add(txtPass);
 
-		btnDangnhap = new JButton("LOGIN");
+		btnDangnhap = new JButton("Đăng nhập");
 		btnDangnhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Hello");
+				String user = txtUser.getText().trim();
+				String pwd = txtPass.getText().trim();
+				if(!user.equals("") && !pwd.equals("")) {
+					Account acc = new Account(user, pwd);
+					DAO_acc = new DAO_account();
+					if(DAO_acc.checkAccount(acc)) {
+						String role = DAO_acc.getRole(user);
+						if(role!=null) {
+							if(role.equals("Quản lý")) {
+								try {
+									FormNVQuanLy frame = new FormNVQuanLy();
+									frame.setVisible(true);
+								} catch (Exception e2) {
+									e2.printStackTrace();
+								}
+							}
+							if(role.equals("Nhân viên")) {
+								try {
+									frmNV frame = new frmNV();
+									frame.setVisible(true);
+								} catch (Exception e2) {
+									e2.printStackTrace();
+								}
+							}
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(getParent(), "Đăng nhập thất bại!");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(getParent(), "Username và password không được để trống");
+				}
 			}
 		});
 		btnDangnhap.setForeground(new Color(0, 0, 160));

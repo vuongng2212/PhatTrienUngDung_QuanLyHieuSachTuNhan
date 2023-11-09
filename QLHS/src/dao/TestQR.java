@@ -4,7 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.imageio.ImageIO;
 
@@ -42,16 +45,20 @@ public class TestQR {
 //        } catch(Exception e) {
 //            e.printStackTrace();
 //        }
-		Date test = new Date(2023,12,22);
-		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		System.out.println(test);
-		System.out.println(date);
-		if(date.before(test)) {
-			System.out.println("before");
-		}
-		else {
-			System.out.println("after");
-		}
+		//get which week of month
+		Calendar now = Calendar.getInstance();
+
+	    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+
+	    String[] days = new String[7];
+	    int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2; //add 2 if your week start on monday
+	    now.add(Calendar.DAY_OF_MONTH, delta );
+	    for (int i = 0; i < 7; i++)
+	    {
+	        days[i] = format.format(now.getTime());
+	        now.add(Calendar.DAY_OF_MONTH, 1);
+	    }
+	    System.out.println(Arrays.toString(days));
 		
     }
 }

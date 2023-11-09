@@ -46,7 +46,7 @@ public class FormNVQuanLy extends JFrame{
 	private JLabel lblBG;
 	private JComboBox comboBox;
 	private Image img_logo = new ImageIcon(FormNVQuanLy.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(280, 200,Image.SCALE_SMOOTH );
-	private Image img_employee = new ImageIcon(FormNVQuanLy.class.getResource("/image/employee.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
+	private Image img_employee = new ImageIcon(FormNVQuanLy.class.getResource("/image/manager_customer.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_user = new ImageIcon(FormNVQuanLy.class.getResource("/image/user.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_logout = new ImageIcon(FormNVQuanLy.class.getResource("/image/logout.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_background = new ImageIcon(FormNVQuanLy.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1920, 816,Image.SCALE_SMOOTH );
