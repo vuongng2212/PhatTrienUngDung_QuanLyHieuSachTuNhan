@@ -106,8 +106,10 @@ public class frmNV extends JFrame {
 	private JMenu menuThongKe;
 	private JMenuItem menuThongKeSP;
 	private JMenuItem menuThongKeKhuyenMai;
-	
+	private PanelKhuyenMai khuyenMai;
 	private PanelProfit profit;
+	private SanPhamFrm dialogfrm;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -160,7 +162,9 @@ public class frmNV extends JFrame {
 		panelSearchProduct = new PanelSearchProduct();
 		
 		profit = new PanelProfit();
-		
+		khuyenMai = new PanelKhuyenMai();
+		dialogfrm = new SanPhamFrm();
+		dialogfrm.setKhuyenMai(khuyenMai);
 		
 		JPanel panel = new JPanel();
 		
@@ -459,9 +463,11 @@ public class frmNV extends JFrame {
 		panelSearchProduct.setVisible(false);
 		panel_image_title.setVisible(true);
 		profit.setVisible(false);
+		khuyenMai.setVisible(false);
 		panelFrm.add(product);
 		panelFrm.add(bill);
 		panelFrm.add(profit);
+		panelFrm.add(khuyenMai);
 		
 		system = new panelLichLam();
 		system.setBounds(0, -70, 1554, 1015);
@@ -616,13 +622,28 @@ public class frmNV extends JFrame {
 		  menuThongKeSP = new JMenuItem("Thống Kê Sản Phẩm", new ImageIcon(img_thongKeSP));
 		  menuThongKeSP.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeSP.setPreferredSize(new Dimension(180, 41));
+		  menuThongKeSP.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(thongke);
+			}
+		});
 		  JMenuItem menuThongKeThuNhap = new JMenuItem("Thu Nhập", new ImageIcon(img_thuNhap));
 		  menuThongKeThuNhap.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeThuNhap.setPreferredSize(new Dimension(180, 41));
 		  menuThongKeKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_khuyenMai));
+		  
 		  menuThongKeKhuyenMai.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeKhuyenMai.setPreferredSize(new Dimension(180, 41));
-		  
+		  menuThongKeKhuyenMai.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				menuClicked(khuyenMai);
+			}
+		});
 		  menuThongKe.add(menuThongKeSP);
 		  menuThongKe.add(menuThongKeThuNhap);
 		  menuThongKe.add(menuThongKeKhuyenMai);
@@ -705,6 +726,7 @@ public class frmNV extends JFrame {
 		customer.setVisible(false);
 		thongke.setVisible(false);		
 		profit.setVisible(false);
+		khuyenMai.setVisible(false);
 //		system.setVisible(false);
 //		product.setVisible(false);
 //		thongke.setVisible(false);

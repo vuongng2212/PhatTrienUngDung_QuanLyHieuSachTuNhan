@@ -22,7 +22,7 @@ public class DAO_ChiTietHoaDon implements daoInterface<ChiTietHoaDon, DanhSachCh
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from chiTietHoaDon";
+			String sql = "select * from chiTietHD";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
@@ -39,7 +39,7 @@ public class DAO_ChiTietHoaDon implements daoInterface<ChiTietHoaDon, DanhSachCh
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "INSERT INTO chiTietHoaDon (maHD, maSP, soLuong, donGia) "
+		String sql = "INSERT INTO chiTietHD (maHD, maSP, soLuong, donGia) "
 				+ "values(?,?,?,?)";
 		try {
 			stm = con.prepareStatement(sql);
@@ -68,7 +68,7 @@ public class DAO_ChiTietHoaDon implements daoInterface<ChiTietHoaDon, DanhSachCh
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "Update khuyenMai set  soLuong = ?, donGia = ? \r\n"
+		String sql = "Update chiTietHD set  soLuong = ?, donGia = ? \r\n"
 				+ "where maHD = ? and maSP = ?";
 		try {
 			stm = con.prepareStatement(sql);

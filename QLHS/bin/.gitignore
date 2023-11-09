@@ -1,6 +1,2 @@
-/dao/
 /ui/
-/connectDB/
-/entity/
-/interfaces/
-/list/
+/dao/

@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -23,9 +25,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+
+import connectDB.ConnectDB;
+import dao.DAO_ChiTietHoaDon;
+import dao.DAO_HoaDon;
+import dao.DAO_SanPham;
+import entity.SanPham;
+import list.DanhSachChiTietHoaDon;
+import list.DanhSachHoaDon;
+import list.DanhSachSanPham;
+
 import javax.swing.JSpinner;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.JScrollPane;
 
 public class panelBanHang extends JPanel {
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
@@ -34,8 +47,6 @@ public class panelBanHang extends JPanel {
 	public JTextField textField_1;
 	public JTextField textField_2;
 	public JTextField textField_3;
-	public JTable table_product;
-	public JTable table_bill;
 	public JTextField textField_4;
 	public JTextField textField_6;
 	public JTextField txtLoaiKH;
@@ -68,11 +79,57 @@ public class panelBanHang extends JPanel {
 	public JTextField textField_5;
 	public JLabel lbllMaSach;
 	private JButton btnSearch;
-
-	/**
-	 * Create the panel.
-	 */
+	private JTable table;
+	private DefaultTableModel model;
+	private DefaultTableModel modelHd;
+	
+	// Phần DAO của sản phẩm
+	private DanhSachSanPham listSP;
+	private DAO_SanPham daosp;
+	private Object[] rowSP;
+	
+	// Phần DAO của hóa đơn
+	private DanhSachHoaDon listHD;
+	private DAO_HoaDon daoHD;
+	
+	private Object[] rowHD;
+	
+	
+	//Phần DAO của chi tiết hóa đơn
+	private DanhSachChiTietHoaDon listCTHD;
+	private DAO_ChiTietHoaDon daoCTHD;
+	private JTable table_1;
+	private JScrollPane scrollPane;
+	private JTable tableListspTrongHD;
+	private JScrollPane scrollPane_1;
+	
+//	private ArrayList<SanPham>
+	
+	
 	public panelBanHang() {
+		
+		//Phan san pham
+		daosp = new DAO_SanPham();
+		listSP = new DanhSachSanPham();
+		rowSP = new Object[11];
+		
+		//Phan hoa don
+		daoHD = new DAO_HoaDon();
+		listHD = new DanhSachHoaDon();
+		rowHD = new Object[5];
+		
+		listCTHD = new DanhSachChiTietHoaDon();
+		daoCTHD = new DAO_ChiTietHoaDon();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		listSP = daosp.getAll();
+		listHD = daoHD.getAll();
+		listCTHD = daoCTHD.getAll();
+		
 //		this.setVisible(false);
 		setBounds(0,0,1534,956);
 		setLayout(null);
@@ -164,37 +221,12 @@ public class panelBanHang extends JPanel {
 		btnSearch.setIcon(new ImageIcon(img_title));
 		txtSach.add(btnSearch);
 		
-		JPanel panelListSach = new JPanel();
-		panelListSach.setBounds(0, 187, 1534, 302);
-		add(panelListSach);
-		panelListSach.setLayout(null);
+		table = new JTable();
+		table.setBounds(0, 88, 1534, 300);
+		txtSach.add(table);
+		String[] column = {"Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá","Tình Trạng","Khuyến Mãi"};
 		
 		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		model.addColumn("Column 1");
-		
-		
-		table_product = new JTable(model);
-		table_product.setFont(new Font("Tahoma", Font.BOLD, 15));
-		TableColumnModel  columnModel  = table_product.getColumnModel();
-		TableColumn column  =columnModel.getColumn(6);
-		column.setPreferredWidth(10);
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-		table_product.setDefaultRenderer(Object.class, centerRenderer);
-		String[] rowData = {"Mã Sách","Tên Sách","Thể Loại","Tác Giả","NXB","Năm XB","SL","Đơn Giá","Tình Trạng","Sale"};
-		
-		model.addRow(rowData);
-		table_product.setBounds(0, 0, 1534, 302);
-		panelListSach.add(table_product);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(UIManager.getBorder("Button.border"));
@@ -227,12 +259,6 @@ public class panelBanHang extends JPanel {
 		btnLmMi.setBounds(328, 11, 96, 23);
 		panel.add(btnLmMi);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 530, 921, 426);
-		panel_1.setBorder( TopcreateStrikethroughBorder());
-		add(panel_1);
-		panel_1.setLayout(null);
-		
 		
 		DefaultTableModel model2 = new DefaultTableModel();
 		model2.addColumn("Column 1");
@@ -242,16 +268,6 @@ public class panelBanHang extends JPanel {
 		model2.addColumn("Column 1");
 		model2.addColumn("Column 1");
 		model2.addColumn("Column 1");
-		table_bill = new JTable(model2);
-		table_bill.setFont(new Font("Tahoma", Font.BOLD, 15));
-		TableColumnModel  columnModel2  = table_product.getColumnModel();
-		table_bill.setDefaultRenderer(Object.class, centerRenderer);
-		String[] rowData2 = {"Tên Sách","Thể Loại","Tác Giả","SL","Đơn Giá","Giảm","Tổng Tiền"};
-		
-		model2.addRow(rowData2);
-//		table_bill
-		table_bill.setBounds(0, 0, 919, 426);
-		panel_1.add(table_bill);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(922, 489, 612, 467);
@@ -356,19 +372,23 @@ public class panelBanHang extends JPanel {
 		btnHuy = new JButton("Hủy Bỏ");
 		btnHuy.setBackground(new Color(255, 0, 0));
 		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnHuy.setBounds(69, 382, 138, 38);
+		btnHuy.setBounds(52, 311, 138, 38);
 		panel_2.add(btnHuy);
 		
 		btnThanhToan = new JButton("Thanh Toán");
+		btnThanhToan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThanhToan.setBackground(new Color(102, 204, 0));
-		btnThanhToan.setBounds(227, 382, 138, 38);
+		btnThanhToan.setBounds(256, 312, 138, 38);
 		panel_2.add(btnThanhToan);
 		
 		btnInHD = new JButton("In Hóa Đơn");
 		btnInHD.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnInHD.setBackground(new Color(102, 204, 0));
-		btnInHD.setBounds(405, 382, 154, 38);
+		btnInHD.setBounds(448, 311, 154, 38);
 		panel_2.add(btnInHD);
 		
 		txtTenKH = new JTextField();
@@ -380,7 +400,59 @@ public class panelBanHang extends JPanel {
 		txtDiaChi.setColumns(10);
 		txtDiaChi.setBounds(436, 74, 166, 20);
 		panel_2.add(txtDiaChi);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 188, 1534, 298);
+		add(scrollPane);
+		
+		table_1 = new JTable();
+		model = new DefaultTableModel();
+		
+		model.setColumnIdentifiers(column);
+		table_1.setModel(model);
+		scrollPane.setViewportView(table_1);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(0, 540, 924, 416);
+		add(scrollPane_1);
+		
+		tableListspTrongHD = new JTable();
+		String[] columnHd = {"Tên Sách","Số Lượng","Giá Gốc","Khuyến Mãi","Thành Tiền"};
+		modelHd = new DefaultTableModel();
+		modelHd.setColumnIdentifiers(columnHd);
+		tableListspTrongHD.setModel(modelHd);
+		
+		scrollPane_1.setViewportView(tableListspTrongHD);
+		
+		refreshHD();
+		
+		
 	}
+	private void refreshHD2() {
+		
+	}
+	private void refreshHD() {
+		listSP = daosp.getAll();
+		DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+		model.setRowCount(0);
+		for (SanPham sp : listSP.getList()) {
+			rowSP[0] = sp.getMaSP();
+			rowSP[1] = sp.getTenSP();
+			rowSP[2] = sp.getTenTG();
+			rowSP[3] = sp.getDanhMuc();
+			rowSP[4] = sp.getNhaXB();
+			rowSP[5] = sp.getNamXB();
+			rowSP[6] = sp.getSoLuong();
+			rowSP[7] = sp.getDonGiaMua();
+			rowSP[8] = sp.getTinhTrang();
+			rowSP[9] = "null";
+			
+			
+			model.addRow(rowSP);
+		}
+	}
+	
+	
 	private static Border createStrikethroughBorder() {
 		return BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black),BorderFactory.createEmptyBorder(0, 0, 2, 0)
