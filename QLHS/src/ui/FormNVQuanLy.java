@@ -63,6 +63,7 @@ public class FormNVQuanLy extends JFrame{
 	private PanelQLNV pnQLNV = new PanelQLNV();
 	private PanelShift pnShift = new PanelShift();
 	private PanelNhapSach pnNhapSach = new PanelNhapSach();
+	private PanelTimSPFormQuanLy pnTimSach = new PanelTimSPFormQuanLy();
 	private JLabel lblAccountIcon;
 
 	public static void main(String[] args) {
@@ -158,7 +159,7 @@ public class FormNVQuanLy extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				clearPanel();
+				hidePanel();
 				contentPane.add(pnDH);
 				pnDH.setVisible(true);
 			}
@@ -205,7 +206,7 @@ public class FormNVQuanLy extends JFrame{
 		JButton btnLogOut = new JButton("");
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginForm lg = new LoginForm();
+				LoginForm lg = new LoginForm(null);
 				lg.setVisible(true);
 				FormNVQuanLy.this.dispose();	
 			}
@@ -229,15 +230,14 @@ public class FormNVQuanLy extends JFrame{
 		lblBG = new JLabel("");
 		lblBG.setIcon(new ImageIcon(img_background));
 		lblBG.setBounds(0, 200, 1920, 816);
-		clearPanel();
+		hidePanel();
 		contentPane.add(lblBG);
 //		Xu ly su kien Panel
-		mnTimNV.addActionListener(new ActionListener() {
-			
+		mnTimNV.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				clearPanel();
+				hidePanel();
 				contentPane.add(PnTimNV);
 				PnTimNV.setVisible(true);
 			}
@@ -247,7 +247,7 @@ public class FormNVQuanLy extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				clearPanel();
+				hidePanel();
 				contentPane.add(pnQLNV);
 				pnQLNV.setVisible(true);
 			}
@@ -257,7 +257,7 @@ public class FormNVQuanLy extends JFrame{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
-				clearPanel();
+				hidePanel();
 				contentPane.add(lblBG);
 			}
 		});
@@ -265,7 +265,7 @@ public class FormNVQuanLy extends JFrame{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
-				clearPanel();
+				hidePanel();
 				contentPane.add(pnShift);
 				pnShift.setVisible(true);
 			}
@@ -274,19 +274,30 @@ public class FormNVQuanLy extends JFrame{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
-				clearPanel();
+				hidePanel();
 				contentPane.add(pnNhapSach);
 				pnNhapSach.setVisible(true);
 			}
 		});
-	}
-	public void clearPanel() {
+		mnTimSP.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				hidePanel();
+				contentPane.add(pnTimSach);
+				pnTimSach.setVisible(true);
+			}
+		});	
+}
+	public void hidePanel() {
 		contentPane.remove(lblBG);
 		PnTimNV.setVisible(false);
 		pnDH.setVisible(false);
 		pnQLNV.setVisible(false);
 		pnShift.setVisible(false);
 		pnNhapSach.setVisible(false);
+		pnTimSach.setVisible(false);
 	}
 	private void FillCountries() {
 		listCountries.add(new Country("vi-VN", "VietNam", new Font("Tahoma", Font.BOLD, 20)));

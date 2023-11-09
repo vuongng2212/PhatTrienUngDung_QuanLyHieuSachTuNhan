@@ -32,16 +32,17 @@ public class LoginForm extends JFrame {
 	private JButton btnDangnhap;
 	private JLabel lblKhachHang;
 	private DAO_account DAO_acc;
+	private QRWithWebCam qrScan;
 	public static void main(String[] args) {
 		try {
-			LoginForm frame = new LoginForm();
+			LoginForm frame = new LoginForm(null);
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public LoginForm() {
+	public LoginForm(String account) {
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
@@ -122,6 +123,13 @@ public class LoginForm extends JFrame {
 		contentPane.add(btnDangnhap);
 		
 		JButton btnQR = new JButton("QRCode");
+		btnQR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				qrScan = new QRWithWebCam();
+				qrScan.setVisible(true);
+				dispose();
+			}
+		});
 		btnQR.setBounds(410, 80, 100, 100);
 		contentPane.add(btnQR);
 		
@@ -138,6 +146,7 @@ public class LoginForm extends JFrame {
 		lblKhachHang.setForeground(new Color(0, 0, 160));
 		lblKhachHang.setBounds(70, 214, 180, 14);
 		contentPane.add(lblKhachHang);
-
+		txtUser.setText(account);
+		System.out.println(account);
 	}
 }

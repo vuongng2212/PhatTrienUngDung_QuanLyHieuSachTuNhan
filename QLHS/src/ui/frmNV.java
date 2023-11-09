@@ -92,7 +92,7 @@ public class frmNV extends JFrame {
 	private JComboBox comboCountries;
 	private JLabel lbllDateShow;
 	private JLabel lbllDate;
-	private final LoginForm frmLogin = new LoginForm();
+	private final LoginForm frmLogin = new LoginForm(null);
 	private JMenuItem itemQLtaiKhoan;
 	private JMenu menuSystem;
 	private JMenu menuSanPham;

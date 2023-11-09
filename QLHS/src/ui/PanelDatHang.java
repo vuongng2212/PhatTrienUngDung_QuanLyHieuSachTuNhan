@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -38,6 +39,7 @@ public class PanelDatHang extends JPanel {
 	private JLabel lblValueTT;
 	private JTable table, tableTTSP;
 	private DefaultTableModel tableModel,tableModelTTSP;
+	private JComboBox cbDM,cbNamXB,cbNhaXB;
 	private JTextField txtMaDH;
 	private DanhSachSanPham lsSP;
 	private DAO_SanPham DAO_SP;
@@ -100,21 +102,19 @@ public class PanelDatHang extends JPanel {
 		tblPanel.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblTheLoai = new JLabel("Thể loại");
+		JLabel lblTheLoai = new JLabel("Danh mục");
 		lblTheLoai.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTheLoai.setBounds(310, 17, 70, 20);
+		lblTheLoai.setBounds(310, 17, 90, 20);
 		tblPanel.add(lblTheLoai);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(390, 18, 100, 22);
-		tblPanel.add(comboBox);
+		cbDM = new JComboBox();
+		cbDM.setBounds(410, 18, 100, 22);
+		tblPanel.add(cbDM);
 		
 		JButton btnTim = new JButton("Tìm");
 		btnTim.setBackground(new Color(0, 128, 255));
 		btnTim.setBounds(1080, 11, 90, 30);
 		tblPanel.add(btnTim);
-		
-		
 		
 		JLabel lblSL = new JLabel("Số lượng");
 		lblSL.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -131,21 +131,22 @@ public class PanelDatHang extends JPanel {
 		lblNXB.setBounds(520, 17, 70, 20);
 		tblPanel.add(lblNXB);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(600, 18, 100, 22);
-		tblPanel.add(comboBox_1);
+		cbNhaXB = new JComboBox();
+		cbNhaXB.setBounds(600, 18, 100, 22);
+		tblPanel.add(cbNhaXB);
 		
-		JLabel lblNam = new JLabel("Năm XB");
+		JLabel lblNam = new JLabel("Năm XB:");
 		lblNam.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNam.setBounds(740, 17, 70, 20);
+		lblNam.setBounds(710, 17, 70, 20);
 		tblPanel.add(lblNam);
 		
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setBounds(820, 18, 70, 22);
-		tblPanel.add(comboBox_1_1);
+		cbNamXB = new JComboBox();
+		cbNamXB.setBounds(790, 18, 70, 22);
+		tblPanel.add(cbNamXB);
 		
-		
-		
+		cbDM.addItem("...");
+		cbNhaXB.addItem("...");
+		cbNamXB.addItem("...");
 		JPanel tbl = new JPanel();
 		tbl.setBounds(1200, 240, 720, 584);
 		add(tbl);
@@ -375,8 +376,18 @@ public class PanelDatHang extends JPanel {
 		stt =1;
 		for(SanPham sp: DAO_SP.getAll().getListData()) {
 			lsSP.add(sp);
+			if(((DefaultComboBoxModel)cbDM.getModel()).getIndexOf(sp.getDanhMuc()) == -1) {
+				cbDM.addItem(sp.getDanhMuc());
+			}
+			if(((DefaultComboBoxModel)cbNamXB.getModel()).getIndexOf(sp.getNamXB()) == -1) {
+				cbNamXB.addItem(sp.getNamXB());
+			}
+			if(((DefaultComboBoxModel)cbNhaXB.getModel()).getIndexOf(sp.getNhaXB()) == -1) {
+				cbNhaXB.addItem(sp.getNhaXB());
+			}
 			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc(),sp.getTinhTrang()};
 			tableModel.addRow(row);
+			
 		}
 
 	}
