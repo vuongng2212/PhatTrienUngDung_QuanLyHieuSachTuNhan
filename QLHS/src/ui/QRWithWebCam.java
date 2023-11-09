@@ -1,4 +1,4 @@
-package dao;
+package ui;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -23,13 +23,15 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
-public class Test extends JFrame implements Runnable,ThreadFactory{
+public class QRWithWebCam extends JFrame implements Runnable,ThreadFactory{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private WebcamPanel camPanel = null;
 	private Webcam webcam = null;
 	private JPanel PanelCam;
+	private Result result = null;
+	private BufferedImage image = null;
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	/**
 	 * Launch the application.
@@ -38,21 +40,22 @@ public class Test extends JFrame implements Runnable,ThreadFactory{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Test frame = new Test();
-					frame.setVisible(true);
+					QRWithWebCam frame1 = new QRWithWebCam();
+					frame1.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 */
-	public Test() {
+	public QRWithWebCam() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 651, 506);
+		setBounds(100, 100, 600, 500);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -60,35 +63,28 @@ public class Test extends JFrame implements Runnable,ThreadFactory{
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 635, 467);
+		panel.setBounds(0, 0, 584, 461);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JPanel PanelCam = new JPanel();
-		PanelCam.setBounds(73, 43, 469, 276);
+		PanelCam = new JPanel();
+		PanelCam.setBounds(0, 0, 584, 400);
 		panel.add(PanelCam);
 		Dimension size = WebcamResolution.QVGA.getSize();
 		webcam = Webcam.getWebcams().get(0);
 		webcam.setViewSize(size);
+		PanelCam.setLayout(null);
 		
 		camPanel = new WebcamPanel(webcam);
+		camPanel.setBounds(79, 11, 415, 350);
 		camPanel.setPreferredSize(size);
 		camPanel.setFPSDisplayed(true);
 		PanelCam.add(camPanel);
 		executor.execute(this);
-//		initWebcam();
 	}
-	public void initWebcam() {
-		Dimension size = WebcamResolution.QVGA.getSize();
-		webcam = Webcam.getWebcams().get(0);
-		webcam.setViewSize(size);
-		
-		camPanel = new WebcamPanel(webcam);
-		camPanel.setPreferredSize(size);
-		camPanel.setFPSDisplayed(true);
-		PanelCam.add(camPanel);
+	public void stopThread() {
+		executor.shutdown();
 	}
-
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -97,10 +93,9 @@ public class Test extends JFrame implements Runnable,ThreadFactory{
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
-			Result result = null;
-			BufferedImage image = null;
+			
 			if(webcam.isOpen()) {
 				if((image = webcam.getImage()) == null) {
 					continue;
@@ -112,13 +107,17 @@ public class Test extends JFrame implements Runnable,ThreadFactory{
 					result = new MultiFormatReader().decode(bitmap);
 				} catch (NotFoundException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+//					e.printStackTrace();
 				}
 				if(result != null) {
-					System.out.println(result.getText());
+					LoginForm f = new LoginForm(result.getText());
+					f.setVisible(true);
+					stopThread();
+					dispose();
+//					System.out.println(result.getText());
 				}
 			}
-		} while (true);
+		} while (result == null);
 	}
 	@Override
 	public Thread newThread(Runnable r) {

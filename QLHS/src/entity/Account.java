@@ -1,24 +1,24 @@
 package entity;
 
 public class Account {
-	private String maNV, pwd;
+	private String user, pwd;
 
 	public Account() {
 		super();
 	}
 
-	public Account(String maNV, String pwd) {
+	public Account(String user, String pwd) {
 		super();
-		this.maNV = maNV;
+		this.user = user;
 		this.pwd = pwd;
 	}
 
-	public String getMaNV() {
-		return maNV;
+	public String getUser() {
+		return user;
 	}
 
-	public void setMaNV(String maNV) {
-		this.maNV = maNV;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getPwd() {
@@ -28,5 +28,7 @@ public class Account {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
+
+	
 	
 }

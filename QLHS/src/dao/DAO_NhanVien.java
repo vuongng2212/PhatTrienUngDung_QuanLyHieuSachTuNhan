@@ -62,6 +62,30 @@ public class DAO_NhanVien {
 		}
 		return true;
 	}
+	
+	public boolean addPwd(String user, String pwd) {
+		// TODO Auto-generated method stub
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "INSERT taiKhoan VALUES"
+				+ "(?,?)";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, user);
+			stm.setString(2, pwd);
+			System.out.println(stm);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
 
 	public boolean updateNhanVien(NhanVien nv) {
 		// TODO Auto-generated method stub

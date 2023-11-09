@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Year;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultComboBoxModel;
@@ -156,38 +158,10 @@ public class PanelQLNV extends JPanel{
 		westPanel.add(lblChcV);
 		
 		cbCV = new JComboBox();
-		cbCV.setModel(new DefaultComboBoxModel(new String[] {"Quản lý", "Nhân viên"}));
+		cbCV.setModel(new DefaultComboBoxModel(new String[] {"Nhân viên","Quản lý"}));
 		cbCV.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		cbCV.setBounds(205, 354, 100, 30);
+		cbCV.setBounds(205, 354, 130, 30);
 		westPanel.add(cbCV);
-		
-		JButton btnXoa = new JButton("Xóa");
-		btnXoa.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				// TODO Auto-generated method stub
-				int r = table.getSelectedRow();
-				if (r != -1) {
-					int tb = JOptionPane.showConfirmDialog(getParent(), "Bạn muốn xóa nhân viên này không?", "Chú ý!", JOptionPane.YES_NO_OPTION);
-					if (tb == JOptionPane.YES_OPTION) {
-						ls.xoaNV(r);
-						DAO_NV.delete(table.getValueAt(r, 1).toString());
-						tableModel.removeRow(r);
-						JOptionPane.showMessageDialog(getParent(), "Xoá dịch nhân viên thành công!");
-						xoaTrang();
-						loadData();
-					}
-				} else {
-					JOptionPane.showMessageDialog(getParent(), "Vui lòng chọn nhân viên muốn xoá!");
-				}
-				
-			}
-		});
-		
-		btnXoa.setForeground(new Color(0, 0, 160));
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnXoa.setBackground(new Color(255, 0, 0));
-		btnXoa.setBounds(265, 445, 100, 30);
-		westPanel.add(btnXoa);
 		
 		dateChooser = new JDateChooser();
 		dateChooser.setBounds(205, 184, 160, 30);
@@ -205,7 +179,6 @@ public class PanelQLNV extends JPanel{
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int row = table.getSelectedRow();
-				System.out.println(row);
 				if(row != -1) {
 					txtMa.setText(table.getValueAt(row, 1).toString());
 					txtTen.setText(table.getValueAt(row, 2).toString());
@@ -238,7 +211,6 @@ public class PanelQLNV extends JPanel{
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int r = table.getSelectedRow();
-				System.out.println(r);
 				if (r != -1) {	
 					String ma = txtMa.getText();
 					String ten = txtTen.getText();
@@ -254,7 +226,6 @@ public class PanelQLNV extends JPanel{
 					String CV = cbCV.getSelectedItem().toString();
 
 					NhanVien nv = new NhanVien(ma, ten, ns, gt, sdt, diaChi, email, CV);
-					System.out.println(nv.toString());
 					if (DAO_NV.updateNhanVien(nv)) {
 						ls.capNhatThongTinNhanVien(nv);
 						loadData();
@@ -281,7 +252,6 @@ public class PanelQLNV extends JPanel{
 					String ten = txtTen.getText();
 					Date ns = new Date(dateChooser.getDate().getTime());
 					java.util.Date date = new java.util.Date(ns.getTime());
-					System.out.println(date);
 					String gioiTinh = cbGT.getSelectedItem().toString();
 					Integer gt = 0;
 					if(gioiTinh=="Nam"){
@@ -292,12 +262,11 @@ public class PanelQLNV extends JPanel{
 					String email = txtEmail.getText();
 					String CV = cbCV.getSelectedItem().toString();
 					NhanVien nv = new NhanVien(ma, ten, ns, gt, sdt, diaChi, email, CV);
-//					System.out.println(nv.toString());
-					if(DAO_NV.add(nv)) {
+					if(DAO_NV.add(nv) && DAO_NV.addPwd(nv.getSDT(), "1111")) {
 						ls.themNhanVien(nv);
 						Object row[] = {stt++,ma, ten, ns.toString(), gioiTinh, sdt, diaChi, email, CV};
 						tableModel.addRow(row);
-						JOptionPane.showMessageDialog(getParent(), "Thêm Nhân viên thành công!");
+						JOptionPane.showMessageDialog(getParent(), "Thêm Nhân viên thành công! Mật khẩu mặc định là 1111");
 					}
 					else {
 						JOptionPane.showMessageDialog(getParent(), "Thêm Nhân viên thất bại!");
@@ -311,6 +280,35 @@ public class PanelQLNV extends JPanel{
 		btnThem.setBackground(Color.GREEN);
 		btnThem.setBounds(10, 445, 100, 30);
 		westPanel.add(btnThem);
+		
+		JButton btnXoa = new JButton("Xóa");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				// TODO Auto-generated method stub
+				int r = table.getSelectedRow();
+				if (r != -1) {
+					int tb = JOptionPane.showConfirmDialog(getParent(), "Bạn muốn xóa nhân viên này không?", "Chú ý!", JOptionPane.YES_NO_OPTION);
+					if (tb == JOptionPane.YES_OPTION) {
+						ls.xoaNV(r);
+						DAO_NV.delete(table.getValueAt(r, 1).toString());
+						tableModel.removeRow(r);
+						JOptionPane.showMessageDialog(getParent(), "Xoá dịch nhân viên thành công!");
+						xoaTrang();
+						loadData();
+					}
+				} else {
+					JOptionPane.showMessageDialog(getParent(), "Vui lòng chọn nhân viên muốn xoá!");
+				}
+				
+			}
+		});
+		
+		btnXoa.setForeground(new Color(0, 0, 160));
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnXoa.setBackground(new Color(255, 0, 0));
+		btnXoa.setBounds(265, 445, 100, 30);
+		westPanel.add(btnXoa);
+
 		loadData();
 	}
 	public void deleteAllDataJtable() {
@@ -327,7 +325,6 @@ public class PanelQLNV extends JPanel{
 		//delete all
 		deleteAllDataJtable();
 		//Load data
-//		ArrayList<HoaDonDichVuPhong> dsDVP = new ArrayList<HoaDonDichVuPhong>();
 		DAO_NV = new DAO_NhanVien();
 
 		ls.clear();
@@ -340,10 +337,6 @@ public class PanelQLNV extends JPanel{
 			Object row[] = {stt++,nv.getMaNV(),nv.getTenNV(),nv.getDoB(),gioiTinh,nv.getSDT(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu()};
 			tableModel.addRow(row);
 		}
-//		dsDVP = ds.getList();
-//		for(int i=0;i<dsDVP.size();i++) {
-//			System.out.println(dsDVP.get(i).getThanhTienDichVu());
-//		}
 	}
 	private void xoaTrang() {
 		txtMa.setText("");
@@ -358,6 +351,9 @@ public class PanelQLNV extends JPanel{
 		String sdt = txtSDT.getText().trim();
 		String gmail = txtEmail.getText().trim();
 		String diachi = txtDiaChi.getText().trim();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+		
 
 		Pattern p = Pattern.compile("^(NV)[0-9]{3}");
 		if (!(maNV.length() > 0 && p.matcher(maNV).find())) {
@@ -383,9 +379,20 @@ public class PanelQLNV extends JPanel{
 			JOptionPane.showMessageDialog(getParent(), "Loi email");
 			return false;
 		}
-//		Date ns = new Date(dateChooser.getDate().getTime());
-//		java.util.Date date = new java.util.Date(ns.getTime());
-
+		
+		if(dateChooser.getDate() == null) {
+			JOptionPane.showMessageDialog(getParent(), "Ngày sinh không được để trống");
+			return false;
+		}
+		else {
+			Integer date = Integer.parseInt(sdf.format(dateChooser.getDate()));
+			int year = Year.now().getValue();
+			if(year - date <= 18) {
+				JOptionPane.showMessageDialog(getParent(), "Nhân viên nhỏ hơn 18 tuổi!");
+				return false;
+			}
+		}
+		
 		return true;
 	}
 }
