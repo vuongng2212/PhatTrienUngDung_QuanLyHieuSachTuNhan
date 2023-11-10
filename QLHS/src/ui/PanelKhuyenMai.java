@@ -157,39 +157,43 @@ public class PanelKhuyenMai extends JPanel {
 		JButton btnNewButton = new JButton("Thêm vào danh sách");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				listSP = daosp.getAll();
-				int index = listSP.timSPTheoMa(txtMaSach.getText());
-				SanPham sp = new SanPham();
-				sp = listSP.getList().get(index);
-				
-				if(!txtDisCount.getText().equalsIgnoreCase("")) {
-					if(!ktraTonTaiTrongList(danhSachDcChon, txtMaSach.getText())) {
-						danhSachDcChon.add(sp);
-						addTable(sp, Integer.parseInt(txtDisCount.getText()));
-					}else {
-						int option = JOptionPane.showOptionDialog(null, "Cập nhật lại sản phẩm trong danh sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-						
-//						JOptionPane.showMessageDialog(null, "Sách Đã có trong mục");
-						switch (option) {
-						case JOptionPane.YES_OPTION:
-							System.out.println("Say yes");
-							int i = updateList(danhSachDcChon, txtMaSach.getText());
-							model.setValueAt(txtDisCount.getText(), i, 4);
-							JOptionPane.showMessageDialog(null, "Đã sửa thành công");
-							break;
-						case JOptionPane.NO_OPTION:
-							System.out.println("Say no");
-							break;
-						default:
-							break;
-						}
-					}
+				if(!txtMaSach.getText().equalsIgnoreCase("")) {
+					listSP = daosp.getAll();
+					int index = listSP.timSPTheoMa(txtMaSach.getText());
+					SanPham sp = new SanPham();
+					sp = listSP.getList().get(index);
 					
+					if(!txtDisCount.getText().equalsIgnoreCase("")) {
+						if(!ktraTonTaiTrongList(danhSachDcChon, txtMaSach.getText())) {
+							danhSachDcChon.add(sp);
+							addTable(sp, Integer.parseInt(txtDisCount.getText()));
+						}else {
+							int option = JOptionPane.showOptionDialog(null, "Cập nhật lại sản phẩm trong danh sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
+							
+//							JOptionPane.showMessageDialog(null, "Sách Đã có trong mục");
+							switch (option) {
+							case JOptionPane.YES_OPTION:
+								System.out.println("Say yes");
+								int i = updateList(danhSachDcChon, txtMaSach.getText());
+								model.setValueAt(txtDisCount.getText(), i, 4);
+								JOptionPane.showMessageDialog(null, "Đã sửa thành công");
+								break;
+							case JOptionPane.NO_OPTION:
+								System.out.println("Say no");
+								break;
+							default:
+								break;
+							}
+						}
+						
+					}else {
+						JOptionPane.showMessageDialog(null, "Vui lòng không để trống mục Discount!!");
+					}
+					txtMaSach.setText("");
+					txtDisCount.setText("");
 				}else {
-					JOptionPane.showMessageDialog(null, "Vui lòng không để trống mục Discount!!");
+					JOptionPane.showMessageDialog(null, "That bai");
 				}
-				txtMaSach.setText("");
-				txtDisCount.setText("");
 				
 			}
 			

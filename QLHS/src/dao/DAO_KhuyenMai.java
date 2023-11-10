@@ -7,10 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import connectDB.ConnectDB;
+import entity.ChiTietHoaDon;
+import entity.ChiTietKhuyenMai;
 import entity.KhachHang;
 import entity.KhuyenMai;
+import entity.KhuyenMai3Field;
 import interfaces.daoInterface;
 import list.DanhSachKhachHang;
 import list.DanhSachKhuyenMai;
@@ -18,17 +22,162 @@ import list.DanhSachKhuyenMai;
 public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>{
 	
 	
+	public ArrayList<KhuyenMai3Field> getForSearch() {
+		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			listKm.add(new KhuyenMai3Field(rs.getString("maKM"),rs.getDate("ngayTao") ,rs.getDate("ngayHetHan")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listKm;
+	}
+	public ArrayList<KhuyenMai3Field>getHetHan(){
+		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayHetHan<GETDATE()";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			listKm.add(new KhuyenMai3Field(rs.getString("maKM"),rs.getDate("ngayTao") ,rs.getDate("ngayHetHan")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+			
+		return listKm;
+	}
+	
+	public ArrayList<KhuyenMai3Field>getApDung(){
+		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai  where ngayTao<GETDATE() and ngayHetHan>GETDATE()";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			listKm.add(new KhuyenMai3Field(rs.getString("maKM"),rs.getDate("ngayTao") ,rs.getDate("ngayHetHan")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+			
+		return listKm;
+		
+	}
+	public ArrayList<KhuyenMai3Field>getSapDienRa(){
+		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayTao>GETDATE()";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			listKm.add(new KhuyenMai3Field(rs.getString("maKM"),rs.getDate("ngayTao") ,rs.getDate("ngayHetHan")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+			
+		return listKm;
+		
+	}
+	
+	public ArrayList<KhuyenMai3Field>getSearchConditions(String dateBd,String dateKt){
+		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		try {
+			String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayTao >= ? and ngayHetHan <= ?";
+			
+			stm = con.prepareStatement(sql);
+			stm.setString(1, dateBd);
+			stm.setString(2, dateKt);
+			
+			
+//			Statement statement =con.createStatement();
+			ResultSet rs = stm.executeQuery();
+		while(rs.next()) {
+			listKm.add(new KhuyenMai3Field(rs.getString("maKM"),rs.getDate("ngayTao") ,rs.getDate("ngayHetHan")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return listKm;
+	}
+	public ArrayList<ChiTietKhuyenMai>getChiTietConditions(String str){
+		ArrayList<ChiTietKhuyenMai>listKm = new ArrayList<ChiTietKhuyenMai>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		try {
+			String sql = "select  khuyenMai.maKM,sanPham.maSP,sanPham.tenSP,sanPham.tenTacGia,khuyenMai.discount  from khuyenMai right join sanPham on khuyenMai.maSP = sanPham.maSP where discount is not null and khuyenMai.maKM = ?";
+			
+			stm = con.prepareStatement(sql);
+			stm.setString(1, str);
+			
+			
+//			Statement statement =con.createStatement();
+			ResultSet rs = stm.executeQuery();
+		while(rs.next()) {
+//			listKm.add(new KhuyenMai3Field(rs.getString("maKM"),rs.getDate("ngayTao") ,rs.getDate("ngayHetHan")));
+			listKm.add(new ChiTietKhuyenMai(rs.getString("maSP"), rs.getString("tenSP"),rs.getString("tenTacGia"), Integer.parseInt(rs.getString("discount"))));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listKm;
+	}
+	public ArrayList<ChiTietKhuyenMai>getChiTiet(){
+		ArrayList<ChiTietKhuyenMai>listCT = new ArrayList<ChiTietKhuyenMai>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select sanPham.maSP,sanPham.tenSP,sanPham.tenTacGia,khuyenMai.discount  from khuyenMai right join sanPham on khuyenMai.maSP = sanPham.maSP where discount is not null";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			listCT.add(new ChiTietKhuyenMai(rs.getString("maSP"), rs.getString("tenSP"), rs.getString("tenTacGia"), Integer.parseInt(rs.getString("discount"))));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return listCT;
+	}
+	
+//	public ArrayList<E>
+	
 	@Override
 	public DanhSachKhuyenMai getAll() {
 		DanhSachKhuyenMai dsKM = new DanhSachKhuyenMai();
 		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from NhanVien";
+			String sql = "select * from khuyenMai";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			dsKM.add(new KhuyenMai());
+			dsKM.add(new KhuyenMai(rs.getString("maKM"), rs.getString("maSP"), Integer.parseInt(rs.getString("discount")),rs.getDate("ngayTao") ,rs.getDate("ngayHetHan")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
