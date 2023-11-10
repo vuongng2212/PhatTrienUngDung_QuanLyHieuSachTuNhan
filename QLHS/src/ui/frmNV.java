@@ -106,10 +106,11 @@ public class frmNV extends JFrame {
 	private JMenu menuThongKe;
 	private JMenuItem menuThongKeSP;
 	private JMenuItem menuThongKeKhuyenMai;
+	private PanelTimKhuyenMai searchKm;
 	private PanelKhuyenMai khuyenMai;
 	private PanelProfit profit;
 	private SanPhamFrm dialogfrm;
-	
+	private DialogShowKhuyenMai dialogShowKm;
 	/**
 	 * Launch the application.
 	 */
@@ -163,6 +164,8 @@ public class frmNV extends JFrame {
 		
 		profit = new PanelProfit();
 		khuyenMai = new PanelKhuyenMai();
+		searchKm = new PanelTimKhuyenMai();
+		dialogShowKm = new DialogShowKhuyenMai();
 		dialogfrm = new SanPhamFrm();
 		dialogfrm.setKhuyenMai(khuyenMai);
 		
@@ -463,10 +466,14 @@ public class frmNV extends JFrame {
 		panelSearchProduct.setVisible(false);
 		panel_image_title.setVisible(true);
 		profit.setVisible(false);
+		dialogShowKm.setVisible(false);
+		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
 		panelFrm.add(product);
 		panelFrm.add(bill);
 		panelFrm.add(profit);
+	
+		panelFrm.add(searchKm);
 		panelFrm.add(khuyenMai);
 		
 		system = new panelLichLam();
@@ -629,9 +636,16 @@ public class frmNV extends JFrame {
 				menuClicked(thongke);
 			}
 		});
-		  JMenuItem menuThongKeThuNhap = new JMenuItem("Thu Nhập", new ImageIcon(img_thuNhap));
+		  JMenuItem menuThongKeThuNhap = new JMenuItem("Xem Khuyến Mãi", new ImageIcon(img_thuNhap));
 		  menuThongKeThuNhap.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeThuNhap.setPreferredSize(new Dimension(180, 41));
+		  menuThongKeThuNhap.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(searchKm);
+			}
+		});
 		  menuThongKeKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_khuyenMai));
 		  
 		  menuThongKeKhuyenMai.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
@@ -726,6 +740,7 @@ public class frmNV extends JFrame {
 		customer.setVisible(false);
 		thongke.setVisible(false);		
 		profit.setVisible(false);
+		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
 //		system.setVisible(false);
 //		product.setVisible(false);
@@ -785,6 +800,7 @@ public class frmNV extends JFrame {
 		customer.crudkHang = panelCRUDKHang;
 		product.panelSearchProduct = panelSearchProduct;
 		panelSearchProduct.panelProduct = product;
+		searchKm.dialogShow = dialogShowKm;
 		
 	}
 }

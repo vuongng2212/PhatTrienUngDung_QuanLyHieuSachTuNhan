@@ -44,15 +44,13 @@ public class DanhSachKhuyenMai implements listInterface<KhuyenMai>{
 	@Override
 	public boolean add(KhuyenMai obj) {
 		for(int i=0;i<list.size();i++) {
-			if(list.get(i).getMaKM().equalsIgnoreCase(obj.getMaKM())) {
-				return false;
-			}else {
-				{
+			 
+				
 					if(list.get(i).getMaSP().equalsIgnoreCase(obj.getMaSP()) && list.get(i).getNgayHetHan().compareTo(obj.getNgayTao())<0) {
 						return false;
 					}
-				}
-			}
+				
+			
 		}
 		list.add(obj);
 		return true;
