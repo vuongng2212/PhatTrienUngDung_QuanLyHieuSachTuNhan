@@ -31,6 +31,24 @@ public class DAO_NhanVien {
 
 	}	
 	
+	public String getPwd(String user) {
+		String s = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from taiKhoan where username = N'"+user+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+			s = rs.getString("password");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return s;
+
+	}
+	
 		
 
 	public boolean add(NhanVien nv) {
@@ -133,54 +151,6 @@ public class DAO_NhanVien {
 		}
 	}
 	public ArrayList<NhanVien> findNV(String tenNV, String sdt, String email, Integer gt, String ns) {
-		ArrayList<NhanVien> ds = new ArrayList<NhanVien>();
-		Date date = Date.valueOf(ns);
-		String strTen = "tenNV = ?",strSDT = "soDienThoai = ?",strEmail = "email = ?";
-		String strDate = "ngaySinh = ?";
-		String strGender = "gioiTinh = ?";
-		ConnectDB.getInstance();
-		Connection con = ConnectDB.getConnection();
-		PreparedStatement stm = null;
-		if(tenNV.equals("")) {
-			strTen = "tenNV IS NOT NULL";
-		}
-		if(sdt.equals("")) {
-			strSDT = "soDienThoai IS NOT NULL";
-		}
-		if(email.equals("")) {
-			strEmail = "email IS NOT NULL";
-		}
-		if(ns.equals("")) {
-			strDate = "ngaySinh IS NOT NULL";
-		}
-		String sql = "SELECT * FROM NhanVien WHERE ("
-				+ strTen + " and "
-				+ strSDT + " and "
-				+ strEmail + " and "
-				+ strDate + " and "
-				+ strGender + ")";
-		System.out.println(strTen+strSDT+strEmail+strDate+strGender);
-		System.out.println(sql);
-		try {
-			stm = con.prepareStatement(sql);
-			stm.setString(1, tenNV);
-			stm.setString(2, sdt);
-			stm.setString(3, email);
-			stm.setDate(4, date);
-			stm.setInt(5, gt);
-			System.out.println(stm);
-			ResultSet rs = stm.executeQuery();
-			while(rs.next()) {
-				ds.add(new NhanVien(rs.getString("maNV"),rs.getString("tenNV"),rs.getDate("ngaySinh"),rs.getInt("gioiTinh"),rs.getString("soDienThoai"),rs.getString("diaChi"),rs.getString("email"),rs.getString("ChucVu")));
-			}		
-		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
-		}
-		return ds;
-	}
-	public ArrayList<NhanVien> findNV2(String tenNV, String sdt, String email, Integer gt, String ns) {
 		ArrayList<NhanVien> ds = new ArrayList<NhanVien>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();

@@ -198,7 +198,7 @@ public class PanelTimNV extends JPanel {
 
 		ls.clear();
 		stt =1;
-		for(NhanVien nv: DAO_NV.findNV2(tenNV,sdt,email,gt,ns)) {
+		for(NhanVien nv: DAO_NV.findNV(tenNV,sdt,email,gt,ns)) {
 			ls.themNhanVien(nv);
 			String gioiTinh = "Nam";
 			if(nv.getGioiTinh()==0) {

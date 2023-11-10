@@ -176,6 +176,22 @@ public class SanPham {
 	public void setDanhMuc(String danhMuc) {
 		this.danhMuc = danhMuc;
 	}
+
+
+
+
+	public SanPham(String maSP, String tenSP, String nhaXB, int namXB, int soLuong, double donGiaGoc, String tinhTrang,
+			String danhMuc) {
+		super();
+		this.maSP = maSP;
+		this.tenSP = tenSP;
+		this.nhaXB = nhaXB;
+		this.namXB = namXB;
+		this.soLuong = soLuong;
+		this.donGiaGoc = donGiaGoc;
+		this.tinhTrang = tinhTrang;
+		this.danhMuc = danhMuc;
+	}
 	
 	
 	

@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
 public class PanelDatHang extends JPanel {
-	private JTextField textField;
+	private JTextField txtTen;
 	private JTextField txtSoLuongNhap;
 	private JTextField txtChietKhau;
 	private JLabel lblValueTT;
@@ -45,7 +45,6 @@ public class PanelDatHang extends JPanel {
 	private DAO_SanPham DAO_SP;
 	private DanhSachChiTietPDH lsCTPDH;
 	private DAO_ChiTietPDH DAO_CTPDH;
-//	private DanhSachPhieuDH lsPDH;
 	private DAO_PhieuDH DAO_PDH;
 	private int stt =1;
 	private int sttCTDH = 1;
@@ -97,10 +96,10 @@ public class PanelDatHang extends JPanel {
 		lblTen.setBounds(120, 17, 70, 20);
 		tblPanel.add(lblTen);
 		
-		textField = new JTextField();
-		textField.setBounds(200, 19, 100, 20);
-		tblPanel.add(textField);
-		textField.setColumns(10);
+		txtTen = new JTextField();
+		txtTen.setBounds(200, 19, 100, 20);
+		tblPanel.add(txtTen);
+		txtTen.setColumns(10);
 		
 		JLabel lblTheLoai = new JLabel("Danh mục");
 		lblTheLoai.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -112,6 +111,11 @@ public class PanelDatHang extends JPanel {
 		tblPanel.add(cbDM);
 		
 		JButton btnTim = new JButton("Tìm");
+		btnTim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				findSPByCondition();
+			}
+		});
 		btnTim.setBackground(new Color(0, 128, 255));
 		btnTim.setBounds(1080, 11, 90, 30);
 		tblPanel.add(btnTim);
@@ -144,9 +148,10 @@ public class PanelDatHang extends JPanel {
 		cbNamXB.setBounds(790, 18, 70, 22);
 		tblPanel.add(cbNamXB);
 		
-		cbDM.addItem("...");
-		cbNhaXB.addItem("...");
-		cbNamXB.addItem("...");
+		cbDM.addItem("");
+		cbNhaXB.addItem("");
+		cbNamXB.addItem("");
+		
 		JPanel tbl = new JPanel();
 		tbl.setBounds(1200, 240, 720, 584);
 		add(tbl);
@@ -173,9 +178,6 @@ public class PanelDatHang extends JPanel {
 		lblHDDH.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblHDDH.setBounds(215, 11, 305, 30);
 		tbl.add(lblHDDH);
-		
-		
-		
 		
 		JLabel lblThanhTien = new JLabel("Thành tiền");
 		lblThanhTien.setForeground(new Color(255, 0, 0));
@@ -358,7 +360,7 @@ public class PanelDatHang extends JPanel {
 		lblValueTT.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblValueTT.setBounds(110, 529, 150, 30);
 		tbl.add(lblValueTT);
-		findSP();
+		getSP();
 		
 	}
 	public void deleteAllDataJtable(JTable table) {
@@ -368,7 +370,7 @@ public class PanelDatHang extends JPanel {
 		    dm.removeRow(0);
 		}
 	}
-	public void findSP() {
+	public void getSP() {
 		deleteAllDataJtable(table);
 		DAO_SP = new DAO_SanPham();
 
@@ -389,7 +391,22 @@ public class PanelDatHang extends JPanel {
 			tableModel.addRow(row);
 			
 		}
+	}
+	public void findSPByCondition() {
+		deleteAllDataJtable(table);
+		DAO_SP = new DAO_SanPham();
 
+		lsSP.clear();
+		stt =1;
+		String dm = cbDM.getSelectedItem().toString();
+		String nhaXB = cbNhaXB.getSelectedItem().toString();
+		String namXB = cbNamXB.getSelectedItem().toString();
+		for(SanPham sp: DAO_SP.findSP(txtTen.getText(),dm,nhaXB,namXB)) {
+			lsSP.add(sp);
+			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc(),sp.getTinhTrang()};
+			tableModel.addRow(row);
+			
+		}
 	}
 	private boolean validData() {
 		String maDH = txtMaDH.getText().trim();

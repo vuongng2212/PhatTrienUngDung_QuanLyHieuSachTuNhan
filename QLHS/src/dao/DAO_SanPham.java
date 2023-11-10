@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
-
+import entity.NhanVien;
 import entity.SanPham;
 import interfaces.daoInterface;
 import list.DanhSachSanPham;
@@ -113,6 +114,48 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			// TODO: handle exception
 			return false;
 		}
+	}
+	public ArrayList<SanPham> findSP(String tenSP, String danhMuc, String nhaXB, String namXB) {
+		ArrayList<SanPham> ds = new ArrayList<SanPham>();
+		
+		String strTen = "tenSP = N'" +tenSP+ "'";
+		String strDanhMuc = "danhMuc = N'"+danhMuc+"'";
+		String strNhaXB = "nhaXB = N'"+nhaXB+"'";
+		String strNamXB = "namXB = "+namXB+"";
+
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		
+		if(tenSP.equals("")) {
+			strTen = "tenSP IS NOT NULL";
+		}
+		if(danhMuc.equals("")) {
+			strDanhMuc = "danhMuc IS NOT NULL";
+		}
+		if(nhaXB.equals("")) {
+			strNhaXB = "nhaXB IS NOT NULL";
+		}
+		if(namXB.equals("")) {
+			strNamXB = "namXB IS NOT NULL";
+		}
+		String sql = "SELECT * FROM sanPham WHERE ("
+				+ strTen + " and "
+				+ strDanhMuc + " and "
+				+ strNhaXB + " and "
+				+ strNamXB + ")";
+		System.out.println(sql);
+		try {
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()) {
+				ds.add(new SanPham(rs.getString("maSP"), rs.getString("tenSP"), rs.getString("nhaXB"), rs.getInt("namXB"), rs.getInt("soLuong"), rs.getFloat("donGiaGoc"),rs.getString("tinhTrang"), rs.getString("danhMuc")));
+			}		
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		return ds;
 	}
 	@Override
 	public void close(PreparedStatement stm) {
