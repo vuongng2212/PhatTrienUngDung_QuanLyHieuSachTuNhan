@@ -21,8 +21,11 @@ import java.awt.Font;
 import java.awt.Image;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -31,6 +34,7 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.awt.event.ActionEvent;
 
 public class PanelShift extends JPanel {
@@ -39,13 +43,16 @@ public class PanelShift extends JPanel {
 	private DefaultTableModel tableModel;
 	private DanhSachPhanCongCa ls;
 	private DAO_PhanCongCa DAO_pcc;
+	private String[] headers;
+	private JScrollPane scroll;
+	private boolean tableCheck;
 	private Image img_TimNV = new ImageIcon(FormNVQuanLy.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	/**
 	 * Create the panel.
 	 */
 	public PanelShift() {
 		ls = new DanhSachPhanCongCa();
-		
+		tableCheck=false;
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
@@ -65,21 +72,55 @@ public class PanelShift extends JPanel {
 		lblTieuDe.setBounds(880, 11, 232, 28);
 		headerPanel.add(lblTieuDe);
 		
-		String[] headers = { "", "Thứ 2\nhello", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
-		tableModel = new DefaultTableModel(headers, 0);
-		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scroll.setBounds(0, 130, 1450, 689);
-		add(scroll);
-		scroll.setViewportView(table = new JTable(tableModel));
-		table.setRowHeight(200);
-//		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(3).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(4).setPreferredWidth(10);
-//		table.getColumnModel().getColumn(6).setPreferredWidth(10);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("dd/MM/yyyy");
+		dateChooser.setBounds(1211, 89, 140, 30);
+		add(dateChooser);
 		
+		JButton btnTim = new JButton("Tìm");
+		btnTim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Date date = new Date(dateChooser.getDate().getTime());
+				headers = findDayInWeek(date);
+				DAO_pcc = new DAO_PhanCongCa();
+
+				
+				if(tableCheck==true) {
+					remove(scroll);
+				}
+				
+				tableModel = new DefaultTableModel(headers, 0);
+
+				scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				scroll.setBounds(0, 130, 1450, 689);
+				add(scroll);
+				tableCheck = true;
+				scroll.setViewportView(table = new JTable(tableModel));
+				table.setRowHeight(200);
+				table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+				
+				if(tableCheck==true) {
+					ArrayList<String> ca = new ArrayList<String>();
+					for (int i = 0; i < 7; i++)
+				    {	
+						System.out.println(headers[i]);
+						PhanCongCa pcc = DAO_pcc.get1Shift(headers[i], 1);
+						if(pcc!=null) {
+							ca.add(pcc.getMaNV());
+						}
+						else {
+							ca.add("");
+						}
+				    }
+					System.out.println(ca);
+					tableModel.addRow(ca.toArray());
+				}
+			}
+		});
+		btnTim.setBackground(new Color(0, 255, 64));
+		btnTim.setBounds(1361, 89, 89, 30);
+		add(btnTim);
+
 		JPanel panel = new JPanel();
 		panel.setBounds(1450, 130, 489, 686);
 		add(panel);
@@ -131,26 +172,6 @@ public class PanelShift extends JPanel {
 		textField.setColumns(10);
 		
 		
-		
-		JLabel lblStart = new JLabel("Ngày bắt đầu");
-		lblStart.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblStart.setBounds(10, 89, 100, 30);
-		add(lblStart);
-		
-		JLabel lblEnd = new JLabel("Ngày kết thúc");
-		lblEnd.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblEnd.setBounds(400, 89, 100, 30);
-		add(lblEnd);
-		JDateChooser dateChooserStart = new JDateChooser();
-		dateChooserStart.setDateFormatString("dd-MM-yyyy");
-		dateChooserStart.setBounds(120, 89, 140, 30);
-		add(dateChooserStart);
-		
-		JDateChooser dateChooserEnd = new JDateChooser();
-		dateChooserEnd.setDateFormatString("dd-MM-yyyy");
-		dateChooserEnd.setBounds(510, 89, 140, 30);
-		add(dateChooserEnd);
-		
 		JButton btnTimNV = new JButton("");
 		btnTimNV.setIcon(new ImageIcon(img_TimNV));
 		btnTimNV.setBounds(243, 137, 30, 30);
@@ -169,20 +190,7 @@ public class PanelShift extends JPanel {
 		btnLuu.setBounds(22, 324, 89, 30);
 		panel.add(btnLuu);
 		
-		JButton btnTim = new JButton("Tìm");
-		btnTim.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				String start = ((JTextField)dateChooserStart.getDateEditor().getUiComponent()).getText().trim();
-//				String end = ((JTextField)dateChooserStart.getDateEditor().getUiComponent()).getText().trim();
-				String start = new Date(dateChooserStart.getDate().getTime()).toString();
-				String end = new Date(dateChooserEnd.getDate().getTime()).toString();
-//				System.out.println(start + "" + end);
-				loadData(start, end, 1);
-			}
-		});
-		btnTim.setBackground(new Color(0, 255, 64));
-		btnTim.setBounds(700, 89, 89, 30);
-		add(btnTim);
+		
 		
 	}
 	public void deleteAllDataJtable() {
@@ -192,25 +200,33 @@ public class PanelShift extends JPanel {
 		    dm.removeRow(0);
 		}
 	}
-	public void loadData(String start, String end, Integer shift ) {
+	public void loadData(String date, Integer shift, Integer r, Integer c ) {
 		deleteAllDataJtable();
 		DAO_pcc = new DAO_PhanCongCa();
 
 		ls.clear();
-		ArrayList<String> ca = new ArrayList<String>();
-
-		for(PhanCongCa pcc: DAO_pcc.get1Shift(start, end, shift)) {
-			ca.add(pcc.getMaNV()+"\n"+pcc.getNgayLV());
-			System.out.println(pcc.getMaNV());
-		}
-		
-		tableModel.addRow(ca.toArray());
+//		ArrayList<String> ca = new ArrayList<String>();
+//		for(PhanCongCa pcc: DAO_pcc.get1Shift(date, shift)) {
+////			ca.add(pcc.getMaNV()+" "+pcc.getNgayLV());
+//		}
+//		tableModel.addRow(ca.toArray());
 	}
-	 private Object[] appendValue(Object[] obj, Object newObj) {
+	public String[] findDayInWeek(Date date) {
+//		date = Date.valueOf("2023-11-10");
+//		Calendar now = Calendar.getInstance();
+		Calendar now = new GregorianCalendar();
+		now.setTime(date);
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-		ArrayList<Object> temp = new ArrayList<Object>(Arrays.asList(obj));
-		temp.add(newObj);
-		return temp.toArray();
+	    String[] days = new String[7];
+	    int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2; //add 2 if your week start on monday
+	    now.add(Calendar.DAY_OF_MONTH, delta );
+	    for (int i = 0; i < 7; i++)
+	    {
+	        days[i] = format.format(now.getTime());
+	        now.add(Calendar.DAY_OF_MONTH, 1);
+	    }
+	    return days;
+	}
 
-	  }
 }

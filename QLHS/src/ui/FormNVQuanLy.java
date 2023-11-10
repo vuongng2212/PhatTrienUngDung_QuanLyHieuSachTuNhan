@@ -220,7 +220,7 @@ public class FormNVQuanLy extends JFrame{
 		lblNgonNgu.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNgonNgu.setBounds(1720, 160, 80, 20);
 		northPanel.add(lblNgonNgu);
-		
+		 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		comboBox.setBounds(1810, 162, 100, 20);

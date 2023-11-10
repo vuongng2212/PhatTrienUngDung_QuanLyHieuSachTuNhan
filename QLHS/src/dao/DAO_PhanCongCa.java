@@ -12,16 +12,16 @@ import connectDB.ConnectDB;
 import entity.PhanCongCa;
 
 public class DAO_PhanCongCa {
-	public ArrayList<PhanCongCa> get1Shift(String start, String end, Integer shift) {
-		ArrayList<PhanCongCa> ds = new ArrayList<PhanCongCa>();
+	public PhanCongCa get1Shift(String date,Integer shift) {
+		PhanCongCa ds = null;
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from phanCongCa where ngayLamViec BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and maCa = "+ shift;
+			String sql = "select * from phanCongCa where ngayLamViec = CAST('"+date+"' AS DATE) and maCa = "+ shift;
 			Statement statement =con.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
-		while(rs.next()) {
-			ds.add(new PhanCongCa(rs.getString("maNV"),rs.getInt("maCa"),rs.getDate("ngayLamViec")));
+			ResultSet rs = statement.executeQuery(sql); 
+		if(rs.next()) {
+			ds = new PhanCongCa(rs.getString("maNV"),rs.getInt("maCa"),rs.getDate("ngayLamViec"));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();

@@ -13,6 +13,11 @@ public class PhanCongCa {
 		super();
 		this.maNV = maNV;
 	}
+	
+	public PhanCongCa(Date ngayLV) {
+		super();
+		this.ngayLV = ngayLV;
+	}
 	public PhanCongCa(String maNV, Integer maCa , Date ngayLV) {
 		super();
 		this.maNV = maNV;
