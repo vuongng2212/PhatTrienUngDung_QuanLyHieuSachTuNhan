@@ -25,14 +25,22 @@ import com.google.zxing.common.HybridBinarizer;
 public class TestQR {
 	public static void main(String[] args) throws Exception {
         
-        String content = "https://simplifyingtechcode.wordpress.com/";
-        String pathToStore = "D:\\QRCodeGenerated.jpg";
+        String content = "0799558911 1111";
+        String pathToStore = "D:\\NV001.jpg";
          
         BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, 500, 500);
         MatrixToImageWriter.writeToPath(bitMatrix, "jpg", Paths.get(pathToStore));
         System.out.println("QR Code Generated Successfully");
  
     }
+//	public static void main(String[] args) throws Exception {
+//        String content = "0799558911;1111";
+////        for(String w:content.split(";",0)){  
+////        	System.out.println(w);  
+////        }  
+//        System.out.println(content.substring(0, 10));
+//        System.out.println(content.substring(11));
+//    }
 //	public static void main(String[] args) throws Exception {
 //        
 //        try {

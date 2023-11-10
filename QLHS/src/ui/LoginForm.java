@@ -146,7 +146,12 @@ public class LoginForm extends JFrame {
 		lblKhachHang.setForeground(new Color(0, 0, 160));
 		lblKhachHang.setBounds(70, 214, 180, 14);
 		contentPane.add(lblKhachHang);
-		txtUser.setText(account);
-		System.out.println(account);
+		
+		if(account != null) {
+			txtUser.setText(account.substring(0, 10));
+			txtPass.setText(account.substring(11));
+			btnDangnhap.doClick();
+		}
+		
 	}
 }

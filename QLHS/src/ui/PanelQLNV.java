@@ -23,6 +23,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.toedter.calendar.JDateChooser;
 
 import connectDB.ConnectDB;
@@ -33,6 +38,8 @@ import list.DanhSachNhanVien;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 
@@ -173,7 +180,7 @@ public class PanelQLNV extends JPanel{
 		String[] headers = { "STT", "Mã nhân viên", "Họ và tên","Ngày sinh",  "Giới tính",  "SĐT", "Địa chỉ", "Email", "Chức vụ"};
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scroll.setBounds(400, 0, 1520, 817);
+		scroll.setBounds(400, 0, 1520, 760);
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -241,7 +248,7 @@ public class PanelQLNV extends JPanel{
 		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnSua.setBackground(new Color(0, 128, 255));
-		btnSua.setBounds(140, 445, 100, 30);
+		btnSua.setBounds(155, 445, 100, 30);
 		westPanel.add(btnSua);
 		
 		JButton btnThem = new JButton("Thêm");
@@ -306,8 +313,35 @@ public class PanelQLNV extends JPanel{
 		btnXoa.setForeground(new Color(0, 0, 160));
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnXoa.setBackground(new Color(255, 0, 0));
-		btnXoa.setBounds(265, 445, 100, 30);
+		btnXoa.setBounds(290, 445, 100, 30);
 		westPanel.add(btnXoa);
+		
+		JButton btnTaoQR = new JButton("Tạo QR");
+		btnTaoQR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if(row != -1) {
+					DAO_NV = new DAO_NhanVien();
+					String user = txtSDT.getText();
+					String pwd = DAO_NV.getPwd(user);
+					System.out.println(pwd);
+					try {
+						GenerateQR(user, pwd);
+					} catch (WriterException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(getParent(), "Vui lòng chọn nhân viên muốn tạo QR");
+				}
+			}
+		});
+		btnTaoQR.setForeground(new Color(0, 0, 160));
+		btnTaoQR.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnTaoQR.setBackground(Color.GREEN);
+		btnTaoQR.setBounds(1810, 771, 100, 30);
+		add(btnTaoQR);
 
 		loadData();
 	}
@@ -350,7 +384,6 @@ public class PanelQLNV extends JPanel{
 		String tenNV = txtTen.getText().trim();
 		String sdt = txtSDT.getText().trim();
 		String gmail = txtEmail.getText().trim();
-		String diachi = txtDiaChi.getText().trim();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 		
@@ -394,5 +427,12 @@ public class PanelQLNV extends JPanel{
 		}
 		
 		return true;
+	}
+	public void GenerateQR(String user, String pwd) throws WriterException, IOException {
+		String content = user + " " + pwd;
+        String pathToStore = "D:\\"+user+".jpg";
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, 500, 500);
+        MatrixToImageWriter.writeToPath(bitMatrix, "jpg", Paths.get(pathToStore));
+        JOptionPane.showMessageDialog(getParent(), "Tạo mã QR thành công! Mã QR được lưu vào ổ D:");
 	}
 }

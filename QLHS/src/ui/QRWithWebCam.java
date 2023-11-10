@@ -22,6 +22,9 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
 
 public class QRWithWebCam extends JFrame implements Runnable,ThreadFactory{
 
@@ -32,6 +35,7 @@ public class QRWithWebCam extends JFrame implements Runnable,ThreadFactory{
 	private JPanel PanelCam;
 	private Result result = null;
 	private BufferedImage image = null;
+	private JLabel lblCheck;
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	/**
 	 * Launch the application.
@@ -80,6 +84,13 @@ public class QRWithWebCam extends JFrame implements Runnable,ThreadFactory{
 		camPanel.setPreferredSize(size);
 		camPanel.setFPSDisplayed(true);
 		PanelCam.add(camPanel);
+		
+		lblCheck = new JLabel("Hold your camera...");
+		lblCheck.setForeground(new Color(255, 0, 0));
+//		lblCheck.setForeground(new Color(0, 128, 0));
+		lblCheck.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblCheck.setBounds(205, 411, 184, 30);
+		panel.add(lblCheck);
 		executor.execute(this);
 	}
 	public void stopThread() {
@@ -110,11 +121,12 @@ public class QRWithWebCam extends JFrame implements Runnable,ThreadFactory{
 //					e.printStackTrace();
 				}
 				if(result != null) {
+					lblCheck.setForeground(new Color(0, 128, 0));
+					lblCheck.setText("succeed!");
 					LoginForm f = new LoginForm(result.getText());
 					f.setVisible(true);
 					stopThread();
 					dispose();
-//					System.out.println(result.getText());
 				}
 			}
 		} while (result == null);
