@@ -1,25 +1,18 @@
 package entity;
 
 public class Ca {
-	private String maCa;
+	private Integer maCa;
 	private String gioBatDau, gioKetThuc;
 	
 	public Ca() {
 		super();
 	}
 
-	public Ca(String maCa, String gioBatDau, String gioKetThuc) {
-		super();
-		this.maCa = maCa;
-		this.gioBatDau = gioBatDau;
-		this.gioKetThuc = gioKetThuc;
-	}
-
-	public String getMaCa() {
+	public Integer getMaCa() {
 		return maCa;
 	}
 
-	public void setMaCa(String maCa) {
+	public void setMaCa(Integer maCa) {
 		this.maCa = maCa;
 	}
 
@@ -38,5 +31,14 @@ public class Ca {
 	public void setGioKetThuc(String gioKetThuc) {
 		this.gioKetThuc = gioKetThuc;
 	}
+
+	public Ca(Integer maCa, String gioBatDau, String gioKetThuc) {
+		super();
+		this.maCa = maCa;
+		this.gioBatDau = gioBatDau;
+		this.gioKetThuc = gioKetThuc;
+	}
+
+
 	
 }

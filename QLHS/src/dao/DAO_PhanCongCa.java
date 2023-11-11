@@ -17,11 +17,11 @@ public class DAO_PhanCongCa {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from phanCongCa where ngayLamViec = CAST('"+date+"' AS DATE) and maCa = "+ shift;
+			String sql = "select pcc.maNV,maCa,ngayLamViec,nv.tenNV from phanCongCa pcc join nhanVien nv on pcc.maNV = nv.maNV where ngayLamViec = CAST('"+date+"' AS DATE) and maCa = "+ shift;
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql); 
 		if(rs.next()) {
-			ds = new PhanCongCa(rs.getString("maNV"),rs.getInt("maCa"),rs.getDate("ngayLamViec"));
+			ds = new PhanCongCa(rs.getString("maNV"),rs.getDate("ngayLamViec"),rs.getInt("maCa"),rs.getString("tenNV"));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();

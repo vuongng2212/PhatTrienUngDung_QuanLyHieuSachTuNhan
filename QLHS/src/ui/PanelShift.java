@@ -8,12 +8,10 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import connectDB.ConnectDB;
-import dao.DAO_NhanVien;
+import dao.DAO_Ca;
 import dao.DAO_PhanCongCa;
 import entity.Ca;
-import entity.NhanVien;
 import entity.PhanCongCa;
-import list.DanhSachNhanVien;
 import list.DanhSachPhanCongCa;
 
 import javax.swing.JLabel;
@@ -23,26 +21,26 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class PanelShift extends JPanel {
-	private JTextField textField;
+	private JLabel lblValDate,lblValCa,lblValTen,lblStartHour,lblEndHour;
+	private JTextField txtMaNV;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private DanhSachPhanCongCa ls;
 	private DAO_PhanCongCa DAO_pcc;
+	private DAO_Ca DAO_ca;
 	private String[] headers;
 	private JScrollPane scroll;
 	private boolean tableCheck;
@@ -82,9 +80,7 @@ public class PanelShift extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Date date = new Date(dateChooser.getDate().getTime());
 				headers = findDayInWeek(date);
-				DAO_pcc = new DAO_PhanCongCa();
 
-				
 				if(tableCheck==true) {
 					remove(scroll);
 				}
@@ -96,24 +92,37 @@ public class PanelShift extends JPanel {
 				add(scroll);
 				tableCheck = true;
 				scroll.setViewportView(table = new JTable(tableModel));
-				table.setRowHeight(200);
+				table.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent e) {
+						int r = table.getSelectedRow();
+						String str = "";
+						if(r!=-1) {
+							int c = table.getSelectedColumn();
+							str = (String) table.getValueAt(r,c);
+							lblValDate.setText(headers[c]);
+							if(!str.equals("")) {
+								txtMaNV.setText(str.substring(0, 5));
+								lblValTen.setText(str.substring(6));
+							}
+							else {
+								txtMaNV.setText("");
+								lblValTen.setText("");
+							}
+							lblValCa.setText(""+r+1);
+							
+							DAO_ca = new DAO_Ca();
+							Ca ca = DAO_ca.getGio(r+1);
+							lblStartHour.setText(ca.getGioBatDau());
+							lblEndHour.setText(ca.getGioKetThuc());
+						}	
+					}
+				});
+				table.setRowHeight(300);
 				table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 				
 				if(tableCheck==true) {
-					ArrayList<String> ca = new ArrayList<String>();
-					for (int i = 0; i < 7; i++)
-				    {	
-						System.out.println(headers[i]);
-						PhanCongCa pcc = DAO_pcc.get1Shift(headers[i], 1);
-						if(pcc!=null) {
-							ca.add(pcc.getMaNV());
-						}
-						else {
-							ca.add("");
-						}
-				    }
-					System.out.println(ca);
-					tableModel.addRow(ca.toArray());
+					loadCa(headers);
 				}
 			}
 		});
@@ -166,10 +175,10 @@ public class PanelShift extends JPanel {
 		
 		
 		
-		textField = new JTextField();
-		textField.setBounds(147, 139, 86, 30);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtMaNV = new JTextField();
+		txtMaNV.setBounds(147, 139, 86, 30);
+		panel.add(txtMaNV);
+		txtMaNV.setColumns(10);
 		
 		
 		JButton btnTimNV = new JButton("");
@@ -190,6 +199,31 @@ public class PanelShift extends JPanel {
 		btnLuu.setBounds(22, 324, 89, 30);
 		panel.add(btnLuu);
 		
+		lblValDate = new JLabel("");
+		lblValDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblValDate.setBounds(147, 55, 115, 30);
+		panel.add(lblValDate);
+		
+		lblValCa = new JLabel("");
+		lblValCa.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblValCa.setBounds(147, 96, 115, 30);
+		panel.add(lblValCa);
+		
+		lblValTen = new JLabel("");
+		lblValTen.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblValTen.setBounds(147, 178, 200, 30);
+		panel.add(lblValTen);
+		
+		lblStartHour = new JLabel("");
+		lblStartHour.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblStartHour.setBounds(147, 216, 115, 30);
+		panel.add(lblStartHour);
+		
+		lblEndHour = new JLabel("");
+		lblEndHour.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblEndHour.setBounds(147, 257, 115, 30);
+		panel.add(lblEndHour);
+		
 		
 		
 	}
@@ -200,17 +234,34 @@ public class PanelShift extends JPanel {
 		    dm.removeRow(0);
 		}
 	}
-	public void loadData(String date, Integer shift, Integer r, Integer c ) {
+	public void loadCa(String[] date) {
 		deleteAllDataJtable();
 		DAO_pcc = new DAO_PhanCongCa();
+		ArrayList<String> ca1 = new ArrayList<String>();
+		ArrayList<String> ca2 = new ArrayList<String>();
+		for (int i = 0; i < 7; i++)
+	    {	
+			PhanCongCa pcc = DAO_pcc.get1Shift(date[i], 1);
+			if(pcc!=null) {
+				ca1.add(pcc.getMaNV()+"."+pcc.getTenNV());
+			}
+			else {
+				ca1.add("");
+			}
+			
+			PhanCongCa pcc2 = DAO_pcc.get1Shift(date[i], 2);
+			if(pcc2!=null) {
+				ca2.add(pcc2.getMaNV()+"."+pcc2.getTenNV());
+			}
+			else {
+				ca2.add("");
+			}
+	    }
+		tableModel.addRow(ca1.toArray());
+		tableModel.addRow(ca2.toArray());
+    }
 
-		ls.clear();
-//		ArrayList<String> ca = new ArrayList<String>();
-//		for(PhanCongCa pcc: DAO_pcc.get1Shift(date, shift)) {
-////			ca.add(pcc.getMaNV()+" "+pcc.getNgayLV());
-//		}
-//		tableModel.addRow(ca.toArray());
-	}
+	
 	public String[] findDayInWeek(Date date) {
 //		date = Date.valueOf("2023-11-10");
 //		Calendar now = Calendar.getInstance();
@@ -228,5 +279,4 @@ public class PanelShift extends JPanel {
 	    }
 	    return days;
 	}
-
 }

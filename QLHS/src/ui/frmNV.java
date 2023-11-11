@@ -77,8 +77,6 @@ public class frmNV extends JFrame {
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1550, 1500,Image.SCALE_SMOOTH );
 	private Image img_logo_test = new ImageIcon(frmNV.class.getResource("/image/title.jpg")).getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH );
 	
-	
-	
 	private final JLabel lblNewLabel = new JLabel("");
 	private panelLichLam system;
 	private panelProduct product;
