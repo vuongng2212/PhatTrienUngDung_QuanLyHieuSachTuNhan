@@ -15,10 +15,14 @@ import entity.PhanCongCa;
 import list.DanhSachPhanCongCa;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -109,7 +113,8 @@ public class PanelShift extends JPanel {
 								txtMaNV.setText("");
 								lblValTen.setText("");
 							}
-							lblValCa.setText(""+r+1);
+							int caVal = r +1;
+							lblValCa.setText(""+caVal);
 							
 							DAO_ca = new DAO_Ca();
 							Ca ca = DAO_ca.getGio(r+1);
@@ -187,12 +192,56 @@ public class PanelShift extends JPanel {
 		panel.add(btnTimNV);
 		
 		JButton btnXoa = new JButton("Xóa ca");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(DAO_pcc.delete(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblValDate.getText())) {
+						JOptionPane.showMessageDialog(getParent(), "Xóa thành công");
+					}
+					else {
+						JOptionPane.showMessageDialog(getParent(), "Xóa thất bại");
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				loadCa(headers);
+			}
+		});
 		btnXoa.setForeground(Color.WHITE);
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnXoa.setBackground(new Color(255, 0, 0));
-		btnXoa.setBounds(184, 324, 89, 30);
+		btnXoa.setBounds(315, 324, 89, 30);
 		panel.add(btnXoa);
 		JButton btnLuu = new JButton("Lưu");
+		btnLuu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(DAO_pcc.add(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblValDate.getText())) {
+						JOptionPane.showMessageDialog(getParent(), "Thêm thành công");
+					}
+					else {
+						JOptionPane.showMessageDialog(getParent(), "Thêm thất bại");
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				loadCa(headers);
+			}
+		});
 		btnLuu.setBackground(new Color(0, 255, 64));
 		btnLuu.setForeground(new Color(255, 255, 255));
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -224,6 +273,35 @@ public class PanelShift extends JPanel {
 		lblEndHour.setBounds(147, 257, 115, 30);
 		panel.add(lblEndHour);
 		
+		JButton btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(DAO_pcc.update(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblValDate.getText())) {
+						JOptionPane.showMessageDialog(getParent(), "Cập nhật thành công");
+					}
+					else {
+						JOptionPane.showMessageDialog(getParent(), "Cập nhật thất bại");
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				loadCa(headers);
+			}
+		});
+		btnSua.setForeground(Color.WHITE);
+		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnSua.setBackground(new Color(0, 255, 64));
+		btnSua.setBounds(173, 324, 89, 30);
+		panel.add(btnSua);
+		
 		
 		
 	}
@@ -236,6 +314,7 @@ public class PanelShift extends JPanel {
 	}
 	public void loadCa(String[] date) {
 		deleteAllDataJtable();
+		
 		DAO_pcc = new DAO_PhanCongCa();
 		ArrayList<String> ca1 = new ArrayList<String>();
 		ArrayList<String> ca2 = new ArrayList<String>();

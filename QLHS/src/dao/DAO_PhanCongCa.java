@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
@@ -30,18 +32,22 @@ public class DAO_PhanCongCa {
 
 	}	
 	
-	public boolean add(PhanCongCa ca) {
+	public boolean add(String maNV, Integer maCa, String date) throws ParseException {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "INSERT phanCongCa VALUES"
-				+ "(?,?,?)";
+		String sql = "INSERT phanCongCa values (?,?,?)";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		java.util.Date utilDate = sdf.parse(date);
+		 
+		Date sqlDate = new Date(utilDate.getTime());
 		try {
 			stm = con.prepareStatement(sql);
-			stm.setString(1, ca.getMaNV());
-			stm.setInt(2, ca.getMaCa());
-			stm.setDate(3, ca.getNgayLV());
+			stm.setString(1, maNV); 
+			stm.setInt(2, maCa);
+			stm.setDate(3, sqlDate);
 			stm.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -53,23 +59,59 @@ public class DAO_PhanCongCa {
 		}
 		return true;
 	}
-
-	public void delete(String maNV, Integer maCa, Date ngayLV) {
+	public boolean update(String maNV, Integer maCa, String date) throws ParseException {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DELETE from phanCongCa where maNV = ? and maCa = ? and ngayLamViec = ?";
+		String sql = "Update phanCongCa set maNV = ? where maCa = ? and ngayLamViec = ?";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		java.util.Date utilDate = sdf.parse(date);
+		 
+		Date sqlDate = new Date(utilDate.getTime());
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, maNV);
 			stm.setInt(2, maCa);
-			stm.setDate(3, ngayLV);
+			stm.setDate(3, sqlDate);
 			stm.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			return false;
 		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
+	public boolean delete(String maNV, Integer maCa, String date) throws ParseException {
+		// TODO Auto-generated method stub
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "DELETE phanCongCa WHERE maNV = ? and maCa = ? and ngayLamViec = ?";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		java.util.Date utilDate = sdf.parse(date);
+		 
+		Date sqlDate = new Date(utilDate.getTime());
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, maNV); 
+			stm.setInt(2, maCa);
+			stm.setDate(3, sqlDate);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
 	}
 	private void close(PreparedStatement stm) {
 		// TODO Auto-generated method stub
