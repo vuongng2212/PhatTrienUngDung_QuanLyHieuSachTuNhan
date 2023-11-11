@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 import connectDB.ConnectDB;
 import dao.DAO_account;
 import entity.Account;
+import entity.NhanVien;
+import entity.userInfo;
 
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -25,7 +27,8 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class LoginForm extends JFrame {
-
+	public NhanVien userI4;
+	public static float PI = 3.14f;
 	private JPanel contentPane;
 	private JLabel lblUser,lblPass;
 	private JTextField txtUser, txtPass;
@@ -87,6 +90,9 @@ public class LoginForm extends JFrame {
 					Account acc = new Account(user, pwd);
 					DAO_acc = new DAO_account();
 					if(DAO_acc.checkAccount(acc)) {
+						userI4 = DAO_acc.getIDandName(user);
+						userInfo.setMaNV(userI4.getMaNV());
+						userInfo.setTenNV(userI4.getTenNV());
 						String role = DAO_acc.getRole(user);
 						if(role!=null) {
 							if(role.equals("Quản lý")) {

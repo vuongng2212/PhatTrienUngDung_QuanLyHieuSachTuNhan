@@ -8,6 +8,12 @@ public class NhanVien {
 	private Date doB;
 	private Integer gioiTinh;
 	private String SDT, diaChi, email, chucVu;
+	
+	public NhanVien(String maNV, String tenNV) {
+		super();
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+	}
 	public NhanVien(String maNV, String tenNV, Date doB, Integer gioiTinh, String sDT, String diaChi, String email,
 			String chucVu) {
 		super();
