@@ -45,15 +45,15 @@ public class SanPhamFrm extends JDialog {
 	private JTextField txtKeyText;
 	
 
-//	public static void main(String[] args) {
-//		try {
-//			SanPhamFrm dialog = new SanPhamFrm();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public static void main(String[] args) {
+		try {
+			SanPhamFrm dialog = new SanPhamFrm();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Create the dialog.

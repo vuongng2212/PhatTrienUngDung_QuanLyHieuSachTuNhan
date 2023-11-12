@@ -82,7 +82,7 @@ public class PanelTimKhuyenMai extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(211, 211, 211));
-		panel_1.setBounds(0, 92, 1534, 133);
+		panel_1.setBounds(10, 102, 1534, 133);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -133,7 +133,7 @@ public class PanelTimKhuyenMai extends JPanel {
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton.setBounds(424, 79, 114, 43);
+		btnNewButton.setBounds(302, 79, 114, 43);
 		panel_1.add(btnNewButton);
 		
 		JButton btnToMi = new JButton("Tạo Mới");
@@ -143,20 +143,27 @@ public class PanelTimKhuyenMai extends JPanel {
 			}
 		});
 		btnToMi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnToMi.setBounds(678, 79, 114, 43);
+		btnToMi.setBounds(562, 79, 114, 43);
 		panel_1.add(btnToMi);
 		
 		JButton btnXemChiTit = new JButton("Xem Chi Tiết");
 		btnXemChiTit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dialogShow.setTextReturn(txtReturn);
 				
-				dialogShow.setVisible(true);
-				dialogShow.run(txtReturn);
+				int i = table.getSelectedRow();
+				
+				if(i>=0) {
+					dialogShow.setTextReturn(txtReturn);
+					
+					dialogShow.setVisible(true);
+					dialogShow.run(txtReturn);
+				}else {
+					JOptionPane.showMessageDialog(null,"Vui lòng chọn cột cần xem chi tiết");
+				}
 			}
 		});
 		btnXemChiTit.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnXemChiTit.setBounds(896, 79, 169, 43);
+		btnXemChiTit.setBounds(816, 79, 169, 43);
 		panel_1.add(btnXemChiTit);
 		
 		
@@ -217,6 +224,52 @@ public class PanelTimKhuyenMai extends JPanel {
 		checkBoxDangSuDung.setBounds(1169, 32, 148, 23);
 		panel_1.add(checkBoxDangSuDung);
 		buttonGroup.add(checkBoxDangSuDung);
+		
+		JButton btnXoa = new JButton("Xóa Khuyến Mãi");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				int i = table.getSelectedRow();
+				boolean flag = true;
+				if(i>=0) {
+					daoKm = new DAO_KhuyenMai();
+					ArrayList<KhuyenMai3Field>listkm = new ArrayList<KhuyenMai3Field>();
+					listkm = daoKm.getApDung();
+					for (KhuyenMai3Field km : listkm) {
+						if(km.getMaKm().equalsIgnoreCase(txtReturn))
+							flag =  false;
+						
+					}
+					
+					if(flag) {
+						int option = JOptionPane.showOptionDialog(null, "Chắc chắn xóa khuyến mãi khỏi danh sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
+						switch (option) {
+						case JOptionPane.YES_OPTION:
+							System.out.println("Xoa khuyen mai: " +txtReturn);
+							daoKm.delete(txtReturn);
+//							table.remove(i);
+//							listKm.xoa(i);
+							model.removeRow(i);	
+							break;
+							
+						default:
+							break;
+						}
+						
+
+					}else {
+						JOptionPane.showMessageDialog(null, "Chỉ có thể xoá khuyến mãi đã hết hạn hoặc đang dự định");
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn hàng cần xóa!");
+				}
+				
+				
+			}
+		});
+		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnXoa.setBounds(1093, 79, 169, 43);
+		panel_1.add(btnXoa);
 		checkBoxDangSuDung.addItemListener(new ItemListener() {
 			
 			@Override

@@ -109,6 +109,8 @@ public class frmNV extends JFrame {
 	private PanelProfit profit;
 	private SanPhamFrm dialogfrm;
 	private DialogShowKhuyenMai dialogShowKm;
+	private DialogAddSP dialogAddSp;
+	private DialogAddKH dialogAddKh;
 	/**
 	 * Launch the application.
 	 */
@@ -164,6 +166,8 @@ public class frmNV extends JFrame {
 		khuyenMai = new PanelKhuyenMai();
 		searchKm = new PanelTimKhuyenMai();
 		dialogShowKm = new DialogShowKhuyenMai();
+		dialogAddSp = new DialogAddSP();
+		dialogAddKh = new DialogAddKH();
 		dialogfrm = new SanPhamFrm();
 		dialogfrm.setKhuyenMai(khuyenMai);
 		
@@ -384,12 +388,12 @@ public class frmNV extends JFrame {
 				//Change text for frm Bill
 				bill.lblNewLabel.setText(rd.getString("banhang")); //Ban Hang
 				bill.lblNewLabel.setFont(listCountries.get(index).getFont());
-				bill.lblNewLabel_1.setText(rd.getString("nhaphang")); //Nhap hang
-				bill.lblNewLabel_1.setFont(listCountries.get(index).getFont());
+//				bill.lblNewLabel_1.setText(rd.getString("nhaphang")); //Nhap hang
+//				bill.lblNewLabel_1.setFont(listCountries.get(index).getFont());
 				
 				//Change text for Bill.panelBanHang
-				bill.banHang.lblTcGi.setText(rd.getString("tacGia"));
-				bill.banHang.lblNhXutBn.setText(rd.getString("NXB"));
+//				bill.banHang.lblTcGi.setText(rd.getString("tacGia"));
+//				bill.banHang.lblNhXutBn.setText(rd.getString("NXB"));
 				bill.banHang.lbllSoLuong.setText(rd.getString("soluong"));
 				bill.banHang.lblTimKH.setText(rd.getString("timKH"));
 				bill.banHang.lbllKH.setText(rd.getString("maKH"));
@@ -403,11 +407,11 @@ public class frmNV extends JFrame {
 				bill.banHang.btnHuy.setText(rd.getString("huyBo"));
 				bill.banHang.btnThanhToan.setText(rd.getString("thanhToan"));
 				bill.banHang.btnInHD.setText(rd.getString("inHD"));
-				bill.banHang.lbllTitle.setText(rd.getString("banhang"));
+//				bill.banHang.lbllTitle.setText(rd.getString("banhang"));
 				bill.banHang.lbllProduct.setText(rd.getString("timsach"));
 				bill.banHang.lbllMaSach.setText(rd.getString("maSach"));
-				bill.banHang.lbllTenSach.setText(rd.getString("tenSach"));
-				bill.banHang.lblDanhMc.setText(rd.getString("danhMuc"));
+//				bill.banHang.lbllTenSach.setText(rd.getString("tenSach"));
+//				bill.banHang.lblDanhMc.setText(rd.getString("danhMuc"));
 				
 				bill.banHang.btnNewButton.setText(rd.getString("them"));
 				bill.banHang.btnLmMi.setText(rd.getString("lammoi"));
@@ -465,6 +469,8 @@ public class frmNV extends JFrame {
 		panel_image_title.setVisible(true);
 		profit.setVisible(false);
 		dialogShowKm.setVisible(false);
+		dialogAddSp.setVisible(false);
+		dialogAddKh.setVisible(false);
 		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
 		panelFrm.add(product);
@@ -799,6 +805,7 @@ public class frmNV extends JFrame {
 		product.panelSearchProduct = panelSearchProduct;
 		panelSearchProduct.panelProduct = product;
 		searchKm.dialogShow = dialogShowKm;
-		
+		bill.banHang.dialogAddSp = dialogAddSp;
+		bill.banHang.dialogAddKH = dialogAddKh;
 	}
 }

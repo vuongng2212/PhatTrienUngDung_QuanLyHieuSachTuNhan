@@ -9,8 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
+import entity.KhuyenMai3Field;
 import entity.NhanVien;
 import entity.SanPham;
+import entity.SanPhamShowBill;
 import interfaces.daoInterface;
 import list.DanhSachSanPham;
 
@@ -114,6 +116,32 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			return false;
 		}
 	}
+	
+	
+	
+	public ArrayList<SanPhamShowBill>sanPhamBill(){
+		
+//		DAO_KhuyenMai daokm = new DAO_KhuyenMai();
+//		ArrayList<KhuyenMai3Field>ktraConTonTai(){
+		
+		ArrayList<SanPhamShowBill>listSP = new ArrayList<SanPhamShowBill>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+//		PreparedStatement stm = null;
+		try {
+			String sql = "select distinct sanPham.maSP,sanPham.tenSP,sanPham.tenTacGia,sanPham.danhMuc,sanPham.nhaXB,sanPham.namXB,soLuong,donGiaGoc,donGiaMua,tinhTrang,khuyenMai.discount from khuyenMai join sanPham on khuyenMai.maSP = sanPham.maSP where ngayTao<GETDATE() and ngayHetHan>GETDATE()\r\n";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			listSP.add(new SanPhamShowBill(rs.getString("maSP"), rs.getString("tenSP"), rs.getString("tenTacGia"), rs.getString("nhaXB"), rs.getInt("namXB"), rs.getInt("soLuong"), rs.getDouble("donGiaGoc"), rs.getDouble("donGiaMua"), rs.getString("tinhTrang"), rs.getString("danhMuc"),Integer.parseInt(rs.getString("discount"))));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listSP;
+	}
+	
 	public ArrayList<SanPham> findSP(String tenSP, String danhMuc, String nhaXB, String namXB) {
 		ArrayList<SanPham> ds = new ArrayList<SanPham>();
 		

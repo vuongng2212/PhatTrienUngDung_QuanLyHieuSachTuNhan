@@ -34,7 +34,6 @@ public class PanelCRUDKHang extends JPanel {
 	private JTextField txtTenKH;
 	private JTextField txtPhone;
 	private JTextField txtDiaChi;
-	private JTextField txtLoaiKH;
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	private Image img_find = new ImageIcon(frmNV.class.getResource("/image/search.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	private Image img_reload = new ImageIcon(frmNV.class.getResource("/image/reload.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
@@ -122,7 +121,7 @@ public class PanelCRUDKHang extends JPanel {
 		JLabel lblTnKhchHng = new JLabel("Tên Khách Hàng");
 		lblTnKhchHng.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnKhchHng.setBounds(66, 78, 136, 30);
+		lblTnKhchHng.setBounds(66, 76, 136, 30);
 		panel_1.add(lblTnKhchHng);
 		
 		txtTenKH = new JTextField();
@@ -152,22 +151,11 @@ public class PanelCRUDKHang extends JPanel {
 		txtDiaChi.setBounds(924, 80, 205, 30);
 		panel_1.add(txtDiaChi);
 		
-		JLabel lbllLoaiKH = new JLabel("Loại Khách Hàng");
-		lbllLoaiKH.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllLoaiKH.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllLoaiKH.setBounds(1167, 78, 136, 30);
-		panel_1.add(lbllLoaiKH);
-		
-		txtLoaiKH = new JTextField();
-		txtLoaiKH.setColumns(10);
-		txtLoaiKH.setBounds(1319, 80, 205, 30);
-		panel_1.add(txtLoaiKH);
-		
 		JButton btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(".....");
-			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("") || txtLoaiKH.getText().equals("")) {
+			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
 			
 			}else {
@@ -175,7 +163,7 @@ public class PanelCRUDKHang extends JPanel {
 					System.out.println("Bat dau");
 					
 
-					kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
+					kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),"VL");
 					
 					System.out.println(kh.toString());
 					if(daoKh.add(kh)) {
@@ -184,7 +172,7 @@ public class PanelCRUDKHang extends JPanel {
 						row[1] = txtTenKH.getText();
 						row[2] = txtPhone.getText();
 						row[3] = txtDiaChi.getText();
-						row[4] = txtLoaiKH.getText();
+						row[4] = "VL";
 						model.addRow(row);
 					}
 					
@@ -192,7 +180,7 @@ public class PanelCRUDKHang extends JPanel {
 					txtTenKH.setText("");
 					txtPhone.setText("");
 					txtDiaChi.setText("");
-					txtLoaiKH.setText("");
+//					txtLoaiKH.setText("");
 					JOptionPane.showMessageDialog(null, "Thêm Thành Công");
 				}
 			}
@@ -217,7 +205,7 @@ public class PanelCRUDKHang extends JPanel {
 					model.setValueAt(txtTenKH.getText(), i, 1);
 					model.setValueAt(txtPhone.getText(), i, 2);
 					model.setValueAt(txtDiaChi.getText(), i, 3);
-					model.setValueAt(txtLoaiKH.getText(), i, 4);
+//					model.setValueAt(txtLoaiKH.getText(), i, 4);
 					JOptionPane.showMessageDialog(null, "Đã Sửa Thành Công");
 				}else {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn hàng cần sửa");
@@ -275,10 +263,12 @@ public class PanelCRUDKHang extends JPanel {
 				txtTenKH.setText(model.getValueAt(i, 1).toString());
 				txtPhone.setText(model.getValueAt(i, 2).toString());
 				txtDiaChi.setText(model.getValueAt(i, 3).toString());
-				txtLoaiKH.setText(model.getValueAt(i, 4).toString());
+//				txtLoaiKH.setText(model.getValueAt(i, 4).toString());
 				
 			}
 		});
+		
+		
 		model = new DefaultTableModel();
 		Object[] column = {"Mã Khách Hàng","Tên Khách Hàng","Số Điện Thoại","Địa Chỉ","Loại Khách Hàng"};
 		row = new Object[5];
@@ -374,30 +364,30 @@ public class PanelCRUDKHang extends JPanel {
 		txtDiaChi.setBounds(924, 80, 205, 30);
 		panel_1.add(txtDiaChi);
 		
-		JLabel lbllLoaiKH = new JLabel("Loại Khách Hàng");
-		lbllLoaiKH.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllLoaiKH.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllLoaiKH.setBounds(1167, 78, 136, 30);
-		panel_1.add(lbllLoaiKH);
+//		JLabel lbllLoaiKH = new JLabel("Loại Khách Hàng");
+//		lbllLoaiKH.setHorizontalAlignment(SwingConstants.RIGHT);
+//		lbllLoaiKH.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		lbllLoaiKH.setBounds(1167, 78, 136, 30);
+//		panel_1.add(lbllLoaiKH);
 		
-		txtLoaiKH = new JTextField();
-		txtLoaiKH.setColumns(10);
-		txtLoaiKH.setBounds(1319, 80, 205, 30);
-		panel_1.add(txtLoaiKH);
+//		txtLoaiKH = new JTextField();
+//		txtLoaiKH.setColumns(10);
+//		txtLoaiKH.setBounds(1319, 80, 205, 30);
+//		panel_1.add(txtLoaiKH);
 		
 		JButton btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(".....");
-			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("") || txtLoaiKH.getText().equals("")) {
+			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
 			
 			}else {
-				if(listKH.timKHTheoMa(txtMaKH.getText())==-1 && !listKH.ktraTonTaiSDT(txtPhone.getText())) {
+				if((listKH.timKHTheoMa(txtMaKH.getText())==-1)) {
 					System.out.println("Bat dau");
-					daoKh = new DAO_KhachHang();
+					
 
-					kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),txtLoaiKH.getText());
+					kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),"VL");
 					
 					System.out.println(kh.toString());
 					if(daoKh.add(kh)) {
@@ -406,7 +396,7 @@ public class PanelCRUDKHang extends JPanel {
 						row[1] = txtTenKH.getText();
 						row[2] = txtPhone.getText();
 						row[3] = txtDiaChi.getText();
-						row[4] = txtLoaiKH.getText();
+						row[4] = "VL";
 						model.addRow(row);
 					}
 					
@@ -414,10 +404,8 @@ public class PanelCRUDKHang extends JPanel {
 					txtTenKH.setText("");
 					txtPhone.setText("");
 					txtDiaChi.setText("");
-					txtLoaiKH.setText("");
+//					txtLoaiKH.setText("");
 					JOptionPane.showMessageDialog(null, "Thêm Thành Công");
-				}else {
-					JOptionPane.showMessageDialog(null, "Vui long tranh trung lap");
 				}
 			}
 				
@@ -449,7 +437,7 @@ public class PanelCRUDKHang extends JPanel {
 					kh.setTenKH(txtTenKH.getText());
 					kh.setSdt(txtPhone.getText());
 					kh.setDiaChi(txtDiaChi.getText());
-					kh.setLoaiKH(txtLoaiKH.getText());
+//					kh.setLoaiKH(txtLoaiKH.getText());
 					listKH.update(kh);
 					daoKh.update(kh);
 					
@@ -459,7 +447,7 @@ public class PanelCRUDKHang extends JPanel {
 					model.setValueAt(txtTenKH.getText(), i, 1);
 					model.setValueAt(txtPhone.getText(), i, 2);
 					model.setValueAt(txtDiaChi.getText(), i, 3);
-					model.setValueAt(txtLoaiKH.getText(), i, 4);
+//					model.setValueAt(txtLoaiKH.getText(), i, 4);
 					JOptionPane.showMessageDialog(null, "Đã Sửa Thành Công");
 				
 				}else {
@@ -481,9 +469,11 @@ public class PanelCRUDKHang extends JPanel {
 				int i = table.getSelectedRow();
 				
 				if(i>=0) {
+					
 					daoKh.delete(txtMaKH.getText());
 					listKH.xoa(i);
 					model.removeRow(i);
+					
 					JOptionPane.showMessageDialog(null, "Xóa Thành Công");
 				
 					}else {
@@ -516,7 +506,7 @@ public class PanelCRUDKHang extends JPanel {
 				txtTenKH.setText(model.getValueAt(i, 1).toString());
 				txtPhone.setText(model.getValueAt(i, 2).toString());
 				txtDiaChi.setText(model.getValueAt(i, 3).toString());
-				txtLoaiKH.setText(model.getValueAt(i, 4).toString());
+//				txtLoaiKH.setText(model.getValueAt(i, 4).toString());
 				
 			}
 		});

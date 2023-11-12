@@ -77,11 +77,60 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		return listKm;
 		
 	}
+//	public boolean xoaKM(String str) {
+//		
+//	}
+	public int discountSPDangKM(String str) {
+		int discount = 0;
+		DAO_KhuyenMai daoKm = new DAO_KhuyenMai();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+//		PreparedStatement stm = null;
+		
+		try {
+			String sql = "select discount from khuyenMai  where ngayTao<GETDATE() and ngayHetHan>GETDATE() and maSP= " +"'" + str + "'";
+//			stm = con.prepareStatement(sql);
+//			stm.setString(1, str);
+//			ResultSet rs = stm.executeQuery(sql);
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+		while(rs.next()) {
+			discount = Integer.parseInt(rs.getString("discount"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return discount;
+	}
+	
+	
+	public boolean ktraHienDangKhuyenMai(String maSP) {
+		DAO_KhuyenMai daoKm = new DAO_KhuyenMai();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select distinct maSP from khuyenMai  where ngayTao<GETDATE() and ngayHetHan>GETDATE()";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			if(rs.getString("maSP").equalsIgnoreCase(maSP))
+					return true;
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+//	public ArrayList<sanpham>
+	
 	public ArrayList<KhuyenMai3Field>getSapDienRa(){
 		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
 		ConnectDB.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Connection con = ConnectDB.getConnection();
+		
 		try {
 			String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayTao>GETDATE()";
 			Statement statement =con.createStatement();
@@ -122,6 +171,35 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		
 		return listKm;
 	}
+	public boolean ktraHopLiSpTaoKhuyenMai(String str,String dateConvert) {
+		int count =1;
+//		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		try {
+			String sql = "select count(*) as count  from khuyenMai where ngayHetHan > ? and maSP = ?";
+			stm = con.prepareStatement(sql);
+			stm.setString(1, dateConvert);
+			stm.setString(2, str);
+			
+			
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				System.out.println("Bat Dau");
+				count = rs.getInt("count");
+			}	
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(count==0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public ArrayList<ChiTietKhuyenMai>getChiTietConditions(String str){
 		ArrayList<ChiTietKhuyenMai>listKm = new ArrayList<ChiTietKhuyenMai>();
 		ConnectDB.getInstance();
@@ -145,6 +223,7 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		}
 		return listKm;
 	}
+
 	public ArrayList<ChiTietKhuyenMai>getChiTiet(){
 		ArrayList<ChiTietKhuyenMai>listCT = new ArrayList<ChiTietKhuyenMai>();
 		ConnectDB.getInstance();

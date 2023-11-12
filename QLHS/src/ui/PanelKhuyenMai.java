@@ -28,7 +28,9 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -48,9 +50,9 @@ public class PanelKhuyenMai extends JPanel {
 	private SanPhamFrm spfrm;
 	
 	
-
 	
 	
+	private boolean flagStart;
 	
 	private DanhSachSanPham listSP;
 	private DAO_SanPham daosp;
@@ -60,10 +62,14 @@ public class PanelKhuyenMai extends JPanel {
 	private JDateChooser batdau;
 	private JDateChooser kethuc;
 	private KhuyenMai km;
+	private JButton btnHoanTat;
 	/**
 	 * Create the panel.
 	 */
 	public PanelKhuyenMai() {
+		
+		flagStart = false;
+		
 		km = new KhuyenMai();
 		spfrm = new SanPhamFrm();
 		danhSachDcChon = new ArrayList<SanPham>();
@@ -97,7 +103,7 @@ public class PanelKhuyenMai extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 255, 255));
-		panel_1.setBounds(0, 129, 1534, 99);
+		panel_1.setBounds(0, 303, 1534, 99);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -164,26 +170,36 @@ public class PanelKhuyenMai extends JPanel {
 					sp = listSP.getList().get(index);
 					
 					if(!txtDisCount.getText().equalsIgnoreCase("")) {
-						if(!ktraTonTaiTrongList(danhSachDcChon, txtMaSach.getText())) {
-							danhSachDcChon.add(sp);
-							addTable(sp, Integer.parseInt(txtDisCount.getText()));
-						}else {
-							int option = JOptionPane.showOptionDialog(null, "Cập nhật lại sản phẩm trong danh sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-							
-//							JOptionPane.showMessageDialog(null, "Sách Đã có trong mục");
-							switch (option) {
-							case JOptionPane.YES_OPTION:
-								System.out.println("Say yes");
-								int i = updateList(danhSachDcChon, txtMaSach.getText());
-								model.setValueAt(txtDisCount.getText(), i, 4);
-								JOptionPane.showMessageDialog(null, "Đã sửa thành công");
-								break;
-							case JOptionPane.NO_OPTION:
-								System.out.println("Say no");
-								break;
-							default:
-								break;
+						if(ktraLaChuSo(txtDisCount.getText())) {
+							if(Integer.parseInt(txtDisCount.getText())>0 &&Integer.parseInt(txtDisCount.getText())<100) {
+								if(!ktraTonTaiTrongList(danhSachDcChon, txtMaSach.getText())) {
+									danhSachDcChon.add(sp);
+									addTable(sp, Integer.parseInt(txtDisCount.getText()));
+									btnHoanTat.setEnabled(true);
+									btnHoanTat.setFocusable(true);
+								}else {
+									int option = JOptionPane.showOptionDialog(null, "Cập nhật lại sản phẩm trong danh sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
+									
+//									JOptionPane.showMessageDialog(null, "Sách Đã có trong mục");
+									switch (option) {
+									case JOptionPane.YES_OPTION:
+										System.out.println("Say yes");
+										int i = updateList(danhSachDcChon, txtMaSach.getText());
+										model.setValueAt(txtDisCount.getText(), i, 4);
+										JOptionPane.showMessageDialog(null, "Đã sửa thành công");
+										break;
+									case JOptionPane.NO_OPTION:
+										System.out.println("Say no");
+										break;
+									default:
+										break;
+									}
+								}
+							}else {
+								JOptionPane.showMessageDialog(null, "Discount phải lớn hơn 0 và bé hơn 100");
 							}
+						}else {
+							JOptionPane.showMessageDialog(null, "Discount nhập vào phải là chữ số");
 						}
 						
 					}else {
@@ -247,16 +263,16 @@ public class PanelKhuyenMai extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("Chọn sản phẩm khuyến mãi");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(0, 84, 210, 45);
+		lblNewLabel_1.setBounds(0, 259, 210, 45);
 		add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Danh Sách Sản Phẩm");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1.setBounds(0, 228, 184, 45);
+		lblNewLabel_1_1.setBounds(0, 413, 184, 35);
 		add(lblNewLabel_1_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 272, 1534, 475);
+		scrollPane.setBounds(0, 447, 1534, 439);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -276,8 +292,10 @@ public class PanelKhuyenMai extends JPanel {
 		
 		scrollPane.setViewportView(table);
 		
-		JButton btnNewButton_1 = new JButton("Hoàn Tất");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnHoanTat = new JButton("Hoàn Tất");
+		btnHoanTat.setEnabled(false);
+		btnHoanTat.setFocusable(false);
+		btnHoanTat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				
@@ -301,7 +319,8 @@ public class PanelKhuyenMai extends JPanel {
 						daoKm.add(km);
 					}
 					JOptionPane.showMessageDialog(null,"Thành Công");
-					
+					batdau.setEnabled(true);
+					kethuc.setEnabled(true);
 					
 				}else {
 					JOptionPane.showMessageDialog(null,"That bai");
@@ -313,11 +332,12 @@ public class PanelKhuyenMai extends JPanel {
 				txtDisCount.setText("");
 				batdau.setDate(null);
 				kethuc.setDate(null);
+				flagStart = false;
 				
 			}
 		});
-		btnNewButton_1.setBounds(1113, 758, 167, 45);
-		add(btnNewButton_1);
+		btnHoanTat.setBounds(862, 184, 167, 45);
+		add(btnHoanTat);
 		
 		JButton btnNewButton_1_1 = new JButton("Tạo Mới");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
@@ -328,6 +348,8 @@ public class PanelKhuyenMai extends JPanel {
 					danhSachDcChon.clear();
 					model.setRowCount(0);
 					JOptionPane.showMessageDialog(null, "Hoàn tất làm mới");
+					batdau.setEnabled(true);
+					kethuc.setEnabled(true);
 					break;
 				case JOptionPane.NO_OPTION:
 					JOptionPane.showMessageDialog(null, "Bãi bỏ thao tác");
@@ -337,57 +359,121 @@ public class PanelKhuyenMai extends JPanel {
 				}
 			}
 		});
-		btnNewButton_1_1.setBounds(895, 758, 160, 45);
+		btnNewButton_1_1.setBounds(554, 184, 160, 45);
 		add(btnNewButton_1_1);
 		
-		JButton btnNewButton_1_1_1 = new JButton("In Danh Sách");
-		btnNewButton_1_1_1.addActionListener(new ActionListener() {
+		JButton btnInDanhSach = new JButton("In Danh Sách");
+		btnInDanhSach.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1_1_1.setBounds(1329, 758, 160, 45);
-		add(btnNewButton_1_1_1);
+		btnInDanhSach.setEnabled(false);
+		btnInDanhSach.setFocusable(false);
+		btnInDanhSach.setBounds(1138, 184, 160, 45);
+		add(btnInDanhSach);
 		
 		JLabel lbllKhuyenMai = new JLabel("Mã Khuyến Mãi");
 		lbllKhuyenMai.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllKhuyenMai.setBounds(0, 758, 128, 45);
+		lbllKhuyenMai.setBounds(74, 94, 128, 45);
 		add(lbllKhuyenMai);
 		
 		txtMaKM = new JTextField();
-		txtMaKM.setBounds(138, 758, 86, 45);
+		txtMaKM.setBounds(212, 96, 86, 45);
 		add(txtMaKM);
 		txtMaKM.setColumns(10);
 		
 		kethuc = new JDateChooser();
 		kethuc.setDateFormatString("dd-MM-yyyy");
-		kethuc.setBounds(633, 758, 178, 35);
+		kethuc.setBounds(1188, 96, 178, 35);
 		add(kethuc);
 		
 		batdau = new JDateChooser();
 		batdau.setDateFormatString("dd-MM-yyyy");
-		batdau.setBounds(337, 758, 178, 35);
+		batdau.setBounds(688, 101, 178, 35);
 		add(batdau);
 		
 		JLabel lblNewLabel_3 = new JLabel("Ngày bắt đầu");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(234, 761, 112, 35);
+		lblNewLabel_3.setBounds(566, 101, 112, 35);
 		add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Ngày Kết Thúc");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(525, 761, 123, 37);
+		lblNewLabel_4.setBounds(1055, 96, 123, 37);
 		add(lblNewLabel_4);
+		
+		JButton btnTaoKhuyenMai = new JButton("Tạo Khuyến Mãi");
+		btnTaoKhuyenMai.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(flag()) {
+//					Calendar calendar = new Calendar();
+					 Date currentDate = new Date(System.currentTimeMillis());
+					 SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+					 long currenMill = currentDate.getTime();
+					 long batdauMill = batdau.getDate().getTime();
+					 long kethucMill = kethuc.getDate().getTime();
+					 System.out.println("Current Date between : "+ TimeUnit.MILLISECONDS.toDays((batdauMill - currenMill)));	
+					 long days = TimeUnit.MILLISECONDS.toDays((batdauMill - currenMill));
+					 long days2 = TimeUnit.MILLISECONDS.toDays((batdauMill - kethucMill));
+					if(!flag()) {
+						System.out.println("Between Date: "+days2);
+						JOptionPane.showMessageDialog(null, "Vui lòng Điền đầy đủ ngày bắt đầu và ngày kết thúc trước khi tạo khuyến mãi");
+					}else if(days<7) {
+						JOptionPane.showMessageDialog(null, "Ngày bắt đầu chương trình khuyến mãi phải cách 7 ngày so với ngày tạo");
+					}else if(days2>0) {
+						JOptionPane.showMessageDialog(null, "Ngày bắt đầu phải lớn hơn ngày kết thúc");
+							
+					}else{
+
+						JOptionPane.showMessageDialog(null, "Bắt đầu thao tác thêm sản phẩm vào danh sách khuyến mãi");
+						flagStart = true;
+						batdau.setEnabled(false);
+						kethuc.setEnabled(false);
+							
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Điền thời gian trước khi tạo khuyến mãi");
+				}
+
+			}
+		});
+		btnTaoKhuyenMai.setBounds(227, 184, 160, 45);
+		add(btnTaoKhuyenMai);
 	}
 	private void onOpenFormButtonClick() {
 //		SanPhamFrm spFrm = new SanPhamFrm();
 //		spfrm.setKhuyenMai(this);
-		spfrm.setModal(true);
-		spfrm.setVisible(true);
+		if(flagStart) {
+			spfrm.setModal(true);
+			spfrm.setVisible(true);
+		}else {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn nut tạo khuyến mãi trước khi chọn sản phẩm");
+		}
 	}
 	public void onDataReturned(String str) {
 		System.out.println("Ma sp vua tra ve la:" + str);
-		txtMaSach.setText(str);
+		
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		daoKm = new DAO_KhuyenMai();
+		SimpleDateFormat dateformat  = new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println(dateformat.format(batdau.getDate()));
+		if(daoKm.ktraHopLiSpTaoKhuyenMai(str,dateformat.format(batdau.getDate()))) {
+			txtMaSach.setText(str);
+		}else {
+			JOptionPane.showMessageDialog(null, "Sản phẩm này không thể thêm vì đã có ở trương trình khác trùng với thời gian của Khuyến mãi đang tạo");
+		}
+		
+		
+		
 	}
 	public void addTable(SanPham sp,int discount) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -416,5 +502,21 @@ public class PanelKhuyenMai extends JPanel {
 			count++;
 		}
 		return -1;
+	}
+	public boolean flag() {
+		if(batdau.getDate()==null || kethuc.getDate()==null) {
+			return false;
+		}
+		
+		return true;
+	}
+	public boolean ktraLaChuSo(String str) {
+		
+		for(char c : str.toCharArray()) {
+			if(!Character.isDigit(c)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

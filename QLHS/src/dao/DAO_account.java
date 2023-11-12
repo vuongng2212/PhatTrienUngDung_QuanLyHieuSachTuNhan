@@ -16,7 +16,7 @@ public class DAO_account {
 	public Boolean checkAccount(Account acc) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
-		
+		System.out.println(":::"+con);
 		String sql = "select * from taiKhoan where username = N'"+acc.getUser()+"' and password = N'"+acc.getPwd()+"'";
 		try {
 			Statement statement =con.createStatement();
