@@ -95,6 +95,7 @@ public class LoginForm extends JFrame {
 						userI4 = DAO_acc.getIDandName(user);
 						userInfo.setMaNV(userI4.getMaNV());
 						userInfo.setTenNV(userI4.getTenNV());
+						userInfo.setSdt(userI4.getSDT());
 						String role = DAO_acc.getRole(user);
 						if(role!=null) {
 							if(role.equals("Quản lý")) {

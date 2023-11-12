@@ -14,9 +14,13 @@ import dao.DAO_ChiTietHoaDon;
 import dao.DAO_HoaDon;
 import dao.DAO_KhachHang;
 import dao.DAO_SanPham;
+import dao.DAO_ThongKe;
+import entity.PhieuDatHang;
+import entity.SanPham;
 import list.DanhSachChiTietHoaDon;
 import list.DanhSachHoaDon;
 import list.DanhSachKhachHang;
+import list.DanhSachPhieuDH;
 import list.DanhSachSanPham;
 
 import java.awt.SystemColor;
@@ -34,6 +38,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -45,15 +53,17 @@ public class PanelThongKe extends JPanel {
 
 	private Image img_statics = new ImageIcon(frmNV.class.getResource("/image/staticss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	private Image img_details = new ImageIcon(frmNV.class.getResource("/image/deitailss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
-	private JDateChooser dateChooserBatDau;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtCount;
+	private JTextField txtSoSach;
+	private JTextField txtTongTien;
 	private JLabel lbllSumTitle;
 	private JLabel lbllSum; 
 	private JLabel lbllPrice;
 	private JTable table;
-	
+	private JPanel panelContent;
+	private DefaultTableModel tableModel;
+	private JScrollPane scroll;
+	private JButton btnThongKe;
 	private DefaultTableModel mode;
 	private DanhSachSanPham listsp;
 	private DAO_SanPham daosp;
@@ -65,12 +75,17 @@ public class PanelThongKe extends JPanel {
 	private DanhSachHoaDon listHD;
 	private DAO_HoaDon daoHd;
 	
+	private DAO_ThongKe DAO_ThongKe;
+	private DanhSachPhieuDH lsPDH;
+	private DanhSachSanPham lsSP;
+	
 	private DanhSachChiTietHoaDon listCTHD;
 	private DAO_ChiTietHoaDon daoCTHD;
 	
-	
-	
-//	private danhsach
+	private int count = 0,thongKeVal = -1;
+	private double thanhTien =0 ;
+	private Date date = null;
+	private boolean tableCheck = false;
 	
 	
 	
@@ -78,7 +93,8 @@ public class PanelThongKe extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelThongKe() {
-		setBounds(0,0,1534,1017);
+		
+		setBounds(0,0,1534,978);
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -87,14 +103,14 @@ public class PanelThongKe extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Thống Kê Doanh Thu");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblNewLabel.setBounds(0, 0, 1534, 88);
-		panel.add(lblNewLabel);
+		JLabel lblTitle = new JLabel("Thống Kê Doanh Thu");
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblTitle.setBounds(0, 0, 1534, 88);
+		panel.add(lblTitle);
 		
 		JLabel lbllThongKE = new JLabel("Thống Kê");
-		lbllThongKE.setBounds(10, 94, 117, 32);
+		lbllThongKE.setBounds(64, 94, 117, 32);
 		lbllThongKE.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(lbllThongKE);
 		
@@ -103,110 +119,106 @@ public class PanelThongKe extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		dateChooserBatDau = new JDateChooser();
-		dateChooserBatDau.setBounds(172, 21, 159, 30);
-		dateChooserBatDau.getDate();
-		dateChooserBatDau.setDateFormatString("dd-MM-yyyy");
-		panel_1.add(dateChooserBatDau);
 		
-		
-		JButton btnThongKe = new JButton("Thống Kê");
-		btnThongKe.setBackground(new Color(0, 255, 255));
-		btnThongKe.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnThongKe.setIcon(new ImageIcon(img_statics));
-		btnThongKe.setBounds(792, 11, 209, 48);
-		panel_1.add(btnThongKe);
-		
-		JButton btnChiTiet = new JButton("In Thống Kê");
-		btnChiTiet.setBackground(new Color(144, 238, 144));
-		btnChiTiet.setIcon(new ImageIcon(img_details));
-		btnChiTiet.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnChiTiet.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnChiTiet.setBounds(792, 95, 209, 48);
-		panel_1.add(btnChiTiet);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(107, 72, 53, -20);
 		panel_1.add(separator);
 		
-		ButtonGroup buttonGroup = new ButtonGroup();
-		
+		ButtonGroup buttonThongKeGroup = new ButtonGroup();
+		ButtonGroup buttonNgayGroup = new ButtonGroup();
 		ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JCheckBox checkBox = (JCheckBox) e.getSource();
                 if (checkBox.isSelected()) {
-                    if(checkBox.getText().equalsIgnoreCase("Báo cáo nhập hàng")) {
-                    	System.out.println("Nhap hang");
-                    	lbllSumTitle.setText("Tổng số hóa đơn");
-                    	
-                    }else if(checkBox.getText().equalsIgnoreCase("Báo cáo bán hàng")) {
-                    	System.out.println("Ban hang");
-                    	
+                    if(checkBox.getText().equalsIgnoreCase("Thống kê số lượng sách nhập")) {
+                    	thongKeVal = 0;
+                    }else if(checkBox.getText().equalsIgnoreCase("Thống kê chi tiêu nhập sách")) {
+                    	thongKeVal = 1;
                     }else if(checkBox.getText().equalsIgnoreCase("Sách bán chạy")) {
-                    	System.out.println("Ban chay");
-                    }else {
-                    	System.out.println("khach hang than thiet");
+                    	thongKeVal = 2;
+                    }else if(checkBox.getText().equalsIgnoreCase("Khách hàng thân thiết")) {
+                    	thongKeVal = 3;
                     }
-                    	
-                    	
-                } else {
-                    System.out.println("Đã bỏ chọn: " + checkBox.getText());
-                }
+                    
+                    //Check thoi gian
+                    if(checkBox.getText().equalsIgnoreCase("Hôm nay")) {
+                    	date = Date.valueOf(getMinusTime(0));
+                    	System.out.println(date);
+                    }else if(checkBox.getText().equalsIgnoreCase("Hôm qua")) {
+                    	date = Date.valueOf(getMinusTime(1));
+                    	System.out.println(date);
+                    }else if(checkBox.getText().equalsIgnoreCase("7 ngày trước")) {
+                    	date = Date.valueOf(getMinusTime(7));
+                    	System.out.println(date);
+                    }else if(checkBox.getText().equalsIgnoreCase("30 ngày trước")) {
+                    	date = Date.valueOf(getMinusTime(30));
+                    	System.out.println(date);
+                    }
+                } 
             }
         };
 		
+
 		
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Báo cáo nhập hàng");
-		chckbxNewCheckBox.setFont(new Font("Tahoma", Font.BOLD, 15));
-		chckbxNewCheckBox.setBounds(455, 11, 190, 23);
-		panel_1.add(chckbxNewCheckBox);
-		buttonGroup.add(chckbxNewCheckBox);
-		chckbxNewCheckBox.addActionListener(actionListener);
+		JCheckBox chkSLSN = new JCheckBox("Thống kê số lượng sách nhập");
+		chkSLSN.setFont(new Font("Tahoma", Font.BOLD, 15));
+		chkSLSN.setBounds(20, 11, 280, 23);
+		panel_1.add(chkSLSN);
+		buttonThongKeGroup.add(chkSLSN);
+		chkSLSN.addActionListener(actionListener);
 		
-		JCheckBox chckbxBoCoBn = new JCheckBox("Báo cáo bán hàng");
-		chckbxBoCoBn.setFont(new Font("Tahoma", Font.BOLD, 15));
-		chckbxBoCoBn.setBounds(455, 55, 190, 23);
-		panel_1.add(chckbxBoCoBn);
-		buttonGroup.add(chckbxBoCoBn);
-		chckbxBoCoBn.addActionListener(actionListener);
+		JCheckBox chkNhapSach = new JCheckBox("Thống kê chi tiêu nhập sách");
+		chkNhapSach.setFont(new Font("Tahoma", Font.BOLD, 15));
+		chkNhapSach.setBounds(20, 50, 250, 23);
+		panel_1.add(chkNhapSach);
+		buttonThongKeGroup.add(chkNhapSach);
+		chkNhapSach.addActionListener(actionListener);
+		
 		JCheckBox chckbxSchBnChy = new JCheckBox("Sách bán chạy");
 		chckbxSchBnChy.setFont(new Font("Tahoma", Font.BOLD, 15));
-		chckbxSchBnChy.setBounds(455, 95, 190, 23);
+		chckbxSchBnChy.setBounds(20, 95, 190, 23);
 		panel_1.add(chckbxSchBnChy);
-		buttonGroup.add(chckbxSchBnChy);
+		buttonThongKeGroup.add(chckbxSchBnChy);
 		chckbxSchBnChy.addActionListener(actionListener);
+		
 		JCheckBox chckbxKhchHngThn = new JCheckBox("Khách hàng thân thiết");
 		chckbxKhchHngThn.setFont(new Font("Tahoma", Font.BOLD, 15));
-		chckbxKhchHngThn.setBounds(455, 138, 190, 23);
+		chckbxKhchHngThn.setBounds(20, 138, 190, 23);
 		panel_1.add(chckbxKhchHngThn);
-		buttonGroup.add(chckbxKhchHngThn);
+		buttonThongKeGroup.add(chckbxKhchHngThn);
 		chckbxKhchHngThn.addActionListener(actionListener);
-	
-        
 		
+		//Check box time
+		JCheckBox chkHomNay = new JCheckBox("Hôm nay");
+		chkHomNay.setFont(new Font("Tahoma", Font.BOLD, 15));
+		chkHomNay.setBounds(367, 11, 280, 23);
+		buttonNgayGroup.add(chkHomNay);
+		panel_1.add(chkHomNay);
+		chkHomNay.addActionListener(actionListener);
 		
+		JCheckBox chkHomQua = new JCheckBox("Hôm qua");
+		chkHomQua.setFont(new Font("Tahoma", Font.BOLD, 15));
+		chkHomQua.setBounds(367, 52, 280, 23);
+		buttonNgayGroup.add(chkHomQua);
+		panel_1.add(chkHomQua);
+		chkHomQua.addActionListener(actionListener);
 		
-		JLabel lblNewLabel_2 = new JLabel("Ngày bắt đầu");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2.setBounds(11, 21, 149, 30);
-		panel_1.add(lblNewLabel_2);
+		JCheckBox chk7Ngay = new JCheckBox("7 ngày trước");
+		chk7Ngay.setFont(new Font("Tahoma", Font.BOLD, 15));
+		buttonNgayGroup.add(chk7Ngay);
+		chk7Ngay.setBounds(367, 95, 280, 23);
+		panel_1.add(chk7Ngay);
+		chk7Ngay.addActionListener(actionListener);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Ngày Kết thúc");
-		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1.setBounds(11, 95, 149, 30);
-		panel_1.add(lblNewLabel_2_1);
-		
-		JDateChooser dateChooserKetThuc = new JDateChooser();
-		dateChooserKetThuc.setDateFormatString("dd-MM-yyyy");
-		dateChooserKetThuc.setBounds(172, 98, 159, 30);
-		panel_1.add(dateChooserKetThuc);
+		JCheckBox chk30Ngay = new JCheckBox("30 ngày trước");
+		chk30Ngay.setFont(new Font("Tahoma", Font.BOLD, 15));
+		chk30Ngay.setBounds(367, 140, 280, 23);
+		buttonNgayGroup.add(chk30Ngay);
+		panel_1.add(chk30Ngay);
+		chk30Ngay.addActionListener(actionListener);
 		
 		
 		JPanel panel_3 = new JPanel();
@@ -243,44 +255,112 @@ public class PanelThongKe extends JPanel {
 		lbllPrice.setBounds(10, 140, 137, 28);
 		panelShowInfo.add(lbllPrice);
 		
-		textField = new JTextField();
-		textField.setBounds(181, 30, 162, 28);
-		panelShowInfo.add(textField);
-		textField.setColumns(10);
+		txtCount = new JTextField();
+		txtCount.setBounds(181, 30, 162, 28);
+		panelShowInfo.add(txtCount);
+		txtCount.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(181, 82, 162, 28);
-		panelShowInfo.add(textField_1);
+		txtSoSach = new JTextField();
+		txtSoSach.setColumns(10);
+		txtSoSach.setBounds(181, 82, 162, 28);
+		panelShowInfo.add(txtSoSach);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(181, 140, 162, 28);
-		panelShowInfo.add(textField_2);
+		txtTongTien = new JTextField();
+		txtTongTien.setColumns(10);
+		txtTongTien.setBounds(181, 140, 162, 28);
+		panelShowInfo.add(txtTongTien);
 		
 		JLabel lblNewLabel_5 = new JLabel("Cuốn");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_5.setBounds(353, 82, 83, 28);
 		panelShowInfo.add(lblNewLabel_5);
 		
-		JPanel panelContent = new JPanel();
+		panelContent = new JPanel();
 		panelContent.setBounds(0, 327, 1534, 652);
 		add(panelContent);
 		panelContent.setLayout(null);
 		
-		JPanel panelnhapHang = new JPanel();
-		panelnhapHang.setBounds(0, 0, 1532, 652);
-		panelContent.add(panelnhapHang);
-		panelnhapHang.setLayout(null);
+		JLabel lblTime = new JLabel("Thời gian");
+		lblTime.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTime.setBounds(409, 94, 117, 32);
+		add(lblTime);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 1532, 652);
-		panelnhapHang.add(scrollPane);
+		btnThongKe = new JButton("Thống Kê");
+		btnThongKe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(thongKeVal!= -1 && date != null) {
+					DAO_ThongKe = new DAO_ThongKe();
+					if(tableCheck==true) {
+						panelContent.remove(scroll);
+						tableCheck = false;
+					}
+					//Thong ke sl sach nhap
+					if(thongKeVal == 0) {
+						lsSP = new DanhSachSanPham();
+						xoaTxt();
+						String[] headers = {"Mã sản phẩm","Tên sản phẩm","Số lượng nhập vào","Số lượng trước khi nhập", "Số lượng sau khi nhập"};
+						taoBang(headers);						
+						for(SanPham sp: DAO_ThongKe.ThongKeSLNhap(date, Date.valueOf(getMinusTime(0)))) {
+							lsSP.add(sp);
+							Object row[] = {sp.getMaSP(),sp.getTenSP(),sp.getSlNhap(),sp.getSlGoc(),sp.getSoLuong()};
+							tableModel.addRow(row);
+						}
+					}
+					//Bao cao chi tieu nhap sach
+					if(thongKeVal == 1) {
+						lsPDH = new DanhSachPhieuDH();
+						count = 0;
+						thanhTien = 0;
+						xoaTxt();
+						String[] headers = {"Mã đặt hàng","Ngày đặt hàng","Chiết khấu","Thành tiền"};
+						taoBang(headers);						
+						for(PhieuDatHang pdh: DAO_ThongKe.baoCaoThuChiNhapSach(date, Date.valueOf(getMinusTime(0)))) {
+							lsPDH.them(pdh);
+							count++;
+							thanhTien += pdh.getThanhTien();
+							Object row[] = {pdh.getMaDH(),pdh.getNgayDH(),pdh.getChietKhau(),pdh.getThanhTien()};
+							tableModel.addRow(row);
+						}
+						txtCount.setText(String.valueOf(count));
+						txtTongTien.setText(String.valueOf(thanhTien));
+					}
+				}
+			}
+		});
+		btnThongKe.setBackground(new Color(0, 255, 255));
+		btnThongKe.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnThongKe.setIcon(new ImageIcon(img_statics));
+		btnThongKe.setBounds(792, 11, 209, 48);
+		panel_1.add(btnThongKe);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		
-
-
+		JButton btnChiTiet = new JButton("In Thống Kê");
+		btnChiTiet.setBackground(new Color(144, 238, 144));
+		btnChiTiet.setIcon(new ImageIcon(img_details));
+		btnChiTiet.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnChiTiet.setBounds(792, 95, 209, 48);
+		panel_1.add(btnChiTiet);
+	}
+	public LocalDate getMinusTime(long day) {
+		LocalDate localDate = LocalDate.now();
+		if(day>0) {
+			localDate = localDate.minusDays(day);
+		}
+		return localDate;
+	}
+	public void taoBang(String[] headers) {
+		tableModel = new DefaultTableModel(headers, 0);
+		scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setBounds(0, 0, 1534, 652);
+		scroll.setViewportView(table = new JTable(tableModel));
+		table.setRowHeight(35);
+		table.setAutoCreateRowSorter(true);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		panelContent.add(scroll);
+		tableCheck = true;
+	}
+	public void xoaTxt() {
+		txtCount.setText("");
+		txtSoSach.setText("");
+		txtTongTien.setText("");
 	}
 }
