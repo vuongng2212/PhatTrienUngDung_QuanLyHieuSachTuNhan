@@ -30,6 +30,14 @@ public class DanhSachHoaDon implements listInterface<HoaDon>{
 		return s;
 	}
 
+	public ArrayList<HoaDon> getList() {
+		return list;
+	}
+
+	public void setList(ArrayList<HoaDon> list) {
+		this.list = list;
+	}
+
 	@Override
 	public boolean add(HoaDon obj) {
 		for(int i=0;i<list.size();i++) {

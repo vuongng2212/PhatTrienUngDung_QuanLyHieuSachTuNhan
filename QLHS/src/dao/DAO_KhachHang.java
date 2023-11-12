@@ -68,7 +68,7 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		}
 		
 	}
-
+	
 	@Override
 	public boolean update(KhachHang obj) {
 		ConnectDB.getInstance();
