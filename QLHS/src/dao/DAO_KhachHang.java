@@ -95,6 +95,26 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		}
 		return true;
 	}
+	
+	public boolean updateLoaiKH(String maKH) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update khachHang set loaiKH = 'TV' where maKH = ? ";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, maKH);
+			System.out.println(stm);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
 
 	@Override
 	public boolean delete(String ma) {
