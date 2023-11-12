@@ -8,7 +8,21 @@ public class PhieuDatHang {
 	private Date ngayDH;
 	private Double chietKhau;
 	private int trangThai;
+	private double thanhTien;
 	
+	public double getThanhTien() {
+		return thanhTien;
+	}
+	public void setThanhTien(double thanhTien) {
+		this.thanhTien = thanhTien;
+	}
+	public PhieuDatHang(String maDH, Date ngayDH, Double chietKhau, double thanhTien) {
+		super();
+		this.maDH = maDH;
+		this.ngayDH = ngayDH;
+		this.chietKhau = chietKhau;
+		this.thanhTien = thanhTien;
+	}
 	public PhieuDatHang(String maDH, String maNV, String tenNV, Date ngayDH, Double chietKhau, int trangThai) {
 		super();
 		this.maDH = maDH;

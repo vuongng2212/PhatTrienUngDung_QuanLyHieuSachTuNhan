@@ -1,7 +1,7 @@
 package entity;
 
 public class userInfo {
-	public static String maNV,tenNV;
+	public static String maNV,tenNV,sdt;
 	public userInfo() {
 		
 	}
@@ -19,6 +19,12 @@ public class userInfo {
 
 	public static void setTenNV(String tenNV) {
 		userInfo.tenNV = tenNV;
+	}
+	public static String getSdt() {
+		return sdt;
+	}
+	public static void setSdt(String sdt) {
+		userInfo.sdt = sdt;
 	}
 	
 }

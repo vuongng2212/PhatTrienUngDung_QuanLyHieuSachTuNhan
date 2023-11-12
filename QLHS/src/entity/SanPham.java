@@ -6,21 +6,42 @@ public class SanPham {
 	private String tenTG;
 	private String nhaXB;
 	private int namXB;
-	private int soLuong;
+	private int slNhap,slGoc,soLuong;
 	private double donGiaGoc;
 	private double donGiaMua;
 	private String tinhTrang;
 	private String danhMuc;
-	
-	
+
 	
 	
 	public SanPham() {
 		super();
 	}
 
+	public int getSlNhap() {
+		return slNhap;
+	}
 
+	public void setSlNhap(int slNhap) {
+		this.slNhap = slNhap;
+	}
 
+	public int getSlGoc() {
+		return slGoc;
+	}
+
+	public void setSlGoc(int slGoc) {
+		this.slGoc = slGoc;
+	}
+
+	public SanPham(String maSP, String tenSP, int slNhap, int slGoc, int soLuong) {
+		super();
+		this.maSP = maSP;
+		this.tenSP = tenSP;
+		this.slNhap = slNhap;
+		this.slGoc = slGoc;
+		this.soLuong = soLuong;
+	}
 
 	public SanPham(String maSP, String tenSP, String tenTG, String nhaXB, int namXB, int soLuong, double donGiaGoc,
 			double donGiaMua, String tinhTrang, String danhMuc) {

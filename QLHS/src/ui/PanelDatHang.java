@@ -223,7 +223,7 @@ public class PanelDatHang extends JPanel {
 		
 		JLabel lblTenNV = new JLabel(userInfo.getMaNV()+"."+userInfo.getTenNV());
 		lblTenNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTenNV.setBounds(1395, 96, 150, 25);
+		lblTenNV.setBounds(1395, 96, 515, 25);
 		add(lblTenNV);
 		
 		
@@ -271,7 +271,11 @@ public class PanelDatHang extends JPanel {
 							thanhTien += pdh.getDonGiaNhap() * pdh.getSoLuong();
 						}
 //						System.out.println(lsCTPDH.getList().toString());
-						lblValueTT.setText(String.valueOf(thanhTien));
+						double ck = 0;
+						if(!txtChietKhau.getText().equals("")) {
+							ck = Double.parseDouble(txtChietKhau.getText());
+						}
+						lblValueTT.setText(String.valueOf(thanhTien*(100-ck)/100));
 					}
 				}
 				else {
@@ -316,13 +320,12 @@ public class PanelDatHang extends JPanel {
 				DAO_PDH = new DAO_PhieuDH();
 				
 				String maDH = txtMaDH.getText().trim();
-				String maNV = "NV001";
 				Date currentDate = new Date();
 				java.sql.Date ngayDH = new java.sql.Date(currentDate.getTime());
 				String ck = txtChietKhau.getText().trim();
 
 				if(validData()) {
-					PhieuDatHang pDHtmp = new PhieuDatHang(maDH, maNV, ngayDH, Double.parseDouble(ck));
+					PhieuDatHang pDHtmp = new PhieuDatHang(maDH, userInfo.getMaNV(), ngayDH, Double.parseDouble(ck));
 					if(DAO_PDH.add(pDHtmp)) {
 						
 						for(int i=0; i<lsCTPDH.getCount(); i++) {
