@@ -3,11 +3,18 @@ package entity;
 import java.sql.Date;
 import java.util.Objects;
 
+import ui.DialogNhanVien;
+
 public class NhanVien {
 	private String maNV, tenNV;
 	private Date doB;
 	private Integer gioiTinh;
 	private String SDT, diaChi, email, chucVu;
+	public NhanVien(String maNV, String tenNV) {
+		super();
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+	}
 	public NhanVien(String maNV, String tenNV, Date doB, Integer gioiTinh, String sDT, String diaChi, String email,
 			String chucVu) {
 		super();
@@ -76,6 +83,7 @@ public class NhanVien {
 	public void setChucVu(String chucVu) {
 		this.chucVu = chucVu;
 	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(SDT, chucVu, diaChi, doB, email, gioiTinh, maNV, tenNV);

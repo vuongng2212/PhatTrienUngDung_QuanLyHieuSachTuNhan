@@ -92,7 +92,6 @@ public class DAO_NhanVien {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, user);
 			stm.setString(2, pwd);
-			System.out.println(stm);
 			stm.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -175,8 +174,6 @@ public class DAO_NhanVien {
 		}
 		
 		String sql = "SELECT * FROM NhanVien WHERE " +strTen + " and "+strSDT+ " and "+strEmail+ " and "+strDate+ " and "+strGender;
-//		System.out.println(strTen+strSDT+strEmail+strDate+strGender);
-		System.out.println(sql);
 		try {
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

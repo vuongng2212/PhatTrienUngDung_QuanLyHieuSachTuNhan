@@ -6,22 +6,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
 import entity.PhanCongCa;
 
 public class DAO_PhanCongCa {
-	public ArrayList<PhanCongCa> get1Shift(String start, String end, Integer shift) {
-		ArrayList<PhanCongCa> ds = new ArrayList<PhanCongCa>();
+	public PhanCongCa get1Shift(String date,Integer shift) {
+		PhanCongCa ds = null;
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from phanCongCa where ngayLamViec BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and maCa = "+ shift;
+			String sql = "select pcc.maNV,maCa,ngayLamViec,nv.tenNV from phanCongCa pcc join nhanVien nv on pcc.maNV = nv.maNV where ngayLamViec = CAST('"+date+"' AS DATE) and maCa = "+ shift;
 			Statement statement =con.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
-		while(rs.next()) {
-			ds.add(new PhanCongCa(rs.getString("maNV"),rs.getInt("maCa"),rs.getDate("ngayLamViec")));
+			ResultSet rs = statement.executeQuery(sql); 
+		if(rs.next()) {
+			ds = new PhanCongCa(rs.getString("maNV"),rs.getDate("ngayLamViec"),rs.getInt("maCa"),rs.getString("tenNV"));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -30,18 +32,22 @@ public class DAO_PhanCongCa {
 
 	}	
 	
-	public boolean add(PhanCongCa ca) {
+	public boolean add(String maNV, Integer maCa, String date) throws ParseException {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "INSERT phanCongCa VALUES"
-				+ "(?,?,?)";
+		String sql = "INSERT phanCongCa values (?,?,?)";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		java.util.Date utilDate = sdf.parse(date);
+		 
+		Date sqlDate = new Date(utilDate.getTime());
 		try {
 			stm = con.prepareStatement(sql);
-			stm.setString(1, ca.getMaNV());
-			stm.setInt(2, ca.getMaCa());
-			stm.setDate(3, ca.getNgayLV());
+			stm.setString(1, maNV); 
+			stm.setInt(2, maCa);
+			stm.setDate(3, sqlDate);
 			stm.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -53,23 +59,59 @@ public class DAO_PhanCongCa {
 		}
 		return true;
 	}
-
-	public void delete(String maNV, Integer maCa, Date ngayLV) {
+	public boolean update(String maNV, Integer maCa, String date) throws ParseException {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DELETE from phanCongCa where maNV = ? and maCa = ? and ngayLamViec = ?";
+		String sql = "Update phanCongCa set maNV = ? where maCa = ? and ngayLamViec = ?";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		java.util.Date utilDate = sdf.parse(date);
+		 
+		Date sqlDate = new Date(utilDate.getTime());
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, maNV);
 			stm.setInt(2, maCa);
-			stm.setDate(3, ngayLV);
+			stm.setDate(3, sqlDate);
 			stm.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			return false;
 		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
+	public boolean delete(String maNV, Integer maCa, String date) throws ParseException {
+		// TODO Auto-generated method stub
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "DELETE phanCongCa WHERE maNV = ? and maCa = ? and ngayLamViec = ?";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		java.util.Date utilDate = sdf.parse(date);
+		 
+		Date sqlDate = new Date(utilDate.getTime());
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, maNV); 
+			stm.setInt(2, maCa);
+			stm.setDate(3, sqlDate);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
 	}
 	private void close(PreparedStatement stm) {
 		// TODO Auto-generated method stub

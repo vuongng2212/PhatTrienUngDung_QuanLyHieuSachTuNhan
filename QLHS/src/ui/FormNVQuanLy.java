@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import entity.Country;
+import entity.userInfo;
 
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -47,8 +48,8 @@ public class FormNVQuanLy extends JFrame{
 	private JComboBox comboBox;
 	private Image img_logo = new ImageIcon(FormNVQuanLy.class.getResource("/image/bookStore.png")).getImage().getScaledInstance(280, 200,Image.SCALE_SMOOTH );
 	private Image img_employee = new ImageIcon(FormNVQuanLy.class.getResource("/image/manager_customer.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
-	private Image img_user = new ImageIcon(FormNVQuanLy.class.getResource("/image/user.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
-	private Image img_logout = new ImageIcon(FormNVQuanLy.class.getResource("/image/logout.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
+	private Image img_user = new ImageIcon(FormNVQuanLy.class.getResource("/image/user.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_logout = new ImageIcon(FormNVQuanLy.class.getResource("/image/logout.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_background = new ImageIcon(FormNVQuanLy.class.getResource("/image/title.jpg")).getImage().getScaledInstance(1920, 816,Image.SCALE_SMOOTH );
 	private Image img_home = new ImageIcon(FormNVQuanLy.class.getResource("/image/home.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
 	private Image img_product = new ImageIcon(FormNVQuanLy.class.getResource("/image/product_icon.png")).getImage().getScaledInstance(60, 60,Image.SCALE_SMOOTH );
@@ -80,9 +81,7 @@ public class FormNVQuanLy extends JFrame{
 	}
 
 	public FormNVQuanLy() {
-		setAlwaysOnTop(true);
 		setTitle("Nhan vien quan ly");
-		
 //		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setSize(1936,1056);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -165,7 +164,7 @@ public class FormNVQuanLy extends JFrame{
 			}
 		});
 		
-		mnPCC = new JMenu("Ca làm việc");
+		mnPCC = new JMenu("Lịch làm việc");
 		mnPCC.setIcon(new ImageIcon(img_ca));
 		mnPCC.setFont(new Font("Tahoma", Font.BOLD, 20));
 		mnBar.add(mnPCC);
@@ -200,7 +199,7 @@ public class FormNVQuanLy extends JFrame{
 		
 		lblAccountIcon = new JLabel("");
 		lblAccountIcon.setIcon(new ImageIcon(img_user));
-		lblAccountIcon.setBounds(1520, 95, 60, 60);
+		lblAccountIcon.setBounds(1570, 139, 40, 40);
 		northPanel.add(lblAccountIcon);
 		
 		JButton btnLogOut = new JButton("");
@@ -213,20 +212,25 @@ public class FormNVQuanLy extends JFrame{
 		});
 		btnLogOut.setBackground(new Color(192, 192, 192));
 		btnLogOut.setIcon(new ImageIcon(img_logout));
-		btnLogOut.setBounds(1850, 95, 60, 60);
+		btnLogOut.setBounds(1880, 139, 40, 40);
 		northPanel.add(btnLogOut);
 		
 		JLabel lblNgonNgu = new JLabel("Ngôn ngữ");
 		lblNgonNgu.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNgonNgu.setBounds(1720, 160, 80, 20);
+		lblNgonNgu.setBounds(1720, 104, 80, 30);
 		northPanel.add(lblNgonNgu);
-		
+		 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		comboBox.setBounds(1810, 162, 100, 20);
+		comboBox.setBounds(1810, 104, 100, 30);
 		FillCountries();
 		northPanel.add(comboBox);
 		
+		JLabel lblTenUser = new JLabel("");
+		lblTenUser.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTenUser.setBounds(1620, 145, 250, 34);
+		northPanel.add(lblTenUser);
+		lblTenUser.setText(userInfo.getTenNV());
 		lblBG = new JLabel("");
 		lblBG.setIcon(new ImageIcon(img_background));
 		lblBG.setBounds(0, 200, 1920, 816);

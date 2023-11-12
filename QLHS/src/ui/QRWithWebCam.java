@@ -126,6 +126,7 @@ public class QRWithWebCam extends JFrame implements Runnable,ThreadFactory{
 					LoginForm f = new LoginForm(result.getText());
 					f.setVisible(true);
 					stopThread();
+					webcam.close();
 					dispose();
 				}
 			}

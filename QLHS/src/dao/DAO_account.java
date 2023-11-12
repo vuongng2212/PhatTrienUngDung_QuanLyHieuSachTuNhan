@@ -46,6 +46,23 @@ public class DAO_account {
 		return str;
 
 	}
+	public NhanVien getIDandName(String sdt) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		NhanVien nv = null;
+		try {
+			String sql = "select maNV,tenNV from nhanVien where soDienThoai = N'"+sdt+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+			nv = new NhanVien(rs.getString("maNV"), rs.getString("tenNV"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nv;
+
+	}
 	private void close(PreparedStatement stm) {
 		// TODO Auto-generated method stub
 		if(stm!=null) {

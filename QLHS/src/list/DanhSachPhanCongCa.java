@@ -27,7 +27,7 @@ public class DanhSachPhanCongCa {
 		date = new Date(Calendar.getInstance().getTime().getTime());
 		for (int i = 0; i < list.size(); i++)
 			if (list.get(i).getMaNV().equalsIgnoreCase(ca.getMaNV()) && !list.get(i).getNgayLV().before(date) && !list.get(i).getNgayLV().after(date)) {
-				return false;
+				return false; 
 			}
 		list.add(ca);
 		return true;

@@ -6,6 +6,7 @@ public class PhanCongCa {
 	private String maNV;
 	private Date ngayLV;
 	private Integer maCa;
+	private String tenNV;
 	public PhanCongCa() {
 		super();
 	}
@@ -13,11 +14,29 @@ public class PhanCongCa {
 		super();
 		this.maNV = maNV;
 	}
+	
+	public PhanCongCa(String maNV, Date ngayLV, Integer maCa, String tenNV) {
+		super();
+		this.maNV = maNV;
+		this.ngayLV = ngayLV;
+		this.maCa = maCa;
+		this.tenNV = tenNV;
+	}
+	public PhanCongCa(Date ngayLV) {
+		super();
+		this.ngayLV = ngayLV;
+	}
 	public PhanCongCa(String maNV, Integer maCa , Date ngayLV) {
 		super();
 		this.maNV = maNV;
 		this.ngayLV = ngayLV;
 		this.maCa = maCa;
+	}
+	public String getTenNV() {
+		return tenNV;
+	}
+	public void setTenNV(String tenNV) {
+		this.tenNV = tenNV;
 	}
 	public String getMaNV() {
 		return maNV;
