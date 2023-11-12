@@ -23,6 +23,8 @@ import entity.userInfo;
 
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
@@ -80,7 +82,7 @@ public class LoginForm extends JFrame {
 		txtPass = new JPasswordField();
 		txtPass.setBounds(180, 137, 200, 40);
 		contentPane.add(txtPass);
-
+		
 		btnDangnhap = new JButton("Đăng nhập");
 		btnDangnhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -116,6 +118,7 @@ public class LoginForm extends JFrame {
 					else {
 						JOptionPane.showMessageDialog(getParent(), "Đăng nhập thất bại!");
 					}
+					dispose();
 				}
 				else {
 					JOptionPane.showMessageDialog(getParent(), "Username và password không được để trống");
@@ -127,6 +130,8 @@ public class LoginForm extends JFrame {
 
 		btnDangnhap.setBounds(260, 205, 120, 35);
 		contentPane.add(btnDangnhap);
+		
+		loginByQR(account);
 		
 		JButton btnQR = new JButton("QRCode");
 		btnQR.addActionListener(new ActionListener() {
@@ -152,12 +157,23 @@ public class LoginForm extends JFrame {
 		lblKhachHang.setForeground(new Color(0, 0, 160));
 		lblKhachHang.setBounds(70, 214, 180, 14);
 		contentPane.add(lblKhachHang);
-		
+		lblKhachHang.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                FormKhachHang frameKH = new FormKhachHang();
+                frameKH.setVisible(true);
+                dispose();
+            }
+
+        });
+
+	}
+	public void loginByQR(String account) {
 		if(account != null) {
 			txtUser.setText(account.substring(0, 10));
 			txtPass.setText(account.substring(11));
 			btnDangnhap.doClick();
+//			dispose();
 		}
-		
 	}
 }

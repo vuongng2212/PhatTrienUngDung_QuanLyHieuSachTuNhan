@@ -12,6 +12,7 @@ import dao.DAO_SanPham;
 import entity.ChiTietPhieuDH;
 import entity.PhieuDatHang;
 import entity.SanPham;
+import entity.userInfo;
 import list.DanhSachChiTietPDH;
 import list.DanhSachPhieuDH;
 import list.DanhSachSanPham;
@@ -220,10 +221,11 @@ public class PanelDatHang extends JPanel {
 		txtMaDH.setBounds(1395, 62, 100, 25);
 		add(txtMaDH);
 		
-		JLabel lblTenNV = new JLabel("Tên NV");
+		JLabel lblTenNV = new JLabel(userInfo.getMaNV()+"."+userInfo.getTenNV());
 		lblTenNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTenNV.setBounds(1395, 96, 150, 25);
 		add(lblTenNV);
+		
 		
 		Date currentDate = new Date();	
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");

@@ -1,36 +1,36 @@
 package ui;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-
-import connectDB.ConnectDB;
-import dao.DAO_SanPham;
-import entity.KhachHang;
-import entity.SanPham;
-import list.DanhSachSanPham;
-
-import java.awt.Color;
-import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
+import connectDB.ConnectDB;
+import dao.DAO_SanPham;
+import entity.SanPham;
+import list.DanhSachSanPham;
 
-public class PanelTimSPFormQuanLy extends JPanel {
+public class FormKhachHang extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
 	private JTextField txtTenSach;
 	private JTable table;
 	private DefaultTableModel tableModel;
@@ -43,7 +43,27 @@ public class PanelTimSPFormQuanLy extends JPanel {
 	private JLabel lblNamXB;
 	private JComboBox cbDM,cbNamXB,cbNhaXB;
 	private int stt =1;
-	public PanelTimSPFormQuanLy() {
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FormKhachHang frame = new FormKhachHang();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public FormKhachHang() {
 		listsp = new DanhSachSanPham();
 		try {
 			ConnectDB.getInstance().connect();
@@ -51,73 +71,65 @@ public class PanelTimSPFormQuanLy extends JPanel {
 			
 			e.printStackTrace();
 		}
+		setTitle("Tìm sách");
+		setSize(1936,1056);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		getContentPane().setLayout(null);
+		setLocationRelativeTo(null);
 		
+		contentPane = new JPanel();
+		contentPane.setBounds(0, 0, 1936,1056);
 		
-		setBounds(0, 200, 1920, 816);
-		setLayout(null);
+		getContentPane().add(contentPane);
+		contentPane.setLayout(null);
+		
 		
 		JPanel panelTitle = new JPanel();
 		panelTitle.setBackground(new Color(255, 165, 0));
 		panelTitle.setBounds(0, 0, 1920, 96);
-		add(panelTitle);
+		contentPane.add(panelTitle);
 		panelTitle.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tìm Sách");
-		lblNewLabel.setForeground(new Color(0, 255, 0));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		lblNewLabel.setBounds(125, 0, 1920, 96);
-		panelTitle.add(lblNewLabel);
-		
-		JButton btnBack = new JButton("Trở Về");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				panelProduct.setVisible(true);
-			}
-		});
-		btnBack.setForeground(new Color(0, 255, 0));
-		btnBack.setBackground(null);
-		btnBack.setBorderPainted(false);
-		btnBack.setOpaque(false);
-		btnBack.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnBack.setBounds(0, 31, 115, 48);
-		btnBack.setIcon(new ImageIcon(img_back));
-		panelTitle.add(btnBack);
+		JLabel lblTimSach = new JLabel("Tìm Sách");
+		lblTimSach.setForeground(new Color(0, 255, 0));
+		lblTimSach.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTimSach.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		lblTimSach.setBounds(0, 0, 1910, 96);
+		panelTitle.add(lblTimSach);
 		
 		JPanel panelSearch = new JPanel();
 		panelSearch.setBackground(new Color(255, 165, 0));
 		panelSearch.setBounds(0, 114, 1920, 176);
-		add(panelSearch);
+		contentPane.add(panelSearch);
 		panelSearch.setLayout(null);
 		
 		JLabel lbllTenSach = new JLabel("Tên Sách");
 		lbllTenSach.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTenSach.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTenSach.setBounds(60, 22, 85, 29);
+		lbllTenSach.setBounds(181, 22, 85, 29);
 		panelSearch.add(lbllTenSach);
 		
 		txtTenSach = new JTextField();
-		txtTenSach.setBounds(160, 24, 160, 30);
+		txtTenSach.setBounds(276, 23, 160, 30);
 		panelSearch.add(txtTenSach);
 		txtTenSach.setColumns(10);
 		
 		JLabel lblNXB = new JLabel("Nhà xuất bản");
 		lblNXB.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNXB.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNXB.setBounds(814, 22, 98, 29);
+		lblNXB.setBounds(1029, 22, 98, 29);
 		panelSearch.add(lblNXB);
 		
 		JLabel lbllDanhMuc = new JLabel("Danh Mục");
 		lbllDanhMuc.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDanhMuc.setBounds(410, 22, 106, 29);
+		lbllDanhMuc.setBounds(558, 22, 106, 29);
 		panelSearch.add(lbllDanhMuc);
 		
 		lblNamXB = new JLabel("Năm Xuất Bản");
 		lblNamXB.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNamXB.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNamXB.setBounds(1134, 22, 131, 29);
+		lblNamXB.setBounds(1429, 22, 131, 29);
 		panelSearch.add(lblNamXB);
 		
 		JButton btnSearch = new JButton("Tìm");
@@ -130,7 +142,7 @@ public class PanelTimSPFormQuanLy extends JPanel {
 		btnSearch.setForeground(new Color(0, 128, 0));
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnSearch.setIcon(new ImageIcon(img_search));
-		btnSearch.setBounds(597, 104, 119, 40);
+		btnSearch.setBounds(750, 104, 119, 40);
 		panelSearch.add(btnSearch);
 		
 		JButton btnRefresh = new JButton("Làm Mới");
@@ -143,19 +155,19 @@ public class PanelTimSPFormQuanLy extends JPanel {
 		btnRefresh.setForeground(new Color(0, 191, 255));
 		btnRefresh.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnRefresh.setIcon(new ImageIcon(img_update));
-		btnRefresh.setBounds(840, 104, 119, 40);
+		btnRefresh.setBounds(1070, 104, 119, 40);
 		panelSearch.add(btnRefresh);
 		
 		cbDM = new JComboBox();
-		cbDM.setBounds(526, 23, 130, 30);
+		cbDM.setBounds(674, 23, 130, 30);
 		panelSearch.add(cbDM);
 		
 		cbNhaXB = new JComboBox();
-		cbNhaXB.setBounds(922, 21, 130, 30);
+		cbNhaXB.setBounds(1137, 23, 130, 30);
 		panelSearch.add(cbNhaXB);
 		
 		cbNamXB = new JComboBox();
-		cbNamXB.setBounds(1275, 22, 130, 30);
+		cbNamXB.setBounds(1570, 23, 130, 30);
 		panelSearch.add(cbNamXB);
 		
 		cbDM.addItem("");
@@ -163,19 +175,18 @@ public class PanelTimSPFormQuanLy extends JPanel {
 		cbNamXB.addItem("");
 		
 		JPanel tblPanel = new JPanel();
-		tblPanel.setBounds(0, 320, 1920, 496);
-		add(tblPanel);
+		tblPanel.setBounds(0, 320, 1920, 695);
+		contentPane.add(tblPanel);
 		tblPanel.setLayout(null);
 
 		String[] headers = {"STT","Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá","Tình Trạng"};
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scroll.setBounds(0, 0, 1920, 496);
+		scroll.setBounds(0, 0, 1920, 696);
 		scroll.setViewportView(table = new JTable(tableModel));
 		table.setRowHeight(35);
 		table.setAutoCreateRowSorter(true);
 		tblPanel.add(scroll);
-		
 		refresh();
 		
 	}
@@ -225,4 +236,5 @@ public class PanelTimSPFormQuanLy extends JPanel {
 			
 		}
 	}
+
 }

@@ -53,7 +53,6 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			stm.setFloat(8,(float) sp.getDonGiaGoc());
 			stm.setFloat(9,(float) sp.getDonGiaMua());
 			stm.setString(10, sp.getTinhTrang());
-			System.out.println(stm);
 			stm.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -143,7 +142,6 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 				+ strDanhMuc + " and "
 				+ strNhaXB + " and "
 				+ strNamXB + ")";
-		System.out.println(sql);
 		try {
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

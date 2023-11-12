@@ -48,11 +48,13 @@ public class PanelShift extends JPanel {
 	private String[] headers;
 	private JScrollPane scroll;
 	private boolean tableCheck;
-	private Image img_TimNV = new ImageIcon(FormNVQuanLy.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	private DialogNhanVien dialogNV ;
+	private Image img_TimNV = new ImageIcon(FormNVQuanLy.class.getResource("/image/pluss.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
 	/**
 	 * Create the panel.
 	 */
 	public PanelShift() {
+		dialogNV = new DialogNhanVien();
 		ls = new DanhSachPhanCongCa();
 		tableCheck=false;
 		try {
@@ -186,10 +188,18 @@ public class PanelShift extends JPanel {
 		txtMaNV.setColumns(10);
 		
 		
-		JButton btnTimNV = new JButton("");
-		btnTimNV.setIcon(new ImageIcon(img_TimNV));
-		btnTimNV.setBounds(243, 137, 30, 30);
-		panel.add(btnTimNV);
+		JButton btnShowNV = new JButton("");
+		btnShowNV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogNV.setModal(true);
+				dialogNV.setVisible(true);
+				String str = dialogNV.getMaNVSelected();
+				txtMaNV.setText(str);
+			}
+		});
+		btnShowNV.setIcon(new ImageIcon(img_TimNV));
+		btnShowNV.setBounds(243, 139, 30, 30);
+		panel.add(btnShowNV);
 		
 		JButton btnXoa = new JButton("Xóa ca");
 		btnXoa.addActionListener(new ActionListener() {

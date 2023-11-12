@@ -81,7 +81,6 @@ public class FormNVQuanLy extends JFrame{
 	}
 
 	public FormNVQuanLy() {
-		setAlwaysOnTop(true);
 		setTitle("Nhan vien quan ly");
 //		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setSize(1936,1056);

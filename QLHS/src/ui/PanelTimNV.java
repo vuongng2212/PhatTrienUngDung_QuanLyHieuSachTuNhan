@@ -135,11 +135,12 @@ public class PanelTimNV extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int row = table.getSelectedRow();
-				System.out.println(row);
-				txtTen.setText(table.getValueAt(row, 2).toString());
-				String gt = table.getValueAt(row, 4).toString();
-				txtSDT.setText(table.getValueAt(row, 5).toString());
-				txtEmail.setText(table.getValueAt(row, 7).toString());			
+				if(row!=-1) {
+					txtTen.setText(table.getValueAt(row, 2).toString());
+					String gt = table.getValueAt(row, 4).toString();
+					txtSDT.setText(table.getValueAt(row, 5).toString());
+					txtEmail.setText(table.getValueAt(row, 7).toString());
+				}				
 			}
 		});
 		table.setRowHeight(35);
@@ -175,7 +176,6 @@ public class PanelTimNV extends JPanel {
 				if(gioiTinh=="Nam"){
 					gt = 1;
 				}
-				System.out.println("ns = " + d);
 				loadData(ten, sdt, email, gt, d);
 			}
 		});
