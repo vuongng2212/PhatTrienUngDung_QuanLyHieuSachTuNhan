@@ -62,6 +62,7 @@ public class frmNV extends JFrame {
 	private Image img_thongKeSP = new ImageIcon(frmNV.class.getResource("/image/thongKeSP.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_khuyenMai = new ImageIcon(frmNV.class.getResource("/image/khuyenMai.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_taoHD = new ImageIcon(frmNV.class.getResource("/image/taoHD.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_xemHD = new ImageIcon(frmNV.class.getResource("/image/xemHD.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_searchProduct = new ImageIcon(frmNV.class.getResource("/image/searchProduct.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_managerProduct = new ImageIcon(frmNV.class.getResource("/image/managerbook.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_quanLiHT = new ImageIcon(frmNV.class.getResource("/image/quanliHT.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
@@ -111,6 +112,9 @@ public class frmNV extends JFrame {
 	private DialogShowKhuyenMai dialogShowKm;
 	private DialogAddSP dialogAddSp;
 	private DialogAddKH dialogAddKh;
+	private JMenuItem menuSearchHD;
+	private PanelSearchHD searchHD;
+	private DialogXemHD xemHD;
 	/**
 	 * Launch the application.
 	 */
@@ -159,7 +163,7 @@ public class frmNV extends JFrame {
 		thongke = new PanelThongKe();
 		
 		panelCRUDKHang = new PanelCRUDKHang(customer);
-		
+		searchHD = new PanelSearchHD();
 		panelSearchProduct = new PanelSearchProduct();
 		
 		profit = new PanelProfit();
@@ -167,6 +171,7 @@ public class frmNV extends JFrame {
 		searchKm = new PanelTimKhuyenMai();
 		dialogShowKm = new DialogShowKhuyenMai();
 		dialogAddSp = new DialogAddSP();
+		xemHD = new DialogXemHD();
 		dialogAddKh = new DialogAddKH();
 		dialogfrm = new SanPhamFrm();
 		dialogfrm.setKhuyenMai(khuyenMai);
@@ -465,11 +470,13 @@ public class frmNV extends JFrame {
 		thongke.setVisible(false);
 		customer.setVisible(false);
 		panelCRUDKHang.setVisible(false);
+		searchHD.setVisible(false);
 		panelSearchProduct.setVisible(false);
 		panel_image_title.setVisible(true);
 		profit.setVisible(false);
 		dialogShowKm.setVisible(false);
 		dialogAddSp.setVisible(false);
+		xemHD.setVisible(false);
 		dialogAddKh.setVisible(false);
 		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
@@ -488,6 +495,7 @@ public class frmNV extends JFrame {
 		panelFrm.add(customer);
 		panelFrm.add(thongke);
 		panelFrm.add(panelCRUDKHang);
+		panelFrm.add(searchHD);
 		panelFrm.add(panelSearchProduct);
 		panelFrm.add(panel_image_title);
 		
@@ -588,6 +596,28 @@ public class frmNV extends JFrame {
 //		  JMenuItem menuItem = new JMenuItem("Quản Lí Khách Hàng", new ImageIcon(img_customer));
 //		  menuItemQlKH.setFont(new Font("Times New Roman", Font.BOLD, 14)); ////
 		  menuHoaDon.add(menuTaoHD);
+		  
+		  menuSearchHD = new JMenuItem("Tạo Hóa Đơn");
+		  menuSearchHD.setBorder(new LineBorder(Color.black, 1));
+		  menuSearchHD.setBackground(new Color(0, 128, 0));
+		  
+		  menuSearchHD.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
+		  menuSearchHD.setIcon(new ImageIcon(img_payment));
+		  menuSearchHD.setHorizontalAlignment(SwingConstants.RIGHT);
+		  menuSearchHD.setPreferredSize(new Dimension(180, 41));
+		  
+		  menuSearchHD = new JMenuItem("Xem Hóa Đơn", new ImageIcon(img_xemHD));
+		  menuSearchHD.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuSearchHD.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(searchHD);
+			}
+		});
+		  menuSearchHD.setPreferredSize(new Dimension(180, 41));
+		  menuHoaDon.add(menuSearchHD);
+		  
 		  
 		  menuKhachHang = new JMenu("Khách Hàng");
 		  menuKhachHang.setBorder(new LineBorder(Color.black, 1));
@@ -751,6 +781,7 @@ public class frmNV extends JFrame {
 //		thongke.setVisible(false);
 //		customer.setVisible(false);
 		panelCRUDKHang.setVisible(false);
+		searchHD.setVisible(false);
 		panelSearchProduct.setVisible(false);
 		
 		panel.setVisible(true);	
@@ -806,6 +837,7 @@ public class frmNV extends JFrame {
 		panelSearchProduct.panelProduct = product;
 		searchKm.dialogShow = dialogShowKm;
 		bill.banHang.dialogAddSp = dialogAddSp;
+		searchHD.xemHd = xemHD;
 		bill.banHang.dialogAddKH = dialogAddKh;
 	}
 }

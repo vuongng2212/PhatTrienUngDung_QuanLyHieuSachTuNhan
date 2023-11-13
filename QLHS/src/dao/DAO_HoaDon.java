@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import connectDB.ConnectDB;
@@ -27,8 +28,15 @@ public class DAO_HoaDon implements daoInterface<HoaDon, DanhSachHoaDon>{
 			String sql = "select * from hoaDon";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		while(rs.next()) {
-			dsHoaDon.add(new HoaDon());
+			try {
+				dsHoaDon.add(new HoaDon(rs.getString("maHD"),rs.getString("maNV"),rs.getString("maKH"),dateFormat.parse(rs.getString("ngayTaoHD")),Double.parseDouble(rs.getString("thanhTien"))));
+		
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}			
 		}catch (SQLException e) {
@@ -44,16 +52,15 @@ public class DAO_HoaDon implements daoInterface<HoaDon, DanhSachHoaDon>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "INSERT INTO hoaDon (maHD, maNV, maKH, ngayTaoHD) "
-				+ "values(?,?,?,?)";
+		String sql = "INSERT INTO hoaDon (maHD, maNV, maKH, ngayTaoHD,thanhTien) "
+				+ "values(?,?,?,?,?)";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, obj.getMaHD());
 			stm.setString(2, obj.getMaNV());
 			stm.setString(3, obj.getMaKH());
-			
 			stm.setString(4, dateString);
-			
+			stm.setFloat(5,(float) obj.getThanhTien());
 			System.out.println(stm);
 			stm.executeUpdate();
 		} catch (Exception e) {

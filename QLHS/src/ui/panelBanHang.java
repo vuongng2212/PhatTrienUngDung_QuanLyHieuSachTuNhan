@@ -18,7 +18,9 @@ import javax.swing.JComponent;
 
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -33,6 +35,8 @@ import dao.DAO_HoaDon;
 import dao.DAO_KhachHang;
 import dao.DAO_KhuyenMai;
 import dao.DAO_SanPham;
+import entity.ChiTietHoaDon;
+import entity.HoaDon;
 import entity.KhachHang;
 import entity.SanPham;
 import list.DanhSachChiTietHoaDon;
@@ -44,7 +48,11 @@ import list.DanhSachSanPham;
 import javax.swing.JSpinner;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class panelBanHang extends JPanel {
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
@@ -54,7 +62,6 @@ public class panelBanHang extends JPanel {
 	public JTextField txtLoaiKH;
 	public JTextField txtTongTien;
 	public JTextField txtTienNhan;
-	public JTextField txtTienTra;
 	public JTextField txtTenKH;
 	public JTextField txtDiaChi;
 	public JLabel lbllSoLuong;
@@ -83,6 +90,7 @@ public class panelBanHang extends JPanel {
 	public String tenSach;
 	public double giaBan;
 	private double tongTien;
+
 	// Phần DAO của sản phẩm
 	private DanhSachSanPham listSP;
 	private DAO_SanPham daosp;
@@ -106,11 +114,12 @@ public class panelBanHang extends JPanel {
 	private JButton btnSa;
 	private JButton btnXa;
 	private JLabel lblNewLabel_2;
-	private JTextField txtMaKM;
+	private JTextField txtMaHD;
 	private JButton btnNewButton_1;
 	private JTable table;
-	
-	
+	private JLabel lbllTienTra;
+	private boolean firstFlag;
+//	private
 	
 	
 	
@@ -118,6 +127,27 @@ public class panelBanHang extends JPanel {
 	
 	
 	public panelBanHang() {
+		
+		firstFlag = false;
+		DocumentListener documentListener = new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				calculateChange();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				calculateChange();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				calculateChange();
+			}
+		};
+		
+		
 		soLuongSPTemp = 0;
 		giaBan = 0;
 		tenSach = "";
@@ -197,43 +227,78 @@ public class panelBanHang extends JPanel {
 				int discount = 0;
 				if(!txtMaSP.getText().equalsIgnoreCase("")) {
 					if(!txtMaSP.getText().equalsIgnoreCase("")){
-						if(soLuongSPTemp > Integer.parseInt(txtSoLuong.getText())) {
-							System.out.println("Được");
-							if(daokm.ktraHienDangKhuyenMai(txtMaSP.getText())) {
-								discount = daokm.discountSPDangKM(txtMaSP.getText());
-								System.out.println(discount);
-								model =(DefaultTableModel)table.getModel();
-								row = new Object[6];
-								row[0] = txtMaSP.getText();
-								row[1] = tenSach;
-								row[2] = txtSoLuong.getText();
-								row[3] = giaBan;
-								row[4] = discount;
-								row[5] = giaBan*(Integer.parseInt(txtSoLuong.getText())) - ((discount/100)*(giaBan*(Integer.parseInt(txtSoLuong.getText()))));
-								tongTien+= giaBan*(Integer.parseInt(txtSoLuong.getText())) - ((discount/100)*(giaBan*(Integer.parseInt(txtSoLuong.getText()))));
-								model.addRow(row);
-								txtTongTien.setText(String.format("%.2f", txtTongTien));
-								JOptionPane.showMessageDialog(null, "Thêm Thành Công");
-							}else {
-								if(txtLoaiKH.getText().equalsIgnoreCase("TV"))
-								{
-									discount= 3;
-									System.out.println("Thanh vienn!!!");
+						if(indexMaSPInList(txtMaSP.getText())==-1) {
+							if(soLuongSPTemp > Integer.parseInt(txtSoLuong.getText())) {
+								System.out.println("Được");
+								if(daokm.ktraHienDangKhuyenMai(txtMaSP.getText())) {
+									discount = daokm.discountSPDangKM(txtMaSP.getText());
+									System.out.println(discount);
+									model =(DefaultTableModel)table.getModel();
+									row = new Object[6];
+									row[0] = txtMaSP.getText();
+									row[1] = tenSach;
+									row[2] = txtSoLuong.getText();
+									row[3] = giaBan;
+									row[4] = discount;
+									System.out.println("Gia Ban: " + giaBan);
+									System.out.println("So luong: "+ txtSoLuong.getText());
+									System.out.println("Discount: "+discount);
+									double giaBanCrr = giaBan;
+									int soLuong = Integer.parseInt(txtSoLuong.getText());
+									double total = ((double)giaBanCrr*(double)soLuong - ((double)giaBanCrr*(double)soLuong)*((double)discount/100));
+									System.out.println(total);
+									System.out.println("ThanhTien:  "+ (giaBan*Integer.parseInt(txtSoLuong.getText()) - (giaBan * Integer.parseInt(txtSoLuong.getText()))*(discount/100)));
+									row[5] = total;
+									model.addRow(row);
+//									tongTien+= giaBan*(Integer.parseInt(txtSoLuong.getText())) - ((discount/100)*(giaBan*(Integer.parseInt(txtSoLuong.getText()))));
+									tongTien+=total;
+									System.out.println(tongTien);
+									txtTongTien.setText(String.format("%.2f", tongTien));
+									JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+								}else {
+									if(txtLoaiKH.getText().equalsIgnoreCase("TV"))
+									{
+										discount= 3;
+										System.out.println("Thanh vienn!!!");
+									}
+									model =(DefaultTableModel)table.getModel();
+									row = new Object[6];
+									row[0] = txtMaSP.getText();
+									row[1] = tenSach;
+									row[2] = txtSoLuong.getText();
+									row[3] = giaBan;
+									row[4] = discount;
+									double giaBanCrr = giaBan;
+									int soLuong = Integer.parseInt(txtSoLuong.getText());
+									double total = ((double)giaBanCrr*(double)soLuong - ((double)giaBanCrr*(double)soLuong)*((double)discount/100));
+									System.out.println(total);
+									System.out.println("ThanhTien:  "+ (giaBan*Integer.parseInt(txtSoLuong.getText()) - (giaBan * Integer.parseInt(txtSoLuong.getText()))*(discount/100)));
+//									row[5] = total;
+									System.out.println(total);
+									row[5] = total;
+									model.addRow(row);
+									tongTien+=total;
+									txtTongTien.setText(String.format("%.2f", tongTien));
+									JOptionPane.showMessageDialog(null, "Thêm Thành Công");
 								}
-								model =(DefaultTableModel)table.getModel();
-								row = new Object[6];
-								row[0] = txtMaSP.getText();
-								row[1] = tenSach;
-								row[2] = txtSoLuong.getText();
-								row[3] = giaBan;
-								row[4] = discount;
-								row[5] = giaBan*(Integer.parseInt(txtSoLuong.getText())) - ((discount/100)*(giaBan*(Integer.parseInt(txtSoLuong.getText()))));
-								model.addRow(row);
-								JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+							txtMaSP.setText("");
+							txtSoLuong.setText("");
+							}else {
+								JOptionPane.showMessageDialog(null, "Số Lượng vượt quá mức cho phép!");
 							}
-						
 						}else {
-							JOptionPane.showMessageDialog(null, "Số Lượng vượt quá mức cho phép!");
+							System.out.println(indexMaSPInList(txtMaSP.getText()));
+							JOptionPane.showMessageDialog(null, "Sản Phẩm đã tồn tại");
+							int option = JOptionPane.showOptionDialog(null, "Cập nhật lại số lượng  trong danh sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
+							switch (option) {
+							case JOptionPane.YES_OPTION:
+								model = (DefaultTableModel) table.getModel();
+								model.setValueAt(txtSoLuong.getText(), indexMaSPInList(txtMaSP.getText()), 2);
+								break;
+
+							default:
+								break;
+							}
 						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Sách Trước");
@@ -250,10 +315,15 @@ public class panelBanHang extends JPanel {
 		txtSach.add(btnLmMi);
 		btnLmMi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model =(DefaultTableModel) table.getModel();
+				model.setRowCount(0);
 			}
 		});
 		btnLmMi.setBackground(new Color(102, 204, 0));
 		btnLmMi.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+		
+		
 		
 		txtSoLuong = new JTextField();
 		txtSoLuong.setBounds(583, 9, 42, 31);
@@ -261,12 +331,41 @@ public class panelBanHang extends JPanel {
 		txtSoLuong.setColumns(10);
 		
 		btnSa = new JButton("Sửa");
+		btnSa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i = table.getSelectedRow();
+				DefaultTableModel  model = (DefaultTableModel)table.getModel();
+				if(i>=0) {
+					model.setValueAt(txtSoLuong.getText(), i, 2);
+					JOptionPane.showMessageDialog(null, "Sửa Thành Công!!");
+				}else {
+					JOptionPane.showMessageDialog(null, "Chọn dòng cần xóa!!");
+				}
+			}
+		});
 		btnSa.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSa.setBackground(new Color(102, 204, 0));
 		btnSa.setBounds(934, 9, 112, 31);
 		txtSach.add(btnSa);
 		
 		btnXa = new JButton("Xóa");
+		btnXa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model =(DefaultTableModel) table.getModel();
+				int i = table.getSelectedRow();
+				int option = JOptionPane.showOptionDialog(null, "Xóa Sản Phẩm Khỏi Danh Sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
+				switch (option) {
+				case JOptionPane.YES_OPTION:
+					model.removeRow(i);
+					JOptionPane.showMessageDialog(null, "Xóa Thành Công!!!");
+					break;
+
+				default:
+					break;
+				}
+				
+			}
+		});
 		btnXa.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnXa.setBackground(new Color(102, 204, 0));
 		btnXa.setBounds(1067, 9, 121, 31);
@@ -310,10 +409,11 @@ public class panelBanHang extends JPanel {
 		
 		txtTienNhan = new JTextField();
 		txtTienNhan.setFont(new Font("Tahoma", Font.BOLD, 15));
-		txtTienNhan.setEditable(false);
+//		txtTienNhan.setEditable(false);
 		txtTienNhan.setColumns(10);
-		txtTienNhan.setBackground(new Color(204, 255, 0));
-		txtTienNhan.setBounds(415, 41, 138, 38);
+		txtTienNhan.setBackground(new Color(255, 255, 255));
+		txtTienNhan.setBounds(415, 41, 162, 38);
+
 		panel_2.add(txtTienNhan);
 		
 		lblTienTra = new JLabel("Tiền Trả");
@@ -321,17 +421,30 @@ public class panelBanHang extends JPanel {
 		lblTienTra.setBounds(640, 40, 111, 38);
 		panel_2.add(lblTienTra);
 		
-		txtTienTra = new JTextField();
-		txtTienTra.setFont(new Font("Tahoma", Font.BOLD, 15));
-		txtTienTra.setEditable(false);
-		txtTienTra.setColumns(10);
-		txtTienTra.setBackground(new Color(204, 255, 0));
-		txtTienTra.setBounds(761, 41, 138, 38);
-		panel_2.add(txtTienTra);
+		txtTienNhan.getDocument().addDocumentListener(documentListener);
 		
 		btnHuy = new JButton("Hủy Bỏ");
 		btnHuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showOptionDialog(null,"Xác Nhận hủy bỏ", "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				switch (option) {
+				case JOptionPane.YES_OPTION:
+					JOptionPane.showMessageDialog(null, "Xác nhận hủy bỏ");
+					DefaultTableModel model =(DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					txtMaKH.setText("");
+					txtTenKH.setText("");
+					txtLoaiKH.setText("");
+					txtSDT.setText("");
+					txtDiaChi.setText("");
+					txtMaSP.setText("");
+					txtSoLuong.setText("");
+					txtMaHD.setText("");
+					break;
+
+				default:
+					break;
+				}
 			}
 		});
 		btnHuy.setBackground(new Color(255, 0, 0));
@@ -342,7 +455,64 @@ public class panelBanHang extends JPanel {
 		btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(Double.parseDouble(lbllTienTra.getText())>0) {
+					DefaultTableModel model =(DefaultTableModel) table.getModel();
+					int sum = model.getRowCount();
+					daosp = new DAO_SanPham();
+					System.out.println(sum);
+					HoaDon hd = new HoaDon();
+					hd.setMaHD(txtMaHD.getText());
+					hd.setMaNV("NV001");
+					hd.setMaKH(txtMaKH.getText());
+					hd.setNgayTaoHD(new Date());
+					hd.setThanhTien(Double.parseDouble(txtTongTien.getText()));
+					daoHD.add(hd);
+					ChiTietHoaDon chHD = new ChiTietHoaDon();
+					for(int i=0;i<sum;i++) {
+						chHD.setMaHD(txtMaHD.getText());
+						chHD.setMaSP(model.getValueAt(i, 0).toString());
+						chHD.setSoLuong(Integer.parseInt(model.getValueAt(i, 2).toString()));
+						chHD.setDonGia(Double.parseDouble(model.getValueAt(i, 3).toString()));
+						chHD.setDiscount(Integer.parseInt(model.getValueAt(i, 4).toString()));
+						daoCTHD.add(chHD);
+						daosp.giamSoLuong(model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()));
+						
+					}
+					
+					
+					SimpleDateFormat dateformat = new SimpleDateFormat();
+					
+					
+					JOptionPane.showMessageDialog(null,"Tạo Hóa Đơn Thành Công");
+					if(txtLoaiKH.getText().equalsIgnoreCase("VL")) {
+						daokm = new DAO_KhuyenMai();
+						daokh = new DAO_KhachHang();
+						double total = daokm.tongTienCuaKH(txtMaKH.getText());
+						if(total >=300000) {
+							daokh.updateLoaiKH(txtMaKH.getText());
+							JOptionPane.showMessageDialog(null, "Tổng chi tiêu của khách hàng đã vượt 300k.LoạiKh set TV");
+						}
+					}
+					
+					model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					
+					txtMaHD.setText("");
+					txtMaKH.setText("");
+					txtMaSP.setText("");
+					txtSoLuong.setText("");
+					txtDiaChi.setText("");
+					txtLoaiKH.setText("");
+					txtSDT.setText("");
+					txtTenKH.setText("");
+					txtTongTien.setText("");
+					txtTienNhan.setText("");
+					lbllTienTra.setText("");
+					//
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Thất bại");
+				}
 				
 			}
 		});
@@ -360,6 +530,18 @@ public class panelBanHang extends JPanel {
 		btnInHD.setBackground(new Color(102, 204, 0));
 		btnInHD.setBounds(1270, 40, 154, 38);
 		panel_2.add(btnInHD);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.LIGHT_GRAY);
+		panel_1.setBounds(748, 40, 154, 38);
+		panel_2.add(panel_1);
+		panel_1.setLayout(null);
+		
+		lbllTienTra = new JLabel("0");
+		lbllTienTra.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllTienTra.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllTienTra.setBounds(0, 0, 154, 38);
+		panel_1.add(lbllTienTra);
 		
 		lblTimKH = new JLabel("Chọn Khách Hàng");
 		lblTimKH.setBounds(0, 61, 151, 28);
@@ -457,12 +639,17 @@ public class panelBanHang extends JPanel {
 		lblNewLabel_2.setBounds(0, 11, 96, 39);
 		add(lblNewLabel_2);
 		
-		txtMaKM = new JTextField();
-		txtMaKM.setBounds(106, 17, 60, 28);
-		add(txtMaKM);
-		txtMaKM.setColumns(10);
+		txtMaHD = new JTextField();
+		txtMaHD.setBounds(106, 17, 60, 28);
+		add(txtMaHD);
+		txtMaHD.setColumns(10);
 		
-		btnNewButton_1 = new JButton("Tạo Khuyến Mãi");
+		btnNewButton_1 = new JButton("Tạo Hóa Đơn");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				firstFlag = true;
+			}
+		});
 		btnNewButton_1.setBounds(337, 12, 132, 39);
 		add(btnNewButton_1);
 		
@@ -471,23 +658,42 @@ public class panelBanHang extends JPanel {
 		add(scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				int i = table.getSelectedRow();
+				txtMaSP.setText(model.getValueAt(i, 0).toString());
+				txtSoLuong.setText(model.getValueAt(i, 2).toString());
+			}
+		});
 		String[] columnsp = {"Mã Sách","Tên Sách","Số Lượng","Giá Bán","Discount","Thành Tiền"};
 		row = new Object[6];
 		model.setColumnIdentifiers(columnsp);
-		table.setModel(model);
+		table.setModel(model);	
 		scrollPane.setViewportView(table);
 	}
 	private void onOpenFormButtonClick() {
 //		SanPhamFrm spFrm = new SanPhamFrm();
 //		spfrm.setKhuyenMai(this);
-		dialogAddSp.banHang = this;
-		dialogAddSp.setModal(true);
-		dialogAddSp.setVisible(true);
+		if(checkFlagKH()) {
+			dialogAddSp.banHang = this;
+			dialogAddSp.setModal(true);
+			dialogAddSp.setVisible(true);
+			dialogAddSp.refresh();
+		}else {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng trước khi nhập sản phẩm");
+		}
 	}
 	private void onOpenFormKHButtonCLick() {
-		dialogAddKH.banHang = this;
-		dialogAddKH.setModal(true);
-		dialogAddKH.setVisible(true);
+		if(firstFlag) {
+			dialogAddKH.refresh();
+			dialogAddKH.banHang = this;
+			dialogAddKH.setModal(true);
+			dialogAddKH.setVisible(true);
+		}else {
+			JOptionPane.showMessageDialog(null, "Vui lòng click nút tạo hóa đơn trước khi chọn khách hàng!!");
+		}
 	}
 	public void onDataReturned(String str) {
 		System.out.println("Ma sp vua tra ve la:" + str);
@@ -533,17 +739,38 @@ public class panelBanHang extends JPanel {
 //		}
 //	}
 
+	private boolean checkFlagKH() {
+		if(txtMaKH.getText().equalsIgnoreCase("")) {
+			return false;
+		}
+		return true;
+	}
+	
 	private void calculateChange() {
 		try {
 			double total = Double.parseDouble(txtTongTien.getText());
 			double tienKhachGui = Double.parseDouble(txtTienNhan.getText());
 			double change = tienKhachGui - total;
-			txtTienTra.setText(String.format("%.2f", change));
+//			System.out.println(change);
+			String text = String.valueOf(change);
+			lbllTienTra.setText(text);
+//			txtTienTra.setText(text);
 		}catch(NumberFormatException ex){
-			txtTienTra.setText("");
+//			txtTienTra.setText("");
+
 		}
 	}
-	
+	private int indexMaSPInList(String str) {
+		model = (DefaultTableModel) table.getModel();
+		int size = model.getRowCount();
+		for(int i=0;i<size;i++) {
+			if(str.equalsIgnoreCase(model.getValueAt(i, 0).toString())) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
 	
 	
 	private static Border createStrikethroughBorder() {

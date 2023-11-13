@@ -23,7 +23,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from sanPham";
+			String sql = "select * from sanPham where tinhTrang = 1";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
@@ -34,6 +34,8 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		}
 			return dsSP;	
 	}
+	
+	
 	@SuppressWarnings("finally")
 	@Override
 	public boolean add(SanPham sp) {
@@ -98,13 +100,54 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		}
 		return true;
 	}
+	public void giamSoLuong(String maSP,int count) {
+		ConnectDB.getInstance();
+		DAO_SanPham daosp = new DAO_SanPham();
+		Connection con = ConnectDB.getConnection();
+		int soLuongTemp = daosp.getSoLuongSP(maSP);
+		int sum = soLuongTemp - count;
+		PreparedStatement stm = null;
+		String sql = "update  sanPham set soLuong = ? where maSP = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setInt(1, sum);
+			stm.setString(2, maSP);		
+			stm.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}	
+		
+	}
+	public int getSoLuongSP(String str) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "select soLuong from sanPham where maSP = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, str);
+			
+//			stm.executeUpdate();
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				return Integer.parseInt(rs.getString("soLuong"));
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}
+		return -1;
+	}
+	
 	@Override
 	public boolean delete(String maSP) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DELETE from sanPham where maSP = ?";
+		String sql = "update sanPham set tinhTrang = 0 where maSP = ?";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, maSP);

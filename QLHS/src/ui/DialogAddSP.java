@@ -227,7 +227,7 @@ public class DialogAddSP extends JDialog {
 		this.banHang = banHang;
 	}
 
-	private void refresh() {
+	public void refresh() {
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {

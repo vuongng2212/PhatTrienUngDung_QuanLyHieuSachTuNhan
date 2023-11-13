@@ -171,7 +171,7 @@ public class PanelKhuyenMai extends JPanel {
 					
 					if(!txtDisCount.getText().equalsIgnoreCase("")) {
 						if(ktraLaChuSo(txtDisCount.getText())) {
-							if(Integer.parseInt(txtDisCount.getText())>0 &&Integer.parseInt(txtDisCount.getText())<100) {
+							if(Integer.parseInt(txtDisCount.getText())>=5 &&Integer.parseInt(txtDisCount.getText())<100) {
 								if(!ktraTonTaiTrongList(danhSachDcChon, txtMaSach.getText())) {
 									danhSachDcChon.add(sp);
 									addTable(sp, Integer.parseInt(txtDisCount.getText()));
@@ -196,7 +196,7 @@ public class PanelKhuyenMai extends JPanel {
 									}
 								}
 							}else {
-								JOptionPane.showMessageDialog(null, "Discount phải lớn hơn 0 và bé hơn 100");
+								JOptionPane.showMessageDialog(null, "Discount phải lớn hơn bằng 5 và bé hơn 100");
 							}
 						}else {
 							JOptionPane.showMessageDialog(null, "Discount nhập vào phải là chữ số");

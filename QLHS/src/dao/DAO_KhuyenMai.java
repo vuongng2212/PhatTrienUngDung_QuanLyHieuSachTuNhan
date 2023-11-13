@@ -39,6 +39,25 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		}
 		return listKm;
 	}
+	public double tongTienCuaKH(String str) {
+		double total = 0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select thanhTien from hoaDon where maKH = '" + str + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			total+= Double.parseDouble(rs.getString("thanhTien"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return total;
+	}
+	
+	
 	public ArrayList<KhuyenMai3Field>getHetHan(){
 		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
 		ConnectDB.getInstance();

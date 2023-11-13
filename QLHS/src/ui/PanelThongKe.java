@@ -17,6 +17,7 @@ import dao.DAO_SanPham;
 import dao.DAO_ThongKe;
 import entity.PhieuDatHang;
 import entity.SanPham;
+import entity.ThongKeEntity;
 import list.DanhSachChiTietHoaDon;
 import list.DanhSachHoaDon;
 import list.DanhSachKhachHang;
@@ -42,6 +43,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -82,9 +84,12 @@ public class PanelThongKe extends JPanel {
 	private DanhSachChiTietHoaDon listCTHD;
 	private DAO_ChiTietHoaDon daoCTHD;
 	
+	
+	
 	private int count = 0,thongKeVal = -1;
 	private double thanhTien =0 ;
 	private Date date = null;
+	private int dateReturn = -1;
 	private boolean tableCheck = false;
 	
 	
@@ -145,15 +150,19 @@ public class PanelThongKe extends JPanel {
                     //Check thoi gian
                     if(checkBox.getText().equalsIgnoreCase("Hôm nay")) {
                     	date = Date.valueOf(getMinusTime(0));
+                    	dateReturn = 0;
                     	System.out.println(date);
                     }else if(checkBox.getText().equalsIgnoreCase("Hôm qua")) {
                     	date = Date.valueOf(getMinusTime(1));
+                    	dateReturn = -1;
                     	System.out.println(date);
                     }else if(checkBox.getText().equalsIgnoreCase("7 ngày trước")) {
                     	date = Date.valueOf(getMinusTime(7));
+                    	dateReturn = -7;
                     	System.out.println(date);
                     }else if(checkBox.getText().equalsIgnoreCase("30 ngày trước")) {
                     	date = Date.valueOf(getMinusTime(30));
+                    	dateReturn = -30;
                     	System.out.println(date);
                     }
                 } 
@@ -323,6 +332,43 @@ public class PanelThongKe extends JPanel {
 						}
 						txtCount.setText(String.valueOf(count));
 						txtTongTien.setText(String.valueOf(thanhTien));
+					}
+					if(thongKeVal == 2) {
+						DAO_ThongKe = new DAO_ThongKe();
+						ArrayList<ThongKeEntity>listTK = new ArrayList<ThongKeEntity>();
+						ThongKeEntity tk = new ThongKeEntity();
+						listTK = DAO_ThongKe.SachBanChay(dateReturn);
+						count = 0;
+						Object[] row = new Object[4];
+						xoaTxt();
+						String[] header = {"Mã Sản Phẩm","Tên Sản Phẩm","Số Lượng","Tiền Bán Được"};
+						taoBang(header);
+						for (ThongKeEntity sp : listTK) {
+							row[0] = sp.getMa();
+							row[1] = sp.getName();
+							row[2] = sp.getNumber();
+							row[3] = sp.getTongTien();
+							tableModel.addRow(row);
+						}
+					}
+					if(thongKeVal==3) {
+						System.out.println("ahihi");
+						DAO_ThongKe = new DAO_ThongKe();
+						ArrayList<ThongKeEntity>listTK = new ArrayList<ThongKeEntity>();
+						ThongKeEntity tk = new ThongKeEntity();
+						listTK = DAO_ThongKe.khachHangThanThiet(dateReturn);
+						count = 0;
+						Object[] row = new Object[4];
+						xoaTxt();
+						String[] header = {"Mã Khách Hàng","Tên Khách Hàng","Số Lần Mua","Tiền Mua"};
+						taoBang(header);
+						for (ThongKeEntity kh : listTK) {
+							row[0] = kh.getMa();
+							row[1] = kh.getName();
+							row[2] = kh.getNumber();
+							row[3] = kh.getTongTien();
+							tableModel.addRow(row);
+						}
 					}
 				}
 			}

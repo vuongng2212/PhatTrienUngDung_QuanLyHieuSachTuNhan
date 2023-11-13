@@ -26,7 +26,7 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		}
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from khachHang";
+			String sql = "select * from khachHang where tinhTrang = 1";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
@@ -45,8 +45,8 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "INSERT INTO khachHang (maKH, tenKH, SDT, diaChi, loaiKH) "
-				+ "values(?,?,?,?,?)";
+		String sql = "INSERT INTO khachHang (maKH, tenKH, SDT, diaChi, loaiKH,tinhTrang) "
+				+ "values(?,?,?,?,?,1)";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, obj.getMaKH());
@@ -68,13 +68,13 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		}
 		
 	}
-
+	
 	@Override
 	public boolean update(KhachHang obj) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "Update khachHang set tenKH = ?,SDT = ?,diaChi = ?,loaiKH = ? \r\n"
+		String sql = "Update khachHang set tenKH = ?,SDT = ?,diaChi = ? \r\n"
 				+ "where maKH = ?";
 		try {
 			stm = con.prepareStatement(sql);
@@ -82,8 +82,8 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 			stm.setString(1, obj.getTenKH());
 			stm.setString(2, obj.getSdt());
 			stm.setString(3, obj.getDiaChi());
-			stm.setString(4, obj.getLoaiKH());
-			stm.setString(5, obj.getMaKH());
+//			stm.setString(4, obj.getLoaiKH());
+			stm.setString(4, obj.getMaKH());
 			System.out.println(stm);
 			stm.executeUpdate();
 		} catch (Exception e) {
@@ -95,6 +95,7 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		}
 		return true;
 	}
+	
 	
 	public boolean updateLoaiKH(String maKH) {
 		ConnectDB.getInstance();
@@ -121,7 +122,7 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DELETE from khachHang where maKH = ?";
+		String sql = "update khachHang set tinhTrang = 0 where maKH = ?";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, ma);
