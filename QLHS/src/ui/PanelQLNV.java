@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -173,7 +174,7 @@ public class PanelQLNV extends JPanel{
 		dateChooser = new JDateChooser();
 		dateChooser.setBounds(205, 184, 160, 30);
 		dateChooser.getDate();
-		dateChooser.setDateFormatString("dd-MM-yyyy");
+		dateChooser.setDateFormatString("yyyy-MM-dd");
 		westPanel.add(dateChooser);
 		
 		
@@ -194,7 +195,17 @@ public class PanelQLNV extends JPanel{
 					txtDiaChi.setText(table.getValueAt(row, 6).toString());
 					txtEmail.setText(table.getValueAt(row, 7).toString());
 					String cv = table.getValueAt(row, 8).toString();
-					
+					String d = table.getValueAt(row, 3).toString();
+					SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+					java.util.Date date = null;
+					try {
+						date = sdf1.parse(d);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+					dateChooser.setDate(sqlStartDate);
 					cbGT.setSelectedItem(gt);
 					cbCV.setSelectedItem(cv);
 				}
@@ -218,7 +229,7 @@ public class PanelQLNV extends JPanel{
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int r = table.getSelectedRow();
-				if (r != -1) {	
+				if (r != -1) {
 					String ma = txtMa.getText();
 					String ten = txtTen.getText();
 					Date ns = new Date(dateChooser.getDate().getTime());
@@ -233,13 +244,18 @@ public class PanelQLNV extends JPanel{
 					String CV = cbCV.getSelectedItem().toString();
 
 					NhanVien nv = new NhanVien(ma, ten, ns, gt, sdt, diaChi, email, CV);
-					if (DAO_NV.updateNhanVien(nv)) {
-						ls.capNhatThongTinNhanVien(nv);
-						loadData();
-						JOptionPane.showMessageDialog(getParent(), "Cập nhật thông tin nhân viên thành công!");
+					if(table.getValueAt(r, 1).toString().equals(ma)) {
+						if (DAO_NV.updateNhanVien(nv)) {
+							ls.capNhatThongTinNhanVien(nv);
+							loadData();
+							JOptionPane.showMessageDialog(getParent(), "Cập nhật thông tin nhân viên thành công!");
+						}
+						else {
+							JOptionPane.showMessageDialog(getParent(), "Không thành công! Vui lòng kiểm tra lại...");
+						}
 					}
 					else {
-						JOptionPane.showMessageDialog(getParent(), "Không thành công! Vui lòng kiểm tra lại...");
+						JOptionPane.showMessageDialog(getParent(), "Không thể thay đổi mã NV");
 					}
 				} else {
 					JOptionPane.showMessageDialog(getParent(), "Vui lòng chọn nhân viên muốn sửa thông tin!");
