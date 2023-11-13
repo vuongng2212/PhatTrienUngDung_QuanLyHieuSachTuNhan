@@ -660,7 +660,7 @@ public class frmNV extends JFrame {
 		  menuThongKe.setHorizontalAlignment(SwingConstants.RIGHT);
 		  menuThongKe.setPreferredSize(new Dimension(180, 41));
 		  
-		  menuThongKeSP = new JMenuItem("Thống Kê Sản Phẩm", new ImageIcon(img_thongKeSP));
+		  menuThongKeSP = new JMenuItem("Thống Kê", new ImageIcon(img_thongKeSP));
 		  menuThongKeSP.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuThongKeSP.setPreferredSize(new Dimension(180, 41));
 		  menuThongKeSP.addActionListener(new ActionListener() {

@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
+import entity.Account;
 import entity.NhanVien;
 import list.DanhSachNhanVien;
 
@@ -103,7 +106,36 @@ public class DAO_NhanVien {
 		}
 		return true;
 	}
-
+	public NhanVien getNV(String maNV) {
+		NhanVien nv = new NhanVien();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		
+		try {
+			String sql = "select * from nhanVien where maNV = '" + maNV +"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		while(rs.next()) {
+			nv.setMaNV(rs.getString("maNV"));
+			nv.setTenNV(rs.getString("tenNV"));
+			try {
+				nv.setDoB((Date) dateFormat.parse(rs.getString("ngaySinh")));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			nv.setGioiTinh(Integer.parseInt(rs.getString("gioiTinh")));
+			nv.setSDT(rs.getString("soDienThoai"));
+			nv.setDiaChi(rs.getString("diaChi"));
+			nv.setEmail(rs.getString("email"));
+			nv.setChucVu(rs.getString("chucVu"));	
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nv;
+	}
 	public boolean updateNhanVien(NhanVien nv) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();

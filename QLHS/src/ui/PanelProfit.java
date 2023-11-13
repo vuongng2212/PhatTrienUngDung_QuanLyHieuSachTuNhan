@@ -4,21 +4,29 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import dao.DAO_NhanVien;
+import entity.NhanVien;
+import entity.userInfo;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class PanelProfit extends JPanel {
-	private JTextField txtMaNV;
-	private JTextField txtTenNV;
-	private JTextField txtNgaySinh;
-	private JTextField txtGioiTinh;
-	private JTextField txtDienThoai;
-	private JTextField txtDiaChi;
-	private JTextField txtEmail;
-	private JTextField txtChucVu;
+	public JTextField txtMaNV;
+	public JTextField txtTenNV;
+	public JTextField txtNgaySinh;
+	public JTextField txtGioiTinh;
+	public JTextField txtDienThoai;
+	public JTextField txtDiaChi;
+	public JTextField txtEmail;
+	public JTextField txtChucVu;
+	public JoptionChangePwd changePwd;
+	private DAO_NhanVien nv;
 
 	/**
 	 * Create the panel.
@@ -151,6 +159,10 @@ public class PanelProfit extends JPanel {
 		JButton btnDoiMatKhau = new JButton("Thay Đổi Mật Khẩu");
 		btnDoiMatKhau.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				changePwd = new JoptionChangePwd();
+				changePwd.setModal(true);
+				changePwd.setVisible(true);
+				
 			}
 		});
 		btnDoiMatKhau.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -173,5 +185,25 @@ public class PanelProfit extends JPanel {
 		btnHoanTac.setBackground(Color.MAGENTA);
 		btnHoanTac.setBounds(1220, 336, 171, 59);
 		panel_1.add(btnHoanTac);
+//		refresh();
+	}
+	private void refresh() {
+		nv = new DAO_NhanVien();
+		NhanVien nhanvien = nv.getNV(userInfo.getMaNV());
+			SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+		
+		  txtMaNV.setText(nhanvien.getMaNV());
+		  txtTenNV.setText(nhanvien.getTenNV());
+		  txtNgaySinh.setText(date.format(nhanvien.getDoB()));
+		  int gt = nhanvien.getGioiTinh();
+		  if(gt == 1) {
+			  txtGioiTinh.setText("Nam");
+		  }else {
+			  txtGioiTinh.setText("Nữ");
+		  }
+		  txtDienThoai.setText(nhanvien.getSDT());
+		  txtDiaChi.setText(nhanvien.getDiaChi());
+		  txtEmail.setText(nhanvien.getEmail());
+		  txtChucVu.setText(nhanvien.getChucVu());
 	}
 }

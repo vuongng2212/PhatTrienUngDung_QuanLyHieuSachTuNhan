@@ -61,8 +61,44 @@ public class DAO_account {
 			e.printStackTrace();
 		}
 		return nv;
-
 	}
+	public String ReturnPwd(String username) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		String str = "";
+		
+		try {
+			String sql = "select * from taiKhoan where username = '"+ username+ "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			str = rs.getString("password");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+	public void ChangePwd(String username,String newPwd) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update taiKhoan set password = ? where username = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, newPwd);
+			stm.setString(2, username);
+			System.out.println(stm);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
+	}
+	
 	private void close(PreparedStatement stm) {
 		// TODO Auto-generated method stub
 		if(stm!=null) {
