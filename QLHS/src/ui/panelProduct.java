@@ -36,7 +36,6 @@ public class panelProduct extends JPanel {
 	private JTextField txtNamXB;
 	private JTextField txtSoLuong;
 	private JTextField txtDonGiaGoc;
-	private JTextField txtTinhTrang;
 	private Image img_add = new ImageIcon(frmNV.class.getResource("/image/added.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_remove = new ImageIcon(frmNV.class.getResource("/image/rm.png")).getImage().getScaledInstance(20, 20,Image.SCALE_SMOOTH );
 	private Image img_update = new ImageIcon(frmNV.class.getResource("/image/reload.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
@@ -181,53 +180,10 @@ public class panelProduct extends JPanel {
 		txtDonGiaGoc.setBounds(994, 108, 170, 27);
 		panelSearch.add(txtDonGiaGoc);
 		
-		JLabel lbllTinhTrang = new JLabel("Tình Trạng");
-		lbllTinhTrang.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllTinhTrang.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTinhTrang.setBounds(1230, 53, 82, 31);
-		panelSearch.add(lbllTinhTrang);
-		
-		txtTinhTrang = new JTextField();
-		txtTinhTrang.setColumns(10);
-		txtTinhTrang.setBounds(1343, 57, 95, 27);
-		panelSearch.add(txtTinhTrang);
-		
-		JButton btnTacGia = new JButton("");
-		btnTacGia.setIcon(new ImageIcon(img_add));
-		btnTacGia.setOpaque(false);
-		btnTacGia.setBorderPainted(false);
-		btnTacGia.setBackground(null);
-		btnTacGia.setBounds(255, 108, 35, 27);
-		panelSearch.add(btnTacGia);
-		
-		JButton btnTenSach = new JButton("");
-		btnTenSach.setOpaque(false);
-		btnTenSach.setIcon(new ImageIcon(img_add));
-		btnTenSach.setBorderPainted(false);
-		btnTenSach.setBackground((Color) null);
-		btnTenSach.setBounds(543, 59, 35, 27);
-		panelSearch.add(btnTenSach);
-		
-		JButton btnDanhMuc = new JButton("");
-		btnDanhMuc.setOpaque(false);
-		btnDanhMuc.setIcon(new ImageIcon(img_add));
-		btnDanhMuc.setBorderPainted(false);
-		btnDanhMuc.setBackground((Color) null);
-		btnDanhMuc.setBounds(845, 59, 35, 27);
-		panelSearch.add(btnDanhMuc);
-		
-		JButton btnNXB = new JButton("");
-		btnNXB.setOpaque(false);
-		btnNXB.setIcon(new ImageIcon(img_add));
-		btnNXB.setBorderPainted(false);
-		btnNXB.setBackground((Color) null);
-		btnNXB.setBounds(543, 108, 35, 27);
-		panelSearch.add(btnNXB);
-		
 		JButton btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(txtMaSach.getText().equals("") || txtTenSach.getText().equals("") || txtTheLoai.getText().equals("") || txtSoLuong.getText().equals("") || txtTinhTrang.getText().equals("") || txtTacGia.getText().equals("") || txtNXB.getText().equals("") || txtNamXB.getText().equals("") || txtDonGiaGoc.getText().equals("") || txtDonGiaBan.getText().equals("")) {
+				if(txtMaSach.getText().equals("") || txtTenSach.getText().equals("") || txtTheLoai.getText().equals("") || txtSoLuong.getText().equals("") || txtTacGia.getText().equals("") || txtNXB.getText().equals("") || txtNamXB.getText().equals("") || txtDonGiaGoc.getText().equals("") || txtDonGiaBan.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
 				}else {
 					if(listSp.timSPTheoMa(txtMaSach.getText())==-1) {
@@ -242,7 +198,7 @@ public class panelProduct extends JPanel {
 						sp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
 						sp.setDonGiaGoc(Double.parseDouble(txtDonGiaGoc.getText()));
 						sp.setDonGiaMua(Double.parseDouble(txtDonGiaBan.getText()));
-						sp.setTinhTrang(txtTinhTrang.getText());
+//						sp.setTinhTrang(txtTinhTrang.getText());
 						sp.setDanhMuc(txtTheLoai.getText());
 						
 						System.out.println(sp.toString());
@@ -257,7 +213,7 @@ public class panelProduct extends JPanel {
 							row[6] = txtSoLuong.getText();
 							row[7] = txtDonGiaGoc.getText();
 							row[8] = txtDonGiaBan.getText();
-							row[9] = txtTinhTrang.getText();
+//							row[9] = txtTinhTrang.getText();
 							model.addRow(row);
 						}
 						txtMaSach.setText("");
@@ -269,7 +225,7 @@ public class panelProduct extends JPanel {
 						txtSoLuong.setText("");
 						txtDonGiaGoc.setText("");
 						txtDonGiaBan.setText("");
-						txtTinhTrang.setText("");
+//						txtTinhTrang.setText("");
 						JOptionPane.showMessageDialog(null, "Thêm thành công");
 					}else {
 						JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại");
@@ -301,7 +257,7 @@ public class panelProduct extends JPanel {
 					sp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
 					sp.setDonGiaGoc(Double.parseDouble(txtDonGiaGoc.getText()));
 					sp.setDonGiaMua(Double.parseDouble(txtDonGiaBan.getText()));
-					sp.setTinhTrang(txtTinhTrang.getText());
+//					sp.setTinhTrang(txtTinhTrang.getText());
 					sp.setDanhMuc(txtTheLoai.getText());
 					listSp.update(sp);
 					daoSp.update(sp);
@@ -314,7 +270,7 @@ public class panelProduct extends JPanel {
 					model.setValueAt(txtSoLuong.getText(), i, 6);
 					model.setValueAt(txtDonGiaGoc.getText(), i, 7);
 					model.setValueAt(txtDonGiaBan.getText(), i, 8);
-					model.setValueAt(txtTinhTrang.getText(), i, 9);
+//					model.setValueAt(txtTinhTrang.getText(), i, 9);
 					JOptionPane.showMessageDialog(null, "Đã sửa thành công");
 				}else {
 					JOptionPane.showMessageDialog(null,"Vui lòng chọn bảng cần sửa");
@@ -415,13 +371,13 @@ public class panelProduct extends JPanel {
 				txtSoLuong.setText(model.getValueAt(i, 6).toString());
 				txtDonGiaGoc.setText(model.getValueAt(i, 7).toString());
 				txtDonGiaBan.setText(model.getValueAt(i, 8).toString());
-				txtTinhTrang.setText(model.getValueAt(i, 9).toString());
+//				txtTinhTrang.setText(model.getValueAt(i, 9).toString());
 			}
 		});
 		
 		model = new DefaultTableModel();
-		Object[] column = {"Mã Sản Phẩm","Tên Sản Phẩm","Tác Giả","Danh Mục","Nhà XB","Năm XB","Số Lượng","Giá Gốc","Giá Bán","Tình Trạng"};
-		row = new Object[10];
+		Object[] column = {"Mã Sản Phẩm","Tên Sản Phẩm","Tác Giả","Danh Mục","Nhà XB","Năm XB","Số Lượng","Giá Gốc","Giá Bán"};
+		row = new Object[9];
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
@@ -436,7 +392,7 @@ public class panelProduct extends JPanel {
 			row[6] = sp.getSoLuong();
 			row[7] = sp.getDonGiaGoc();
 			row[8] = sp.getDonGiaMua();
-			row[9] = sp.getTinhTrang();
+//			row[9] = sp.getTinhTrang();
 			model.addRow(row);
 		}
 	

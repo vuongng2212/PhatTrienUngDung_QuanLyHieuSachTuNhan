@@ -90,6 +90,7 @@ public class panelBanHang extends JPanel {
 	public String tenSach;
 	public double giaBan;
 	private double tongTien;
+
 	// Phần DAO của sản phẩm
 	private DanhSachSanPham listSP;
 	private DAO_SanPham daosp;
@@ -117,7 +118,8 @@ public class panelBanHang extends JPanel {
 	private JButton btnNewButton_1;
 	private JTable table;
 	private JLabel lbllTienTra;
-	
+	private boolean firstFlag;
+//	private
 	
 	
 	
@@ -126,6 +128,7 @@ public class panelBanHang extends JPanel {
 	
 	public panelBanHang() {
 		
+		firstFlag = false;
 		DocumentListener documentListener = new DocumentListener() {
 			
 			@Override
@@ -224,63 +227,78 @@ public class panelBanHang extends JPanel {
 				int discount = 0;
 				if(!txtMaSP.getText().equalsIgnoreCase("")) {
 					if(!txtMaSP.getText().equalsIgnoreCase("")){
-						if(soLuongSPTemp > Integer.parseInt(txtSoLuong.getText())) {
-							System.out.println("Được");
-							if(daokm.ktraHienDangKhuyenMai(txtMaSP.getText())) {
-								discount = daokm.discountSPDangKM(txtMaSP.getText());
-								System.out.println(discount);
-								model =(DefaultTableModel)table.getModel();
-								row = new Object[6];
-								row[0] = txtMaSP.getText();
-								row[1] = tenSach;
-								row[2] = txtSoLuong.getText();
-								row[3] = giaBan;
-								row[4] = discount;
-								System.out.println("Gia Ban: " + giaBan);
-								System.out.println("So luong: "+ txtSoLuong.getText());
-								System.out.println("Discount: "+discount);
-								double giaBanCrr = giaBan;
-								int soLuong = Integer.parseInt(txtSoLuong.getText());
-								double total = ((double)giaBanCrr*(double)soLuong - ((double)giaBanCrr*(double)soLuong)*((double)discount/100));
-								System.out.println(total);
-								System.out.println("ThanhTien:  "+ (giaBan*Integer.parseInt(txtSoLuong.getText()) - (giaBan * Integer.parseInt(txtSoLuong.getText()))*(discount/100)));
-								row[5] = total;
-								model.addRow(row);
-//								tongTien+= giaBan*(Integer.parseInt(txtSoLuong.getText())) - ((discount/100)*(giaBan*(Integer.parseInt(txtSoLuong.getText()))));
-								tongTien+=total;
-								System.out.println(tongTien);
-								txtTongTien.setText(String.format("%.2f", tongTien));
-								JOptionPane.showMessageDialog(null, "Thêm Thành Công");
-							}else {
-								if(txtLoaiKH.getText().equalsIgnoreCase("TV"))
-								{
-									discount= 3;
-									System.out.println("Thanh vienn!!!");
+						if(indexMaSPInList(txtMaSP.getText())==-1) {
+							if(soLuongSPTemp > Integer.parseInt(txtSoLuong.getText())) {
+								System.out.println("Được");
+								if(daokm.ktraHienDangKhuyenMai(txtMaSP.getText())) {
+									discount = daokm.discountSPDangKM(txtMaSP.getText());
+									System.out.println(discount);
+									model =(DefaultTableModel)table.getModel();
+									row = new Object[6];
+									row[0] = txtMaSP.getText();
+									row[1] = tenSach;
+									row[2] = txtSoLuong.getText();
+									row[3] = giaBan;
+									row[4] = discount;
+									System.out.println("Gia Ban: " + giaBan);
+									System.out.println("So luong: "+ txtSoLuong.getText());
+									System.out.println("Discount: "+discount);
+									double giaBanCrr = giaBan;
+									int soLuong = Integer.parseInt(txtSoLuong.getText());
+									double total = ((double)giaBanCrr*(double)soLuong - ((double)giaBanCrr*(double)soLuong)*((double)discount/100));
+									System.out.println(total);
+									System.out.println("ThanhTien:  "+ (giaBan*Integer.parseInt(txtSoLuong.getText()) - (giaBan * Integer.parseInt(txtSoLuong.getText()))*(discount/100)));
+									row[5] = total;
+									model.addRow(row);
+//									tongTien+= giaBan*(Integer.parseInt(txtSoLuong.getText())) - ((discount/100)*(giaBan*(Integer.parseInt(txtSoLuong.getText()))));
+									tongTien+=total;
+									System.out.println(tongTien);
+									txtTongTien.setText(String.format("%.2f", tongTien));
+									JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+								}else {
+									if(txtLoaiKH.getText().equalsIgnoreCase("TV"))
+									{
+										discount= 3;
+										System.out.println("Thanh vienn!!!");
+									}
+									model =(DefaultTableModel)table.getModel();
+									row = new Object[6];
+									row[0] = txtMaSP.getText();
+									row[1] = tenSach;
+									row[2] = txtSoLuong.getText();
+									row[3] = giaBan;
+									row[4] = discount;
+									double giaBanCrr = giaBan;
+									int soLuong = Integer.parseInt(txtSoLuong.getText());
+									double total = ((double)giaBanCrr*(double)soLuong - ((double)giaBanCrr*(double)soLuong)*((double)discount/100));
+									System.out.println(total);
+									System.out.println("ThanhTien:  "+ (giaBan*Integer.parseInt(txtSoLuong.getText()) - (giaBan * Integer.parseInt(txtSoLuong.getText()))*(discount/100)));
+//									row[5] = total;
+									System.out.println(total);
+									row[5] = total;
+									model.addRow(row);
+									tongTien+=total;
+									txtTongTien.setText(String.format("%.2f", tongTien));
+									JOptionPane.showMessageDialog(null, "Thêm Thành Công");
 								}
-								model =(DefaultTableModel)table.getModel();
-								row = new Object[6];
-								row[0] = txtMaSP.getText();
-								row[1] = tenSach;
-								row[2] = txtSoLuong.getText();
-								row[3] = giaBan;
-								row[4] = discount;
-								double giaBanCrr = giaBan;
-								int soLuong = Integer.parseInt(txtSoLuong.getText());
-								double total = ((double)giaBanCrr*(double)soLuong - ((double)giaBanCrr*(double)soLuong)*((double)discount/100));
-								System.out.println(total);
-								System.out.println("ThanhTien:  "+ (giaBan*Integer.parseInt(txtSoLuong.getText()) - (giaBan * Integer.parseInt(txtSoLuong.getText()))*(discount/100)));
-//								row[5] = total;
-								System.out.println(total);
-								row[5] = total;
-								model.addRow(row);
-								tongTien+=total;
-								txtTongTien.setText(String.format("%.2f", tongTien));
-								JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+							txtMaSP.setText("");
+							txtSoLuong.setText("");
+							}else {
+								JOptionPane.showMessageDialog(null, "Số Lượng vượt quá mức cho phép!");
 							}
-						txtMaSP.setText("");
-						txtSoLuong.setText("");
 						}else {
-							JOptionPane.showMessageDialog(null, "Số Lượng vượt quá mức cho phép!");
+							System.out.println(indexMaSPInList(txtMaSP.getText()));
+							JOptionPane.showMessageDialog(null, "Sản Phẩm đã tồn tại");
+							int option = JOptionPane.showOptionDialog(null, "Cập nhật lại số lượng  trong danh sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
+							switch (option) {
+							case JOptionPane.YES_OPTION:
+								model = (DefaultTableModel) table.getModel();
+								model.setValueAt(txtSoLuong.getText(), indexMaSPInList(txtMaSP.getText()), 2);
+								break;
+
+							default:
+								break;
+							}
 						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Sách Trước");
@@ -331,6 +349,23 @@ public class panelBanHang extends JPanel {
 		txtSach.add(btnSa);
 		
 		btnXa = new JButton("Xóa");
+		btnXa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model =(DefaultTableModel) table.getModel();
+				int i = table.getSelectedRow();
+				int option = JOptionPane.showOptionDialog(null, "Xóa Sản Phẩm Khỏi Danh Sách", "Xác nhận", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
+				switch (option) {
+				case JOptionPane.YES_OPTION:
+					model.removeRow(i);
+					JOptionPane.showMessageDialog(null, "Xóa Thành Công!!!");
+					break;
+
+				default:
+					break;
+				}
+				
+			}
+		});
 		btnXa.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnXa.setBackground(new Color(102, 204, 0));
 		btnXa.setBounds(1067, 9, 121, 31);
@@ -443,10 +478,25 @@ public class panelBanHang extends JPanel {
 						daosp.giamSoLuong(model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()));
 						
 					}
+					
+					
 					SimpleDateFormat dateformat = new SimpleDateFormat();
 					
 					
 					JOptionPane.showMessageDialog(null,"Tạo Hóa Đơn Thành Công");
+					if(txtLoaiKH.getText().equalsIgnoreCase("VL")) {
+						daokm = new DAO_KhuyenMai();
+						daokh = new DAO_KhachHang();
+						double total = daokm.tongTienCuaKH(txtMaKH.getText());
+						if(total >=300000) {
+							daokh.updateLoaiKH(txtMaKH.getText());
+							JOptionPane.showMessageDialog(null, "Tổng chi tiêu của khách hàng đã vượt 300k.LoạiKh set TV");
+						}
+					}
+					
+					model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					
 					txtMaHD.setText("");
 					txtMaKH.setText("");
 					txtMaSP.setText("");
@@ -595,6 +645,11 @@ public class panelBanHang extends JPanel {
 		txtMaHD.setColumns(10);
 		
 		btnNewButton_1 = new JButton("Tạo Hóa Đơn");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				firstFlag = true;
+			}
+		});
 		btnNewButton_1.setBounds(337, 12, 132, 39);
 		add(btnNewButton_1);
 		
@@ -615,21 +670,30 @@ public class panelBanHang extends JPanel {
 		String[] columnsp = {"Mã Sách","Tên Sách","Số Lượng","Giá Bán","Discount","Thành Tiền"};
 		row = new Object[6];
 		model.setColumnIdentifiers(columnsp);
-		table.setModel(model);
+		table.setModel(model);	
 		scrollPane.setViewportView(table);
 	}
 	private void onOpenFormButtonClick() {
 //		SanPhamFrm spFrm = new SanPhamFrm();
 //		spfrm.setKhuyenMai(this);
-		dialogAddSp.banHang = this;
-		dialogAddSp.setModal(true);
-		dialogAddSp.setVisible(true);
-		dialogAddSp.refresh();
+		if(checkFlagKH()) {
+			dialogAddSp.banHang = this;
+			dialogAddSp.setModal(true);
+			dialogAddSp.setVisible(true);
+			dialogAddSp.refresh();
+		}else {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng trước khi nhập sản phẩm");
+		}
 	}
 	private void onOpenFormKHButtonCLick() {
-		dialogAddKH.banHang = this;
-		dialogAddKH.setModal(true);
-		dialogAddKH.setVisible(true);
+		if(firstFlag) {
+			dialogAddKH.refresh();
+			dialogAddKH.banHang = this;
+			dialogAddKH.setModal(true);
+			dialogAddKH.setVisible(true);
+		}else {
+			JOptionPane.showMessageDialog(null, "Vui lòng click nút tạo hóa đơn trước khi chọn khách hàng!!");
+		}
 	}
 	public void onDataReturned(String str) {
 		System.out.println("Ma sp vua tra ve la:" + str);
@@ -675,6 +739,13 @@ public class panelBanHang extends JPanel {
 //		}
 //	}
 
+	private boolean checkFlagKH() {
+		if(txtMaKH.getText().equalsIgnoreCase("")) {
+			return false;
+		}
+		return true;
+	}
+	
 	private void calculateChange() {
 		try {
 			double total = Double.parseDouble(txtTongTien.getText());
@@ -689,7 +760,17 @@ public class panelBanHang extends JPanel {
 
 		}
 	}
-	
+	private int indexMaSPInList(String str) {
+		model = (DefaultTableModel) table.getModel();
+		int size = model.getRowCount();
+		for(int i=0;i<size;i++) {
+			if(str.equalsIgnoreCase(model.getValueAt(i, 0).toString())) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
 	
 	
 	private static Border createStrikethroughBorder() {

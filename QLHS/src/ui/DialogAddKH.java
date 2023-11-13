@@ -194,7 +194,7 @@ public class DialogAddKH extends JDialog {
 		}
 		refresh();
 	}
-	private void refresh() {
+	public void refresh() {
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {

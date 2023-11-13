@@ -80,6 +80,12 @@ public class PanelSearchHD extends JPanel {
 		panel_1.add(btnNewButton);
 		
 		JButton btnLmMi = new JButton("Làm Mới");
+		btnLmMi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				refresh();
+			}
+		});
 		btnLmMi.setBounds(624, 96, 197, 46);
 		panel_1.add(btnLmMi);
 		
@@ -129,6 +135,7 @@ public class PanelSearchHD extends JPanel {
 		row = new Object[5];
 		SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");
 		model =(DefaultTableModel) table.getModel();
+		model.setRowCount(0);
 		for (HoaDon hd : listHD.getList()) {
 			row[0] = hd.getMaHD();
 			row[1] = hd.getMaNV();

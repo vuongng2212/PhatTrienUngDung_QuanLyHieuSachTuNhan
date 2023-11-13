@@ -23,7 +23,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from sanPham";
+			String sql = "select * from sanPham where tinhTrang = 1";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
@@ -147,7 +147,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DELETE from sanPham where maSP = ?";
+		String sql = "update sanPham set tinhTrang = 0 where maSP = ?";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, maSP);

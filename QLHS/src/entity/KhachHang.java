@@ -6,8 +6,7 @@ public class KhachHang {
 	private String sdt;
 	private String diaChi;
 	private String loaiKH;
-	
-	
+
 	
 	public KhachHang() {
 		super();

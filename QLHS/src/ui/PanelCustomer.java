@@ -36,6 +36,8 @@ public class PanelCustomer extends JPanel {
 	private JTable table;
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/search.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	private Image img_reload = new ImageIcon(frmNV.class.getResource("/image/reload.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	private Image img_refresh = new ImageIcon(frmNV.class.getResource("/image/refreshSP.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	
 	public PanelCRUDKHang crudkHang;
 	
 	private JTable table_1;
@@ -113,12 +115,12 @@ public class PanelCustomer extends JPanel {
 		JLabel lbllSDTKH = new JLabel("Số Điện Thoại");
 		lbllSDTKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllSDTKH.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllSDTKH.setBounds(494, 128, 125, 41);
+		lbllSDTKH.setBounds(494, 139, 125, 41);
 		panelTimKiem.add(lbllSDTKH);
 		
 		txtSDT = new JTextField();
 		txtSDT.setColumns(10);
-		txtSDT.setBounds(629, 130, 239, 41);
+		txtSDT.setBounds(629, 141, 239, 41);
 		panelTimKiem.add(txtSDT);
 		
 		JButton btnTimKiem = new JButton("Tìm Kiếm Khách Hàng");
@@ -196,7 +198,7 @@ public class PanelCustomer extends JPanel {
 		btnTimKiem.setBackground(new Color(0, 255, 255));
 		btnTimKiem.setIcon(new ImageIcon(img_title));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnTimKiem.setBounds(960, 45, 239, 41);
+		btnTimKiem.setBounds(960, 24, 239, 41);
 		panelTimKiem.add(btnTimKiem);
 		
 		JButton btnCapNhat = new JButton("Cập Nhật Khách Hàng");
@@ -209,9 +211,22 @@ public class PanelCustomer extends JPanel {
 		btnCapNhat.setForeground(new Color(255, 255, 255));
 		btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnCapNhat.setBackground(new Color(75, 0, 130));
-		btnCapNhat.setBounds(960, 113, 239, 41);
+		btnCapNhat.setBounds(960, 76, 239, 41);
 		btnCapNhat.setIcon(new ImageIcon(img_reload));
 		panelTimKiem.add(btnCapNhat);
+		
+		JButton BtnRefresh = new JButton("Tạo Mới");
+		BtnRefresh.setIcon(new ImageIcon(img_refresh));
+		BtnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refresh();
+			}
+		});
+		BtnRefresh.setForeground(new Color(0, 0, 0));
+		BtnRefresh.setFont(new Font("Tahoma", Font.BOLD, 15));
+		BtnRefresh.setBackground(new Color(175, 238, 238));
+		BtnRefresh.setBounds(960, 139, 239, 41);
+		panelTimKiem.add(BtnRefresh);
 		
 		JLabel lbllTimKiem = new JLabel("Tìm Kiếm Khách Hàng");
 		lbllTimKiem.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -248,8 +263,27 @@ public class PanelCustomer extends JPanel {
 			row[4] = kh.getLoaiKH();
 			model.addRow(row);
 		}
-		
-		
-
+	}
+	public void refresh() {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		daoKh = new DAO_KhachHang();
+		listKH = new DanhSachKhachHang();
+		listKH = daoKh.getAll();
+		model = (DefaultTableModel)table_1.getModel();
+		model.setRowCount(0);
+		for (KhachHang kh : listKH.getList()) {
+			row[0] = kh.getMaKH();
+			row[1] = kh.getTenKH();
+			row[2] = kh.getSdt();
+			row[3] = kh.getDiaChi();
+			row[4] = kh.getLoaiKH();
+			model.addRow(row);
+		}
+	
 	}
 }
