@@ -21,9 +21,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -50,6 +53,7 @@ public class PanelDatHang extends JPanel {
 	private int stt =1;
 	private int sttCTDH = 1;
 	private double thanhTien = 0;
+	private Image img_TaoMaDH = new ImageIcon(FormNVQuanLy.class.getResource("/image/added.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
 	/**
 	 * Create the panel.
 	 */
@@ -69,7 +73,7 @@ public class PanelDatHang extends JPanel {
 		JPanel tblPanel = new JPanel();
 		tblPanel.setBounds(0, 0, 1170, 816);
 		add(tblPanel);
-		String[] headers = { "STT", "Mã sách", "Tên sách", "Danh mục", "NXB", "Năm XB", "Số lượng", "Đơn giá", "Tình trạng"};
+		String[] headers = { "STT", "Mã sách", "Tên sách", "Danh mục", "NXB", "Năm XB", "Số lượng", "Đơn giá"};
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 60, 1170, 655);
@@ -365,6 +369,23 @@ public class PanelDatHang extends JPanel {
 		lblValueTT.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblValueTT.setBounds(110, 529, 150, 30);
 		tbl.add(lblValueTT);
+		
+		JButton btnTaoMaDH = new JButton("");
+		btnTaoMaDH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DAO_PDH = new DAO_PhieuDH();
+				String lastPDH = DAO_PDH.getLastPhieuDH();
+				if(lastPDH!=null) {	
+					Integer strToInt = Integer.parseInt(lastPDH.substring(2));
+					String s = String.format("%03d", strToInt + 1);
+					txtMaDH.setText("DH"+s);
+				}
+				
+			}
+		});
+		btnTaoMaDH.setBounds(1505, 63, 25, 25);
+		btnTaoMaDH.setIcon(new ImageIcon(img_TaoMaDH));
+		add(btnTaoMaDH);
 		getSP();
 		
 	}
@@ -392,7 +413,7 @@ public class PanelDatHang extends JPanel {
 			if(((DefaultComboBoxModel)cbNhaXB.getModel()).getIndexOf(sp.getNhaXB()) == -1) {
 				cbNhaXB.addItem(sp.getNhaXB());
 			}
-			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc(),sp.getTinhTrang()};
+			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc()};
 			tableModel.addRow(row);
 			
 		}
@@ -408,7 +429,7 @@ public class PanelDatHang extends JPanel {
 		String namXB = cbNamXB.getSelectedItem().toString();
 		for(SanPham sp: DAO_SP.findSP(txtTen.getText(),dm,nhaXB,namXB)) {
 			lsSP.add(sp);
-			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc(),sp.getTinhTrang()};
+			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc()};
 			tableModel.addRow(row);
 			
 		}

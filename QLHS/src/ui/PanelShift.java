@@ -49,7 +49,7 @@ public class PanelShift extends JPanel {
 	private JScrollPane scroll;
 	private boolean tableCheck;
 	private DialogNhanVien dialogNV ;
-	private Image img_TimNV = new ImageIcon(FormNVQuanLy.class.getResource("/image/pluss.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
+	private Image img_TimNV = new ImageIcon(FormNVQuanLy.class.getResource("/image/search.png")).getImage().getScaledInstance(25, 25,Image.SCALE_SMOOTH );
 	/**
 	 * Create the panel.
 	 */

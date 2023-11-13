@@ -167,7 +167,7 @@ public class PanelTimSPFormQuanLy extends JPanel {
 		add(tblPanel);
 		tblPanel.setLayout(null);
 
-		String[] headers = {"STT","Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá","Tình Trạng"};
+		String[] headers = {"STT","Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá"};
 		tableModel = new DefaultTableModel(headers, 0);
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(0, 0, 1920, 496);
@@ -204,7 +204,7 @@ public class PanelTimSPFormQuanLy extends JPanel {
 			if(((DefaultComboBoxModel)cbNhaXB.getModel()).getIndexOf(sp.getNhaXB()) == -1) {
 				cbNhaXB.addItem(sp.getNhaXB());
 			}
-			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getTenTG(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaMua(),sp.getTinhTrang()};
+			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getTenTG(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaMua()};
 			tableModel.addRow(row);
 			
 		}
@@ -220,7 +220,7 @@ public class PanelTimSPFormQuanLy extends JPanel {
 		String namXB = cbNamXB.getSelectedItem().toString();
 		for(SanPham sp: DAO_SP.findSP(txtTenSach.getText(),dm,nhaXB,namXB)) {
 			listsp.add(sp);
-			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaGoc(),sp.getTinhTrang()};
+			Object row[] = {stt++,sp.getMaSP(),sp.getTenSP(),sp.getDanhMuc(),sp.getNhaXB(),sp.getNamXB(),sp.getSoLuong(),sp.getDonGiaMua()};
 			tableModel.addRow(row);
 			
 		}

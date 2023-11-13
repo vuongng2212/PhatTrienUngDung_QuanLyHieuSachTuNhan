@@ -132,7 +132,7 @@ public class LoginForm extends JFrame {
 		btnDangnhap.setBounds(260, 205, 120, 35);
 		contentPane.add(btnDangnhap);
 		
-		loginByQR(account);
+		
 		
 		JButton btnQR = new JButton("QRCode");
 		btnQR.addActionListener(new ActionListener() {
@@ -144,6 +144,8 @@ public class LoginForm extends JFrame {
 		});
 		btnQR.setBounds(410, 80, 100, 100);
 		contentPane.add(btnQR);
+		
+		loginByQR(account);
 		
 		JLabel lblTieuDe = new JLabel("HỆ THỐNG QUẢN LÝ HIỆU SÁCH TƯ NHÂN");
 		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
@@ -174,7 +176,7 @@ public class LoginForm extends JFrame {
 			txtUser.setText(account.substring(0, 10));
 			txtPass.setText(account.substring(11));
 			btnDangnhap.doClick();
-//			dispose();
+			dispose();
 		}
 	}
 }
