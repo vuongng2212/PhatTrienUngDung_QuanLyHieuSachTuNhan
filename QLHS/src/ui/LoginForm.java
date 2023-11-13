@@ -139,6 +139,7 @@ public class LoginForm extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				qrScan = new QRWithWebCam();
 				qrScan.setVisible(true);
+				dispose();
 			}
 		});
 		btnQR.setBounds(410, 80, 100, 100);
@@ -175,6 +176,7 @@ public class LoginForm extends JFrame {
 			txtUser.setText(account.substring(0, 10));
 			txtPass.setText(account.substring(11));
 			btnDangnhap.doClick();
+			dispose();
 		}
 	}
 }

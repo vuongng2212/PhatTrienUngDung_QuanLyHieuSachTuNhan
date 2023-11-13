@@ -30,7 +30,24 @@ public class DAO_PhieuDH {
 		return ds;	
 
 	}	
-	
+	public String getLastPhieuDH() {
+		String sttMaDH = null;
+		ArrayList<PhieuDatHang> ds = new ArrayList<PhieuDatHang>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select TOP 1 * from phieuDatHang ORDER BY maDatHang DESC ";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+			sttMaDH = rs.getString("maDatHang");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sttMaDH;	
+
+	}	
 	public boolean add(PhieuDatHang pdh) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
