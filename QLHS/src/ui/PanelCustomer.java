@@ -198,7 +198,7 @@ public class PanelCustomer extends JPanel {
 		btnTimKiem.setBackground(new Color(0, 255, 255));
 		btnTimKiem.setIcon(new ImageIcon(img_title));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnTimKiem.setBounds(960, 24, 239, 41);
+		btnTimKiem.setBounds(941, 24, 239, 41);
 		panelTimKiem.add(btnTimKiem);
 		
 		JButton btnCapNhat = new JButton("Cập Nhật Khách Hàng");
@@ -211,7 +211,7 @@ public class PanelCustomer extends JPanel {
 		btnCapNhat.setForeground(new Color(255, 255, 255));
 		btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnCapNhat.setBackground(new Color(75, 0, 130));
-		btnCapNhat.setBounds(960, 76, 239, 41);
+		btnCapNhat.setBounds(941, 76, 239, 41);
 		btnCapNhat.setIcon(new ImageIcon(img_reload));
 		panelTimKiem.add(btnCapNhat);
 		
@@ -225,7 +225,7 @@ public class PanelCustomer extends JPanel {
 		BtnRefresh.setForeground(new Color(0, 0, 0));
 		BtnRefresh.setFont(new Font("Tahoma", Font.BOLD, 15));
 		BtnRefresh.setBackground(new Color(175, 238, 238));
-		BtnRefresh.setBounds(960, 139, 239, 41);
+		BtnRefresh.setBounds(941, 139, 239, 41);
 		panelTimKiem.add(BtnRefresh);
 		
 		JLabel lbllTimKiem = new JLabel("Tìm Kiếm Khách Hàng");

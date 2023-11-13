@@ -21,6 +21,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -338,6 +340,8 @@ public class panelBanHang extends JPanel {
 				if(i>=0) {
 					model.setValueAt(txtSoLuong.getText(), i, 2);
 					JOptionPane.showMessageDialog(null, "Sửa Thành Công!!");
+					txtMaSP.setText("");
+					txtSoLuong.setText("");
 				}else {
 					JOptionPane.showMessageDialog(null, "Chọn dòng cần xóa!!");
 				}
@@ -482,6 +486,8 @@ public class panelBanHang extends JPanel {
 					
 					SimpleDateFormat dateformat = new SimpleDateFormat();
 					
+					tongTien = 0;
+					txtTongTien.setText(String.format("%.2f", tongTien));
 					
 					JOptionPane.showMessageDialog(null,"Tạo Hóa Đơn Thành Công");
 					if(txtLoaiKH.getText().equalsIgnoreCase("VL")) {
@@ -760,6 +766,16 @@ public class panelBanHang extends JPanel {
 
 		}
 	}
+	private boolean isNumeric(String str) {
+        // Biểu thức chính quy để kiểm tra chuỗi có phải là một số
+        String regex = "^\\d+$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+
+        return matcher.matches();
+    }
+	
 	private int indexMaSPInList(String str) {
 		model = (DefaultTableModel) table.getModel();
 		int size = model.getRowCount();
@@ -771,7 +787,7 @@ public class panelBanHang extends JPanel {
 		
 		return -1;
 	}
-	
+
 	
 	private static Border createStrikethroughBorder() {
 		return BorderFactory.createCompoundBorder(

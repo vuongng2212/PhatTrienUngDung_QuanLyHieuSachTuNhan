@@ -24,6 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -379,33 +381,43 @@ public class PanelCRUDKHang extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(".....");
-			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("")) {
+			if(txtMaKH.getText().equals("") || txtTenKH.getText().equals("") || txtDiaChi.getText().equals("") || txtPhone.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
 			
 			}else {
-				if((listKH.timKHTheoMa(txtMaKH.getText())==-1)) {
-					System.out.println("Bat dau");
-					
+				if(isValidUsername(txtTenKH.getText())) {
+					if(isValidPhoneNumber(txtPhone.getText())) {
+						if((listKH.timKHTheoMa(txtMaKH.getText())==-1)) {
+							System.out.println("Bat dau");
+							
 
-					kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),"VL");
-					
-					System.out.println(kh.toString());
-					if(daoKh.add(kh)) {
-						listKH.add(kh);
-						row[0] = txtMaKH.getText();
-						row[1] = txtTenKH.getText();
-						row[2] = txtPhone.getText();
-						row[3] = txtDiaChi.getText();
-						row[4] = "VL";
-						model.addRow(row);
+							kh = new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtPhone.getText(), txtDiaChi.getText(),"VL");
+							
+							System.out.println(kh.toString());
+							if(daoKh.add(kh)) {
+								listKH.add(kh);
+								row[0] = txtMaKH.getText();
+								row[1] = txtTenKH.getText();
+								row[2] = txtPhone.getText();
+								row[3] = txtDiaChi.getText();
+								row[4] = "VL";
+								model.addRow(row);
+							}
+							
+							txtMaKH.setText("");
+							txtTenKH.setText("");
+							txtPhone.setText("");
+							txtDiaChi.setText("");
+//							txtLoaiKH.setText("");
+							JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+						}else {
+							JOptionPane.showMessageDialog(null, "...");
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Vui lòng điền đúng số điện thoại!!");
 					}
-					
-					txtMaKH.setText("");
-					txtTenKH.setText("");
-					txtPhone.setText("");
-					txtDiaChi.setText("");
-//					txtLoaiKH.setText("");
-					JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+				}else {
+					JOptionPane.showMessageDialog(null,"Vui lòng định dạng lại tên khách hàng!!");
 				}
 			}
 				
@@ -528,12 +540,50 @@ public class PanelCRUDKHang extends JPanel {
 			model.addRow(row);
 			
 		}
-		
-		
-
 		setBounds(0,0,1534,1017);
 		setLayout(null);
-
-
 	}
+	public static boolean isValidUsername(String username) {
+        // Biểu thức chính quy để kiểm tra tên người dùng chỉ chứa chữ cái
+		String regex = "^[\\p{L}\\s'-]+$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(username);
+
+        return matcher.matches();
+    }
+	public static boolean isValidPhoneNumber(String phoneNumber) {
+        // Biểu thức chính quy để kiểm tra số điện thoại
+        String regex = "^\\d{10}$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        return matcher.matches();
+    }
+	public void refresh() {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model = (DefaultTableModel)table.getModel();
+		model.setRowCount(0);
+		daoKh = new DAO_KhachHang();
+		listKH = new DanhSachKhachHang();
+		row = new Object[5];
+		listKH = daoKh.getAll();
+		for (KhachHang kh : listKH.getList()) {
+			row[0] = kh.getMaKH();
+			row[1] = kh.getTenKH();
+			row[2] = kh.getSdt();
+			row[3] = kh.getDiaChi();
+			row[4] = kh.getLoaiKH();
+			model.addRow(row);
+		}
+	
+	
+	}
+	
 }

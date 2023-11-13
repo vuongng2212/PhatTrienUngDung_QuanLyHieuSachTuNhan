@@ -46,7 +46,7 @@ public class PanelSearchProduct extends JPanel {
 	public PanelSearchProduct() {
 		daosp = new DAO_SanPham();
 		listsp = new DanhSachSanPham();
-		row = new Object[10];
+		row = new Object[9];
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
@@ -160,7 +160,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -179,7 +179,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -199,7 +199,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -218,7 +218,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -237,7 +237,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -256,7 +256,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -275,7 +275,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -294,7 +294,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -313,7 +313,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -332,7 +332,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -351,7 +351,7 @@ public class PanelSearchProduct extends JPanel {
 								row[6] = sp.getSoLuong();
 								row[7] = sp.getDonGiaGoc();
 								row[8] = sp.getDonGiaMua();
-								row[9] = sp.getTinhTrang();
+//								row[9] = sp.getTinhTrang();
 								model.addRow(row);
 							}
 					 }
@@ -386,7 +386,7 @@ public class PanelSearchProduct extends JPanel {
 		panel_1.setLayout(null);
 
 		table = new JTable();
-		String[] column = {"Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá","Tình Trạng","Khuyến Mãi"};
+		String[] column = {"Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá Mua","Đơn Giá Bán"};
 		model = new DefaultTableModel(column,0);
 		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(0, 0, 1534, 663);
@@ -402,13 +402,13 @@ public class PanelSearchProduct extends JPanel {
 		table.getColumnModel().getColumn(6).setPreferredWidth(150);
 		table.getColumnModel().getColumn(7).setPreferredWidth(150);
 		table.getColumnModel().getColumn(8).setPreferredWidth(150);
-		table.getColumnModel().getColumn(9).setPreferredWidth(150);
+//		table.getColumnModel().getColumn(9).setPreferredWidth(150);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		panel_1.add(scrollPane);
 		refresh();
 		
 	}
-	private void refresh() {
+	public void refresh() {
 		listsp = daosp.getAll();
 		DefaultTableModel model = (DefaultTableModel)table.getModel();
 		model.setRowCount(0);
@@ -422,7 +422,7 @@ public class PanelSearchProduct extends JPanel {
 			row[6] = sp.getSoLuong();
 			row[7] = sp.getDonGiaGoc();
 			row[8] = sp.getDonGiaMua();
-			row[9] = sp.getTinhTrang();
+//			row[9] = sp.getTinhTrang();
 			model.addRow(row);
 		}
 		txtDanhMuc.setText("");
