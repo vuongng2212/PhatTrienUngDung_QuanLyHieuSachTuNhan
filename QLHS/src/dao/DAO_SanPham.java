@@ -74,7 +74,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "Update sanPham set tenSP = ?, tenTacGia = ?, danhMuc = ?, nhaXB = ?, namXB = ?, soLuong = ?, donGiaGoc = ?, donGiaMua =?, tinhTrang=? \r\n"
+		String sql = "Update sanPham set tenSP = ?, tenTacGia = ?, danhMuc = ?, nhaXB = ?, namXB = ?, soLuong = ?, donGiaGoc = ?, donGiaMua =? \r\n"
 				+ "where maSP = ?";
 		try {
 			stm = con.prepareStatement(sql);
@@ -87,8 +87,8 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			stm.setInt(6, sp.getSoLuong());
 			stm.setFloat(7,(float) sp.getDonGiaGoc());
 			stm.setFloat(8,(float) sp.getDonGiaMua());
-			stm.setString(9, sp.getTinhTrang());
-			stm.setString(10, sp.getMaSP());
+//			stm.setString(9, sp.getTinhTrang());
+			stm.setString(9, sp.getMaSP());
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			// TODO: handle exception

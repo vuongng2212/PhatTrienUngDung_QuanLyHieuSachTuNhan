@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -76,6 +77,28 @@ public class PanelSearchHD extends JPanel {
 		panel_1.add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("Tìm Kiếm");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(batdau.getDate() == null) {
+					refresh();
+				}else {
+					SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+					daohd = new DAO_HoaDon();
+					ArrayList<HoaDon>listhd = new ArrayList<HoaDon>();
+					listhd = daohd.SearchHDTheoNgay(dateformat.format(batdau.getDate()));
+					model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					for (HoaDon hd : listhd) {
+						row[0] = hd.getMaHD();
+						row[1] = hd.getMaNV();
+						row[2] = hd.getMaKH();
+						row[3] = dateformat.format(hd.getNgayTaoHD());
+						row[4] = hd.getThanhTien();
+						model.addRow(row);
+					}
+				}
+			}
+		});
 		btnNewButton.setBounds(220, 96, 197, 46);
 		panel_1.add(btnNewButton);
 		

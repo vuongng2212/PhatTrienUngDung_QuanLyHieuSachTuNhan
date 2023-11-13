@@ -558,6 +558,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(panelSearchProduct);
+				panelSearchProduct.refresh();
 			}
 		});
 		  menuItemQLSP = new JMenuItem("Quản Lí Sản Phẩm", new ImageIcon(img_managerProduct));
@@ -613,6 +614,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(searchHD);
+				searchHD.refresh();
 			}
 		});
 		  menuSearchHD.setPreferredSize(new Dimension(180, 41));
@@ -636,6 +638,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(customer);
+				customer.refresh();
 			}
 		});
 		  menuItemQlKH = new JMenuItem("Quản Lí Khách Hàng", new ImageIcon(img_managerCustomer));
@@ -678,6 +681,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(searchKm);
+				searchKm.refresh();
 			}
 		});
 		  menuThongKeKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_khuyenMai));
