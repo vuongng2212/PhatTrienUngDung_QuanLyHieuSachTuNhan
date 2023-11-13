@@ -44,7 +44,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
 		String sql = "INSERT INTO sanPham (maSP, tenSP, tenTacGia, danhMuc, nhaXB, namXB, soLuong, donGiaGoc, donGiaMua,tinhTrang) "
-				+ "values(?,?,?,?,?,?,?,?,?,?)";
+				+ "values(?,?,?,?,?,?,?,?,?,1)";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, sp.getMaSP());
@@ -56,7 +56,7 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			stm.setInt(7, sp.getSoLuong());
 			stm.setFloat(8,(float) sp.getDonGiaGoc());
 			stm.setFloat(9,(float) sp.getDonGiaMua());
-			stm.setString(10, sp.getTinhTrang());
+//			stm.setString(10, sp.getTinhTrang());
 			stm.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception

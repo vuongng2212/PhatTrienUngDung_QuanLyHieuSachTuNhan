@@ -37,7 +37,8 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		}
 			return dsKH;
 	}
-
+	
+	
 	@Override
 	public boolean add(KhachHang obj) {
 		System.out.println("Bat Dau Ket Noi Ket noi");
