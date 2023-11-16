@@ -68,6 +68,10 @@ public class frmNV extends JFrame {
 	private Image img_quanLiHT = new ImageIcon(frmNV.class.getResource("/image/quanliHT.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	private Image img_xemLich = new ImageIcon(frmNV.class.getResource("/image/iconXemLich.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
 	
+	private Image img_datSach = new ImageIcon(frmNV.class.getResource("/image/datHang.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_taoDonDatSach = new ImageIcon(frmNV.class.getResource("/image/iconTaoDonDatSach.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	private Image img_xemDonDatSach = new ImageIcon(frmNV.class.getResource("/image/iconXacNhanSach.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
+	
 	
 	
 	private Image img_payment = new ImageIcon(frmNV.class.getResource("/image/payment_icon.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
@@ -103,6 +107,7 @@ public class frmNV extends JFrame {
 	private JMenuItem menuItemTimKH;
 	private JMenuItem menuItemQlKH;
 	private JMenu menuThongKe;
+	private JMenu menuDatHang;
 	private JMenuItem menuThongKeSP;
 	private JMenuItem menuThongKeKhuyenMai;
 	private PanelTimKhuyenMai searchKm;
@@ -115,6 +120,7 @@ public class frmNV extends JFrame {
 	private JMenuItem menuSearchHD;
 	private PanelSearchHD searchHD;
 	private DialogXemHD xemHD;
+	private PanelKHDatSach panelDatSach;
 	/**
 	 * Launch the application.
 	 */
@@ -155,6 +161,7 @@ public class frmNV extends JFrame {
 		contentPane.setLayout(null);
 		
 		product = new panelProduct();
+		panelDatSach = new PanelKHDatSach();
 		
 		bill = new PanelBill();
 		bill.setVisible(false);
@@ -467,6 +474,7 @@ public class frmNV extends JFrame {
 		
 		FillMovePanel();
 		product.setVisible(false);
+		panelDatSach.setVisible(false);
 		thongke.setVisible(false);
 		customer.setVisible(false);
 		panelCRUDKHang.setVisible(false);
@@ -481,6 +489,7 @@ public class frmNV extends JFrame {
 		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
 		panelFrm.add(product);
+		panelFrm.add(panelDatSach);
 		panelFrm.add(bill);
 		panelFrm.add(profit);
 	
@@ -501,12 +510,12 @@ public class frmNV extends JFrame {
 		
 		JPanel panelMenu = new JPanel();
 		panelMenu.setBackground(new Color(255, 255, 255));
-		panelMenu.setBounds(386, 0, 904, 41);
+		panelMenu.setBounds(386, 0, 1084, 41);
 		contentPane.add(panelMenu);
 		panelMenu.setLayout(null);
 		
 		JMenuBar menuBarSystem = new JMenuBar();
-		menuBarSystem.setBounds(0, 0, 900, 41);
+		menuBarSystem.setBounds(0, 0, 1084, 41);
 		
 		
 
@@ -701,13 +710,58 @@ public class frmNV extends JFrame {
 		  menuThongKe.add(menuThongKeKhuyenMai);
 		  
 		  
+
+		  
+		  menuThongKeSP = new JMenuItem("Thống Kê", new ImageIcon(img_thongKeSP));
+		  menuThongKeSP.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuThongKeSP.setPreferredSize(new Dimension(180, 41));
+		  menuThongKeSP.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(thongke);
+			}
+		});
+		  menuDatHang = new JMenu("Đặt Hàng");
+//		  menuThongKe = new JMenu("Thống Kê");
+		  menuDatHang.setBorder(new LineBorder(Color.black, 1));
+		  menuDatHang.setBackground(new Color(0, 128, 0));
+		  menuDatHang.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
+		  menuDatHang.setIcon(new ImageIcon(img_datSach));
+		  menuDatHang.setHorizontalAlignment(SwingConstants.RIGHT);
+		  menuDatHang.setPreferredSize(new Dimension(180, 41));
+		  
+		  JMenuItem menuTaoDonDatSach = new JMenuItem("Đặt Hàng", new ImageIcon(img_taoDonDatSach));
+		  menuTaoDonDatSach.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuTaoDonDatSach.setPreferredSize(new Dimension(180, 41));
+		  menuTaoDonDatSach.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(panelDatSach);
+				searchKm.refresh();
+			}
+		});
+		  JMenuItem menuXacNhanDatSach = new JMenuItem("Xác Nhận Đơn", new ImageIcon(img_xemDonDatSach));
+		  menuXacNhanDatSach.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuXacNhanDatSach.setPreferredSize(new Dimension(180, 41));
+		  menuXacNhanDatSach.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menuClicked(searchKm);
+				searchKm.refresh();
+			}
+		});
+		  menuDatHang.add(menuTaoDonDatSach);
+		  menuDatHang.add(menuXacNhanDatSach);
 		  
 		  menuBarSystem.add(menuSystem);
 		  menuBarSystem.add(menuSanPham);
 		  menuBarSystem.add(menuHoaDon);
 		  menuBarSystem.add(menuKhachHang);
 		  menuBarSystem.add(menuThongKe);
-		  
+		  menuBarSystem.add(menuDatHang);
 	
 		  
 
@@ -751,11 +805,11 @@ public class frmNV extends JFrame {
 		
 		JLabel lbllNgonNgu_1 = new JLabel("Ngôn Ngữ");
 		lbllNgonNgu_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllNgonNgu_1.setBounds(1299, 0, 102, 41);
+		lbllNgonNgu_1.setBounds(1682, 0, 102, 41);
 		contentPane.add(lbllNgonNgu_1);
 		
 		JComboBox comboCountries_1 = new JComboBox();
-		comboCountries_1.setBounds(1404, 0, 139, 41);
+		comboCountries_1.setBounds(1781, 0, 139, 41);
 		contentPane.add(comboCountries_1);
 		
 		JLabel icon_logout_1 = new JLabel("");
@@ -774,6 +828,7 @@ public class frmNV extends JFrame {
 		panel_image_title.setVisible(false);
 		system.setVisible(false);
 		product.setVisible(false);
+		panelDatSach.setVisible(false);
 		bill.setVisible(false);
 		customer.setVisible(false);
 		thongke.setVisible(false);		
