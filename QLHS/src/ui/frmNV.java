@@ -121,6 +121,7 @@ public class frmNV extends JFrame {
 	private PanelSearchHD searchHD;
 	private DialogXemHD xemHD;
 	private PanelKHDatSach panelDatSach;
+	private PanelKhXacNhanDatSach panelXacNhanDatSach;
 	/**
 	 * Launch the application.
 	 */
@@ -174,6 +175,7 @@ public class frmNV extends JFrame {
 		panelSearchProduct = new PanelSearchProduct();
 		
 		profit = new PanelProfit();
+		panelXacNhanDatSach = new PanelKhXacNhanDatSach();
 		khuyenMai = new PanelKhuyenMai();
 		searchKm = new PanelTimKhuyenMai();
 		dialogShowKm = new DialogShowKhuyenMai();
@@ -482,6 +484,7 @@ public class frmNV extends JFrame {
 		panelSearchProduct.setVisible(false);
 		panel_image_title.setVisible(true);
 		profit.setVisible(false);
+		panelXacNhanDatSach.setVisible(false);
 		dialogShowKm.setVisible(false);
 		dialogAddSp.setVisible(false);
 		xemHD.setVisible(false);
@@ -492,7 +495,7 @@ public class frmNV extends JFrame {
 		panelFrm.add(panelDatSach);
 		panelFrm.add(bill);
 		panelFrm.add(profit);
-	
+		panelFrm.add(panelXacNhanDatSach);
 		panelFrm.add(searchKm);
 		panelFrm.add(khuyenMai);
 		
@@ -749,7 +752,7 @@ public class frmNV extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				menuClicked(searchKm);
+				menuClicked(panelXacNhanDatSach);
 				searchKm.refresh();
 			}
 		});
@@ -834,6 +837,7 @@ public class frmNV extends JFrame {
 		thongke.setVisible(false);		
 		profit.setVisible(false);
 		searchKm.setVisible(false);
+		panelXacNhanDatSach.setVisible(false);
 		khuyenMai.setVisible(false);
 //		system.setVisible(false);
 //		product.setVisible(false);
