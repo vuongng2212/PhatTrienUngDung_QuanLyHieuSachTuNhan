@@ -123,6 +123,7 @@ public class frmNV extends JFrame {
 	private DialogXemHD xemHD;
 	private PanelKHDatSach panelDatSach;
 	private PanelKhXacNhanDatSach panelXacNhanDatSach;
+	private DialogAddSP2 dialogSP2;
 	/**
 	 * Launch the application.
 	 */
@@ -182,6 +183,7 @@ public class frmNV extends JFrame {
 		dialogShowKm = new DialogShowKhuyenMai();
 		dialogAddSp = new DialogAddSP();
 		xemHD = new DialogXemHD();
+		dialogSP2 = new DialogAddSP2();
 		dialogAddKh = new DialogAddKH();
 		dialogfrm = new SanPhamFrm();
 		dialogKH2 = new DialogAddKH2();
@@ -490,6 +492,7 @@ public class frmNV extends JFrame {
 		dialogShowKm.setVisible(false);
 		dialogAddSp.setVisible(false);
 		xemHD.setVisible(false);
+		dialogSP2.setVisible(false);
 		dialogAddKh.setVisible(false);
 		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
@@ -904,6 +907,7 @@ public class frmNV extends JFrame {
 		searchKm.dialogShow = dialogShowKm;
 		bill.banHang.dialogAddSp = dialogAddSp;
 		searchHD.xemHd = xemHD;
+		panelDatSach.dialogSP = dialogSP2;
 		bill.banHang.dialogAddKH = dialogAddKh;
 	}
 }

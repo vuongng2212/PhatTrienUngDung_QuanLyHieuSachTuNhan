@@ -48,7 +48,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		JLabel lblNewLabel = new JLabel("Đơn Đặt Hàng");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel.setBounds(0, 0, 708, 55);
+		lblNewLabel.setBounds(0, 0, 805, 55);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Ngày Đặt");

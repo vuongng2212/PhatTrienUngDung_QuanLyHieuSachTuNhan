@@ -15,6 +15,7 @@ import entity.KhachHang;
 import list.DanhSachKhachHang;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.sql.SQLException;
@@ -286,10 +287,21 @@ public class DialogAddKH2 extends JDialog {
 	}
 
 	private void onSubmitButtonClick() {
-        
+		if(!txtMaKH.getText().equalsIgnoreCase("")) {
+			model = (DefaultTableModel) table.getModel();
+			int i = table.getSelectedRow();
+		
 //        this.banHang.onDataReturned(txtMaKH.getText());
           this.datSach.onDataReturned(txtMaKH.getText());
+          this.datSach.txtTenKH.setText(model.getValueAt(i, 1).toString());
+          this.datSach.txtLoaiKh.setText(model.getValueAt(i, 4).toString());
+          this.datSach.txtDiaChi.setText(model.getValueAt(i, 3).toString());
+          this.datSach.txtSDT.setText(model.getValueAt(i, 2).toString());
+//          this
 		dispose();
+		}else {
+			JOptionPane.showMessageDialog(null,"Bạn chưa chọn!!");
+		}
     }
 	
 }
