@@ -114,6 +114,7 @@ public class frmNV extends JFrame {
 	private PanelKhuyenMai khuyenMai;
 	private PanelProfit profit;
 	private SanPhamFrm dialogfrm;
+	private DialogAddKH2 dialogKH2;
 	private DialogShowKhuyenMai dialogShowKm;
 	private DialogAddSP dialogAddSp;
 	private DialogAddKH dialogAddKh;
@@ -183,8 +184,9 @@ public class frmNV extends JFrame {
 		xemHD = new DialogXemHD();
 		dialogAddKh = new DialogAddKH();
 		dialogfrm = new SanPhamFrm();
+		dialogKH2 = new DialogAddKH2();
 		dialogfrm.setKhuyenMai(khuyenMai);
-		
+		dialogKH2.setDatSach(panelDatSach);
 		JPanel panel = new JPanel();
 		
 
@@ -895,6 +897,7 @@ public class frmNV extends JFrame {
 	}
 	
 	private void FillMovePanel() {
+		dialogKH2.datSach = panelDatSach;
 		customer.crudkHang = panelCRUDKHang;
 		product.panelSearchProduct = panelSearchProduct;
 		panelSearchProduct.panelProduct = product;
