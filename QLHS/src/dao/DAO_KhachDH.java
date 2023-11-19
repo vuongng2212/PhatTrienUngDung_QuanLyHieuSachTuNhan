@@ -52,8 +52,8 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, obj.getMaDH());
-			stm.setString(2, obj.getMaNv());
-			stm.setString(3, obj.getMaKh());
+			stm.setString(2, obj.getMaKh());
+			stm.setString(3, obj.getMaNv());
 			stm.setString(4, dateString);
 //			stm.setFloat(5,(float) obj.getThanhTien());
 			System.out.println(stm);

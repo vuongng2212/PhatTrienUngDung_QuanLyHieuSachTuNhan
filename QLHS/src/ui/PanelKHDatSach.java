@@ -15,6 +15,9 @@ import connectDB.ConnectDB;
 import dao.DAO_KhachDH;
 import dao.DAO_KhuyenMai;
 import dao.DAO_chiTietKhachDH;
+import entity.ChiTietKhachDH;
+import entity.KhachDH;
+import entity.userInfo;
 import list.DanhSachKhachDH;
 
 import javax.swing.JTextField;
@@ -22,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -31,7 +35,7 @@ import java.awt.event.MouseEvent;
 public class PanelKHDatSach extends JPanel {
 	
 	private Image img_kinhLup = new ImageIcon(frmNV.class.getResource("/image/kinhLup.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
-	private JTextField textField;
+	private JTextField txtMaDH;
 	private JTextField txtMaKH;
 	public JTextField txtTenKH;
 	public JTextField txtLoaiKh;
@@ -65,6 +69,8 @@ public class PanelKHDatSach extends JPanel {
 		
 		daoChiTietDh = new DAO_chiTietKhachDH();
 		daoKhachDh = new DAO_KhachDH();
+		listkh = new DanhSachKhachDH();
+		
 //		discount = 0;
 		tenSach = "";
 		giaBan = 0;
@@ -92,10 +98,10 @@ public class PanelKHDatSach extends JPanel {
 		lblNewLabel.setBounds(0, 92, 88, 37);
 		add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(98, 92, 76, 37);
-		add(textField);
-		textField.setColumns(10);
+		txtMaDH = new JTextField();
+		txtMaDH.setBounds(98, 92, 76, 37);
+		add(txtMaDH);
+		txtMaDH.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Tạo Đơn");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -357,6 +363,7 @@ public class PanelKHDatSach extends JPanel {
 		btnNewButton_2.setBackground(new Color(255, 0, 0));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				refresh();
 			}
 		});
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -366,6 +373,16 @@ public class PanelKHDatSach extends JPanel {
 		JButton btnNewButton_2_1 = new JButton("Đặt Hàng");
 		btnNewButton_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				daoChiTietDh = new DAO_chiTietKhachDH();
+				daoKhachDh.add(new KhachDH(txtMaDH.getText(),txtMaKH.getText() , "NV001", new Date(), 0));
+				int limit = table.getRowCount();
+				model = (DefaultTableModel) table.getModel();
+				for(int i=0;i<limit;i++) {
+					daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString()), Integer.parseInt(model.getValueAt(i, 4).toString())));
+				}
+				refresh();
+				JOptionPane.showMessageDialog(null, "Đặt hàng thành công!!");
+				
 			}
 		});
 		btnNewButton_2_1.setBackground(new Color(0, 255, 0));
@@ -432,5 +449,17 @@ public class PanelKHDatSach extends JPanel {
 		}
 		
 		return -1;
+	}
+	private void refresh() {
+		model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		txtMaKH.setText("");
+		txtTenKH.setText("");
+		txtSDT.setText("");
+		txtLoaiKh.setText("");
+		txtDiaChi.setText("");
+		txtMaSach.setText("");
+		txtSoLuong.setText("");
+		
 	}
 }
