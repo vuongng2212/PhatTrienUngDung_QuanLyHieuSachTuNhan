@@ -20,7 +20,7 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select * from chiTietHD";
+			String sql = "select * from chiTietDatSach";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
@@ -31,7 +31,26 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 		}
 			return dsChiTietDH;
 	}
-
+	
+	
+	
+	public DanhSachChiTietKhachDH getTheoMa(String str) {
+		DanhSachChiTietKhachDH dsChiTietDH = new DanhSachChiTietKhachDH();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from chiTietDatSach where maDH = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			dsChiTietDH.add(new ChiTietKhachDH(rs.getString("maDH"),rs.getString("maSP"),Integer.parseInt(rs.getString("soLuong")),Double.parseDouble(rs.getString("donGiaBan")),Integer.parseInt(rs.getString("discount"))));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+			return dsChiTietDH;
+	}
+	
 	@Override
 	public boolean add(ChiTietKhachDH obj) {
 		ConnectDB.getInstance();
@@ -57,6 +76,41 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 			close(stm);
 			return true;
 		}
+	}
+
+	public String tenSPTheoMa(String str) {
+		String name = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select tenSP from sanPham where maSP = '" + str + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			name = rs.getString("tenSP");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	public String tenNVTheoMa(String str) {
+		String name = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select nhanVien.tenNV from datSach join nhanVien on datSach.maNV = nhanVien.maNV where maDH = '" + str + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			name = rs.getString("tenNV");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
 	}
 
 	@Override

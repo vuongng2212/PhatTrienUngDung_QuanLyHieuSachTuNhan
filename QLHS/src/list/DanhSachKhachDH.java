@@ -12,7 +12,7 @@ public class DanhSachKhachDH implements listInterface<KhachDH>{
 	
 	
 	public DanhSachKhachDH() {
-		super();
+		list = new ArrayList<KhachDH>();
 	}
 
 

@@ -20,6 +20,12 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 	public DanhSachKhachDH getAll() {
 		DanhSachKhachDH dsKhachDH = new DanhSachKhachDH();
 		ConnectDB.getInstance();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		Connection con = ConnectDB.getConnection();
 		try {
 			String sql = "select * from datSach";
@@ -41,6 +47,95 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		return dsKhachDH;
 	}
 
+	public String tenKHTheoMa(String str) {
+		String name = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select tenKH from khachHang where maKH = '" + str + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			name = rs.getString("tenKH");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}	
+	
+	public String tenMaKHTheoDH(String str) {
+		String name = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select khachHang.maKH from datSach join khachHang on datSach.maKH = khachHang.maKH where maDH = '" + str + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			name = rs.getString("maKH");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
+	public String tenNVTheoMa(String str) {
+		String name = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select tenNV from nhanVien where maNV = '" + str + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			name = rs.getString("tenNV");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	public String tenKhachTheoMa(String str) {
+		String name = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select khachHang.tenKH from datSach join khachHang on datSach.maKH = khachHang.maKH where maDH = '"+ str+ "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			name = rs.getString("tenKH");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
+	public String LoaiKhachTheoMa(String str) {
+		String name = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select khachHang.loaiKH from datSach join khachHang on datSach.maKH = khachHang.maKH where maDH = '"+ str+ "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			name = rs.getString("loaiKH");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
 	@Override
 	public boolean add(KhachDH obj) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -95,10 +190,10 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 			close(stm);
 		}
 		return true;
-		
-
 	}
-
+	
+	
+	
 	@Override
 	public boolean delete(String ma) {
 		// TODO Auto-generated method stub
