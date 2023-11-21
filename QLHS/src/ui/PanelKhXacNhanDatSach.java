@@ -291,15 +291,20 @@ public class PanelKhXacNhanDatSach extends JPanel {
 				int sumThem = tableAddSP.getRowCount();
 				if(sumThem>0) {
 					for(int i=0;i<sumThem;i++) {
-						ChiTietHoaDon chit = new ChiTietHoaDon();
-						chit.setMaHD(txtMaDH.getText());
-						chit.setMaSP(modelSPAdd.getValueAt(0, 0).toString());
-						chit.setDonGia(Double.parseDouble(modelSPAdd.getValueAt(i, 3).toString()));
-						chit.setSoLuong(Integer.parseInt(modelSPAdd.getValueAt(i, 2).toString()));
-						chit.setDiscount(Integer.parseInt(modelSPAdd.getValueAt(i,4).toString()));
-						listTemp.add(chit);
-						total+= Double.parseDouble(modelSPAdd.getValueAt(i, 5).toString());
-						dapsp.giamSoLuong(modelSPAdd.getValueAt(i, 0).toString(), Integer.parseInt(modelSPAdd.getValueAt(i, 2).toString()));
+						if(false) {
+							
+						}else {
+							ChiTietHoaDon chit = new ChiTietHoaDon();
+							chit.setMaHD(txtMaDH.getText());
+							chit.setMaSP(modelSPAdd.getValueAt(0, 0).toString());
+							chit.setDonGia(Double.parseDouble(modelSPAdd.getValueAt(i, 3).toString()));
+							chit.setSoLuong(Integer.parseInt(modelSPAdd.getValueAt(i, 2).toString()));
+							chit.setDiscount(Integer.parseInt(modelSPAdd.getValueAt(i,4).toString()));
+							listTemp.add(chit);
+							total+= Double.parseDouble(modelSPAdd.getValueAt(i, 5).toString());
+							dapsp.giamSoLuong(modelSPAdd.getValueAt(i, 0).toString(), Integer.parseInt(modelSPAdd.getValueAt(i, 2).toString()));
+						
+						}
 					}
 				}
 				SimpleDateFormat dateformat = new SimpleDateFormat();
@@ -573,5 +578,9 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			
 			e.printStackTrace();
 		}
+	}
+	public boolean ktraTrungTrongList(List<ChiTietHoaDon>listTemp,String str) {
+		
+		return false;
 	}
 }

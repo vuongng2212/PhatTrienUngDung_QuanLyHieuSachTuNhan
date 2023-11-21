@@ -14,6 +14,8 @@ import list.DanhSachChiTietKhachDH;
 
 public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSachChiTietKhachDH>{
 
+	
+	
 	@Override
 	public DanhSachChiTietKhachDH getAll() {
 		DanhSachChiTietKhachDH dsChiTietDH = new DanhSachChiTietKhachDH();
