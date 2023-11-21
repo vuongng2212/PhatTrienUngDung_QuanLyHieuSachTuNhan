@@ -55,11 +55,16 @@ public class PanelKHDatSach extends JPanel {
 	private DAO_chiTietKhachDH daoChiTietDh;
 	private DanhSachKhachDH listkh;
 	private DAO_KhachDH daoKhachDh;
+	private JTextField txtTienPhaiCoc;
+	private JTextField txtTienKhachGui;
+	private double total;
+	private JTextField txtTongTien;
 //	public int discount;
 	/**
 	 * Create the panel.
 	 */
 	public PanelKHDatSach() {
+		total = 0;
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
@@ -248,10 +253,15 @@ public class PanelKHDatSach extends JPanel {
 						row[1] = tenSach;
 						row[2] = txtSoLuong.getText();
 						row[3] = giaBan;
-						row[4] = discount;
-						double total = ((double)giaBan*(double)Integer.parseInt(txtSoLuong.getText()) - ((double)giaBan*(double)Integer.parseInt(txtSoLuong.getText()))*((double)discount/100));
-						row[5] = total; 
-						
+//						row[4] = discount;
+//						double total = ((double)giaBan*(double)Integer.parseInt(txtSoLuong.getText()) - ((double)giaBan*(double)Integer.parseInt(txtSoLuong.getText()))*((double)discount/100));
+						row[4] = giaBan*Integer.parseInt(txtSoLuong.getText()); 
+						total+=giaBan*Integer.parseInt(txtSoLuong.getText());
+						txtTongTien.setText(String.format("%.1f", total));
+						if(total > 1000000) {
+							double tienCoc = total*30/100;
+							txtTienPhaiCoc.setText(String.format("%.1f", tienCoc));
+						}
 						model.addRow(row);
 						
 						txtMaSach.setText("");
@@ -279,9 +289,20 @@ public class PanelKHDatSach extends JPanel {
 					model.setValueAt(txtSoLuong.getText(), i, 2);
 					int soLuong = Integer.parseInt(model.getValueAt(i, 2).toString());
 					double giaBanTmp = Double.parseDouble(model.getValueAt(i, 3).toString());
-					int discount = Integer.parseInt(model.getValueAt(i, 4).toString());
-					double total = (double)soLuong*giaBanTmp - ((double)soLuong*giaBanTmp*(discount/100));
-					model.setValueAt(total, i, 5);
+//					int discount = Integer.parseInt(model.getValueAt(i, 4).toString());
+//					double total = (double)soLuong*giaBanTmp - ((double)soLuong*giaBanTmp*(discount/100));
+					model.setValueAt(soLuong*giaBanTmp, i, 4);
+					
+					total = totalChange();
+					if(total >=1000000) {
+						txtTongTien.setText(String.format("%.1f",total));
+						double tienCoc = total*30/100;
+						txtTienPhaiCoc.setText(String.format("%.1f", tienCoc));
+					}else {
+						txtTongTien.setText(String.format("%.1f",total));
+						txtTienPhaiCoc.setText("");
+					}
+					
 				}
 			}
 		});
@@ -298,6 +319,17 @@ public class PanelKHDatSach extends JPanel {
 				if(i==-1) {
 					JOptionPane.showMessageDialog(null,"Vui lòng chọn dòng cần xóa");
 				}else {
+					int soLuong = Integer.parseInt(model.getValueAt(i, 2).toString());
+					double giaBan = Double.parseDouble(model.getValueAt(i, 3).toString());
+					
+					total-=(soLuong*giaBan);
+					txtTongTien.setText(String.format("%.1f", total));
+					if(total >=1000000) {
+						double tienCoc = total*30/100;
+						txtTienPhaiCoc.setText(String.format("%.1f", total));
+					}else {
+						txtTienPhaiCoc.setText("");
+					}
 					model.removeRow(i);
 				}
 			}
@@ -341,8 +373,8 @@ public class PanelKHDatSach extends JPanel {
 			}
 		});
 		model = new DefaultTableModel();
-		row = new Object[5];
-		String[] column = {"Mã Sách","Tên Sách","Số Lượng","Giá Bán","Discount","Thành Tiền"};
+		row = new Object[4];
+		String[] column = {"Mã Sách","Tên Sách","Số Lượng","Giá Bán","Thành Tiền"};
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
@@ -353,7 +385,7 @@ public class PanelKHDatSach extends JPanel {
 		lblNewLabel_5.setBounds(51, 908, 94, 42);
 		add(lblNewLabel_5);
 		
-		JTextField txtTongTien = new JTextField();
+		txtTongTien = new JTextField();
 		txtTongTien.setEditable(false);
 		txtTongTien.setBounds(155, 908, 157, 37);
 		add(txtTongTien);
@@ -367,34 +399,85 @@ public class PanelKHDatSach extends JPanel {
 			}
 		});
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_2.setBounds(789, 908, 141, 42);
+		btnNewButton_2.setBounds(1028, 908, 141, 42);
 		add(btnNewButton_2);
 		
 		JButton btnNewButton_2_1 = new JButton("Đặt Hàng");
 		btnNewButton_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				daoChiTietDh = new DAO_chiTietKhachDH();
-				daoKhachDh.add(new KhachDH(txtMaDH.getText(),txtMaKH.getText() , "NV001", new Date(), 0));
-				int limit = table.getRowCount();
-				model = (DefaultTableModel) table.getModel();
-				for(int i=0;i<limit;i++) {
-					daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString()), Integer.parseInt(model.getValueAt(i, 4).toString())));
-				}
-				refresh();
-				JOptionPane.showMessageDialog(null, "Đặt hàng thành công!!");
 				
+				if(!txtTienPhaiCoc.getText().equalsIgnoreCase("")) {
+					if(!txtTienKhachGui.getText().equalsIgnoreCase("")) {
+						double tienCoc = Double.parseDouble(txtTienPhaiCoc.getText());
+						double tienKhachGui = Double.parseDouble(txtTienKhachGui.getText());
+						if(tienKhachGui >= tienCoc) {
+							daoChiTietDh = new DAO_chiTietKhachDH();
+							
+							daoKhachDh.add(new KhachDH(txtMaDH.getText(),txtMaKH.getText() , "NV001", new Date(), 0,Double.parseDouble(txtTienKhachGui.getText())));
+							int limit = table.getRowCount();
+							model = (DefaultTableModel) table.getModel();
+							for(int i=0;i<limit;i++) {
+								daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString())));
+							}
+							refresh();
+
+							JOptionPane.showMessageDialog(null, "Đặt hàng thành công!!");
+							
+						}else {
+							JOptionPane.showMessageDialog(null, "Tiền khách gửi trước phải lớn hơn tiền cọc đã yêu cầu!!!");
+						}
+						
+						
+					}else {
+						JOptionPane.showMessageDialog(null, "Vui lòng nhập số tiền khách gửi!!!");
+					}
+				
+				}else {
+					daoChiTietDh = new DAO_chiTietKhachDH();
+					
+					daoKhachDh.add(new KhachDH(txtMaDH.getText(),txtMaKH.getText() , "NV001", new Date(), 0,0));
+					int limit = table.getRowCount();
+					model = (DefaultTableModel) table.getModel();
+					for(int i=0;i<limit;i++) {
+						daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString())));
+					}
+					refresh();
+					JOptionPane.showMessageDialog(null, "Đặt hàng thành công!!");
+				}
 			}
 		});
 		btnNewButton_2_1.setBackground(new Color(0, 255, 0));
 		btnNewButton_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_2_1.setBounds(1064, 908, 141, 42);
+		btnNewButton_2_1.setBounds(1204, 908, 141, 42);
 		add(btnNewButton_2_1);
 		
 		JButton btnNewButton_2_2 = new JButton("In Hóa Đơn");
 		btnNewButton_2_2.setBackground(new Color(255, 215, 0));
 		btnNewButton_2_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_2_2.setBounds(1325, 908, 141, 42);
+		btnNewButton_2_2.setBounds(1368, 908, 141, 42);
 		add(btnNewButton_2_2);
+		
+		JLabel lblNewLabel_6 = new JLabel("Tiền Cọc");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_6.setBounds(380, 908, 81, 42);
+		add(lblNewLabel_6);
+		
+		txtTienPhaiCoc = new JTextField();
+		txtTienPhaiCoc.setEditable(false);
+		txtTienPhaiCoc.setColumns(10);
+		txtTienPhaiCoc.setBounds(461, 908, 157, 37);
+		add(txtTienPhaiCoc);
+		
+		JLabel lblNewLabel_6_1 = new JLabel("Khách Gửi");
+		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_6_1.setBounds(685, 908, 81, 42);
+		add(lblNewLabel_6_1);
+		
+		txtTienKhachGui = new JTextField();
+//		txtTienKhachGui.setEditable(false);
+		txtTienKhachGui.setColumns(10);
+		txtTienKhachGui.setBounds(776, 908, 157, 37);
+		add(txtTienKhachGui);
 	}
 	public void onOpenFormButtonClick() {
 		dialog.refresh();
@@ -460,6 +543,20 @@ public class PanelKHDatSach extends JPanel {
 		txtDiaChi.setText("");
 		txtMaSach.setText("");
 		txtSoLuong.setText("");
-		
+		total = 0;
+		txtTienKhachGui.setText("");
+		txtTienPhaiCoc.setText("");
+		txtTongTien.setText("");
+	}
+	private double totalChange() {
+		double sum = 0;
+		model = (DefaultTableModel) table.getModel();
+		int count = table.getRowCount();
+		for(int i =0;i<count;i++) {
+			double giaBan = Double.parseDouble(model.getValueAt(i, 3).toString());
+			int soLuong = Integer.parseInt(model.getValueAt(i,2).toString());
+			sum+=(giaBan*soLuong);
+		}
+		return sum;
 	}
 }

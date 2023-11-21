@@ -26,7 +26,7 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			dsChiTietDH.add(new ChiTietKhachDH(rs.getString("maDH"),rs.getString("maSP"),Integer.parseInt(rs.getString("soLuong")),Double.parseDouble(rs.getString("donGiaBan")),Integer.parseInt(rs.getString("discount"))));
+			dsChiTietDH.add(new ChiTietKhachDH(rs.getString("maDH"),rs.getString("maSP"),Integer.parseInt(rs.getString("soLuong")),Double.parseDouble(rs.getString("donGiaBan"))));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -45,7 +45,7 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			dsChiTietDH.add(new ChiTietKhachDH(rs.getString("maDH"),rs.getString("maSP"),Integer.parseInt(rs.getString("soLuong")),Double.parseDouble(rs.getString("donGiaBan")),Integer.parseInt(rs.getString("discount"))));
+			dsChiTietDH.add(new ChiTietKhachDH(rs.getString("maDH"),rs.getString("maSP"),Integer.parseInt(rs.getString("soLuong")),Double.parseDouble(rs.getString("donGiaBan"))));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -58,14 +58,14 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "insert into chiTietDatSach(maDH,maSP,soLuong,donGiaBan,discount) values (?,?,?,?,?)";
+		String sql = "insert into chiTietDatSach(maDH,maSP,soLuong,donGiaBan) values (?,?,?,?)";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, obj.getMaDH());
 			stm.setString(2, obj.getMaSP());
 			stm.setInt(3, obj.getSoLuong());
 			stm.setFloat(4, (float) obj.getDonGia());
-			stm.setInt(5, obj.getDiscount());
+//			stm.setInt(5, obj.getDiscount());
 
 			System.out.println(stm);
 			stm.executeUpdate();
@@ -97,6 +97,23 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 		}
 		return name;
 	}
+	public int soLuongDaDatTheoMaSPvaMaDH(String maSP,String maDH) {
+		int count =-1;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select soLuong from chiTietDatSach where maDH = '"+ maDH+"' and maSP = '"+maSP+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			count = Integer.parseInt(rs.getString("soLuong"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public String tenNVTheoMa(String str) {
 		String name = "";
 		ConnectDB.getInstance();
@@ -120,14 +137,14 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "update chiTietDatSach set maSP = ? ,soLuong = ?,donGiaBan = ? ,discount = ? where maDH = ?";
+		String sql = "update chiTietDatSach set maSP = ? ,soLuong = ?,donGiaBan = ?  where maDH = ?";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, obj.getMaSP());
 			stm.setInt(2,obj.getSoLuong());
 			stm.setFloat(3, (float)obj.getDonGia());
-			stm.setInt(4, obj.getDiscount());
-			stm.setString(5, obj.getMaDH());
+//			stm.setInt(4, obj.getDiscount());
+			stm.setString(4, obj.getMaDH());
 			System.out.println(stm);
 			stm.executeUpdate();
 		} catch (Exception e) {

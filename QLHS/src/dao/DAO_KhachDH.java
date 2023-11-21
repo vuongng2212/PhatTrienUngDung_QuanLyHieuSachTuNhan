@@ -34,7 +34,8 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		while(rs.next()) {
 			try {
-				dsKhachDH.add(new KhachDH(rs.getString("maDH"), rs.getString("maKH"), rs.getString("maNV"), dateFormat.parse(rs.getString("ngayTaoDH")), Integer.parseInt(rs.getString("trangThai"))));		
+				dsKhachDH.add(new KhachDH(rs.getString("maDH"), rs.getString("maKH"), rs.getString("maNV"), dateFormat.parse(rs.getString("ngayTaoDH")), Integer.parseInt(rs.getString("trangThai")),Double.parseDouble(rs.getString("tienCoc"))));	
+				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -135,6 +136,23 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		}
 		return name;
 	}
+	public double tienCocTheoMa(String str) {
+		double coc = 0;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select tienCoc from datSach where maDH = '" + str + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			coc = Double.parseDouble(rs.getString("tienCoc"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return coc;
+	}
 	
 	@Override
 	public boolean add(KhachDH obj) {
@@ -143,14 +161,14 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "insert into datSach(maDH,maKH,maNV,ngayTaoDH,trangThai) values (?,?,?,?,0)";
+		String sql = "insert into datSach(maDH,maKH,maNV,ngayTaoDH,trangThai,tienCoc) values (?,?,?,?,0,?)";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.setString(1, obj.getMaDH());
 			stm.setString(2, obj.getMaKh());
 			stm.setString(3, obj.getMaNv());
 			stm.setString(4, dateString);
-//			stm.setFloat(5,(float) obj.getThanhTien());
+			stm.setFloat(5,(float) obj.getTienCoc());
 			System.out.println(stm);
 			stm.executeUpdate();
 		} catch (Exception e) {

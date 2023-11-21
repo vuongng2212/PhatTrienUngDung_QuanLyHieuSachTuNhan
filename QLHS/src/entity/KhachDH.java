@@ -8,19 +8,30 @@ public class KhachDH {
 	private String maNv;
 	private Date ngayDat;
 	private int trangThai;
+	private double tienCoc;
 	
 	public KhachDH() {
 		super();
 	}
 
-	public KhachDH(String maDH, String maKh, String maNv, Date ngayDat, int trangThai) {
+	public KhachDH(String maDH, String maKh, String maNv, Date ngayDat, int trangThai, double tienCoc) {
 		super();
 		this.maDH = maDH;
 		this.maKh = maKh;
 		this.maNv = maNv;
 		this.ngayDat = ngayDat;
 		this.trangThai = trangThai;
+		this.tienCoc = tienCoc;
 	}
+
+//	public KhachDH(String maDH, String maKh, String maNv, Date ngayDat, int trangThai) {
+//		super();
+//		this.maDH = maDH;
+//		this.maKh = maKh;
+//		this.maNv = maNv;
+//		this.ngayDat = ngayDat;
+//		this.trangThai = trangThai;
+//	}
 
 	public String getMaDH() {
 		return maDH;
@@ -60,6 +71,14 @@ public class KhachDH {
 
 	public void setTrangThai(int trangThai) {
 		this.trangThai = trangThai;
+	}
+
+	public double getTienCoc() {
+		return tienCoc;
+	}
+
+	public void setTienCoc(double tienCoc) {
+		this.tienCoc = tienCoc;
 	}
 
 	
