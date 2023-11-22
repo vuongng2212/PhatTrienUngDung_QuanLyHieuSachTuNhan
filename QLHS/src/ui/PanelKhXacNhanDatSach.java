@@ -66,6 +66,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	private DefaultTableModel modelSPAdd;
 	private int limit;
 	public DialogAddSP3 dialogSP;
+	public DialogAddKH3 dialogKH;
 	public int soLuongSPTemp;
 	public String tenSach;
 	public double giaBan;
@@ -82,6 +83,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	private JButton btnXacNhan;
 	private JButton btnHuyBo;
 	private JButton btnInHoaDon;
+	private JDateChooser batdau;
 	/**
 	 * Create the panel.
 	 */
@@ -92,6 +94,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			
 			e.printStackTrace();
 		}
+		dialogKH = new DialogAddKH3();
 		rowAddSp = new Object[5];
 		thanhTien = 0;
 		limit = -1;
@@ -128,7 +131,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		lblNewLabel_1.setBounds(20, 113, 66, 34);
 		add(lblNewLabel_1);
 		
-		JDateChooser batdau = new JDateChooser();
+		batdau = new JDateChooser();
 		batdau.setDateFormatString("dd-MM-yyyy");
 		batdau.setBounds(96, 112, 165, 35);
 		add(batdau);
@@ -140,11 +143,18 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		txtMaKH = new JTextField();
 		txtMaKH.setBounds(325, 67, 66, 33);
+		txtMaKH.setEditable(false);
 		add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Tìm");
-		btnNewButton.setBounds(325, 114, 110, 34);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshCondition();
+				
+			}
+		});
+		btnNewButton.setBounds(297, 114, 110, 34);
 		add(btnNewButton);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -160,6 +170,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int discount = 0;
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				
 				modelDonDatHang  = (DefaultTableModel) table.getModel();
 				int i = table.getSelectedRow();
 				String maDH = modelDonDatHang.getValueAt(i, 0).toString();
@@ -218,6 +229,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		JButton btnNewButton_1 = new JButton("Tìm");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				onOpenFormKHButtonClick();
 			}
 		});
 		btnNewButton_1.setBounds(130, 67, 58, 33);
@@ -230,6 +242,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		txtLoaiKH = new JTextField();
 		txtLoaiKH.setColumns(10);
+		txtLoaiKH.setEditable(false);
 		txtLoaiKH.setBounds(538, 67, 66, 34);
 		add(txtLoaiKH);
 		
@@ -443,7 +456,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		JLabel lblNewLabel_4 = new JLabel("Thêm Sách");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(822, 852, 72, 34);
+		lblNewLabel_4.setBounds(752, 852, 72, 34);
 		add(lblNewLabel_4);
 		
 		JButton btnNewButton_4 = new JButton("Tìm");
@@ -452,12 +465,12 @@ public class PanelKhXacNhanDatSach extends JPanel {
 				onOpenFormSPButtonClick();
 			}
 		});
-		btnNewButton_4.setBounds(895, 853, 58, 34);
+		btnNewButton_4.setBounds(834, 853, 58, 34);
 		add(btnNewButton_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Mã Sách");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_5.setBounds(961, 852, 66, 35);
+		lblNewLabel_5.setBounds(943, 852, 66, 35);
 		add(lblNewLabel_5);
 		
 		txtMaSach = new JTextField();
@@ -637,11 +650,11 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		JLabel lblNewLabel_8 = new JLabel("Thành Tiền");
 		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_8.setBounds(752, 814, 77, 24);
+		lblNewLabel_8.setBounds(743, 814, 77, 24);
 		add(lblNewLabel_8);
 		
 		txtThanhTien = new JTextField();
-		txtThanhTien.setBounds(839, 814, 101, 29);
+		txtThanhTien.setBounds(839, 814, 89, 29);
 		txtThanhTien.setEditable(false);
 		add(txtThanhTien);
 		txtThanhTien.setColumns(10);
@@ -660,7 +673,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		JLabel lblNewLabel_8_1 = new JLabel("Tiền Phải Trả Thêm");
 		lblNewLabel_8_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_8_1.setBounds(961, 817, 123, 24);
+		lblNewLabel_8_1.setBounds(943, 817, 123, 24);
 		add(lblNewLabel_8_1);
 		
 		txtTienTraThem = new JTextField();
@@ -668,6 +681,15 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		txtTienTraThem.setEditable(false);
 		txtTienTraThem.setBounds(1085, 812, 101, 29);
 		add(txtTienTraThem);
+		
+		JButton btnRefresh = new JButton("Làm Mới");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refresh();
+			}
+		});
+		btnRefresh.setBounds(449, 114, 123, 34);
+		add(btnRefresh);
 //		String[] columnTable = {""}; 
 		
 		
@@ -710,9 +732,50 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			}
 			modelDonDatHang.addRow(rowDatHang);
 		}
-		
+		txtMaKH.setText("");
+		txtLoaiKH.setText("");
+		batdau.setDate(null);
 	}
-	
+	public void refreshCondition() {
+		modelDonDatHang = (DefaultTableModel) table.getModel();
+		modelDonDatHang.setRowCount(0);
+		listDH = new DanhSachKhachDH();
+		SimpleDateFormat dateformat2 = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		daoKh = new DAO_KhachDH();
+		if(!txtMaKH.getText().equalsIgnoreCase("") && batdau.getDate() == null) {
+			listDH = daoKh.getToConditionsMaKH(txtMaKH.getText());
+		}else if(!txtMaKH.getText().equalsIgnoreCase("") && batdau.getDate()!=null){
+			listDH = daoKh.getToConditionsNgayDatvaMaKH(txtMaKH.getText(), dateformat2.format(batdau.getDate()));
+			
+		}else if(txtMaKH.getText().equalsIgnoreCase("") && batdau.getDate()!=null) {
+			listDH = daoKh.getToConditionsNgayDat(dateformat2.format(batdau.getDate()));
+		}else {
+			listDH = daoKh.getAll();
+		}
+		
+		// Phần sau --
+		rowDatHang = new  Object[5];
+		
+		for (KhachDH dh : listDH.getList()) {
+			rowDatHang[0] = dh.getMaDH();
+			rowDatHang[1] = daoKh.tenKHTheoMa(dh.getMaKh());
+			rowDatHang[2] = daoKh.tenNVTheoMa(dh.getMaNv());
+			rowDatHang[3] = dateFormat.format(dh.getNgayDat());
+			int trangThai = dh.getTrangThai();
+			if(trangThai ==0) {
+				rowDatHang[4] = "Chưa Thanh Toán";
+			}else if(trangThai == 1){
+				rowDatHang[4] = "Đã Thanh Toán";
+			}else {
+				rowDatHang[4] = "Đã Hủy Bỏ";	
+			}
+			modelDonDatHang.addRow(rowDatHang);
+		}
+		txtMaKH.setText("");
+		txtLoaiKH.setText("");
+		batdau.setDate(null);
+	}
 	public void onOpenFormSPButtonClick() {
 		dialogSP.refresh();
 //		dialogSP.datSach = this;
@@ -720,10 +783,27 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		dialogSP.setModal(true);
 		dialogSP.setVisible(true);
 	}
+	public void onOpenFormKHButtonClick() {
+		dialogKH.refresh();
+		dialogKH.datSach = this;
+		dialogKH.setModal(true);
+		dialogKH.setVisible(true);
+	}
 	
 	public void onDataReturnedSP(String str) {
 		System.out.println("Ma sp vua tra ve la:" + str);
 		txtMaSach.setText(str);
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+	}
+	public void onDataReturnedKH(String str,String loaiKH) {
+		System.out.println("Ma sp vua tra ve la:" + str);
+		txtMaKH.setText(str);
+		txtLoaiKH.setText(loaiKH);
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
@@ -798,4 +878,5 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		}
 		return listHD;
 	}
+	
 }

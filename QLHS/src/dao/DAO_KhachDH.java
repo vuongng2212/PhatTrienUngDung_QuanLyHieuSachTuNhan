@@ -47,6 +47,95 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		}
 		return dsKhachDH;
 	}
+	public DanhSachKhachDH getToConditionsMaKH(String maKH) {
+		DanhSachKhachDH dsKhachDH = new DanhSachKhachDH();
+		ConnectDB.getInstance();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from datSach where maKH = '" + maKH + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			try {
+				dsKhachDH.add(new KhachDH(rs.getString("maDH"), rs.getString("maKH"), rs.getString("maNV"), dateFormat.parse(rs.getString("ngayTaoDH")), Integer.parseInt(rs.getString("trangThai")),Double.parseDouble(rs.getString("tienCoc"))));	
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsKhachDH;
+	}
+	public DanhSachKhachDH getToConditionsNgayDat(String ngayDat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		DanhSachKhachDH dsKhachDH = new DanhSachKhachDH();
+		ConnectDB.getInstance();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from datSach where ngayTaoDH = '" + ngayDat + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			try {
+				dsKhachDH.add(new KhachDH(rs.getString("maDH"), rs.getString("maKH"), rs.getString("maNV"), dateFormat.parse(rs.getString("ngayTaoDH")), Integer.parseInt(rs.getString("trangThai")),Double.parseDouble(rs.getString("tienCoc"))));	
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsKhachDH;
+	}
+	
+	
+	public DanhSachKhachDH getToConditionsNgayDatvaMaKH(String maKH,String ngayDat) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		DanhSachKhachDH dsKhachDH = new DanhSachKhachDH();
+		ConnectDB.getInstance();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from datSach where ngayTaoDH = '" + ngayDat + "' and maKH = '"+ maKH + "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			try {
+				dsKhachDH.add(new KhachDH(rs.getString("maDH"), rs.getString("maKH"), rs.getString("maNV"), dateFormat.parse(rs.getString("ngayTaoDH")), Integer.parseInt(rs.getString("trangThai")),Double.parseDouble(rs.getString("tienCoc"))));	
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsKhachDH;
+	}
 
 	public String tenKHTheoMa(String str) {
 		String name = "";
