@@ -131,7 +131,9 @@ public class DAO_chiTietKhachDH implements daoInterface<ChiTietKhachDH, DanhSach
 		}
 		return name;
 	}
-
+//	public int soLuongSPDaDat(String maDH,String maSP) {
+//		
+//	}
 	@Override
 	public boolean update(ChiTietKhachDH obj) {
 		ConnectDB.getInstance();

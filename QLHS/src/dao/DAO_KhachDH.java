@@ -154,6 +154,26 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		return coc;
 	}
 	
+	public int soLanHuy(String maKH) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		int count = 0;
+		
+		try {
+			String sql = "select COUNT(*) as soLan from datSach where trangThai = -1 and maKH = '" + maKH +"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+//			coc = Double.parseDouble(rs.getString("tienCoc"));
+			count = Integer.parseInt(rs.getString("soLan"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 	@Override
 	public boolean add(KhachDH obj) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -208,6 +228,43 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 			close(stm);
 		}
 		return true;
+	}
+	public void updateDaXacNhan(String str) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update datSach set trangThai = 1 where maDH = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1,str);
+			System.out.println(stm);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
+	}
+	
+	public void updateHuy(String str) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update datSach set trangThai = -1 where maDH = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1,str);
+			System.out.println(stm);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
 	}
 	
 	

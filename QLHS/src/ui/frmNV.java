@@ -750,7 +750,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(panelDatSach);
-				searchKm.refresh();
+				panelDatSach.refresh();
 			}
 		});
 		  JMenuItem menuXacNhanDatSach = new JMenuItem("Xác Nhận Đơn", new ImageIcon(img_xemDonDatSach));
@@ -761,7 +761,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(panelXacNhanDatSach);
-				searchKm.refresh();
+				panelXacNhanDatSach.refresh();
 			}
 		});
 		  menuDatHang.add(menuTaoDonDatSach);

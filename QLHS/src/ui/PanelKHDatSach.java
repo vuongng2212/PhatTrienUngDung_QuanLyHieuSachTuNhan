@@ -494,6 +494,17 @@ public class PanelKHDatSach extends JPanel {
 			
 			e.printStackTrace();
 		}
+		daoKhachDh  = new DAO_KhachDH();
+		int soLanHuy = daoKhachDh.soLanHuy(txtMaKH.getText());
+		if(soLanHuy >=3) {
+			JOptionPane.showMessageDialog(null, "khách hàng đã nằm trong danh sách cấm đặt hàng. KH sẽ không được phép đặt hàng nữa!");
+			txtMaKH.setText("");
+			txtTenKH.setText("");
+			txtLoaiKh.setText("");
+			txtDiaChi.setText("");
+			txtSDT.setText("");
+		}
+		
 	}
 	public void onOpenFormSPButtonClick() {
 		dialogSP.refresh();
@@ -533,7 +544,7 @@ public class PanelKHDatSach extends JPanel {
 		
 		return -1;
 	}
-	private void refresh() {
+	public void refresh() {
 		model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
 		txtMaKH.setText("");

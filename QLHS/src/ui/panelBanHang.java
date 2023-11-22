@@ -524,7 +524,7 @@ public class panelBanHang extends JPanel {
 		});
 		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThanhToan.setBackground(new Color(102, 204, 0));
-		btnThanhToan.setBounds(1112, 40, 138, 38);
+		btnThanhToan.setBounds(1113, 40, 138, 38);
 		panel_2.add(btnThanhToan);
 		
 		btnInHD = new JButton("In Hóa Đơn");
