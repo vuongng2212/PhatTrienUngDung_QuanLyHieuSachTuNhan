@@ -1,4 +1,23 @@
+/bridj-0.7.0.jar
+/connectDB/
+/core-3.5.2.jar
+/dao/
+/entity/
+/image/
+/interfaces/
+/javase-3.5.2.jar
+/jcalendar-1.4.jar
+/list/
+/log4j-1.2.17.jar
+/resources/
+/slf4j-api-1.7.2.jar
+/slf4j-log4j12-1.6.2.jar
+/sqljdbc42.jar
 /ui/
+<<<<<<< HEAD
 /dao/
 /entity/
 /list/
+=======
+/webcam-capture-0.3.12.jar
+>>>>>>> f18620978356ae0e347aff409a705d682e221d9e

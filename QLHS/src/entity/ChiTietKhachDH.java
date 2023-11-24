@@ -5,7 +5,7 @@ public class ChiTietKhachDH {
 	private String maSP;
 	private int soLuong;
 	private double donGia;
-	private int discount;
+//	private int discount;
 	
 	
 	public ChiTietKhachDH() {
@@ -13,13 +13,13 @@ public class ChiTietKhachDH {
 	}
 
 
-	public ChiTietKhachDH(String maDH, String maSP, int soLuong, double donGia, int discount) {
+	public ChiTietKhachDH(String maDH, String maSP, int soLuong, double donGia) {
 		super();
 		this.maDH = maDH;
 		this.maSP = maSP;
 		this.soLuong = soLuong;
 		this.donGia = donGia;
-		this.discount = discount;
+//		this.discount = discount;
 	}
 
 
@@ -63,14 +63,14 @@ public class ChiTietKhachDH {
 	}
 
 
-	public int getDiscount() {
-		return discount;
-	}
-
-
-	public void setDiscount(int discount) {
-		this.discount = discount;
-	}
+//	public int getDiscount() {
+//		return discount;
+//	}
+//
+//
+//	public void setDiscount(int discount) {
+//		this.discount = discount;
+//	}
 	
 	
 }

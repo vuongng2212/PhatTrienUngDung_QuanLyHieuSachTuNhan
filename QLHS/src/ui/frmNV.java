@@ -118,6 +118,7 @@ public class frmNV extends JFrame {
 	private DialogShowKhuyenMai dialogShowKm;
 	private DialogAddSP dialogAddSp;
 	private DialogAddKH dialogAddKh;
+	private DialogAddKH3 dialogAddKH3;
 	private JMenuItem menuSearchHD;
 	private PanelSearchHD searchHD;
 	private DialogXemHD xemHD;
@@ -187,6 +188,7 @@ public class frmNV extends JFrame {
 		dialogSP2 = new DialogAddSP2();
 		dialogSP3 = new DialogAddSP3();
 		dialogAddKh = new DialogAddKH();
+		dialogAddKH3 = new DialogAddKH3();
 		dialogfrm = new SanPhamFrm();
 		dialogKH2 = new DialogAddKH2();
 		dialogfrm.setKhuyenMai(khuyenMai);
@@ -497,6 +499,7 @@ public class frmNV extends JFrame {
 		dialogSP2.setVisible(false);
 		dialogSP3.setVisible(false);
 		dialogAddKh.setVisible(false);
+		dialogAddKH3.setVisible(false);
 		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
 		panelFrm.add(product);
@@ -750,7 +753,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(panelDatSach);
-				searchKm.refresh();
+				panelDatSach.refresh();
 			}
 		});
 		  JMenuItem menuXacNhanDatSach = new JMenuItem("Xác Nhận Đơn", new ImageIcon(img_xemDonDatSach));
@@ -761,7 +764,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(panelXacNhanDatSach);
-				searchKm.refresh();
+				panelXacNhanDatSach.refresh();
 			}
 		});
 		  menuDatHang.add(menuTaoDonDatSach);
@@ -896,8 +899,6 @@ public class frmNV extends JFrame {
 		}
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-		
 			panel.setBackground(new Color(112,128,144));
 		}
 	}
@@ -913,5 +914,6 @@ public class frmNV extends JFrame {
 		panelDatSach.dialogSP = dialogSP2;
 		panelXacNhanDatSach.dialogSP = dialogSP3;
 		bill.banHang.dialogAddKH = dialogAddKh;
+		panelXacNhanDatSach.dialogKH = dialogAddKH3;
 	}
 }
