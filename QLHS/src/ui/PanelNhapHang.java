@@ -6,15 +6,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import connectDB.ConnectDB;
-import dao.DAO_ChiTietPDH;
-import dao.DAO_PhieuDH;
+import dao.DAO_CTPhieuNhapHang;
+import dao.DAO_PhieuNhapHang;
 import dao.DAO_SanPham;
-import entity.ChiTietPhieuDH;
-import entity.PhieuDatHang;
+import entity.CTPhieuNhapHang;
+import entity.PhieuNhapHang;
 import entity.SanPham;
 import entity.userInfo;
 import list.DanhSachChiTietPDH;
-import list.DanhSachPhieuDH;
+import list.DanhSachPhieuNH;
 import list.DanhSachSanPham;
 
 import javax.swing.JLabel;
@@ -36,7 +36,7 @@ import java.util.Date;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
-public class PanelDatHang extends JPanel {
+public class PanelNhapHang extends JPanel {
 	private JTextField txtTen;
 	private JTextField txtSoLuongNhap;
 	private JTextField txtChietKhau;
@@ -48,8 +48,8 @@ public class PanelDatHang extends JPanel {
 	private DanhSachSanPham lsSP;
 	private DAO_SanPham DAO_SP;
 	private DanhSachChiTietPDH lsCTPDH;
-	private DAO_ChiTietPDH DAO_CTPDH;
-	private DAO_PhieuDH DAO_PDH;
+	private DAO_CTPhieuNhapHang DAO_CTPDH;
+	private DAO_PhieuNhapHang DAO_PDH;
 	private int stt =1;
 	private int sttCTDH = 1;
 	private double thanhTien = 0;
@@ -57,7 +57,7 @@ public class PanelDatHang extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelDatHang() {
+	public PanelNhapHang() {
 		lsSP = new DanhSachSanPham();
 		lsCTPDH = new DanhSachChiTietPDH();
 		try {
@@ -253,7 +253,7 @@ public class PanelDatHang extends JPanel {
 						String tenSach = table.getModel().getValueAt(row, 2).toString();
 						String donGia = table.getModel().getValueAt(row, 7).toString();
 						
-						ChiTietPhieuDH ctPDH = new ChiTietPhieuDH(maSach,tenSach, Integer.parseInt(sl), Double.parseDouble(donGia));
+						CTPhieuNhapHang ctPDH = new CTPhieuNhapHang(maSach,tenSach, Integer.parseInt(sl), Double.parseDouble(donGia));
 						
 						
 						if(lsCTPDH.them(ctPDH) == false) {
@@ -269,7 +269,7 @@ public class PanelDatHang extends JPanel {
 						deleteAllDataJtable(tableTTSP);
 						sttCTDH = 1;
 						thanhTien = 0;
-						for(ChiTietPhieuDH pdh: lsCTPDH.getList()) {
+						for(CTPhieuNhapHang pdh: lsCTPDH.getList()) {
 							Object rowTTSP[]= {sttCTDH++,pdh.getMaSP(),pdh.getTenSP(),pdh.getSoLuong(),pdh.getDonGiaNhap()};
 							tableModelTTSP.addRow(rowTTSP);
 							thanhTien += pdh.getDonGiaNhap() * pdh.getSoLuong();
@@ -301,7 +301,7 @@ public class PanelDatHang extends JPanel {
 					deleteAllDataJtable(tableTTSP);
 					sttCTDH = 1;
 					thanhTien = 0;
-					for(ChiTietPhieuDH pdh: lsCTPDH.getList()) {
+					for(CTPhieuNhapHang pdh: lsCTPDH.getList()) {
 						Object rowTTSP[]= {sttCTDH++,pdh.getMaSP(),pdh.getTenSP(),pdh.getSoLuong(),pdh.getDonGiaNhap()};
 						tableModelTTSP.addRow(rowTTSP);
 						thanhTien += pdh.getDonGiaNhap() * pdh.getSoLuong();
@@ -321,7 +321,7 @@ public class PanelDatHang extends JPanel {
 		JButton btnDH = new JButton("Đặt hàng");
 		btnDH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO_PDH = new DAO_PhieuDH();
+				DAO_PDH = new DAO_PhieuNhapHang();
 				
 				String maDH = txtMaDH.getText().trim();
 				Date currentDate = new Date();
@@ -329,15 +329,15 @@ public class PanelDatHang extends JPanel {
 				String ck = txtChietKhau.getText().trim();
 
 				if(validData()) {
-					PhieuDatHang pDHtmp = new PhieuDatHang(maDH, userInfo.getMaNV(), ngayDH, Double.parseDouble(ck));
+					PhieuNhapHang pDHtmp = new PhieuNhapHang(maDH, userInfo.getMaNV(), ngayDH, Double.parseDouble(ck));
 					if(DAO_PDH.add(pDHtmp)) {
 						
 						for(int i=0; i<lsCTPDH.getCount(); i++) {
-							DAO_ChiTietPDH DAO_ct = new DAO_ChiTietPDH();
+							DAO_CTPhieuNhapHang DAO_ct = new DAO_CTPhieuNhapHang();
 							String maDHString = txtMaDH.getText();
 							String maSP = lsCTPDH.getList().get(i).getMaSP();
 							int sl = lsCTPDH.getList().get(i).getSoLuong();
-							ChiTietPhieuDH ct = new ChiTietPhieuDH(maDHString, maSP, sl);
+							CTPhieuNhapHang ct = new CTPhieuNhapHang(maDHString, maSP, sl);
 							DAO_ct.add(ct);
 						}
 						
@@ -373,12 +373,12 @@ public class PanelDatHang extends JPanel {
 		JButton btnTaoMaDH = new JButton("");
 		btnTaoMaDH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO_PDH = new DAO_PhieuDH();
+				DAO_PDH = new DAO_PhieuNhapHang();
 				String lastPDH = DAO_PDH.getLastPhieuDH();
 				if(lastPDH!=null) {	
 					Integer strToInt = Integer.parseInt(lastPDH.substring(2));
 					String s = String.format("%03d", strToInt + 1);
-					txtMaDH.setText("DH"+s);
+					txtMaDH.setText("NH"+s);
 				}
 				
 			}
@@ -438,7 +438,7 @@ public class PanelDatHang extends JPanel {
 		String maDH = txtMaDH.getText().trim();
 		String ck = txtChietKhau.getText().trim();
 
-		Pattern p = Pattern.compile("^(DH)[0-9]{3}");
+		Pattern p = Pattern.compile("^(NH)[0-9]{3}");
 		if (!(maDH.length() > 0 && p.matcher(maDH).find())) {
 			JOptionPane.showMessageDialog(getParent(), "Lỗi mã đặt hàng");
 			return false;

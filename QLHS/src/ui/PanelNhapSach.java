@@ -6,17 +6,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import connectDB.ConnectDB;
-import dao.DAO_ChiTietPDH;
+import dao.DAO_CTPhieuNhapHang;
 import dao.DAO_NhanVien;
-import dao.DAO_PhieuDH;
+import dao.DAO_PhieuNhapHang;
 import dao.DAO_SanPham;
-import entity.ChiTietPhieuDH;
+import entity.CTPhieuNhapHang;
 import entity.NhanVien;
-import entity.PhieuDatHang;
+import entity.PhieuNhapHang;
 import entity.SanPham;
 import list.DanhSachChiTietPDH;
 import list.DanhSachNhanVien;
-import list.DanhSachPhieuDH;
+import list.DanhSachPhieuNH;
 import list.DanhSachSanPham;
 
 import javax.swing.JLabel;
@@ -43,10 +43,10 @@ public class PanelNhapSach extends JPanel {
 	private JTextField txtChietKhau;
 	private JTable table, tableTTSP;
 	private DefaultTableModel tableModel,tableModelTTSP;
-	private DanhSachPhieuDH ls;
+	private DanhSachPhieuNH ls;
 	private DanhSachChiTietPDH lsChiTietPhieuDH;
-	private DAO_PhieuDH DAO_PhieuDH;
-	private DAO_ChiTietPDH DAO_CTPhieuDH;
+	private DAO_PhieuNhapHang DAO_PhieuDH;
+	private DAO_CTPhieuNhapHang DAO_CTPhieuDH;
 	private String start,end;
 	private int stt =1;
 	private int stt_ctpdh =1;
@@ -56,7 +56,7 @@ public class PanelNhapSach extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelNhapSach() {
-		ls = new DanhSachPhieuDH();
+		ls = new DanhSachPhieuNH();
 		lsChiTietPhieuDH = new DanhSachChiTietPDH();
 		try {
 			ConnectDB.getInstance().connect();
@@ -230,13 +230,13 @@ public class PanelNhapSach extends JPanel {
 					String tt = table.getValueAt(rowValue, 5).toString();
 					if(tt.equals("Chờ xử lý")) {
 						for(int i=0;i<lsChiTietPhieuDH.getCount();i++) {
-							DAO_CTPhieuDH = new DAO_ChiTietPDH();
+							DAO_CTPhieuDH = new DAO_CTPhieuNhapHang();
 							if(DAO_CTPhieuDH.updateSL(lsChiTietPhieuDH.getList().get(i)) == false) {
 								JOptionPane.showMessageDialog(getParent(), "Có lỗi xảy ra! Vui lòng kiểm tra lại...");
 							}
 						}
 						lsChiTietPhieuDH.clear();
-						DAO_PhieuDH = new DAO_PhieuDH();
+						DAO_PhieuDH = new DAO_PhieuNhapHang();
 						DAO_PhieuDH.updateTrangThai(maDH, 1);
 						findPhieuDH(start, end);
 					}
@@ -264,19 +264,19 @@ public class PanelNhapSach extends JPanel {
 	}
 	public void findPhieuDH(String start, String end) {
 		deleteAllDataJtable(table);
-		DAO_PhieuDH = new DAO_PhieuDH();
+		DAO_PhieuDH = new DAO_PhieuNhapHang();
 
 		ls.clear();
 		stt =1;
 		
-		for(PhieuDatHang pdh: DAO_PhieuDH.getAll(start,end)) {
+		for(PhieuNhapHang pdh: DAO_PhieuDH.getAll(start,end)) {
 			ls.them(pdh);
 			int tt = pdh.getTrangThai();
 			String trangThai = "Chờ xử lý";
 			if(tt==1) {
 				trangThai = "Đã nhập";
 			}
-			Object row[] = {stt++,pdh.getMaDH(),pdh.getMaNV(),pdh.getNgayDH(),pdh.getChietKhau(),trangThai};
+			Object row[] = {stt++,pdh.getmaNH(),pdh.getMaNV(),pdh.getNgayDH(),pdh.getChietKhau(),trangThai};
 			tableModel.addRow(row);
 			lblTenNV.setText(pdh.getTenNV());
 			txtChietKhau.setText(String.valueOf(pdh.getChietKhau()));
@@ -284,13 +284,13 @@ public class PanelNhapSach extends JPanel {
 	}
 	public void findChiTietPhieuDH(String maDH) {
 		deleteAllDataJtable(tableTTSP);
-		DAO_CTPhieuDH = new DAO_ChiTietPDH();
+		DAO_CTPhieuDH = new DAO_CTPhieuNhapHang();
 
 		ls.clear();
 		stt_ctpdh =1;
-		for(ChiTietPhieuDH pdh: DAO_CTPhieuDH.getAll(maDH)) {
+		for(CTPhieuNhapHang pdh: DAO_CTPhieuDH.getAll(maDH)) {
 			lsChiTietPhieuDH.them(pdh);
-			Object row[] = {stt_ctpdh++,pdh.getMaDH(),pdh.getMaSP(),pdh.getTenSP(),pdh.getSoLuong()};
+			Object row[] = {stt_ctpdh++,pdh.getmaNH(),pdh.getMaSP(),pdh.getTenSP(),pdh.getSoLuong()};
 			tableModelTTSP.addRow(row);
 		}
 	}
