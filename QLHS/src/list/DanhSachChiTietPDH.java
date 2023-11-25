@@ -1,23 +1,23 @@
 package list;
 
 import java.util.ArrayList;
-import entity.ChiTietPhieuDH;
+import entity.CTPhieuNhapHang;
 
 public class DanhSachChiTietPDH {
-	private ArrayList<ChiTietPhieuDH> list;
+	private ArrayList<CTPhieuNhapHang> list;
 
 	public DanhSachChiTietPDH() {
-		list = new ArrayList<ChiTietPhieuDH>();
+		list = new ArrayList<CTPhieuNhapHang>();
 	}
 
 	public String LayDanhSach() {
 		String s = "";
-		for (ChiTietPhieuDH pdh : list)
+		for (CTPhieuNhapHang pdh : list)
 			s += pdh + "\n";
 		return s;
 	}
 
-	public boolean them(ChiTietPhieuDH pdh) {
+	public boolean them(CTPhieuNhapHang pdh) {
 		for (int i = 0; i < list.size(); i++)
 			if (list.get(i).getMaSP().equalsIgnoreCase(pdh.getMaSP())) {
 				return false;
@@ -35,12 +35,12 @@ public class DanhSachChiTietPDH {
 	}
 
 
-	public boolean update(ChiTietPhieuDH pdh) {
+	public boolean update(CTPhieuNhapHang pdh) {
 		for (int i = 0; i < list.size(); i++)
 //			private Date doB;
 //			private Boolean gioiTinh;
 //			private String SDT, diaChi, email, chucVu;
-			if (list.get(i).getMaDH().equalsIgnoreCase(pdh.getMaDH())) {
+			if (list.get(i).getmaNH().equalsIgnoreCase(pdh.getmaNH())) {
 				list.get(i).setMaSP(pdh.getMaSP());
 				list.get(i).setSoLuong(pdh.getSoLuong());
 				list.get(i).setDonGiaNhap(pdh.getDonGiaNhap());
@@ -49,7 +49,7 @@ public class DanhSachChiTietPDH {
 		return false;
 	}
 
-	public ArrayList<ChiTietPhieuDH> getList() {
+	public ArrayList<CTPhieuNhapHang> getList() {
 		return list;
 	}
 

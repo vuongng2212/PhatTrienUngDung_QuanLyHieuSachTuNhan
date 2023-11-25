@@ -1,22 +1,22 @@
 package entity;
 
-public class ChiTietPhieuDH {
-	private String maDH, maSP, tenSP;
+public class CTPhieuNhapHang {
+	private String maNH, maSP, tenSP;
 	private Integer soLuong;
 	private Double donGiaNhap;
 	
-	public ChiTietPhieuDH() {
+	public CTPhieuNhapHang() {
 		super();
 	}
 
-	public ChiTietPhieuDH(String maDH, String maSP, Integer soLuong) {
+	public CTPhieuNhapHang(String maNH, String maSP, Integer soLuong) {
 		super();
-		this.maDH = maDH;
+		this.maNH = maNH;
 		this.maSP = maSP;
 		this.soLuong = soLuong;
 	}
 	
-	public ChiTietPhieuDH(String maSP, String tenSP, Integer soLuong, Double donGiaNhap) {
+	public CTPhieuNhapHang(String maSP, String tenSP, Integer soLuong, Double donGiaNhap) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
@@ -24,29 +24,29 @@ public class ChiTietPhieuDH {
 		this.donGiaNhap = donGiaNhap;
 	}
 
-	public ChiTietPhieuDH(String maDH, String maSP, String tenSP, Integer soLuong) {
+	public CTPhieuNhapHang(String maNH, String maSP, String tenSP, Integer soLuong) {
 		super();
-		this.maDH = maDH;
+		this.maNH = maNH;
 		this.maSP = maSP;
 		this.tenSP = tenSP;
 		this.soLuong = soLuong;
 	}
 
-	public ChiTietPhieuDH(String maDH, String maSP, String tenSP, Integer soLuong, Double donGiaNhap) {
+	public CTPhieuNhapHang(String maNH, String maSP, String tenSP, Integer soLuong, Double donGiaNhap) {
 		super();
-		this.maDH = maDH;
+		this.maNH = maNH;
 		this.maSP = maSP;
 		this.tenSP = tenSP;
 		this.soLuong = soLuong;
 		this.donGiaNhap = donGiaNhap;
 	}
 
-	public String getMaDH() {
-		return maDH;
+	public String getmaNH() {
+		return maNH;
 	}
 
-	public void setMaDH(String maDH) {
-		this.maDH = maDH;
+	public void setmaNH(String maNH) {
+		this.maNH = maNH;
 	}
 
 	public String getMaSP() {
@@ -83,7 +83,7 @@ public class ChiTietPhieuDH {
 
 	@Override
 	public String toString() {
-		return "ChiTietPhieuDH [maDH=" + maDH + ", maSP=" + maSP + ", tenSP=" + tenSP + ", soLuong=" + soLuong
+		return "ChiTietPhieuDH [maNH=" + maNH + ", maSP=" + maSP + ", tenSP=" + tenSP + ", soLuong=" + soLuong
 				+ ", donGiaNhap=" + donGiaNhap + "]";
 	}
 	

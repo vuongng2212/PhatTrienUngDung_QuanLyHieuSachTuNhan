@@ -8,13 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
-import entity.PhieuDatHang;
+import entity.PhieuNhapHang;
 import entity.SanPham;
 import entity.ThongKeEntity;
 
 public class DAO_ThongKe {
-	public ArrayList<PhieuDatHang> baoCaoThuChiNhapSach(Date start, Date end) {
-		ArrayList<PhieuDatHang> ds = new ArrayList<PhieuDatHang>();
+	public ArrayList<PhieuNhapHang> baoCaoThuChiNhapSach(Date start, Date end) {
+		ArrayList<PhieuNhapHang> ds = new ArrayList<PhieuNhapHang>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
@@ -25,7 +25,7 @@ public class DAO_ThongKe {
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			ds.add(new PhieuDatHang(rs.getString("maDatHang"),rs.getDate("ngayDatHang"),rs.getDouble("chietKhau"),rs.getDouble("thanhTien")));
+			ds.add(new PhieuNhapHang(rs.getString("maDatHang"),rs.getDate("ngayDatHang"),rs.getDouble("chietKhau"),rs.getDouble("thanhTien")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();

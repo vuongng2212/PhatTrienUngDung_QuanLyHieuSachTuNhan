@@ -15,13 +15,13 @@ import dao.DAO_HoaDon;
 import dao.DAO_KhachHang;
 import dao.DAO_SanPham;
 import dao.DAO_ThongKe;
-import entity.PhieuDatHang;
+import entity.PhieuNhapHang;
 import entity.SanPham;
 import entity.ThongKeEntity;
 import list.DanhSachChiTietHoaDon;
 import list.DanhSachHoaDon;
 import list.DanhSachKhachHang;
-import list.DanhSachPhieuDH;
+import list.DanhSachPhieuNH;
 import list.DanhSachSanPham;
 
 import java.awt.SystemColor;
@@ -78,7 +78,7 @@ public class PanelThongKe extends JPanel {
 	private DAO_HoaDon daoHd;
 	
 	private DAO_ThongKe DAO_ThongKe;
-	private DanhSachPhieuDH lsPDH;
+	private DanhSachPhieuNH lsPDH;
 	private DanhSachSanPham lsSP;
 	
 	private DanhSachChiTietHoaDon listCTHD;
@@ -317,17 +317,17 @@ public class PanelThongKe extends JPanel {
 					}
 					//Bao cao chi tieu nhap sach
 					if(thongKeVal == 1) {
-						lsPDH = new DanhSachPhieuDH();
+						lsPDH = new DanhSachPhieuNH();
 						count = 0;
 						thanhTien = 0;
 						xoaTxt();
 						String[] headers = {"Mã đặt hàng","Ngày đặt hàng","Chiết khấu","Thành tiền"};
 						taoBang(headers);						
-						for(PhieuDatHang pdh: DAO_ThongKe.baoCaoThuChiNhapSach(date, Date.valueOf(getMinusTime(0)))) {
+						for(PhieuNhapHang pdh: DAO_ThongKe.baoCaoThuChiNhapSach(date, Date.valueOf(getMinusTime(0)))) {
 							lsPDH.them(pdh);
 							count++;
 							thanhTien += pdh.getThanhTien();
-							Object row[] = {pdh.getMaDH(),pdh.getNgayDH(),pdh.getChietKhau(),pdh.getThanhTien()};
+							Object row[] = {pdh.getmaNH(),pdh.getNgayDH(),pdh.getChietKhau(),pdh.getThanhTien()};
 							tableModel.addRow(row);
 						}
 						txtCount.setText(String.valueOf(count));

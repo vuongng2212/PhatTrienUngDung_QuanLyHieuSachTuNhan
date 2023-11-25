@@ -8,19 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
-import entity.ChiTietPhieuDH;
+import entity.CTPhieuNhapHang;
 
-public class DAO_ChiTietPDH {
-	public ArrayList<ChiTietPhieuDH> getAll(String maDH) {
-		ArrayList<ChiTietPhieuDH> ds = new ArrayList<ChiTietPhieuDH>();
+public class DAO_CTPhieuNhapHang {
+	public ArrayList<CTPhieuNhapHang> getAll(String maNH) {
+		ArrayList<CTPhieuNhapHang> ds = new ArrayList<CTPhieuNhapHang>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select maDH,ctdh.maSP,tenSP,ctdh.soLuong from chiTietDatHang ctdh join sanPham sp on ctdh.maSP = sp.maSP where maDH = N'"+maDH+"'";
+			String sql = "select maNH,ctdh.maSP,tenSP,ctdh.soLuong from chiTietNhapHang ctdh join sanPham sp on ctdh.maSP = sp.maSP where maNH = N'"+maNH+"'";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			ds.add(new ChiTietPhieuDH(rs.getString("maDH"),rs.getString("maSP"),rs.getString("tenSP"),rs.getInt("soLuong")));
+			ds.add(new CTPhieuNhapHang(rs.getString("maNH"),rs.getString("maSP"),rs.getString("tenSP"),rs.getInt("soLuong")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -29,16 +29,16 @@ public class DAO_ChiTietPDH {
 
 	}	
 	
-	public boolean add(ChiTietPhieuDH pdh) {
+	public boolean add(CTPhieuNhapHang pdh) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "INSERT chiTietDatHang VALUES"
+		String sql = "INSERT chiTietNhapHang VALUES"
 				+ "(?,?,?)";
 		try {
 			stm = con.prepareStatement(sql);
-			stm.setString(1, pdh.getMaDH());
+			stm.setString(1, pdh.getmaNH());
 			stm.setString(2, pdh.getMaSP());
 			stm.setInt(3, pdh.getSoLuong());
 			stm.executeUpdate();
@@ -53,7 +53,7 @@ public class DAO_ChiTietPDH {
 		return true;
 	}
 	
-	public boolean updateSL(ChiTietPhieuDH pdh) {
+	public boolean updateSL(CTPhieuNhapHang pdh) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -76,15 +76,15 @@ public class DAO_ChiTietPDH {
 		return true;
 	}
 	
-	public void delete(String maDH) {
+	public void delete(String maNH) {
 		// TODO Auto-generated method stub
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DELETE from chiTietDatHang where maDH = ?";
+		String sql = "DELETE from chiTietNhapHang where maNH = ?";
 		try {
 			stm = con.prepareStatement(sql);
-			stm.setString(1, maDH);
+			stm.setString(1, maNH);
 			stm.executeUpdate();
 		} catch (SQLException e) {
 			// TODO: handle exception

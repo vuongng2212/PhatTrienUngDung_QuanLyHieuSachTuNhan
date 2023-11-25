@@ -61,7 +61,7 @@ public class FormNVQuanLy extends JFrame{
 	private Image img_PhieuDH = new ImageIcon(FormNVQuanLy.class.getResource("/image/deitailss.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_control = new ImageIcon(FormNVQuanLy.class.getResource("/image/control.jpg")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private PanelTimNV PnTimNV = new PanelTimNV();
-	private PanelDatHang pnDH = new PanelDatHang();
+	private PanelNhapHang pnDH = new PanelNhapHang();
 	private PanelQLNV pnQLNV = new PanelQLNV();
 	private PanelShift pnShift = new PanelShift();
 	private PanelNhapSach pnNhapSach = new PanelNhapSach();

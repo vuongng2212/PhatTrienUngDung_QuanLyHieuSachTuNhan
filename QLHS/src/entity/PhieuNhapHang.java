@@ -3,8 +3,8 @@ package entity;
 import java.sql.Date;
 import java.util.Objects;
 
-public class PhieuDatHang {
-	private String maDH, maNV,tenNV;
+public class PhieuNhapHang {
+	private String maNH, maNV,tenNV;
 	private Date ngayDH;
 	private Double chietKhau;
 	private int trangThai;
@@ -16,23 +16,23 @@ public class PhieuDatHang {
 	public void setThanhTien(double thanhTien) {
 		this.thanhTien = thanhTien;
 	}
-	public PhieuDatHang(String maDH, Date ngayDH, Double chietKhau, double thanhTien) {
+	public PhieuNhapHang(String maNH, Date ngayDH, Double chietKhau, double thanhTien) {
 		super();
-		this.maDH = maDH;
+		this.maNH = maNH;
 		this.ngayDH = ngayDH;
 		this.chietKhau = chietKhau;
 		this.thanhTien = thanhTien;
 	}
-	public PhieuDatHang(String maDH, String maNV, String tenNV, Date ngayDH, Double chietKhau, int trangThai) {
+	public PhieuNhapHang(String maNH, String maNV, String tenNV, Date ngayDH, Double chietKhau, int trangThai) {
 		super();
-		this.maDH = maDH;
+		this.maNH = maNH;
 		this.maNV = maNV;
 		this.tenNV = tenNV;
 		this.ngayDH = ngayDH;
 		this.chietKhau = chietKhau;
 		this.trangThai = trangThai;
 	}
-	public PhieuDatHang() {
+	public PhieuNhapHang() {
 		super();
 	}
 	public String getTenNV() {
@@ -41,26 +41,26 @@ public class PhieuDatHang {
 	public void setTenNV(String tenNV) {
 		this.tenNV = tenNV;
 	}
-	public PhieuDatHang(String maDH, String maNV, String tenNV, Date ngayDH, Double chietKhau) {
+	public PhieuNhapHang(String maNH, String maNV, String tenNV, Date ngayDH, Double chietKhau) {
 		super();
-		this.maDH = maDH;
+		this.maNH = maNH;
 		this.maNV = maNV;
 		this.tenNV = tenNV;
 		this.ngayDH = ngayDH;
 		this.chietKhau = chietKhau;
 	}
-	public PhieuDatHang(String maDH, String maNV, Date ngayDH, Double chietKhau) {
+	public PhieuNhapHang(String maNH, String maNV, Date ngayDH, Double chietKhau) {
 		super();
-		this.maDH = maDH;
+		this.maNH = maNH;
 		this.maNV = maNV;
 		this.ngayDH = ngayDH;
 		this.chietKhau = chietKhau;
 	}
-	public String getMaDH() {
-		return maDH;
+	public String getmaNH() {
+		return maNH;
 	}
-	public void setMaDH(String maDH) {
-		this.maDH = maDH;
+	public void setmaNH(String maNH) {
+		this.maNH = maNH;
 	}
 	public String getMaNV() {
 		return maNV;
@@ -90,7 +90,7 @@ public class PhieuDatHang {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(chietKhau, maDH, maNV, ngayDH);
+		return Objects.hash(chietKhau, maNH, maNV, ngayDH);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -100,13 +100,13 @@ public class PhieuDatHang {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PhieuDatHang other = (PhieuDatHang) obj;
-		return Objects.equals(chietKhau, other.chietKhau) && Objects.equals(maDH, other.maDH)
+		PhieuNhapHang other = (PhieuNhapHang) obj;
+		return Objects.equals(chietKhau, other.chietKhau) && Objects.equals(maNH, other.maNH)
 				&& Objects.equals(maNV, other.maNV) && Objects.equals(ngayDH, other.ngayDH);
 	}
 	@Override
 	public String toString() {
-		return "PhieuDatHang [maDH=" + maDH + ", maNV=" + maNV + ", ngayDH=" + ngayDH + ", chietKhau=" + chietKhau
+		return "PhieuDatHang [maNH=" + maNH + ", maNV=" + maNV + ", ngayDH=" + ngayDH + ", chietKhau=" + chietKhau
 				+ "]";
 	}
 	
