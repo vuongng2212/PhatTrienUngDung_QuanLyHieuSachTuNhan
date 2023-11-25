@@ -17,5 +17,22 @@
 	<classpathentry kind="lib" path="libs/slf4j-log4j12-1.6.2.jar"/>
 	<classpathentry kind="lib" path="libs/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.64/bcprov-jdk15on-1.64.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/codehaus/castor/castor-core/1.4.1/castor-core-1.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/codehaus/castor/castor-xml/1.4.1/castor-xml-1.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/apache/commons/commons-collections4/4.2/commons-collections4-4.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/eclipse/jdt/ecj/3.21.0/ecj-3.21.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/com/lowagie/itext/2.1.7.js8/itext-2.1.7.js8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.10.0/jackson-annotations-2.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.10.0/jackson-databind-2.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/net/sf/jasperreports/jasperreports/6.16.0/jasperreports-6.16.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phant/.m2/repository/org/jfree/jfreechart/1.0.19/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
