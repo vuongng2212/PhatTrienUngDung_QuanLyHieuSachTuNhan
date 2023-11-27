@@ -42,4 +42,9 @@ public class ConnectDB {
 		System.out.println(connection);	
 		return connection;
 	}
+	public static void main(String[] args) throws SQLException {
+		
+		new ConnectDB().connect();
+	}
+	
 }

@@ -409,7 +409,4 @@ public class PanelThongKe extends JPanel {
 		txtSoSach.setText("");
 		txtTongTien.setText("");
 	}
-	public void printReport() {
-		Connec
-	}
 }
