@@ -23,6 +23,12 @@ import list.DanhSachHoaDon;
 import list.DanhSachKhachHang;
 import list.DanhSachPhieuNH;
 import list.DanhSachSanPham;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.awt.SystemColor;
 import java.awt.Color;
@@ -41,7 +47,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -408,5 +417,23 @@ public class PanelThongKe extends JPanel {
 		txtCount.setText("");
 		txtSoSach.setText("");
 		txtTongTien.setText("");
+	}
+	public void printReport(String fileName) {
+		try {
+			String URL = "jdbc:sqlserver://localhost:1433;databaseName=qlSachTuNhan;";
+	        String user = "sa";
+	        String pass = "123";
+	        Connection con = DriverManager.getConnection(URL, user, pass);
+			JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/"+fileName+".jrxml"));
+			JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+			JasperViewer jv = new JasperViewer(jp);
+			jv.setVisible(true);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
