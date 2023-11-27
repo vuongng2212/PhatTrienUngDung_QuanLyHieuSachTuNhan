@@ -8,6 +8,10 @@ import javax.swing.table.DefaultTableModel;
 
 import entity.Country;
 import entity.userInfo;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -73,7 +77,7 @@ public class FormNVQuanLy extends JFrame{
 			public void run() {
 				try {
 					FormNVQuanLy frame = new FormNVQuanLy();
-					frame.setVisible(true);
+					frame.setVisible(true);				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
