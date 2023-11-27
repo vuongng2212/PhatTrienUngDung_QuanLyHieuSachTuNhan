@@ -18,14 +18,14 @@ public class DAO_ThongKe {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "Select pdh.maDatHang, ngayDatHang , chietKhau ,thanhTien = SUM(ctPDH.soLuong*sp.donGiaGoc*(100-pdh.chietKhau)/100) from phieuDatHang pdh join chiTietDatHang ctPDH on pdh.maDatHang = ctPDH.maDH join sanPham sp on sp.maSP = ctPDH.maSP "
-					+"where ngayDatHang BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1 "
-					+"group by pdh.maDatHang, ngayDatHang, chietKhau";
-			System.out.println(sql);
+			String sql = "Select pn.maNH, ngayNhap , chietKhau ,thanhTien = SUM(ctPNH.soLuong*sp.donGiaGoc*(100-pn.chietKhau)/100) from phieuNhap pn join chiTietNhapHang ctPNH on pn.maNH = ctPNH.maNH join sanPham sp on sp.maSP = ctPNH.maSP "
+					+"where ngayNhap BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1 "
+					+"group by pn.maNH, ngayNhap, chietKhau";
+//			System.out.println(sql);
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
-			ds.add(new PhieuNhapHang(rs.getString("maDatHang"),rs.getDate("ngayDatHang"),rs.getDouble("chietKhau"),rs.getDouble("thanhTien")));
+			ds.add(new PhieuNhapHang(rs.getString("maNH"),rs.getDate("ngayNhap"),rs.getDouble("chietKhau"),rs.getDouble("thanhTien")));
 		}			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -78,10 +78,10 @@ public class DAO_ThongKe {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "Select sp.maSP , tenSP,soLuongNhap = SUM(ctPDH.soLuong), soLuongGoc = sp.soLuong - SUM(ctPDH.soLuong), sp.soLuong from phieuDatHang pdh join chiTietDatHang ctPDH on pdh.maDatHang = ctPDH.maDH join sanPham sp on sp.maSP = ctPDH.maSP\r\n"
-					+ "where ngayDatHang BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1\r\n"
+			String sql = "Select sp.maSP , tenSP, soLuongNhap = SUM(ctPNH.soLuong), soLuongGoc = sp.soLuong - SUM(ctPNH.soLuong), sp.soLuong from phieuNhap pn join chiTietNhapHang ctPNH on pn.maNH = ctPNH.maNH join sanPham sp on sp.maSP = ctPNH.maSP\r\n"
+					+ "where ngayNhap BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1\r\n"
 					+ "group by sp.maSP, tenSP, sp.soLuong";
-			System.out.println(sql);
+//			System.out.println(sql);
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 		while(rs.next()) {
