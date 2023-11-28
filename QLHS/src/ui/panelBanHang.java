@@ -15,12 +15,19 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -30,6 +37,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.NumberFormatter;
+
+import entity.*;
 
 import connectDB.ConnectDB;
 import dao.DAO_ChiTietHoaDon;
@@ -46,6 +56,13 @@ import list.DanhSachHoaDon;
 import list.DanhSachKhachHang;
 import list.DanhSachKhuyenMai;
 import list.DanhSachSanPham;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.JSpinner;
 import javax.swing.UIManager;
@@ -55,6 +72,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 
 public class panelBanHang extends JPanel {
 	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
@@ -92,7 +110,8 @@ public class panelBanHang extends JPanel {
 	public String tenSach;
 	public double giaBan;
 	private double tongTien;
-
+	private List<Subject>listEnty;
+	
 	// Phần DAO của sản phẩm
 	private DanhSachSanPham listSP;
 	private DAO_SanPham daosp;
@@ -129,7 +148,7 @@ public class panelBanHang extends JPanel {
 	
 	
 	public panelBanHang() {
-		
+		listEnty = new ArrayList<Subject>();
 		firstFlag = false;
 		DocumentListener documentListener = new DocumentListener() {
 			
@@ -393,22 +412,22 @@ public class panelBanHang extends JPanel {
 		add(panel_2);
 		panel_2.setLayout(null);
 		
-		lbllTongTien = new JLabel("Tổng Tiền");
+		lbllTongTien = new JLabel("Tổng Tiền(Bao gồm VAT)");
 		lbllTongTien.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTongTien.setBounds(10, 40, 129, 38);
+		lbllTongTien.setBounds(10, 40, 185, 38);
 		panel_2.add(lbllTongTien);
 		
 		txtTongTien = new JTextField();
 		txtTongTien.setBackground(new Color(255, 255, 255));
 		txtTongTien.setFont(new Font("Tahoma", Font.BOLD, 15));
-		txtTongTien.setBounds(116, 41, 154, 38);
+		txtTongTien.setBounds(205, 41, 183, 38);
 		txtTongTien.setEditable(false);
 		panel_2.add(txtTongTien);
 		txtTongTien.setColumns(10);
 		
 		lbllTienNhan = new JLabel("Tiền Nhận");
 		lbllTienNhan.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTienNhan.setBounds(297, 40, 108, 38);
+		lbllTienNhan.setBounds(398, 40, 88, 38);
 		panel_2.add(lbllTienNhan);
 		
 		txtTienNhan = new JTextField();
@@ -416,13 +435,13 @@ public class panelBanHang extends JPanel {
 //		txtTienNhan.setEditable(false);
 		txtTienNhan.setColumns(10);
 		txtTienNhan.setBackground(new Color(255, 255, 255));
-		txtTienNhan.setBounds(415, 41, 162, 38);
+		txtTienNhan.setBounds(488, 41, 162, 38);
 
 		panel_2.add(txtTienNhan);
 		
 		lblTienTra = new JLabel("Tiền Trả");
 		lblTienTra.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTienTra.setBounds(640, 40, 111, 38);
+		lblTienTra.setBounds(660, 40, 88, 38);
 		panel_2.add(lblTienTra);
 		
 		txtTienNhan.getDocument().addDocumentListener(documentListener);
@@ -500,20 +519,26 @@ public class panelBanHang extends JPanel {
 						}
 					}
 					
-					model = (DefaultTableModel) table.getModel();
-					model.setRowCount(0);
+					Locale localVN = new Locale("vi","VN");
+					NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(localVN);
 					
-					txtMaHD.setText("");
-					txtMaKH.setText("");
-					txtMaSP.setText("");
-					txtSoLuong.setText("");
-					txtDiaChi.setText("");
-					txtLoaiKH.setText("");
-					txtSDT.setText("");
-					txtTenKH.setText("");
-					txtTongTien.setText("");
-					txtTienNhan.setText("");
-					lbllTienTra.setText("");
+//					String fora
+					
+					
+//					model = (DefaultTableModel) table.getModel();
+//					model.setRowCount(0);
+//					
+//					txtMaHD.setText("");
+//					txtMaKH.setText("");
+//					txtMaSP.setText("");
+//					txtSoLuong.setText("");
+//					txtDiaChi.setText("");
+//					txtLoaiKH.setText("");
+//					txtSDT.setText("");
+//					txtTenKH.setText("");
+//					txtTongTien.setText("");
+//					txtTienNhan.setText("");
+//					lbllTienTra.setText("");
 					//
 					
 				}else {
@@ -530,6 +555,9 @@ public class panelBanHang extends JPanel {
 		btnInHD = new JButton("In Hóa Đơn");
 		btnInHD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				CustomReport cs = new CustomReport();
+//				cs.setVisible(true);
+				printReport();
 			}
 		});
 		btnInHD.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -654,6 +682,7 @@ public class panelBanHang extends JPanel {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				firstFlag = true;
+				refresh();
 			}
 		});
 		btnNewButton_1.setBounds(337, 12, 132, 39);
@@ -718,6 +747,82 @@ public class panelBanHang extends JPanel {
 		txtDiaChi.setText(kh.getDiaChi());
 		txtLoaiKH.setText(kh.getLoaiKH());
 	}
+//	public class CustomReport extends JFrame{
+//		private static final long serialVersionID = 1L;
+//		public CustomReport() {
+//			super("Report Printer");
+////			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+////			setResizable(false);
+////			JButton btPrint = new JButton("Print");
+////			JPanel pane = new JPanel();
+////			
+////			btPrint.addActionListener((e) ->{
+////				printReport();
+////			});
+////			
+////			pane.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+////			
+////			pane.add(btPrint,"width 100::, height 25:28:30, grow");
+////			
+////			setContentPane(pane);
+////			
+////			pack();
+//			printReport();
+//		}
+		private void printReport() {
+			try {
+				String filePath = "D:\\PTUD\\QuanLyHieuSachTuNhan_PTUD_Nhom05\\QLHS\\src\\resources\\HD.jrxml";
+				
+//				Subject subject1 = new Subject("Java",5,"50000",0,"260VND");
+//				Subject subject2 = new Subject("JavaScript",2,"50000",0,"260VND");
+//				Subject subject3 = new Subject("Jsp",3,"50000",0,"260VND");
+//				
+//				
+				List<Subject> list = new ArrayList<Subject>();
+				list = listHd();
+				
+//				list.add(subject1);
+//				list.add(subject2);
+//				list.add(subject3);
+				Locale localeCN = new Locale("vi","VN");
+				NumberFormat currency = NumberFormat.getCurrencyInstance(localeCN);
+				
+				model = (DefaultTableModel) table.getModel();				
+				JRBeanCollectionDataSource dataSource = 
+						new JRBeanCollectionDataSource(list);
+				
+				Map<String, Object> parameters = new HashMap<String, Object>();
+				parameters.put("tenKH", txtTenKH.getText());
+				parameters.put("SDT", txtSDT.getText());
+				parameters.put("DiaChi", txtDiaChi.getText());
+				parameters.put("TongTien",currency.format(Double.parseDouble(txtTongTien.getText())));
+				parameters.put("VAT", currency.format(Double.parseDouble(txtTongTien.getText())/10));
+				parameters.put("TienPhaiTra", currency.format(Double.parseDouble(txtTongTien.getText())));
+				parameters.put("tienKhachGui", currency.format(Double.parseDouble(txtTienNhan.getText())));
+				parameters.put("tienTra", currency.format(Double.parseDouble(lbllTienTra.getText())));
+				parameters.put("maHD", txtMaHD.getText());
+				
+				parameters.put("tableData", dataSource);
+				
+				JasperReport report = JasperCompileManager.compileReport(filePath);
+				
+				JasperPrint print = 
+						JasperFillManager.fillReport(report, parameters,dataSource);
+				JasperViewer jv = new JasperViewer(print,false);
+				jv.setVisible(true);
+				
+				
+//				JasperExportManager.exportReportToPdfFile(print,
+//						"C:\\Users\\phant\\Downloads\\Total-Count-Of-Particular-Column-Values\\Total-Count-Of-Particular-"
+//						+ "Column-Values\\src\\main\\resources\\student.pdf");
+//				
+//				System.out.println("Report Created...");
+//				
+				
+			} catch(Exception e) {
+				System.out.println("Exception while creating report");
+			}
+		}
 	
 	
 	
@@ -787,7 +892,35 @@ public class panelBanHang extends JPanel {
 		
 		return -1;
 	}
-
+	public void refresh() {
+		model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+//		listEnty = null;
+//		txtMaHD.setText("");
+		txtMaKH.setText("");
+		txtMaSP.setText("");
+		txtSoLuong.setText("");
+		txtDiaChi.setText("");
+		txtLoaiKH.setText("");
+		txtSDT.setText("");
+		txtTenKH.setText("");
+		txtTongTien.setText("");
+		txtTienNhan.setText("");
+		lbllTienTra.setText("");
+	}
+	public ArrayList<Subject>listHd(){
+		ArrayList<Subject>list = new ArrayList<Subject>();
+		Locale localVN = new Locale("vi","VN");
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(localVN);
+		
+		model = (DefaultTableModel) table.getModel();
+		int n = table.getRowCount();
+		for(int i=0;i<n;i++) {
+			list.add(new Subject(model.getValueAt(i, 1).toString(),Integer.parseInt(model.getValueAt(i, 2).toString()),currencyFormat.format(Double.parseDouble(model.getValueAt(i, 3).toString())),Integer.parseInt(model.getValueAt(i, 4).toString()),currencyFormat.format(Double.parseDouble(model.getValueAt(i, 5).toString()))));
+		}
+		
+		return list;
+	}
 	
 	private static Border createStrikethroughBorder() {
 		return BorderFactory.createCompoundBorder(
