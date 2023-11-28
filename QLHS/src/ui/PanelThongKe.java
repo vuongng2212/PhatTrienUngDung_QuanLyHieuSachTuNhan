@@ -23,6 +23,12 @@ import list.DanhSachHoaDon;
 import list.DanhSachKhachHang;
 import list.DanhSachPhieuNH;
 import list.DanhSachSanPham;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.awt.SystemColor;
 import java.awt.Color;
@@ -41,7 +47,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -99,28 +108,28 @@ public class PanelThongKe extends JPanel {
 	 */
 	public PanelThongKe() {
 		
-		setBounds(0,0,1534,978);
+		setBounds(0, 200, 1920, 816);
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 1534, 90);
+		panel.setBounds(0, 0, 1920, 60);
 		panel.setBackground(new Color(255, 165, 0));
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Thống Kê Doanh Thu");
+		JLabel lblTitle = new JLabel("Thống kê");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblTitle.setBounds(0, 0, 1534, 88);
+		lblTitle.setBounds(0, 0, 1921, 60);
 		panel.add(lblTitle);
 		
 		JLabel lbllThongKE = new JLabel("Thống Kê");
-		lbllThongKE.setBounds(64, 94, 117, 32);
+		lbllThongKE.setBounds(92, 60, 117, 32);
 		lbllThongKE.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(lbllThongKE);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 123, 1033, 168);
+		panel_1.setBounds(0, 94, 1388, 168);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -229,69 +238,56 @@ public class PanelThongKe extends JPanel {
 		panel_1.add(chk30Ngay);
 		chk30Ngay.addActionListener(actionListener);
 		
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(0, 291, 1534, 37);
-		add(panel_3);
-		panel_3.setLayout(null);
-		
-		JLabel lblNewLabel_1 = new JLabel("Danh Sách Hóa Đơn Bán Hàng");
-		lblNewLabel_1.setForeground(new Color(0, 255, 255));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(0, 0, 1534, 37);
-		panel_3.add(lblNewLabel_1);
-		
 		JPanel panelShowInfo = new JPanel();
-		panelShowInfo.setBounds(1055, 94, 479, 197);
+		panelShowInfo.setBounds(1398, 94, 522, 168);
 		panelShowInfo.setBackground(UIManager.getColor("Button.light"));
 		add(panelShowInfo);
 		panelShowInfo.setLayout(null);
 		
 		lbllSumTitle = new JLabel("Tổng số hóa đơn");
 		lbllSumTitle.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllSumTitle.setBounds(10, 30, 137, 28);
+		lbllSumTitle.setBounds(10, 11, 137, 28);
 		panelShowInfo.add(lbllSumTitle);
 		
 		lbllSum = new JLabel("Tổng số Sách");
 		lbllSum.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllSum.setBounds(10, 82, 137, 28);
+		lbllSum.setBounds(10, 60, 137, 28);
 		panelShowInfo.add(lbllSum);
 		
 		lbllPrice = new JLabel("Tổng số tiền");
 		lbllPrice.setBackground(UIManager.getColor("Button.light"));
 		lbllPrice.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllPrice.setBounds(10, 140, 137, 28);
+		lbllPrice.setBounds(10, 111, 137, 28);
 		panelShowInfo.add(lbllPrice);
 		
 		txtCount = new JTextField();
-		txtCount.setBounds(181, 30, 162, 28);
+		txtCount.setBounds(181, 13, 162, 28);
 		panelShowInfo.add(txtCount);
 		txtCount.setColumns(10);
 		
 		txtSoSach = new JTextField();
 		txtSoSach.setColumns(10);
-		txtSoSach.setBounds(181, 82, 162, 28);
+		txtSoSach.setBounds(181, 62, 162, 28);
 		panelShowInfo.add(txtSoSach);
 		
 		txtTongTien = new JTextField();
 		txtTongTien.setColumns(10);
-		txtTongTien.setBounds(181, 140, 162, 28);
+		txtTongTien.setBounds(181, 113, 162, 28);
 		panelShowInfo.add(txtTongTien);
 		
 		JLabel lblNewLabel_5 = new JLabel("Cuốn");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_5.setBounds(353, 82, 83, 28);
+		lblNewLabel_5.setBounds(353, 60, 83, 28);
 		panelShowInfo.add(lblNewLabel_5);
 		
 		panelContent = new JPanel();
-		panelContent.setBounds(0, 327, 1534, 652);
+		panelContent.setBounds(0, 316, 1920, 489);
 		add(panelContent);
 		panelContent.setLayout(null);
 		
 		JLabel lblTime = new JLabel("Thời gian");
 		lblTime.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTime.setBounds(409, 94, 117, 32);
+		lblTime.setBounds(383, 60, 117, 32);
 		add(lblTime);
 		
 		btnThongKe = new JButton("Thống Kê");
@@ -376,15 +372,22 @@ public class PanelThongKe extends JPanel {
 		btnThongKe.setBackground(new Color(0, 255, 255));
 		btnThongKe.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThongKe.setIcon(new ImageIcon(img_statics));
-		btnThongKe.setBounds(792, 11, 209, 48);
+		btnThongKe.setBounds(1169, 11, 209, 48);
 		panel_1.add(btnThongKe);
 		
 		JButton btnChiTiet = new JButton("In Thống Kê");
 		btnChiTiet.setBackground(new Color(144, 238, 144));
 		btnChiTiet.setIcon(new ImageIcon(img_details));
 		btnChiTiet.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnChiTiet.setBounds(792, 95, 209, 48);
+		btnChiTiet.setBounds(1169, 109, 209, 48);
 		panel_1.add(btnChiTiet);
+		
+		JLabel lblNewLabel_1 = new JLabel("Danh Sách Hóa Đơn Bán Hàng");
+		lblNewLabel_1.setBounds(0, 262, 1920, 54);
+		add(lblNewLabel_1);
+		lblNewLabel_1.setForeground(new Color(0, 255, 255));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 	public LocalDate getMinusTime(long day) {
 		LocalDate localDate = LocalDate.now();
@@ -408,5 +411,23 @@ public class PanelThongKe extends JPanel {
 		txtCount.setText("");
 		txtSoSach.setText("");
 		txtTongTien.setText("");
+	}
+	public void printReport(String fileName) {
+		try {
+			String URL = "jdbc:sqlserver://localhost:1433;databaseName=qlSachTuNhan;";
+	        String user = "sa";
+	        String pass = "123";
+	        Connection con = DriverManager.getConnection(URL, user, pass);
+			JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/"+fileName+".jrxml"));
+			JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+			JasperViewer jv = new JasperViewer(jp);
+			jv.setVisible(true);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

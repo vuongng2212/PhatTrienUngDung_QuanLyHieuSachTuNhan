@@ -42,7 +42,7 @@ public class FormNVQuanLy extends JFrame{
 	List<Country>listCountries = new ArrayList<Country>();
 //	private JPanel contentPane,westPanel, tblPanel;
 	private JPanel contentPane;
-	private JMenu mnBar, mnTrangChu, mnNhanVien, mnPCC, mnSanPham, mnHelp;
+	private JMenu mnBar, mnTrangChu, mnNhanVien, mnPCC, mnSanPham, mnThongKe;
 	private JMenuItem mnTimNV, mnQLNV, mnTimSP, mnTaoPhieuDH,mnTaoLichLV;
 	private JLabel lblBG;
 	private JComboBox comboBox;
@@ -60,12 +60,16 @@ public class FormNVQuanLy extends JFrame{
 	private Image img_nhapsach = new ImageIcon(FormNVQuanLy.class.getResource("/image/import_book.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_PhieuDH = new ImageIcon(FormNVQuanLy.class.getResource("/image/deitailss.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
 	private Image img_control = new ImageIcon(FormNVQuanLy.class.getResource("/image/control.jpg")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	private Image img_thongKe = new ImageIcon(frmNV.class.getResource("/image/thongKe_icon.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	private Image img_thongKeSP = new ImageIcon(frmNV.class.getResource("/image/thongKeSP.png")).getImage().getScaledInstance(50, 50,Image.SCALE_SMOOTH );
+	
 	private PanelTimNV PnTimNV = new PanelTimNV();
 	private PanelNhapHang pnDH = new PanelNhapHang();
 	private PanelQLNV pnQLNV = new PanelQLNV();
 	private PanelShift pnShift = new PanelShift();
 	private PanelNhapSach pnNhapSach = new PanelNhapSach();
 	private PanelTimSPFormQuanLy pnTimSach = new PanelTimSPFormQuanLy();
+	private PanelThongKe pnThongKe = new PanelThongKe();
 	private JLabel lblAccountIcon;
 
 	public static void main(String[] args) {
@@ -191,10 +195,15 @@ public class FormNVQuanLy extends JFrame{
 		mnNhapSach.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		mnSanPham.add(mnNhapSach);
 		
-		mnHelp = new JMenu("Trợ giúp");
-		mnHelp.setIcon(new ImageIcon(img_help));
-		mnHelp.setFont(new Font("Tahoma", Font.BOLD, 20));
-		mnBar.add(mnHelp);
+		mnThongKe = new JMenu("Thống kê");
+		mnThongKe.setIcon(new ImageIcon(img_thongKe));
+		mnThongKe.setFont(new Font("Tahoma", Font.BOLD, 20));
+		mnBar.add(mnThongKe);
+		
+		JMenuItem mnItemThongKe = new JMenuItem("Thống kê");
+		mnItemThongKe.setIcon(new ImageIcon(img_thongKeSP));
+		mnItemThongKe.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		mnThongKe.add(mnItemThongKe);
 		
 		JLabel lblDate = new JLabel("");
 		lblDate.setBounds(105, 161, 180, 18);
@@ -302,6 +311,16 @@ public class FormNVQuanLy extends JFrame{
 				pnTimSach.setVisible(true);
 			}
 		});	
+		mnItemThongKe.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				hidePanel();
+				contentPane.add(pnThongKe);
+				pnThongKe.setVisible(true);
+			}
+		});	
 }
 	public void hidePanel() {
 		contentPane.remove(lblBG);
@@ -311,6 +330,7 @@ public class FormNVQuanLy extends JFrame{
 		pnShift.setVisible(false);
 		pnNhapSach.setVisible(false);
 		pnTimSach.setVisible(false);
+		pnThongKe.setVisible(false);
 	}
 	private void FillCountries() {
 		listCountries.add(new Country("vi-VN", "VietNam", new Font("Tahoma", Font.BOLD, 20)));
