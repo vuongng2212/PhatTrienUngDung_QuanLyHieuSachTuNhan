@@ -37,34 +37,36 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public class PanelKhXacNhanDatSach extends JPanel {
-	private JTextField txtMaKH;
-	private JTable table;
-	private DefaultTableModel modelDonDatHang;
-	private Object[] rowDatHang;
+	public JTextField txtMaKH;
+	public JTable table;
+	public DefaultTableModel modelDonDatHang;
+	public Object[] rowDatHang;
 	
-	private DefaultTableModel modelInfo;
-	private Object[] rowInfo;
-	private JTextField txtLoaiKH;
-	private JTextField txtMaDH;
-	private JTextField txtNV;
-	private JTextField txtKH;
-	private JTextField txtNgayDat;
-	private JTextField txtMaSach;
-	private JTextField txtSoLuong;
-	private JTable tableDetails;
-	private DAO_KhachDH daoKh;
-	private DAO_chiTietKhachDH daoChiTiet;
-	private DanhSachChiTietKhachDH listChiTietKh;
-	private DanhSachKhachDH listDH;
-	private DAO_KhachHang daoKhachHang;
-	private DefaultTableModel modelSPAdd;
-	private int limit;
+	public DefaultTableModel modelInfo;
+	public Object[] rowInfo;
+	public JTextField txtLoaiKH;
+	public JTextField txtMaDH;
+	public JTextField txtNV;
+	public JTextField txtKH;
+	public JTextField txtNgayDat;
+	public JTextField txtMaSach;
+	public JTextField txtSoLuong;
+	public JTable tableDetails;
+	public DAO_KhachDH daoKh;
+	public DAO_chiTietKhachDH daoChiTiet;
+	public DanhSachChiTietKhachDH listChiTietKh;
+	public DanhSachKhachDH listDH;
+	public DAO_KhachHang daoKhachHang;
+	public DefaultTableModel modelSPAdd;
+	public int limit;
 	public DialogAddSP3 dialogSP;
 	public DialogAddKH3 dialogKH;
 	public int soLuongSPTemp;
@@ -78,12 +80,37 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	private DAO_SanPham dapsp;
 	private JTextField txtThanhTien;
 	private double thanhTien;
-	private JTextField txtTienCoc;
-	private JTextField txtTienTraThem;
-	private JButton btnXacNhan;
-	private JButton btnHuyBo;
-	private JButton btnInHoaDon;
-	private JDateChooser batdau;
+	public JTextField txtTienCoc;
+	public JTextField txtTienTraThem;
+	public JButton btnXacNhan;
+	public JButton btnHuyBo;
+	public JButton btnInHoaDon;
+	public JDateChooser batdau;
+	public JLabel lbllDonDatHang;
+	public JLabel lbllNgayDat;
+	public JLabel lblMaKH;
+	public JButton btnTim2;
+	public JLabel lbllTimKH;
+	public JButton btnTim;
+	public JLabel lbllLoaiKH;
+	public JLabel lbllThongtinDatHang;
+	public JLabel lbllMaDH;
+	public JLabel lbllNhanVienDH;
+	public JLabel lbllKhachDatHang;
+	public JLabel lbllNgayDatHang;
+	public JLabel lbllDanhSachDatHang;
+	public JLabel lbllThemSach;
+	public JButton btnTim3;
+	public JLabel lbllMaSach;
+	public JLabel lbllSoLuong;
+	public JButton btnAdd;
+	public JButton btnSua;
+	public JButton btnXoa;
+	public JButton btnTaomoi;
+	public JLabel lbllLoai;
+	public JLabel lbllThanhTien;
+	public JLabel lbllTienDaCoc;
+	public JLabel lbllTienPhaiTraThem;
 	/**
 	 * Create the panel.
 	 */
@@ -120,42 +147,43 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Đơn Đặt Hàng");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel.setBounds(0, 0, 805, 55);
-		panel.add(lblNewLabel);
+		lbllDonDatHang = new JLabel("Đơn Đặt Hàng");
+		lbllDonDatHang.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllDonDatHang.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbllDonDatHang.setBounds(0, 0, 805, 55);
+		panel.add(lbllDonDatHang);
 		
-		JLabel lblNewLabel_1 = new JLabel("Ngày Đặt");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(20, 113, 66, 34);
-		add(lblNewLabel_1);
+		lbllNgayDat = new JLabel("Ngày Đặt");
+		lbllNgayDat.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllNgayDat.setBounds(20, 113, 66, 34);
+		add(lbllNgayDat);
 		
 		batdau = new JDateChooser();
 		batdau.setDateFormatString("dd-MM-yyyy");
 		batdau.setBounds(96, 112, 165, 35);
 		add(batdau);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Mã Khách Hàng");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1_1.setBounds(216, 67, 110, 34);
-		add(lblNewLabel_1_1);
+		lblMaKH = new JLabel("Mã Khách Hàng");
+		lblMaKH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMaKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblMaKH.setBounds(216, 67, 123, 34);
+		add(lblMaKH);
 		
 		txtMaKH = new JTextField();
-		txtMaKH.setBounds(325, 67, 66, 33);
+		txtMaKH.setBounds(349, 67, 66, 33);
 		txtMaKH.setEditable(false);
 		add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Tìm");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnTim2 = new JButton("Tìm");
+		btnTim2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refreshCondition();
 				
 			}
 		});
-		btnNewButton.setBounds(297, 114, 110, 34);
-		add(btnNewButton);
+		btnTim2.setBounds(297, 114, 110, 34);
+		add(btnTim2);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(0, 158, 723, 645);
@@ -221,42 +249,42 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		modelDonDatHang = new DefaultTableModel();
 		rowDatHang = new Object[4];
 		
-		JLabel lblNewLabel_1_2 = new JLabel("Tìm Khách Hàng");
-		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1_2.setBounds(10, 67, 110, 34);
-		add(lblNewLabel_1_2);
+		lbllTimKH = new JLabel("Tìm Khách Hàng");
+		lbllTimKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllTimKH.setBounds(10, 67, 110, 34);
+		add(lbllTimKH);
 		
-		JButton btnNewButton_1 = new JButton("Tìm");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnTim = new JButton("Tìm");
+		btnTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				onOpenFormKHButtonClick();
 			}
 		});
-		btnNewButton_1.setBounds(130, 67, 58, 33);
-		add(btnNewButton_1);
+		btnTim.setBounds(130, 67, 76, 33);
+		add(btnTim);
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Loại Khách Hàng");
-		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1_1_1.setBounds(411, 67, 110, 34);
-		add(lblNewLabel_1_1_1);
+		lbllLoaiKH = new JLabel("Loại Khách Hàng");
+		lbllLoaiKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllLoaiKH.setBounds(459, 67, 110, 34);
+		add(lbllLoaiKH);
 		
 		txtLoaiKH = new JTextField();
 		txtLoaiKH.setColumns(10);
 		txtLoaiKH.setEditable(false);
-		txtLoaiKH.setBounds(538, 67, 66, 34);
+		txtLoaiKH.setBounds(589, 68, 66, 34);
 		add(txtLoaiKH);
 		
-		JLabel lblNewLabel_2 = new JLabel("Thông Tin Đặt Hàng");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(1065, 0, 246, 45);
-		add(lblNewLabel_2);
+		lbllThongtinDatHang = new JLabel("Thông Tin Đặt Hàng");
+		lbllThongtinDatHang.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbllThongtinDatHang.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllThongtinDatHang.setBounds(1018, 0, 348, 45);
+		add(lbllThongtinDatHang);
 		
-		JLabel lblNewLabel_3 = new JLabel("Mã Đặt Hàng");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_3.setBounds(764, 45, 89, 34);
-		add(lblNewLabel_3);
+		lbllMaDH = new JLabel("Mã Đặt Hàng");
+		lbllMaDH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllMaDH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllMaDH.setBounds(764, 45, 89, 34);
+		add(lbllMaDH);
 		
 		txtMaDH = new JTextField();
 		txtMaDH.setBounds(863, 46, 58, 34);
@@ -264,11 +292,11 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(txtMaDH);
 		txtMaDH.setColumns(10);
 		
-		JLabel lblNewLabel_3_1 = new JLabel("Nhân Viên đặt Hàng");
-		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_3_1.setBounds(943, 45, 131, 34);
-		add(lblNewLabel_3_1);
+		lbllNhanVienDH = new JLabel("Nhân Viên đặt Hàng");
+		lbllNhanVienDH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllNhanVienDH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllNhanVienDH.setBounds(943, 45, 131, 34);
+		add(lbllNhanVienDH);
 		
 		txtNV = new JTextField();
 		txtNV.setColumns(10);
@@ -276,17 +304,17 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		txtNV.setBounds(1085, 46, 184, 34);
 		add(txtNV);
 		
-		JLabel lblNewLabel_3_1_1 = new JLabel("Khách Đặt Hàng");
-		lblNewLabel_3_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_3_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_3_1_1.setBounds(752, 90, 104, 34);
-		add(lblNewLabel_3_1_1);
+		lbllKhachDatHang = new JLabel("Khách Đặt Hàng");
+		lbllKhachDatHang.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllKhachDatHang.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllKhachDatHang.setBounds(752, 90, 104, 34);
+		add(lbllKhachDatHang);
 		
-		JLabel lblNewLabel_3_1_1_1 = new JLabel("Ngày Đặt Hàng");
-		lblNewLabel_3_1_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_3_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_3_1_1_1.setBounds(1279, 45, 104, 34);
-		add(lblNewLabel_3_1_1_1);
+		lbllNgayDatHang = new JLabel("Ngày Đặt Hàng");
+		lbllNgayDatHang.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllNgayDatHang.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllNgayDatHang.setBounds(1279, 45, 104, 34);
+		add(lbllNgayDatHang);
 		
 		txtKH = new JTextField();
 		txtKH.setColumns(10);
@@ -300,11 +328,11 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		txtNgayDat.setBounds(1393, 46, 131, 34);
 		add(txtNgayDat);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Danh Sách Đặt Hàng");
-		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_2_1.setBounds(1109, 127, 184, 34);
-		add(lblNewLabel_2_1);
+		lbllDanhSachDatHang = new JLabel("Danh Sách Đặt Hàng");
+		lbllDanhSachDatHang.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllDanhSachDatHang.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllDanhSachDatHang.setBounds(1057, 127, 255, 34);
+		add(lbllDanhSachDatHang);
 		modelInfo = new DefaultTableModel();
 		
 		btnXacNhan = new JButton("Xác Nhận");
@@ -454,42 +482,42 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		btnHuyBo.setBounds(909, 898, 151, 45);
 		add(btnHuyBo);
 		
-		JLabel lblNewLabel_4 = new JLabel("Thêm Sách");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(752, 852, 72, 34);
-		add(lblNewLabel_4);
+		lbllThemSach = new JLabel("Thêm Sách");
+		lbllThemSach.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllThemSach.setBounds(752, 852, 72, 34);
+		add(lbllThemSach);
 		
-		JButton btnNewButton_4 = new JButton("Tìm");
-		btnNewButton_4.addActionListener(new ActionListener() {
+		btnTim3 = new JButton("Tìm");
+		btnTim3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				onOpenFormSPButtonClick();
 			}
 		});
-		btnNewButton_4.setBounds(834, 853, 58, 34);
-		add(btnNewButton_4);
+		btnTim3.setBounds(834, 853, 58, 34);
+		add(btnTim3);
 		
-		JLabel lblNewLabel_5 = new JLabel("Mã Sách");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_5.setBounds(943, 852, 66, 35);
-		add(lblNewLabel_5);
+		lbllMaSach = new JLabel("Mã Sách");
+		lbllMaSach.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllMaSach.setBounds(943, 852, 66, 35);
+		add(lbllMaSach);
 		
 		txtMaSach = new JTextField();
 		txtMaSach.setBounds(1018, 853, 66, 34);
 		add(txtMaSach);
 		txtMaSach.setColumns(10);
 		
-		JLabel lblNewLabel_5_1 = new JLabel("Số Lượng");
-		lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_5_1.setBounds(1090, 852, 66, 35);
-		add(lblNewLabel_5_1);
+		lbllSoLuong = new JLabel("Số Lượng");
+		lbllSoLuong.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllSoLuong.setBounds(1090, 852, 66, 35);
+		add(lbllSoLuong);
 		
 		txtSoLuong = new JTextField();
 		txtSoLuong.setColumns(10);
 		txtSoLuong.setBounds(1155, 853, 58, 34);
 		add(txtSoLuong);
 		
-		JButton btnNewButton_5 = new JButton("Thêm");
-		btnNewButton_5.addActionListener(new ActionListener() {
+		btnAdd = new JButton("Thêm");
+		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int discount = 0;
 				if(txtMaSach.getText().equalsIgnoreCase("")) {
@@ -538,11 +566,11 @@ public class PanelKhXacNhanDatSach extends JPanel {
 				}
 			}
 		});
-		btnNewButton_5.setBounds(1223, 853, 89, 34);
-		add(btnNewButton_5);
+		btnAdd.setBounds(1223, 853, 89, 34);
+		add(btnAdd);
 		
-		JButton btnNewButton_6 = new JButton("Sửa");
-		btnNewButton_6.addActionListener(new ActionListener() {
+		btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = tableDetails.getSelectedRow();
 				System.out.println(limit);
@@ -586,11 +614,11 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			}
 		});
 
-		btnNewButton_6.setBounds(1322, 853, 89, 34);
-		add(btnNewButton_6);
+		btnSua.setBounds(1322, 853, 89, 34);
+		add(btnSua);
 		
-		JButton btnNewButton_6_1 = new JButton("Xóa");
-		btnNewButton_6_1.addActionListener(new ActionListener() {
+		btnXoa = new JButton("Xóa");
+		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = tableDetails.getSelectedRow();
 				if(i <limit) {
@@ -609,8 +637,8 @@ public class PanelKhXacNhanDatSach extends JPanel {
 				}
 			}
 		});
-		btnNewButton_6_1.setBounds(1421, 853, 89, 34);
-		add(btnNewButton_6_1);
+		btnXoa.setBounds(1421, 853, 89, 34);
+		add(btnXoa);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(733, 159, 792, 644);
@@ -637,21 +665,22 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		String[] columnAdd = {"Mã","Tên Sản Phẩm","Số Lượng","Giá Bán","Discount","Thành Tiền"};
 		modelSPAdd.setColumnIdentifiers(columnAdd);
 		
-		JLabel lblNewLabel_7 = new JLabel("Loại");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_7.setBounds(1012, 90, 36, 34);
-		add(lblNewLabel_7);
+		lbllLoai = new JLabel("Loại");
+		lbllLoai.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllLoai.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllLoai.setBounds(1047, 90, 62, 34);
+		add(lbllLoai);
 		
 		txtLoai = new JTextField();
 		txtLoai.setEditable(false);
 		txtLoai.setColumns(10);
-		txtLoai.setBounds(1048, 90, 48, 34);
+		txtLoai.setBounds(1119, 91, 48, 34);
 		add(txtLoai);
 		
-		JLabel lblNewLabel_8 = new JLabel("Thành Tiền");
-		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_8.setBounds(743, 814, 77, 24);
-		add(lblNewLabel_8);
+		lbllThanhTien = new JLabel("Thành Tiền");
+		lbllThanhTien.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllThanhTien.setBounds(743, 814, 77, 24);
+		add(lbllThanhTien);
 		
 		txtThanhTien = new JTextField();
 		txtThanhTien.setBounds(839, 814, 89, 29);
@@ -659,37 +688,38 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(txtThanhTien);
 		txtThanhTien.setColumns(10);
 		
-		JLabel lblNewLabel_7_1 = new JLabel("Tiền Đã Cọc");
-		lblNewLabel_7_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_7_1.setBounds(1130, 90, 83, 34);
-		add(lblNewLabel_7_1);
+		lbllTienDaCoc = new JLabel("Tiền Đã Cọc");
+		lbllTienDaCoc.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllTienDaCoc.setBounds(1223, 91, 83, 34);
+		add(lbllTienDaCoc);
 		
 		txtTienCoc = new JTextField();
 		txtTienCoc.setEditable(false);
 		txtTienCoc.setEditable(false);
 		txtTienCoc.setColumns(10);
-		txtTienCoc.setBounds(1223, 91, 184, 34);
+		txtTienCoc.setBounds(1316, 91, 184, 34);
 		add(txtTienCoc);
 		
-		JLabel lblNewLabel_8_1 = new JLabel("Tiền Phải Trả Thêm");
-		lblNewLabel_8_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_8_1.setBounds(943, 817, 123, 24);
-		add(lblNewLabel_8_1);
+		lbllTienPhaiTraThem = new JLabel("Tiền Phải Trả Thêm");
+		lbllTienPhaiTraThem.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllTienPhaiTraThem.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllTienPhaiTraThem.setBounds(943, 817, 159, 24);
+		add(lbllTienPhaiTraThem);
 		
 		txtTienTraThem = new JTextField();
 		txtTienTraThem.setColumns(10);
 		txtTienTraThem.setEditable(false);
-		txtTienTraThem.setBounds(1085, 812, 101, 29);
+		txtTienTraThem.setBounds(1112, 814, 101, 29);
 		add(txtTienTraThem);
 		
-		JButton btnRefresh = new JButton("Làm Mới");
-		btnRefresh.addActionListener(new ActionListener() {
+		btnTaomoi = new JButton("Làm Mới");
+		btnTaomoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
 			}
 		});
-		btnRefresh.setBounds(449, 114, 123, 34);
-		add(btnRefresh);
+		btnTaomoi.setBounds(449, 114, 123, 34);
+		add(btnTaomoi);
 //		String[] columnTable = {""}; 
 		
 		
@@ -735,6 +765,37 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		txtMaKH.setText("");
 		txtLoaiKH.setText("");
 		batdau.setDate(null);
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		lbllDonDatHang.setText(rd.getString("donDatHang"));
+		lbllTimKH.setText(rd.getString("timKH"));
+		btnTim.setText(rd.getString("tim"));
+		lblMaKH.setText(rd.getString("maKH"));
+		lbllLoaiKH.setText(rd.getString("loaiKH"));
+		lbllNgayDat.setText(rd.getString("ngayDatHang"));
+		btnTim2.setText(rd.getString("tim"));
+		btnTaomoi.setText(rd.getString("lammoi"));
+		lbllThongtinDatHang.setText(rd.getString("thongTinDatHang"));
+		lbllMaDH.setText(rd.getString("maDonDat"));
+		lbllNhanVienDH.setText(rd.getString("nhanVienDH"));
+		lbllNgayDatHang.setText(rd.getString("ngayDatHang"));
+		lbllKhachDatHang.setText(rd.getString("khachDatHang"));
+		lbllLoai.setText(rd.getString("loai"));
+		lbllTienDaCoc.setText(rd.getString("tienCoc"));
+		lbllTienPhaiTraThem.setText(rd.getString("tienPhaiTraThem"));
+		lbllThemSach.setText(rd.getString("themSach"));
+		btnTim3.setText(rd.getString("tim"));
+		lbllMaSach.setText(rd.getString("maSach"));
+		lbllSoLuong.setText(rd.getString("soluong"));
+		btnAdd.setText(rd.getString("them"));
+		btnSua.setText(rd.getString("sua"));
+		btnXoa.setText(rd.getString("xoa"));
+		btnHuyBo.setText(rd.getString("huyBo"));
+		btnXacNhan.setText(rd.getString("xacNhan"));
+		btnInHoaDon.setText(rd.getString("inHD"));
+		
 	}
 	public void refreshCondition() {
 		modelDonDatHang = (DefaultTableModel) table.getModel();

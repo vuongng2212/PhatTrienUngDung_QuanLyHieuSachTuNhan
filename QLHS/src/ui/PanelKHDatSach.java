@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -50,14 +51,14 @@ import java.awt.event.MouseEvent;
 public class PanelKHDatSach extends JPanel {
 	
 	private Image img_kinhLup = new ImageIcon(frmNV.class.getResource("/image/kinhLup.png")).getImage().getScaledInstance(40, 40,Image.SCALE_SMOOTH );
-	private JTextField txtMaDH;
-	private JTextField txtMaKH;
+	public JTextField txtMaDH;
+	public JTextField txtMaKH;
 	public JTextField txtTenKH;
 	public JTextField txtLoaiKh;
 	public JTextField txtSDT;
 	public JTextField txtDiaChi;
-	private JTextField txtMaSach;
-	private JTextField txtSoLuong;
+	public JTextField txtMaSach;
+	public JTextField txtSoLuong;
 	private JTable table;
 	private DefaultTableModel model;
 	private Object[] row;
@@ -74,7 +75,32 @@ public class PanelKHDatSach extends JPanel {
 	private JTextField txtTienKhachGui;
 	private double total;
 	private JTextField txtTongTien;
-	private JButton btnInHD;
+	public JButton btnInHD;
+	private JLabel lbllDatHang;
+	private JLabel lbllMaDH;
+	private JLabel lbllChonKH;
+	private JLabel lbllChonKH2;
+	private JLabel lbllMaKH;
+	private JLabel lbllTenKH;
+	private JLabel lbllLoaiKH;
+	private JLabel lbllSDT;
+	private JLabel lbllDiaChi;
+	private JButton btnSearchKH;
+	private JLabel lbllChonSach;
+	private JLabel lbllThemSach;
+	private JLabel lbllMaSach;
+	private JLabel lbllSoLuong;
+	private JButton btnThem;
+	private JButton btnSua;
+	private JButton btnXoa;
+	private JButton btnLamMoi;
+	private JButton btnChon;
+	private JButton btnHuyBo;
+	private JButton btnDatHang;
+	private JLabel lbllTienCoc;
+	private JLabel lbllKhachGui;
+	private JLabel lbllTongTien;
+	private JButton btnTaoDon;
 //	public int discount;
 	/**
 	 * Create the panel.
@@ -108,36 +134,36 @@ public class PanelKHDatSach extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lbllTitle = new JLabel("Đặt Hàng");
-		lbllTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lbllTitle.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lbllTitle.setBounds(0, 0, 1534, 81);
-		panel.add(lbllTitle);
+		lbllDatHang = new JLabel("Đặt Hàng");
+		lbllDatHang.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllDatHang.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lbllDatHang.setBounds(0, 0, 1534, 81);
+		panel.add(lbllDatHang);
 		
-		JLabel lblNewLabel = new JLabel("Mã Đơn Đặt");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel.setBounds(0, 92, 88, 37);
-		add(lblNewLabel);
+		lbllMaDH = new JLabel("Mã Đơn Đặt");
+		lbllMaDH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllMaDH.setBounds(0, 92, 105, 37);
+		add(lbllMaDH);
 		
 		txtMaDH = new JTextField();
-		txtMaDH.setBounds(98, 92, 76, 37);
+		txtMaDH.setBounds(138, 92, 76, 37);
 		add(txtMaDH);
 		txtMaDH.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Tạo Đơn");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnTaoDon = new JButton("Tạo Đơn");
+		btnTaoDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnNewButton.setBounds(193, 92, 105, 37);
-		add(btnNewButton);
+		btnTaoDon.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnTaoDon.setBounds(242, 92, 157, 37);
+		add(btnTaoDon);
 		
-		JLabel lblNewLabel_1 = new JLabel("Chọn Khách Hàng");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(0, 143, 133, 22);
-		add(lblNewLabel_1);
+		lbllChonKH = new JLabel("Chọn Khách Hàng");
+		lbllChonKH.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllChonKH.setBounds(0, 143, 133, 22);
+		add(lbllChonKH);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(95, 158, 160));
@@ -145,15 +171,16 @@ public class PanelKHDatSach extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("Chọn Khách Hàng");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2.setBounds(0, 11, 122, 33);
-		panel_1.add(lblNewLabel_2);
+		lbllChonKH2 = new JLabel("Chọn Khách Hàng");
+		lbllChonKH2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllChonKH2.setBounds(0, 11, 122, 33);
+		panel_1.add(lbllChonKH2);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Mã Khách Hàng");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1.setBounds(277, 11, 115, 33);
-		panel_1.add(lblNewLabel_2_1);
+		lbllMaKH = new JLabel("Mã Khách Hàng");
+		lbllMaKH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllMaKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllMaKH.setBounds(247, 11, 130, 33);
+		panel_1.add(lbllMaKH);
 		
 		txtMaKH = new JTextField();
 		txtMaKH.setEditable(false);
@@ -161,10 +188,11 @@ public class PanelKHDatSach extends JPanel {
 		panel_1.add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("Tên Khách Hàng");
-		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1_1.setBounds(665, 11, 115, 33);
-		panel_1.add(lblNewLabel_2_1_1);
+		lbllTenKH = new JLabel("Tên Khách Hàng");
+		lbllTenKH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllTenKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllTenKH.setBounds(665, 11, 115, 33);
+		panel_1.add(lbllTenKH);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setEditable(false);
@@ -172,10 +200,10 @@ public class PanelKHDatSach extends JPanel {
 		txtTenKH.setBounds(790, 12, 220, 33);
 		panel_1.add(txtTenKH);
 		
-		JLabel lblNewLabel_2_1_1_1 = new JLabel("Loại Khách Hàng");
-		lblNewLabel_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1_1_1.setBounds(1158, 11, 115, 33);
-		panel_1.add(lblNewLabel_2_1_1_1);
+		lbllLoaiKH = new JLabel("Loại Khách Hàng");
+		lbllLoaiKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllLoaiKH.setBounds(1158, 11, 115, 33);
+		panel_1.add(lbllLoaiKH);
 		
 		txtLoaiKh = new JTextField();
 		txtLoaiKh.setColumns(10);
@@ -183,10 +211,11 @@ public class PanelKHDatSach extends JPanel {
 		txtLoaiKh.setBounds(1283, 11, 53, 33);
 		panel_1.add(txtLoaiKh);
 		
-		JLabel lblNewLabel_2_1_2 = new JLabel("Số Điện Thoại");
-		lblNewLabel_2_1_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1_2.setBounds(277, 69, 105, 33);
-		panel_1.add(lblNewLabel_2_1_2);
+		lbllSDT = new JLabel("Số Điện Thoại");
+		lbllSDT.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllSDT.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllSDT.setBounds(262, 69, 115, 33);
+		panel_1.add(lbllSDT);
 		
 		txtSDT = new JTextField();
 		txtSDT.setColumns(10);
@@ -194,10 +223,11 @@ public class PanelKHDatSach extends JPanel {
 		txtSDT.setBounds(387, 69, 153, 33);
 		panel_1.add(txtSDT);
 		
-		JLabel lblNewLabel_2_1_1_2 = new JLabel("Địa Chỉ");
-		lblNewLabel_2_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2_1_1_2.setBounds(665, 69, 115, 33);
-		panel_1.add(lblNewLabel_2_1_1_2);
+		lbllDiaChi = new JLabel("Địa Chỉ");
+		lbllDiaChi.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllDiaChi.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllDiaChi.setBounds(665, 69, 115, 33);
+		panel_1.add(lbllDiaChi);
 		
 		txtDiaChi = new JTextField();
 		txtDiaChi.setColumns(10);
@@ -205,7 +235,7 @@ public class PanelKHDatSach extends JPanel {
 		txtDiaChi.setBounds(790, 70, 220, 33);
 		panel_1.add(txtDiaChi);
 		
-		JButton btnSearchKH = new JButton("");
+		btnSearchKH = new JButton("");
 		btnSearchKH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				onOpenFormButtonClick();
@@ -218,10 +248,10 @@ public class PanelKHDatSach extends JPanel {
 		btnSearchKH.setBounds(120, 5, 48, 40);
 		panel_1.add(btnSearchKH);
 		
-		JLabel lblNewLabel_3 = new JLabel("Thêm Sách");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3.setBounds(0, 296, 105, 29);
-		add(lblNewLabel_3);
+		lbllThemSach = new JLabel("Thêm Sách");
+		lbllThemSach.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllThemSach.setBounds(0, 296, 133, 29);
+		add(lbllThemSach);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(205, 92, 92));
@@ -229,15 +259,15 @@ public class PanelKHDatSach extends JPanel {
 		add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lblNewLabel_4 = new JLabel("Chọn Sách");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(10, 11, 102, 29);
-		panel_2.add(lblNewLabel_4);
+		lbllChonSach = new JLabel("Chọn Sách");
+		lbllChonSach.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllChonSach.setBounds(10, 11, 102, 29);
+		panel_2.add(lbllChonSach);
 		
-		JLabel lblNewLabel_4_1 = new JLabel("Mã Sách");
-		lblNewLabel_4_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4_1.setBounds(232, 11, 76, 29);
-		panel_2.add(lblNewLabel_4_1);
+		lbllMaSach = new JLabel("Mã Sách");
+		lbllMaSach.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllMaSach.setBounds(232, 11, 76, 29);
+		panel_2.add(lbllMaSach);
 		
 		txtMaSach = new JTextField();
 		txtMaSach.setBounds(338, 9, 76, 34);
@@ -245,17 +275,17 @@ public class PanelKHDatSach extends JPanel {
 		panel_2.add(txtMaSach);
 		txtMaSach.setColumns(10);
 		
-		JLabel lblNewLabel_4_1_1 = new JLabel("Số Lượng");
-		lblNewLabel_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4_1_1.setBounds(537, 11, 76, 29);
-		panel_2.add(lblNewLabel_4_1_1);
+		lbllSoLuong = new JLabel("Số Lượng");
+		lbllSoLuong.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllSoLuong.setBounds(537, 11, 76, 29);
+		panel_2.add(lbllSoLuong);
 		
 		txtSoLuong = new JTextField();
 		txtSoLuong.setBounds(623, 11, 55, 34);
 		panel_2.add(txtSoLuong);
 		txtSoLuong.setColumns(10);
 		
-		JButton btnThem = new JButton("Thêm");
+		btnThem = new JButton("Thêm");
 		btnThem.setBackground(new Color(0, 255, 0));
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -298,7 +328,7 @@ public class PanelKHDatSach extends JPanel {
 		btnThem.setBounds(837, 9, 108, 34);
 		panel_2.add(btnThem);
 		
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model = (DefaultTableModel) table.getModel();
@@ -331,7 +361,7 @@ public class PanelKHDatSach extends JPanel {
 		btnSua.setBounds(1010, 9, 108, 34);
 		panel_2.add(btnSua);
 		
-		JButton btnXoa = new JButton("Xóa");
+		btnXoa = new JButton("Xóa");
 		btnXoa.setBackground(new Color(218, 112, 214));
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -358,7 +388,7 @@ public class PanelKHDatSach extends JPanel {
 		btnXoa.setBounds(1166, 9, 108, 34);
 		panel_2.add(btnXoa);
 		
-		JButton btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi = new JButton("Làm Mới");
 		btnLamMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model = (DefaultTableModel) table.getModel();
@@ -370,14 +400,14 @@ public class PanelKHDatSach extends JPanel {
 		btnLamMoi.setBounds(1313, 9, 108, 34);
 		panel_2.add(btnLamMoi);
 		
-		JButton btnNewButton_1 = new JButton("Chọn");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnChon = new JButton("Chọn");
+		btnChon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				onOpenFormSPButtonClick();
 			}
 		});
-		btnNewButton_1.setBounds(114, 14, 76, 25);
-		panel_2.add(btnNewButton_1);
+		btnChon.setBounds(114, 14, 76, 25);
+		panel_2.add(btnChon);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 396, 1534, 501);
@@ -400,11 +430,11 @@ public class PanelKHDatSach extends JPanel {
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
-		JLabel lblNewLabel_5 = new JLabel("Tổng Tiền");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_5.setBounds(51, 908, 94, 42);
-		add(lblNewLabel_5);
+		lbllTongTien = new JLabel("Tổng Tiền");
+		lbllTongTien.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllTongTien.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllTongTien.setBounds(10, 908, 135, 42);
+		add(lbllTongTien);
 		
 		txtTongTien = new JTextField();
 		txtTongTien.setEditable(false);
@@ -412,7 +442,7 @@ public class PanelKHDatSach extends JPanel {
 		add(txtTongTien);
 		txtTongTien.setColumns(10);
 		
-		JButton btnHuyBo = new JButton("Hủy Bỏ");
+		btnHuyBo = new JButton("Hủy Bỏ");
 		btnHuyBo.setBackground(new Color(255, 0, 0));
 		btnHuyBo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -423,7 +453,7 @@ public class PanelKHDatSach extends JPanel {
 		btnHuyBo.setBounds(1028, 908, 141, 42);
 		add(btnHuyBo);
 		
-		JButton btnDatHang = new JButton("Đặt Hàng");
+		btnDatHang = new JButton("Đặt Hàng");
 		btnDatHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -491,10 +521,11 @@ public class PanelKHDatSach extends JPanel {
 		btnInHD.setBounds(1368, 908, 141, 42);
 		add(btnInHD);
 		
-		JLabel lblNewLabel_6 = new JLabel("Tiền Cọc");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_6.setBounds(380, 908, 81, 42);
-		add(lblNewLabel_6);
+		lbllTienCoc = new JLabel("Tiền Cọc");
+		lbllTienCoc.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllTienCoc.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllTienCoc.setBounds(322, 908, 139, 42);
+		add(lbllTienCoc);
 		
 		txtTienPhaiCoc = new JTextField();
 		txtTienPhaiCoc.setEditable(false);
@@ -502,10 +533,11 @@ public class PanelKHDatSach extends JPanel {
 		txtTienPhaiCoc.setBounds(461, 908, 157, 37);
 		add(txtTienPhaiCoc);
 		
-		JLabel lblNewLabel_6_1 = new JLabel("Khách Gửi");
-		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_6_1.setBounds(685, 908, 81, 42);
-		add(lblNewLabel_6_1);
+		lbllKhachGui = new JLabel("Khách Gửi");
+		lbllKhachGui.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllKhachGui.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllKhachGui.setBounds(628, 908, 138, 42);
+		add(lbllKhachGui);
 		
 		txtTienKhachGui = new JTextField();
 //		txtTienKhachGui.setEditable(false);
@@ -662,6 +694,35 @@ public class PanelKHDatSach extends JPanel {
 		txtTienPhaiCoc.setText("");
 		txtTongTien.setText("");
 		btnInHD.setEnabled(false);
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		
+		lbllDatHang.setText(rd.getString("datHang"));
+		lbllMaDH.setText(rd.getString("maDonDat"));
+		btnTaoDon.setText(rd.getString("taoDon"));
+		lbllChonKH.setText(rd.getString("chonKhachHang"));
+		lbllChonKH2.setText(rd.getString("chonKhachHang"));
+		lbllSDT.setText(rd.getString("SDT"));
+		lbllMaKH.setText(rd.getString("maKH"));
+		lbllTenKH.setText(rd.getString("tenKH"));
+		lbllDiaChi.setText(rd.getString("diaChi"));
+		lbllLoaiKH.setText(rd.getString("loaiKH"));
+		lbllChonSach.setText(rd.getString("chonSach"));
+		lbllThemSach.setText(rd.getString("themSach"));
+		lbllMaSach.setText(rd.getString("maSach"));
+		lbllSoLuong.setText(rd.getString("soluong"));
+		btnThem.setText(rd.getString("them"));
+		btnSua.setText(rd.getString("sua"));
+		btnXoa.setText(rd.getString("xoa"));
+		btnLamMoi.setText(rd.getString("lammoi"));
+		lbllTongTien.setText(rd.getString("tongTien"));
+		lbllTienCoc.setText(rd.getString("tienCoc"));
+		lbllKhachGui.setText(rd.getString("khachGui"));
+		btnHuyBo.setText(rd.getString("huyBo"));
+		btnDatHang.setText(rd.getString("datHang"));
+		btnInHD.setText(rd.getString("inHD"));
 	}
 	private double totalChange() {
 		double sum = 0;

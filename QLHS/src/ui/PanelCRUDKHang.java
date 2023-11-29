@@ -23,6 +23,8 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,26 +34,37 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public class PanelCRUDKHang extends JPanel {
-	private JTextField txtMaKH;
-	private JTextField txtTenKH;
-	private JTextField txtPhone;
-	private JTextField txtDiaChi;
-	private Image img_title = new ImageIcon(frmNV.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
-	private Image img_find = new ImageIcon(frmNV.class.getResource("/image/search.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
-	private Image img_reload = new ImageIcon(frmNV.class.getResource("/image/reload.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
-	private Image img_remove= new ImageIcon(frmNV.class.getResource("/image/rm.png")).getImage().getScaledInstance(28, 28,Image.SCALE_SMOOTH );
-	private Image img_back = new ImageIcon(frmNV.class.getResource("/image/backing.png")).getImage().getScaledInstance(28, 28,Image.SCALE_SMOOTH );
+	public JTextField txtMaKH;
+	public JTextField txtTenKH;
+	public JTextField txtPhone;
+	public JTextField txtDiaChi;
+	public Image img_title = new ImageIcon(frmNV.class.getResource("/image/pluss.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	public Image img_find = new ImageIcon(frmNV.class.getResource("/image/search.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	public Image img_reload = new ImageIcon(frmNV.class.getResource("/image/reload.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
+	public Image img_remove= new ImageIcon(frmNV.class.getResource("/image/rm.png")).getImage().getScaledInstance(28, 28,Image.SCALE_SMOOTH );
+	public Image img_back = new ImageIcon(frmNV.class.getResource("/image/backing.png")).getImage().getScaledInstance(28, 28,Image.SCALE_SMOOTH );
 
-	private PanelCustomer panelCustomer;
-	private JTable table;
-	private DefaultTableModel model;
- 	private Object[] row;
+	public PanelCustomer panelCustomer;
+	public JTable table;
+	public DefaultTableModel model;
+	public Object[] row;
  	
  	//
- 	private DanhSachKhachHang listKH;
- 	private DAO_KhachHang daoKh;
- 	private KhachHang kh;
+	public DanhSachKhachHang listKH;
+	public DAO_KhachHang daoKh;
+	public KhachHang kh;
 	//
+	private JButton btnTroVe;
+	private JLabel lbllThongTinKH;
+	private JLabel lbllMaKH;
+	private JLabel lbllTenKH;
+	private JLabel lbllSDT;
+	private JLabel lbllDiaChi;
+	private JButton btnAdd;
+	private JButton btnSua;
+	private JButton btnXoa;
+	private JLabel lblNewLabel;
+	private JLabel lblTnKhchHng;
  	
  	public PanelCRUDKHang(PanelCustomer panelCustomer) {
  		listKH = new DanhSachKhachHang();
@@ -80,14 +93,14 @@ public class PanelCRUDKHang extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Thông Tin Khách Hàng");
-		lblNewLabel.setForeground(new Color(0, 255, 0));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		lblNewLabel.setBounds(144, 0, 1235, 100);
-		panel.add(lblNewLabel);
+		lbllThongTinKH = new JLabel("Thông Tin Khách Hàng");
+		lbllThongTinKH.setForeground(new Color(0, 255, 0));
+		lbllThongTinKH.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllThongTinKH.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		lbllThongTinKH.setBounds(144, 0, 1235, 100);
+		panel.add(lbllThongTinKH);
 		
-		JButton btnTroVe = new JButton("Trở Về");
+		btnTroVe = new JButton("Trở Về");
 		btnTroVe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -109,7 +122,7 @@ public class PanelCRUDKHang extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lbllMaKH = new JLabel("Mã Khách Hàng");
+		lbllMaKH = new JLabel("Mã Khách Hàng");
 		lbllMaKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllMaKH.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllMaKH.setBounds(66, 23, 128, 30);
@@ -120,18 +133,18 @@ public class PanelCRUDKHang extends JPanel {
 		panel_1.add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
-		JLabel lblTnKhchHng = new JLabel("Tên Khách Hàng");
-		lblTnKhchHng.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnKhchHng.setBounds(66, 76, 136, 30);
-		panel_1.add(lblTnKhchHng);
+		lbllTenKH = new JLabel("Tên Khách Hàng");
+		lbllTenKH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllTenKH.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllTenKH.setBounds(66, 76, 136, 30);
+		panel_1.add(lbllTenKH);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setColumns(10);
 		txtTenKH.setBounds(204, 78, 195, 30);
 		panel_1.add(txtTenKH);
 		
-		JLabel lbllSDT = new JLabel("Số Điện Thoại");
+		lbllSDT = new JLabel("Số Điện Thoại");
 		lbllSDT.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllSDT.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllSDT.setBounds(448, 78, 128, 30);
@@ -142,7 +155,7 @@ public class PanelCRUDKHang extends JPanel {
 		txtPhone.setBounds(586, 78, 186, 30);
 		panel_1.add(txtPhone);
 		
-		JLabel lbllDiaChi = new JLabel("Địa Chỉ");
+		lbllDiaChi = new JLabel("Địa Chỉ");
 		lbllDiaChi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDiaChi.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllDiaChi.setBounds(796, 78, 118, 30);
@@ -153,7 +166,7 @@ public class PanelCRUDKHang extends JPanel {
 		txtDiaChi.setBounds(924, 80, 205, 30);
 		panel_1.add(txtDiaChi);
 		
-		JButton btnAdd = new JButton("Thêm");
+		btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(".....");
@@ -193,10 +206,10 @@ public class PanelCRUDKHang extends JPanel {
 		btnAdd.setIcon(new ImageIcon(img_title));
 		btnAdd.setFont(new Font("Times New Roman", Font.BOLD, 13));
 		btnAdd.setForeground(new Color(0, 255, 0));
-		btnAdd.setBounds(442, 132, 111, 30);
+		btnAdd.setBounds(442, 132, 134, 30);
 		panel_1.add(btnAdd);
 		
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -219,10 +232,10 @@ public class PanelCRUDKHang extends JPanel {
 		btnSua.setIcon(new ImageIcon(img_reload));
 		btnSua.setBackground(new Color(255, 192, 203));
 		btnSua.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		btnSua.setBounds(730, 132, 104, 30);
+		btnSua.setBounds(730, 132, 128, 30);
 		panel_1.add(btnSua);
 		
-		JButton btnXoa = new JButton("Xóa");
+		btnXoa = new JButton("Xóa");
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -244,7 +257,7 @@ public class PanelCRUDKHang extends JPanel {
 		btnXoa.setBackground(new Color(250, 235, 215));
 		btnXoa.setIcon(new ImageIcon(img_remove));
 		btnXoa.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		btnXoa.setBounds(989, 132, 104, 30);
+		btnXoa.setBounds(989, 132, 128, 30);
 		panel_1.add(btnXoa);
 		
 		JPanel panel_2 = new JPanel();
@@ -293,14 +306,14 @@ public class PanelCRUDKHang extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Thông Tin Khách Hàng");
+		lblNewLabel = new JLabel("Thông Tin Khách Hàng");
 		lblNewLabel.setForeground(new Color(0, 255, 0));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		lblNewLabel.setBounds(144, 0, 1235, 100);
 		panel.add(lblNewLabel);
 		
-		JButton btnTroVe = new JButton("Trở Về");
+		btnTroVe = new JButton("Trở Về");
 		btnTroVe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -322,7 +335,7 @@ public class PanelCRUDKHang extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lbllMaKH = new JLabel("Mã Khách Hàng");
+		lbllMaKH = new JLabel("Mã Khách Hàng");
 		lbllMaKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllMaKH.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllMaKH.setBounds(66, 23, 128, 30);
@@ -333,18 +346,18 @@ public class PanelCRUDKHang extends JPanel {
 		panel_1.add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
-		JLabel lblTnKhchHng = new JLabel("Tên Khách Hàng");
-		lblTnKhchHng.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTnKhchHng.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTnKhchHng.setBounds(66, 78, 136, 30);
-		panel_1.add(lblTnKhchHng);
+		lbllTenKH = new JLabel("Tên Khách Hàng");
+		lbllTenKH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllTenKH.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllTenKH.setBounds(66, 78, 136, 30);
+		panel_1.add(lbllTenKH);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setColumns(10);
 		txtTenKH.setBounds(204, 78, 195, 30);
 		panel_1.add(txtTenKH);
 		
-		JLabel lbllSDT = new JLabel("Số Điện Thoại");
+		lbllSDT = new JLabel("Số Điện Thoại");
 		lbllSDT.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllSDT.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllSDT.setBounds(448, 78, 128, 30);
@@ -355,7 +368,7 @@ public class PanelCRUDKHang extends JPanel {
 		txtPhone.setBounds(586, 78, 186, 30);
 		panel_1.add(txtPhone);
 		
-		JLabel lbllDiaChi = new JLabel("Địa Chỉ");
+		lbllDiaChi = new JLabel("Địa Chỉ");
 		lbllDiaChi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDiaChi.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllDiaChi.setBounds(796, 78, 118, 30);
@@ -377,7 +390,7 @@ public class PanelCRUDKHang extends JPanel {
 //		txtLoaiKH.setBounds(1319, 80, 205, 30);
 //		panel_1.add(txtLoaiKH);
 		
-		JButton btnAdd = new JButton("Thêm");
+		btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(".....");
@@ -427,10 +440,10 @@ public class PanelCRUDKHang extends JPanel {
 		btnAdd.setIcon(new ImageIcon(img_title));
 		btnAdd.setFont(new Font("Times New Roman", Font.BOLD, 13));
 		btnAdd.setForeground(new Color(0, 255, 0));
-		btnAdd.setBounds(442, 132, 111, 30);
+		btnAdd.setBounds(442, 132, 134, 30);
 		panel_1.add(btnAdd);
 		
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -472,10 +485,10 @@ public class PanelCRUDKHang extends JPanel {
 		btnSua.setIcon(new ImageIcon(img_reload));
 		btnSua.setBackground(new Color(255, 192, 203));
 		btnSua.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		btnSua.setBounds(730, 132, 104, 30);
+		btnSua.setBounds(730, 132, 128, 30);
 		panel_1.add(btnSua);
 		
-		JButton btnXoa = new JButton("Xóa");
+		btnXoa = new JButton("Xóa");
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -497,7 +510,7 @@ public class PanelCRUDKHang extends JPanel {
 		btnXoa.setBackground(new Color(250, 235, 215));
 		btnXoa.setIcon(new ImageIcon(img_remove));
 		btnXoa.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		btnXoa.setBounds(989, 132, 104, 30);
+		btnXoa.setBounds(989, 132, 128, 30);
 		panel_1.add(btnXoa);
 		
 		JPanel panel_2 = new JPanel();
@@ -582,8 +595,19 @@ public class PanelCRUDKHang extends JPanel {
 			row[4] = kh.getLoaiKH();
 			model.addRow(row);
 		}
-	
-	
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		btnTroVe.setText(rd.getString("troVe"));
+//		lbllThongTinKH.setText(rd.getString(""));
+		lbllMaKH.setText(rd.getString("maKH"));
+		lbllTenKH.setText(rd.getString("tenKH"));
+		lbllSDT.setText(rd.getString("SDT"));
+		lbllDiaChi.setText(rd.getString("diaChi"));
+		btnAdd.setText(rd.getString("them"));
+		btnSua.setText(rd.getString("sua"));
+		btnXoa.setText(rd.getString("xoa"));
 	}
 	
 }

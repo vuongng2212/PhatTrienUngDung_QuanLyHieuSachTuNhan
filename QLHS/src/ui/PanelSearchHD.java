@@ -22,6 +22,8 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -33,6 +35,11 @@ public class PanelSearchHD extends JPanel {
 	private DanhSachHoaDon listHD;
 	private HoaDon hd;
 	public DialogXemHD xemHd;
+	private JButton btnXemChiTiet;
+	private JButton btnTimKiem;
+	private JLabel lbllNgayTao;
+	private JLabel lbllTimHoaDon;
+	private JButton btnLamMoi;
 	/**
 	 * Create the panel.
 	 */
@@ -54,11 +61,11 @@ public class PanelSearchHD extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tìm Hóa Đơn");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblNewLabel.setBounds(0, 0, 1534, 78);
-		panel.add(lblNewLabel);
+		lbllTimHoaDon = new JLabel("Tìm Hóa Đơn");
+		lbllTimHoaDon.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllTimHoaDon.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lbllTimHoaDon.setBounds(0, 0, 1534, 78);
+		panel.add(lbllTimHoaDon);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.CYAN);
@@ -71,13 +78,14 @@ public class PanelSearchHD extends JPanel {
 		batdau.setBounds(186, 22, 178, 35);
 		panel_1.add(batdau);
 		
-		JLabel lblNewLabel_1 = new JLabel("Ngày Tạo");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(66, 22, 85, 35);
-		panel_1.add(lblNewLabel_1);
+		lbllNgayTao = new JLabel("Ngày Tạo");
+		lbllNgayTao.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllNgayTao.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllNgayTao.setBounds(39, 22, 137, 35);
+		panel_1.add(lbllNgayTao);
 		
-		JButton btnNewButton = new JButton("Tìm Kiếm");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnTimKiem = new JButton("Tìm Kiếm");
+		btnTimKiem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(batdau.getDate() == null) {
 					refresh();
@@ -99,29 +107,29 @@ public class PanelSearchHD extends JPanel {
 				}
 			}
 		});
-		btnNewButton.setBounds(220, 96, 197, 46);
-		panel_1.add(btnNewButton);
+		btnTimKiem.setBounds(220, 96, 197, 46);
+		panel_1.add(btnTimKiem);
 		
-		JButton btnLmMi = new JButton("Làm Mới");
-		btnLmMi.addActionListener(new ActionListener() {
+		btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				refresh();
 			}
 		});
-		btnLmMi.setBounds(624, 96, 197, 46);
-		panel_1.add(btnLmMi);
+		btnLamMoi.setBounds(624, 96, 197, 46);
+		panel_1.add(btnLamMoi);
 		
-		JButton btnXemChiTit = new JButton("Xem Chi Tiết");
-		btnXemChiTit.setEnabled(false);
-		btnXemChiTit.addActionListener(new ActionListener() {
+		btnXemChiTiet = new JButton("Xem Chi Tiết");
+		btnXemChiTiet.setEnabled(false);
+		btnXemChiTiet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
 				onOpenFrmButtonClick();
 			}
 		});
-		btnXemChiTit.setBounds(991, 96, 220, 46);
-		panel_1.add(btnXemChiTit);
+		btnXemChiTiet.setBounds(991, 96, 220, 46);
+		panel_1.add(btnXemChiTiet);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 254, 1534, 763);
@@ -133,7 +141,7 @@ public class PanelSearchHD extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getSelectedRow();
 				if(i>=0) {
-					btnXemChiTit.setEnabled(true);
+					btnXemChiTiet.setEnabled(true);
 				}
 			}
 		});
@@ -178,6 +186,15 @@ public class PanelSearchHD extends JPanel {
 		xemHd.setModal(true);
 		xemHd.setVisible(true);
 		
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		lbllTimHoaDon.setText(rd.getString("timHD"));
+		lbllNgayTao.setText(rd.getString("ngayTao"));
+		btnTimKiem.setText(rd.getString("tim"));
+		btnLamMoi.setText(rd.getString("lammoi"));
+		btnXemChiTiet.setText(rd.getString("xemChiTiet"));
 	}
 	
 }

@@ -15,7 +15,7 @@ import javax.swing.JButton;
 public class PanelBill extends JPanel {
 
 	public JPanel panelTitle;
-	public JLabel lblNewLabel;
+	public JLabel lbllHoaDonBanHang;
 	public  panelBanHang banHang = new panelBanHang();
 	
 	/**
@@ -37,12 +37,12 @@ public class PanelBill extends JPanel {
 		panelTitle.add(panelTitleNhap);
 		panelTitleNhap.setLayout(null);
 		
-		lblNewLabel = new JLabel("HÓA ĐƠN BÁN HÀNG");
-		lblNewLabel.setBounds(0, 0, 1534, 61);
-		panelTitleNhap.add(lblNewLabel);
-		lblNewLabel.setBackground(new Color(0, 255, 255));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbllHoaDonBanHang = new JLabel("HÓA ĐƠN BÁN HÀNG");
+		lbllHoaDonBanHang.setBounds(0, 0, 1534, 61);
+		panelTitleNhap.add(lbllHoaDonBanHang);
+		lbllHoaDonBanHang.setBackground(new Color(0, 255, 255));
+		lbllHoaDonBanHang.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllHoaDonBanHang.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		JPanel panelCtn = new JPanel();
 		panelCtn.setBounds(0, 61, 1534, 956);

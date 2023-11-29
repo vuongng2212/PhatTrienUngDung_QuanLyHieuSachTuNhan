@@ -97,7 +97,7 @@ public class frmNV extends JFrame {
 	private JLabel lbllDate;
 	private final LoginForm frmLogin = new LoginForm(null);
 	private JMenuItem itemQLtaiKhoan;
-	private JMenu menuSystem;
+	private JMenu menuHeThong;
 	private JMenu menuSanPham;
 	private JMenuItem menuTimSP;
 	private JMenuItem menuItemQLSP;
@@ -109,7 +109,8 @@ public class frmNV extends JFrame {
 	private JMenu menuThongKe;
 	private JMenu menuDatHang;
 	private JMenuItem menuThongKeSP;
-	private JMenuItem menuThongKeKhuyenMai;
+	private JMenuItem thongKe;
+	private JMenuItem menuKhuyenMai;
 	private PanelTimKhuyenMai searchKm;
 	private PanelKhuyenMai khuyenMai;
 	private PanelProfit profit;
@@ -126,6 +127,10 @@ public class frmNV extends JFrame {
 	private PanelKhXacNhanDatSach panelXacNhanDatSach;
 	private DialogAddSP2 dialogSP2;
 	private DialogAddSP3 dialogSP3;
+	private JMenuItem menuTaoDonDatSach;
+	private JMenuItem itemXemLichLam;
+	private JMenuItem menuXacNhanDatSach;
+	private JMenuItem xemKM;
 	/**
 	 * Launch the application.
 	 */
@@ -378,16 +383,49 @@ public class frmNV extends JFrame {
 				int index = comboCountries.getSelectedIndex();
 				String []country = listCountries.get(index).getId().split("-");
 				Locale locale = new Locale(country[0], country[1]);
+				bill.banHang.refreshLocale(country[0], country[1]);
+				panelCRUDKHang.refreshLocale(country[0], country[1]);
+				searchKm.refreshLocale(country[0], country[1]);
+				product.refreshLocale(country[0], country[1]);
+				searchHD.refreshLocale(country[0], country[1]);
+				khuyenMai.refreshLocale(country[0], country[1]);
+				panelDatSach.refreshLocale(country[0], country[1]);
+				panelSearchProduct.refreshLocale(country[0], country[1]);
+				panelXacNhanDatSach.refreshLocale(country[0], country[1]);
+				customer.refreshLocale(country[0], country[1]);
+				
+				
 				
 				ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
 				
-				
+				bill.lbllHoaDonBanHang.setText(rd.getString("hoaDonBanHang"));
 				
 				
 				//Change Date
 				DateFormat df = DateFormat.getDateInstance(DateFormat.FULL,locale);
 				lbllDateShow.setText(df.format(new Date()));
 
+				// Change Text For Jmenu
+				menuHeThong.setText(rd.getString("heThong"));
+				itemQLtaiKhoan.setText(rd.getString("quanLiTK"));
+				itemXemLichLam.setText(rd.getString("xemLich"));
+				menuSanPham.setText(rd.getString("sanPham"));
+				menuTimSP.setText(rd.getString("timSanPham"));
+				menuItemQLSP.setText(rd.getString("quanLiSanPham"));
+				menuHoaDon.setText(rd.getString("hoaDon"));
+				menuTaoHD.setText(rd.getString("taoHoaDon"));
+				menuSearchHD.setText(rd.getString("timHD"));
+				menuKhachHang.setText(rd.getString("khachHang"));
+				menuItemTimKH.setText(rd.getString("timKH"));
+				menuItemQlKH.setText(rd.getString("qlKH"));
+				menuThongKeSP.setText(rd.getString("thongKe"));
+				menuThongKe.setText(rd.getString("thongKe"));
+				thongKe.setText(rd.getString("thongKe"));
+				xemKM.setText(rd.getString("xemKM"));
+				menuKhuyenMai.setText(rd.getString("khuyenMai"));
+				menuDatHang.setText(rd.getString("datHang"));
+				menuTaoDonDatSach.setText(rd.getString("taoDonDH"));
+				menuXacNhanDatSach.setText(rd.getString("xacNhanDH"));
 				
 				//Change Text for Lbll
 				lbllHeThong.setText(rd.getString("heThong"));
@@ -408,35 +446,35 @@ public class frmNV extends JFrame {
 				system.lbllSystem.setFont(listCountries.get(index).getFont());
 				
 				//Change text for frm Bill
-				bill.lblNewLabel.setText(rd.getString("banhang")); //Ban Hang
-				bill.lblNewLabel.setFont(listCountries.get(index).getFont());
+//				bill.lblNewLabel.setText(rd.getString("banhang")); //Ban Hang
+//				bill.lblNewLabel.setFont(listCountries.get(index).getFont());
 //				bill.lblNewLabel_1.setText(rd.getString("nhaphang")); //Nhap hang
 //				bill.lblNewLabel_1.setFont(listCountries.get(index).getFont());
 				
 				//Change text for Bill.panelBanHang
 //				bill.banHang.lblTcGi.setText(rd.getString("tacGia"));
 //				bill.banHang.lblNhXutBn.setText(rd.getString("NXB"));
-				bill.banHang.lbllSoLuong.setText(rd.getString("soluong"));
-				bill.banHang.lblTimKH.setText(rd.getString("timKH"));
-				bill.banHang.lbllKH.setText(rd.getString("maKH"));
-				bill.banHang.lblTnKhchHng.setText(rd.getString("tenKH"));
-				bill.banHang.lblSi.setText(rd.getString("SDT"));
-				bill.banHang.lblaCh.setText(rd.getString("diaChi"));
-				bill.banHang.lbllLoai.setText(rd.getString("loaiKH"));
-				bill.banHang.lbllTongTien.setText(rd.getString("tongTien"));
-				bill.banHang.lbllTienNhan.setText(rd.getString("tienNhan"));
-				bill.banHang.lblTienTra.setText(rd.getString("tienTra"));
-				bill.banHang.btnHuy.setText(rd.getString("huyBo"));
-				bill.banHang.btnThanhToan.setText(rd.getString("thanhToan"));
-				bill.banHang.btnInHD.setText(rd.getString("inHD"));
-//				bill.banHang.lbllTitle.setText(rd.getString("banhang"));
-				bill.banHang.lbllProduct.setText(rd.getString("timsach"));
-				bill.banHang.lbllMaSach.setText(rd.getString("maSach"));
-//				bill.banHang.lbllTenSach.setText(rd.getString("tenSach"));
-//				bill.banHang.lblDanhMc.setText(rd.getString("danhMuc"));
-				
-				bill.banHang.btnNewButton.setText(rd.getString("them"));
-				bill.banHang.btnLmMi.setText(rd.getString("lammoi"));
+//				bill.banHang.lbllSoLuong.setText(rd.getString("soluong"));
+//				bill.banHang.lblTimKH.setText(rd.getString("timKH"));
+//				bill.banHang.lbllKH.setText(rd.getString("maKH"));
+//				bill.banHang.lblTnKhchHng.setText(rd.getString("tenKH"));
+//				bill.banHang.lblSi.setText(rd.getString("SDT"));
+//				bill.banHang.lblaCh.setText(rd.getString("diaChi"));
+//				bill.banHang.lbllLoai.setText(rd.getString("loaiKH"));
+//				bill.banHang.lbllTongTien.setText(rd.getString("tongTien"));
+//				bill.banHang.lbllTienNhan.setText(rd.getString("tienNhan"));
+//				bill.banHang.lblTienTra.setText(rd.getString("tienTra"));
+//				bill.banHang.btnHuy.setText(rd.getString("huyBo"));
+//				bill.banHang.btnThanhToan.setText(rd.getString("thanhToan"));
+//				bill.banHang.btnInHD.setText(rd.getString("inHD"));
+////				bill.banHang.lbllTitle.setText(rd.getString("banhang"));
+//				bill.banHang.lbllProduct.setText(rd.getString("timsach"));
+//				bill.banHang.lbllMaSach.setText(rd.getString("maSach"));
+////				bill.banHang.lbllTenSach.setText(rd.getString("tenSach"));
+////				bill.banHang.lblDanhMc.setText(rd.getString("danhMuc"));
+//				
+//				bill.banHang.btnNewButton.setText(rd.getString("them"));
+//				bill.banHang.btnLmMi.setText(rd.getString("lammoi"));
 				
 				
 				//Change currency
@@ -534,13 +572,13 @@ public class frmNV extends JFrame {
 		
 
 		
-		  menuSystem = new JMenu("Hệ Thống");
-		  menuSystem.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		  menuSystem.setBorder(new LineBorder(Color.black, 1));
-		  menuSystem.setBackground(new Color(0, 128, 0));
-		  menuSystem.setIcon(new ImageIcon(img_system));
-		  menuSystem.setHorizontalAlignment(SwingConstants.CENTER);
-		  menuSystem.setPreferredSize(new Dimension(180, 41));
+		  menuHeThong = new JMenu("Hệ Thống");
+		  menuHeThong.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		  menuHeThong.setBorder(new LineBorder(Color.black, 1));
+		  menuHeThong.setBackground(new Color(0, 128, 0));
+		  menuHeThong.setIcon(new ImageIcon(img_system));
+		  menuHeThong.setHorizontalAlignment(SwingConstants.CENTER);
+		  menuHeThong.setPreferredSize(new Dimension(180, 41));
 		  itemQLtaiKhoan = new JMenuItem("Quản lí tài khoản", new ImageIcon(img_quanLiHT));
 		  itemQLtaiKhoan.setHorizontalAlignment(SwingConstants.LEFT);
 		  
@@ -556,11 +594,11 @@ public class frmNV extends JFrame {
 		  
 		  itemQLtaiKhoan.setFont(new Font("Tímes New Roman",Font.BOLD,12));
 		  itemQLtaiKhoan.setPreferredSize(new Dimension(180, 41));
-		  JMenuItem itemXemLichLam = new JMenuItem("Xem lịch làm", new ImageIcon(img_xemLich));
+		  itemXemLichLam = new JMenuItem("Xem lịch làm", new ImageIcon(img_xemLich));
 		  itemXemLichLam.setFont(new Font("Tímes New Roman",Font.BOLD,12));
 		  itemXemLichLam.setPreferredSize(new Dimension(180, 41));
-		  menuSystem.add(itemQLtaiKhoan);
-		  menuSystem.add(itemXemLichLam);
+		  menuHeThong.add(itemQLtaiKhoan);
+		  menuHeThong.add(itemXemLichLam);
 		  
 		  
 		  menuSanPham = new JMenu("Sản Phẩm");
@@ -687,20 +725,20 @@ public class frmNV extends JFrame {
 		  menuThongKe.setHorizontalAlignment(SwingConstants.RIGHT);
 		  menuThongKe.setPreferredSize(new Dimension(180, 41));
 		  
-		  menuThongKeSP = new JMenuItem("Thống Kê", new ImageIcon(img_thongKeSP));
-		  menuThongKeSP.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
-		  menuThongKeSP.setPreferredSize(new Dimension(180, 41));
-		  menuThongKeSP.addActionListener(new ActionListener() {
+		  thongKe = new JMenuItem("Thống Kê", new ImageIcon(img_thongKeSP));
+		  thongKe.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  thongKe.setPreferredSize(new Dimension(180, 41));
+		  thongKe.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(thongke);
 			}
 		});
-		  JMenuItem menuThongKeThuNhap = new JMenuItem("Xem Khuyến Mãi", new ImageIcon(img_thuNhap));
-		  menuThongKeThuNhap.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
-		  menuThongKeThuNhap.setPreferredSize(new Dimension(180, 41));
-		  menuThongKeThuNhap.addActionListener(new ActionListener() {
+		  xemKM = new JMenuItem("Xem Khuyến Mãi", new ImageIcon(img_thuNhap));
+		  xemKM.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  xemKM.setPreferredSize(new Dimension(180, 41));
+		  xemKM.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -708,11 +746,11 @@ public class frmNV extends JFrame {
 				searchKm.refresh();
 			}
 		});
-		  menuThongKeKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_khuyenMai));
+		  menuKhuyenMai = new JMenuItem("Khuyến Mãi", new ImageIcon(img_khuyenMai));
 		  
-		  menuThongKeKhuyenMai.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
-		  menuThongKeKhuyenMai.setPreferredSize(new Dimension(180, 41));
-		  menuThongKeKhuyenMai.addActionListener(new ActionListener() {
+		  menuKhuyenMai.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
+		  menuKhuyenMai.setPreferredSize(new Dimension(180, 41));
+		  menuKhuyenMai.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -720,9 +758,9 @@ public class frmNV extends JFrame {
 				menuClicked(khuyenMai);
 			}
 		});
-		  menuThongKe.add(menuThongKeSP);
-		  menuThongKe.add(menuThongKeThuNhap);
-		  menuThongKe.add(menuThongKeKhuyenMai);
+		  menuThongKe.add(thongKe);
+		  menuThongKe.add(xemKM);
+		  menuThongKe.add(menuKhuyenMai);
 		  
 		  
 
@@ -746,7 +784,7 @@ public class frmNV extends JFrame {
 		  menuDatHang.setHorizontalAlignment(SwingConstants.RIGHT);
 		  menuDatHang.setPreferredSize(new Dimension(180, 41));
 		  
-		  JMenuItem menuTaoDonDatSach = new JMenuItem("Đặt Hàng", new ImageIcon(img_taoDonDatSach));
+		  menuTaoDonDatSach = new JMenuItem("Đặt Hàng", new ImageIcon(img_taoDonDatSach));
 		  menuTaoDonDatSach.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuTaoDonDatSach.setPreferredSize(new Dimension(180, 41));
 		  menuTaoDonDatSach.addActionListener(new ActionListener() {
@@ -757,7 +795,7 @@ public class frmNV extends JFrame {
 				panelDatSach.refresh();
 			}
 		});
-		  JMenuItem menuXacNhanDatSach = new JMenuItem("Xác Nhận Đơn", new ImageIcon(img_xemDonDatSach));
+		  menuXacNhanDatSach = new JMenuItem("Xác Nhận Đơn", new ImageIcon(img_xemDonDatSach));
 		  menuXacNhanDatSach.setFont(new Font("Times New Roman", Font.BOLD, 12)); ////
 		  menuXacNhanDatSach.setPreferredSize(new Dimension(180, 41));
 		  menuXacNhanDatSach.addActionListener(new ActionListener() {
@@ -771,7 +809,7 @@ public class frmNV extends JFrame {
 		  menuDatHang.add(menuTaoDonDatSach);
 		  menuDatHang.add(menuXacNhanDatSach);
 		  
-		  menuBarSystem.add(menuSystem);
+		  menuBarSystem.add(menuHeThong);
 		  menuBarSystem.add(menuSanPham);
 		  menuBarSystem.add(menuHoaDon);
 		  menuBarSystem.add(menuKhachHang);
@@ -917,4 +955,5 @@ public class frmNV extends JFrame {
 		bill.banHang.dialogAddKH = dialogAddKh;
 		panelXacNhanDatSach.dialogKH = dialogAddKH3;
 	}
+	
 }

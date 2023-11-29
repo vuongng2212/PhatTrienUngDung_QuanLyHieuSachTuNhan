@@ -23,6 +23,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -49,6 +51,23 @@ public class panelProduct extends JPanel {
 	private DAO_SanPham daoSp;
 	private SanPham sp;
 	private JTextField txtDonGiaBan;
+	private JButton btnXoa;
+	private JLabel lbllTitle;
+	private JPanel panelSearch;
+	private JLabel lbllTimSach;
+	private JLabel lbllMaSach;
+	private JLabel lbllTenSach;
+	private JLabel lbllDanhMuc;
+	private JLabel lbllTacGia;
+	private JLabel lbllNXB;
+	private JLabel lbllNamXB;
+	private JLabel lbllSoLuong;
+	private JLabel lbllDonGiaGoc;
+	private JButton btnThem;
+	private JButton btnSua;
+	private JButton btnSearch;
+	private JLabel lbllDonGiaBan;
+	private JLabel lbllSach;
 
 	/**
 	 * Create the panel.
@@ -73,26 +92,26 @@ public class panelProduct extends JPanel {
 		add(panelTitle);
 		panelTitle.setLayout(null);
 		
-		JLabel lbllTitle = new JLabel("Thông Tin Sách");
+		lbllTitle = new JLabel("Thông Tin Sách");
 		lbllTitle.setForeground(new Color(127, 255, 0));
 		lbllTitle.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		lbllTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lbllTitle.setBounds(0, 0, 1534, 101);
 		panelTitle.add(lbllTitle);
 		
-		JPanel panelSearch = new JPanel();
+		panelSearch = new JPanel();
 		panelSearch.setBackground(new Color(250, 235, 215));
 		panelSearch.setBounds(0, 143, 1534, 200);
 		add(panelSearch);
 		panelSearch.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tìm Sách");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel.setBounds(10, 11, 82, 31);
-		panelSearch.add(lblNewLabel);
+		lbllTimSach = new JLabel("Tìm Sách");
+		lbllTimSach.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllTimSach.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllTimSach.setBounds(10, 11, 109, 31);
+		panelSearch.add(lbllTimSach);
 		
-		JLabel lbllMaSach = new JLabel("Mã Sách");
+		lbllMaSach = new JLabel("Mã Sách");
 		lbllMaSach.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllMaSach.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllMaSach.setBounds(0, 53, 82, 31);
@@ -103,7 +122,7 @@ public class panelProduct extends JPanel {
 		panelSearch.add(txtMaSach);
 		txtMaSach.setColumns(10);
 		
-		JLabel lbllTenSach = new JLabel("Tên Sách");
+		lbllTenSach = new JLabel("Tên Sách");
 		lbllTenSach.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTenSach.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllTenSach.setBounds(277, 53, 82, 31);
@@ -114,18 +133,18 @@ public class panelProduct extends JPanel {
 		txtTenSach.setBounds(369, 57, 170, 27);
 		panelSearch.add(txtTenSach);
 		
-		JLabel lbllDanhMuc = new JLabel("Danh Mục");
+		lbllDanhMuc = new JLabel("Danh Mục");
 		lbllDanhMuc.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDanhMuc.setBounds(578, 53, 82, 31);
+		lbllDanhMuc.setBounds(585, 53, 111, 31);
 		panelSearch.add(lbllDanhMuc);
 		
 		txtTheLoai = new JTextField();
 		txtTheLoai.setColumns(10);
-		txtTheLoai.setBounds(670, 57, 170, 27);
+		txtTheLoai.setBounds(706, 57, 170, 27);
 		panelSearch.add(txtTheLoai);
 		
-		JLabel lbllTacGia = new JLabel("Tác Giả");
+		lbllTacGia = new JLabel("Tác Giả");
 		lbllTacGia.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTacGia.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllTacGia.setBounds(0, 104, 82, 31);
@@ -136,10 +155,10 @@ public class panelProduct extends JPanel {
 		txtTacGia.setBounds(92, 108, 153, 27);
 		panelSearch.add(txtTacGia);
 		
-		JLabel lbllNXB = new JLabel("NXB");
+		lbllNXB = new JLabel("NXB");
 		lbllNXB.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllNXB.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllNXB.setBounds(277, 104, 82, 31);
+		lbllNXB.setBounds(255, 104, 104, 31);
 		panelSearch.add(lbllNXB);
 		
 		txtNXB = new JTextField();
@@ -147,40 +166,40 @@ public class panelProduct extends JPanel {
 		txtNXB.setBounds(369, 108, 170, 27);
 		panelSearch.add(txtNXB);
 		
-		JLabel lbllNamXB = new JLabel("Năm XB");
+		lbllNamXB = new JLabel("Năm XB");
 		lbllNamXB.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllNamXB.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllNamXB.setBounds(578, 104, 82, 31);
+		lbllNamXB.setBounds(549, 104, 147, 31);
 		panelSearch.add(lbllNamXB);
 		
 		txtNamXB = new JTextField();
 		txtNamXB.setColumns(10);
-		txtNamXB.setBounds(670, 108, 170, 27);
+		txtNamXB.setBounds(706, 108, 170, 27);
 		panelSearch.add(txtNamXB);
 		
-		JLabel lbllSoLuong = new JLabel("Số Lượng");
+		lbllSoLuong = new JLabel("Số Lượng");
 		lbllSoLuong.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllSoLuong.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllSoLuong.setBounds(890, 53, 82, 31);
+		lbllSoLuong.setBounds(920, 53, 122, 31);
 		panelSearch.add(lbllSoLuong);
 		
 		txtSoLuong = new JTextField();
 		txtSoLuong.setColumns(10);
-		txtSoLuong.setBounds(994, 57, 170, 27);
+		txtSoLuong.setBounds(1052, 57, 170, 27);
 		panelSearch.add(txtSoLuong);
 		
-		JLabel lbllDonGia = new JLabel("Đơn Giá Gốc");
-		lbllDonGia.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllDonGia.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDonGia.setBounds(863, 104, 109, 31);
-		panelSearch.add(lbllDonGia);
+		lbllDonGiaGoc = new JLabel("Đơn Giá Gốc");
+		lbllDonGiaGoc.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllDonGiaGoc.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllDonGiaGoc.setBounds(886, 104, 156, 31);
+		panelSearch.add(lbllDonGiaGoc);
 		
 		txtDonGiaGoc = new JTextField();
 		txtDonGiaGoc.setColumns(10);
-		txtDonGiaGoc.setBounds(994, 108, 170, 27);
+		txtDonGiaGoc.setBounds(1055, 108, 170, 27);
 		panelSearch.add(txtDonGiaGoc);
 		
-		JButton btnThem = new JButton("Thêm");
+		btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(txtMaSach.getText().equals("") || txtTenSach.getText().equals("") || txtTheLoai.getText().equals("") || txtSoLuong.getText().equals("") || txtTacGia.getText().equals("") || txtNXB.getText().equals("") || txtNamXB.getText().equals("") || txtDonGiaGoc.getText().equals("") || txtDonGiaBan.getText().equals("")) {
@@ -238,10 +257,10 @@ public class panelProduct extends JPanel {
 		btnThem.setForeground(new Color(60, 179, 113));
 		btnThem.setIcon(new ImageIcon(img_add));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnThem.setBounds(250, 158, 125, 31);
+		btnThem.setBounds(392, 158, 147, 31);
 		panelSearch.add(btnThem);
 		
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -281,10 +300,10 @@ public class panelProduct extends JPanel {
 		btnSua.setForeground(new Color(0, 255, 255));
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnSua.setIcon(new ImageIcon(img_update));
-		btnSua.setBounds(509, 158, 109, 31);
+		btnSua.setBounds(668, 158, 147, 31);
 		panelSearch.add(btnSua);
 		
-		JButton btnXoa = new JButton("Xóa");
+		btnXoa = new JButton("Xóa");
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -302,7 +321,7 @@ public class panelProduct extends JPanel {
 		btnXoa.setForeground(new Color(255, 0, 0));
 		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnXoa.setIcon(new ImageIcon(img_remove));
-		btnXoa.setBounds(784, 158, 109, 31);
+		btnXoa.setBounds(967, 158, 153, 31);
 		panelSearch.add(btnXoa);
 		
 //		JCheckBox checkBoxKhuyenMai = new JCheckBox("Khuyến Mãi");
@@ -312,14 +331,14 @@ public class panelProduct extends JPanel {
 //		checkBoxKhuyenMai.setBounds(1230, 108, 109, 25);
 //		panelSearch.add(checkBoxKhuyenMai);
 		
-		JButton btnSearch = new JButton("");
+		btnSearch = new JButton("");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				panelSearchProduct.setVisible(true);
 			}
 		});
-		btnSearch.setBounds(92, 11, 51, 31);
+		btnSearch.setBounds(117, 11, 51, 31);
 		btnSearch.setIcon(new ImageIcon(img_search));
 		btnSearch.setBackground(null);
 		btnSearch.setOpaque(false);
@@ -327,22 +346,22 @@ public class panelProduct extends JPanel {
 		
 		panelSearch.add(btnSearch);
 		
-		JLabel lbllDonGiaMua = new JLabel("Đơn Giá Bán");
-		lbllDonGiaMua.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbllDonGiaMua.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDonGiaMua.setBounds(1200, 104, 109, 31);
-		panelSearch.add(lbllDonGiaMua);
+		lbllDonGiaBan = new JLabel("Đơn Giá Bán");
+		lbllDonGiaBan.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllDonGiaBan.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllDonGiaBan.setBounds(1235, 104, 109, 31);
+		panelSearch.add(lbllDonGiaBan);
 		
 		txtDonGiaBan = new JTextField();
 		txtDonGiaBan.setColumns(10);
-		txtDonGiaBan.setBounds(1319, 104, 170, 27);
+		txtDonGiaBan.setBounds(1354, 108, 170, 27);
 		panelSearch.add(txtDonGiaBan);
 		
-		JLabel lbllSearch = new JLabel("Sách");
-		lbllSearch.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lbllSearch.setForeground(new Color(255, 165, 0));
-		lbllSearch.setBounds(10, 112, 118, 27);
-		add(lbllSearch);
+		lbllSach = new JLabel("Sách");
+		lbllSach.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lbllSach.setForeground(new Color(255, 165, 0));
+		lbllSach.setBounds(10, 112, 118, 27);
+		add(lbllSach);
 		
 		
 		
@@ -395,6 +414,24 @@ public class panelProduct extends JPanel {
 //			row[9] = sp.getTinhTrang();
 			model.addRow(row);
 		}
-	
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		lbllTitle.setText(rd.getString("thongTinSach"));
+		lbllSach.setText(rd.getString("sach"));
+		lbllTimSach.setText(rd.getString("timsach"));
+		lbllMaSach.setText(rd.getString("maSach"));
+		lbllTenSach.setText(rd.getString("tenSach"));
+		lbllDanhMuc.setText(rd.getString("danhMuc"));
+		lbllSoLuong.setText(rd.getString("soluong"));
+		lbllTacGia.setText(rd.getString("tacGia"));
+		lbllNXB.setText(rd.getString("NXB"));
+		lbllNamXB.setText(rd.getString("namXB"));
+		lbllDonGiaGoc.setText(rd.getString("donGiaMua"));
+		lbllDonGiaBan.setText(rd.getString("donGiaBan"));
+		btnThem.setText(rd.getString("them"));
+		btnSua.setText(rd.getString("sua"));
+		btnXoa.setText(rd.getString("xoa"));
 	}
 }

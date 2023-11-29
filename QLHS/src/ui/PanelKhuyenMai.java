@@ -30,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -63,6 +65,21 @@ public class PanelKhuyenMai extends JPanel {
 	private JDateChooser kethuc;
 	private KhuyenMai km;
 	private JButton btnHoanTat;
+	private JLabel lbllChonSachCuThe;
+	private JLabel lbllNhapDiscount;
+	private JButton btnThemVaoDS;
+	private JButton btnSua;
+	private JButton btnXoa;
+	private JLabel lbllChonSpKhuyenMai;
+	private JLabel danhSachSP;
+	private JButton btnTaoMoi;
+	private JButton btnInDanhSach;
+	private JLabel lbllKhuyenMai;
+	private JLabel lbllNgayBatDau;
+	private JLabel lbllNgayKetthuc;
+	private JButton btnTaoKhuyenMai;
+	private JLabel lbllTaoKM;
+	private JLabel lbllSach;
 	/**
 	 * Create the panel.
 	 */
@@ -95,11 +112,11 @@ public class PanelKhuyenMai extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tạo Khuyến Mãi");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 1534, 85);
-		panel.add(lblNewLabel);
+		lbllTaoKM = new JLabel("Tạo Khuyến Mãi");
+		lbllTaoKM.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		lbllTaoKM.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllTaoKM.setBounds(0, 0, 1534, 85);
+		panel.add(lbllTaoKM);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 255, 255));
@@ -107,10 +124,10 @@ public class PanelKhuyenMai extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("Sách:");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_2.setBounds(10, 0, 77, 54);
-		panel_1.add(lblNewLabel_2);
+		lbllSach = new JLabel("Sách:");
+		lbllSach.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllSach.setBounds(10, 0, 77, 54);
+		panel_1.add(lbllSach);
 		
 		JButton btnChonSach = new JButton("");
 		btnChonSach.addActionListener(new ActionListener() {
@@ -125,43 +142,30 @@ public class PanelKhuyenMai extends JPanel {
 		
 		panel_1.add(btnChonSach);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Đề Xuất Tồn kho");
-		chckbxNewCheckBox.setFont(new Font("Tahoma", Font.BOLD, 15));
-		chckbxNewCheckBox.setBorderPainted(false);
-		chckbxNewCheckBox.setBackground(null);
-		chckbxNewCheckBox.setBounds(685, 16, 162, 23);
-		panel_1.add(chckbxNewCheckBox);
-		
-		JCheckBox chckbxSnPhmMi = new JCheckBox("Đề Xuất  Mới Nhập");
-		chckbxSnPhmMi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		chckbxSnPhmMi.setBorderPainted(false);
-		chckbxSnPhmMi.setBackground((Color) null);
-		chckbxSnPhmMi.setBounds(1112, 16, 178, 23);
-		panel_1.add(chckbxSnPhmMi);
-		
 		txtMaSach = new JTextField();
 		txtMaSach.setBounds(92, 13, 126, 32);
 		panel_1.add(txtMaSach);
 		txtMaSach.setColumns(10);
 		txtMaSach.setEditable(false);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Chọn Sách Cụ Thể");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_2_1.setBounds(334, 0, 143, 54);
-		panel_1.add(lblNewLabel_2_1);
+		lbllChonSachCuThe = new JLabel("Chọn Sách Cụ Thể");
+		lbllChonSachCuThe.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllChonSachCuThe.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllChonSachCuThe.setBounds(247, 0, 219, 54);
+		panel_1.add(lbllChonSachCuThe);
 		
-		JLabel lblNewLabel_2_2 = new JLabel("Nhập Discout:");
-		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_2_2.setBounds(352, 45, 111, 54);
-		panel_1.add(lblNewLabel_2_2);
+		lbllNhapDiscount = new JLabel("Nhập Discout:");
+		lbllNhapDiscount.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllNhapDiscount.setBounds(352, 45, 111, 54);
+		panel_1.add(lbllNhapDiscount);
 		
 		txtDisCount = new JTextField();
 		txtDisCount.setBounds(483, 58, 40, 32);
 		panel_1.add(txtDisCount);
 		txtDisCount.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Thêm vào danh sách");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnThemVaoDS = new JButton("Thêm vào danh sách");
+		btnThemVaoDS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!txtMaSach.getText().equalsIgnoreCase("")) {
 					listSP = daosp.getAll();
@@ -214,11 +218,11 @@ public class PanelKhuyenMai extends JPanel {
 			}
 			
 		});
-		btnNewButton.setBounds(685, 56, 152, 36);
-		panel_1.add(btnNewButton);
+		btnThemVaoDS.setBounds(685, 56, 152, 36);
+		panel_1.add(btnThemVaoDS);
 		
-		JButton btnSa = new JButton("Sửa");
-		btnSa.addActionListener(new ActionListener() {
+		btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
 				
@@ -232,11 +236,11 @@ public class PanelKhuyenMai extends JPanel {
 				}
 			}
 		});
-		btnSa.setBounds(875, 56, 126, 36);
-		panel_1.add(btnSa);
+		btnSua.setBounds(875, 56, 126, 36);
+		panel_1.add(btnSua);
 		
-		JButton btnXoas = new JButton("Xóa");
-		btnXoas.addActionListener(new ActionListener() {
+		btnXoa = new JButton("Xóa");
+		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
 				if(i>=0) {
@@ -258,18 +262,18 @@ public class PanelKhuyenMai extends JPanel {
 				}
 			}
 		});
-		btnXoas.setBounds(1033, 54, 126, 36);
-		panel_1.add(btnXoas);
+		btnXoa.setBounds(1033, 54, 126, 36);
+		panel_1.add(btnXoa);
 		
-		JLabel lblNewLabel_1 = new JLabel("Chọn sản phẩm khuyến mãi");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(0, 259, 210, 45);
-		add(lblNewLabel_1);
+		lbllChonSpKhuyenMai = new JLabel("Chọn sản phẩm khuyến mãi");
+		lbllChonSpKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllChonSpKhuyenMai.setBounds(0, 259, 370, 45);
+		add(lbllChonSpKhuyenMai);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Danh Sách Sản Phẩm");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1.setBounds(0, 413, 184, 35);
-		add(lblNewLabel_1_1);
+		danhSachSP = new JLabel("Danh Sách Sản Phẩm");
+		danhSachSP.setFont(new Font("Tahoma", Font.BOLD, 15));
+		danhSachSP.setBounds(0, 413, 184, 35);
+		add(danhSachSP);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 447, 1534, 439);
@@ -339,8 +343,8 @@ public class PanelKhuyenMai extends JPanel {
 		btnHoanTat.setBounds(862, 184, 167, 45);
 		add(btnHoanTat);
 		
-		JButton btnNewButton_1_1 = new JButton("Tạo Mới");
-		btnNewButton_1_1.addActionListener(new ActionListener() {
+		btnTaoMoi = new JButton("Tạo Mới");
+		btnTaoMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showOptionDialog(null, "Tạo mới danh sách", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				switch (option) {
@@ -359,10 +363,10 @@ public class PanelKhuyenMai extends JPanel {
 				}
 			}
 		});
-		btnNewButton_1_1.setBounds(554, 184, 160, 45);
-		add(btnNewButton_1_1);
+		btnTaoMoi.setBounds(554, 184, 160, 45);
+		add(btnTaoMoi);
 		
-		JButton btnInDanhSach = new JButton("In Danh Sách");
+		btnInDanhSach = new JButton("In Danh Sách");
 		btnInDanhSach.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -372,7 +376,7 @@ public class PanelKhuyenMai extends JPanel {
 		btnInDanhSach.setBounds(1138, 184, 160, 45);
 		add(btnInDanhSach);
 		
-		JLabel lbllKhuyenMai = new JLabel("Mã Khuyến Mãi");
+		lbllKhuyenMai = new JLabel("Mã Khuyến Mãi");
 		lbllKhuyenMai.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllKhuyenMai.setBounds(74, 94, 128, 45);
@@ -393,17 +397,17 @@ public class PanelKhuyenMai extends JPanel {
 		batdau.setBounds(688, 101, 178, 35);
 		add(batdau);
 		
-		JLabel lblNewLabel_3 = new JLabel("Ngày bắt đầu");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(566, 101, 112, 35);
-		add(lblNewLabel_3);
+		lbllNgayBatDau = new JLabel("Ngày bắt đầu");
+		lbllNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lbllNgayBatDau.setBounds(566, 101, 112, 35);
+		add(lbllNgayBatDau);
 		
-		JLabel lblNewLabel_4 = new JLabel("Ngày Kết Thúc");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(1055, 96, 123, 37);
-		add(lblNewLabel_4);
+		lbllNgayKetthuc = new JLabel("Ngày Kết Thúc");
+		lbllNgayKetthuc.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lbllNgayKetthuc.setBounds(1055, 96, 123, 37);
+		add(lbllNgayKetthuc);
 		
-		JButton btnTaoKhuyenMai = new JButton("Tạo Khuyến Mãi");
+		btnTaoKhuyenMai = new JButton("Tạo Khuyến Mãi");
 		btnTaoKhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -471,10 +475,8 @@ public class PanelKhuyenMai extends JPanel {
 		}else {
 			JOptionPane.showMessageDialog(null, "Sản phẩm này không thể thêm vì đã có ở trương trình khác trùng với thời gian của Khuyến mãi đang tạo");
 		}
-		
-		
-		
 	}
+
 	public void addTable(SanPham sp,int discount) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		row = new Object[5];
@@ -518,5 +520,24 @@ public class PanelKhuyenMai extends JPanel {
 			}
 		}
 		return true;
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		lbllTaoKM.setText(rd.getString("taoKM"));
+		lbllKhuyenMai.setText(rd.getString("maKM"));
+		lbllNgayBatDau.setText(rd.getString("ngayBatDau"));
+		lbllNgayKetthuc.setText(rd.getString("ngayKetThuc"));
+		btnTaoKhuyenMai.setText(rd.getString("taoKM"));
+		btnTaoMoi.setText(rd.getString("lammoi"));
+		btnHoanTat.setText(rd.getString("hoanTat"));
+		lbllChonSpKhuyenMai.setText(rd.getString("chonSPKhuyenMai"));
+		lbllSach.setText(rd.getString("sach"));
+		lbllChonSachCuThe.setText(rd.getString("chonSachCuThe"));
+		lbllNhapDiscount.setText(rd.getString("nhapDiscount"));
+		btnThemVaoDS.setText(rd.getString("themVaoDanhSach"));
+		danhSachSP.setText(rd.getString("danhSachSP"));
+		btnSua.setText(rd.getString("sua"));
+		btnXoa.setText(rd.getString("xoa"));
 	}
 }

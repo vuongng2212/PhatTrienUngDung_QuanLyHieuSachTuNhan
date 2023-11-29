@@ -25,6 +25,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
 public class PanelSearchProduct extends JPanel {
@@ -42,6 +44,14 @@ public class PanelSearchProduct extends JPanel {
 	private DanhSachSanPham listsp;
 	private DAO_SanPham daosp;
 	private Object[] row;
+	private JButton btnRefresh;
+	private JButton btnSearch;
+	private JLabel lbllNXB;
+	private JLabel lbllDanhMuc;
+	private JLabel lbllTacGia;
+	private JLabel lbllTenSach;
+	private JButton btnTroVe;
+	private JLabel lbllTimSach;
 	
 	public PanelSearchProduct() {
 		daosp = new DAO_SanPham();
@@ -65,28 +75,28 @@ public class PanelSearchProduct extends JPanel {
 		add(panelTitle);
 		panelTitle.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tìm Sách");
-		lblNewLabel.setForeground(new Color(0, 255, 0));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		lblNewLabel.setBounds(125, 0, 1327, 96);
-		panelTitle.add(lblNewLabel);
+		lbllTimSach = new JLabel("Tìm Sách");
+		lbllTimSach.setForeground(new Color(0, 255, 0));
+		lbllTimSach.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllTimSach.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		lbllTimSach.setBounds(125, 0, 1327, 96);
+		panelTitle.add(lbllTimSach);
 		
-		JButton btnBack = new JButton("Trở Về");
-		btnBack.addActionListener(new ActionListener() {
+		btnTroVe = new JButton("Trở Về");
+		btnTroVe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				panelProduct.setVisible(true);
 			}
 		});
-		btnBack.setForeground(new Color(0, 255, 0));
-		btnBack.setBackground(null);
-		btnBack.setBorderPainted(false);
-		btnBack.setOpaque(false);
-		btnBack.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnBack.setBounds(0, 31, 115, 48);
-		btnBack.setIcon(new ImageIcon(img_back));
-		panelTitle.add(btnBack);
+		btnTroVe.setForeground(new Color(0, 255, 0));
+		btnTroVe.setBackground(null);
+		btnTroVe.setBorderPainted(false);
+		btnTroVe.setOpaque(false);
+		btnTroVe.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnTroVe.setBounds(0, 31, 115, 48);
+		btnTroVe.setIcon(new ImageIcon(img_back));
+		panelTitle.add(btnTroVe);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 165, 0));
@@ -94,10 +104,10 @@ public class PanelSearchProduct extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lbllTenSach = new JLabel("Tên Sách");
+		lbllTenSach = new JLabel("Tên Sách");
 		lbllTenSach.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTenSach.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTenSach.setBounds(60, 22, 85, 29);
+		lbllTenSach.setBounds(30, 22, 115, 29);
 		panel.add(lbllTenSach);
 		
 		txtTenSach = new JTextField();
@@ -105,10 +115,10 @@ public class PanelSearchProduct extends JPanel {
 		panel.add(txtTenSach);
 		txtTenSach.setColumns(10);
 		
-		JLabel lbllTacGia = new JLabel("Tác Giả");
+		lbllTacGia = new JLabel("Tác Giả");
 		lbllTacGia.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTacGia.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTacGia.setBounds(383, 22, 98, 29);
+		lbllTacGia.setBounds(366, 22, 115, 29);
 		panel.add(lbllTacGia);
 		
 		txtTacGia = new JTextField();
@@ -116,10 +126,10 @@ public class PanelSearchProduct extends JPanel {
 		txtTacGia.setBounds(491, 25, 177, 26);
 		panel.add(txtTacGia);
 		
-		JLabel lbllDanhMuc = new JLabel("Danh Mục");
+		lbllDanhMuc = new JLabel("Danh Mục");
 		lbllDanhMuc.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDanhMuc.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDanhMuc.setBounds(720, 21, 106, 29);
+		lbllDanhMuc.setBounds(695, 21, 131, 29);
 		panel.add(lbllDanhMuc);
 		
 		txtDanhMuc = new JTextField();
@@ -128,10 +138,10 @@ public class PanelSearchProduct extends JPanel {
 		txtDanhMuc.setBounds(844, 23, 177, 28);
 		panel.add(txtDanhMuc);
 		
-		JLabel lbllNXB = new JLabel("Nhà Xuất Bản");
+		lbllNXB = new JLabel("Nhà Xuất Bản");
 		lbllNXB.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllNXB.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllNXB.setBounds(1134, 22, 131, 29);
+		lbllNXB.setBounds(1105, 22, 160, 29);
 		panel.add(lbllNXB);
 		
 		txtNXB = new JTextField();
@@ -139,7 +149,7 @@ public class PanelSearchProduct extends JPanel {
 		txtNXB.setBounds(1286, 25, 188, 26);
 		panel.add(txtNXB);
 		
-		JButton btnSearch = new JButton("Tìm");
+		btnSearch = new JButton("Tìm");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listsp = daosp.getAll();
@@ -364,10 +374,10 @@ public class PanelSearchProduct extends JPanel {
 		btnSearch.setForeground(new Color(0, 128, 0));
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnSearch.setIcon(new ImageIcon(img_search));
-		btnSearch.setBounds(597, 104, 119, 40);
+		btnSearch.setBounds(556, 104, 160, 40);
 		panel.add(btnSearch);
 		
-		JButton btnRefresh = new JButton("Làm Mới");
+		btnRefresh = new JButton("Làm Mới");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
@@ -377,7 +387,7 @@ public class PanelSearchProduct extends JPanel {
 		btnRefresh.setForeground(new Color(0, 191, 255));
 		btnRefresh.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnRefresh.setIcon(new ImageIcon(img_update));
-		btnRefresh.setBounds(840, 104, 119, 40);
+		btnRefresh.setBounds(840, 104, 181, 40);
 		panel.add(btnRefresh);
 		
 		JPanel panel_1 = new JPanel();
@@ -429,5 +439,17 @@ public class PanelSearchProduct extends JPanel {
 		txtNXB.setText("");
 		txtTacGia.setText("");
 		txtTenSach.setText("");
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		btnTroVe.setText(rd.getString("troVe"));
+		lbllTimSach.setText(rd.getString("timsach"));
+		lbllTenSach.setText(rd.getString("tenSach"));
+		lbllTacGia.setText(rd.getString("tacGia"));
+		lbllDanhMuc.setText(rd.getString("danhMuc"));
+		lbllNXB.setText(rd.getString("NXB"));
+		btnSearch.setText(rd.getString("tim"));
+		btnRefresh.setText(rd.getString("lammoi"));
 	}
 }

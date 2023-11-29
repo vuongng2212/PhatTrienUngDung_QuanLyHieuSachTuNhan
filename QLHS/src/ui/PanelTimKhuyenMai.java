@@ -24,6 +24,8 @@ import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -44,6 +46,26 @@ public class PanelTimKhuyenMai extends JPanel {
 	private JDateChooser ketThuc;
 	public DialogShowKhuyenMai dialogShow;
 	private String txtReturn;
+
+	private JButton btnXoaKhuyenMai;
+
+	private JCheckBox checkBoxDangSuDung;
+
+	private JCheckBox checkBoxHetHan;
+
+	private JCheckBox checkBoxSapDienRa;
+
+	private JButton btnXemChiTiet;
+
+	private JButton btnTaoMoi;
+
+	private JButton btnTim;
+
+	private JLabel lbllNgayKetThuc;
+
+	private JLabel lbllNgayBatDau;
+
+	private JLabel lbllTimKhuyenMai;
 	/**
 	 * Create the panel.
 	 */
@@ -74,11 +96,11 @@ public class PanelTimKhuyenMai extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tìm Khuyến Mãi");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 1534, 91);
-		panel.add(lblNewLabel);
+		lbllTimKhuyenMai = new JLabel("Tìm Khuyến Mãi");
+		lbllTimKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lbllTimKhuyenMai.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllTimKhuyenMai.setBounds(0, 0, 1534, 91);
+		panel.add(lbllTimKhuyenMai);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(211, 211, 211));
@@ -86,28 +108,28 @@ public class PanelTimKhuyenMai extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Ngày Bắt Đầu");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(10, 25, 114, 32);
-		panel_1.add(lblNewLabel_1);
+		lbllNgayBatDau = new JLabel("Ngày Bắt Đầu");
+		lbllNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllNgayBatDau.setBounds(10, 25, 114, 32);
+		panel_1.add(lbllNgayBatDau);
 		
 		batdau = new JDateChooser();
 		batdau.setDateFormatString("dd-MM-yyyy");
-		batdau.setBounds(118, 25, 178, 35);
+		batdau.setBounds(130, 25, 178, 35);
 		panel_1.add(batdau);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Ngày Kết Thúc");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_1.setBounds(318, 25, 114, 32);
-		panel_1.add(lblNewLabel_1_1);
+		lbllNgayKetThuc = new JLabel("Ngày Kết Thúc");
+		lbllNgayKetThuc.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllNgayKetThuc.setBounds(351, 25, 114, 32);
+		panel_1.add(lbllNgayKetThuc);
 		
 		ketThuc = new JDateChooser();
 		ketThuc.setDateFormatString("dd-MM-yyyy");
-		ketThuc.setBounds(429, 25, 178, 35);
+		ketThuc.setBounds(475, 25, 178, 35);
 		panel_1.add(ketThuc);
 		
-		JButton btnNewButton = new JButton("Tìm");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnTim = new JButton("Tìm");
+		btnTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				if(batdau.getDate()!=null && ketThuc.getDate()!=null) {
 					if(batdau.getDate().before(ketThuc.getDate())) {
@@ -132,22 +154,22 @@ public class PanelTimKhuyenMai extends JPanel {
 				
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton.setBounds(302, 79, 114, 43);
-		panel_1.add(btnNewButton);
+		btnTim.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnTim.setBounds(302, 79, 114, 43);
+		panel_1.add(btnTim);
 		
-		JButton btnToMi = new JButton("Tạo Mới");
-		btnToMi.addActionListener(new ActionListener() {
+		btnTaoMoi = new JButton("Tạo Mới");
+		btnTaoMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
 			}
 		});
-		btnToMi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnToMi.setBounds(562, 79, 114, 43);
-		panel_1.add(btnToMi);
+		btnTaoMoi.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnTaoMoi.setBounds(562, 79, 140, 43);
+		panel_1.add(btnTaoMoi);
 		
-		JButton btnXemChiTit = new JButton("Xem Chi Tiết");
-		btnXemChiTit.addActionListener(new ActionListener() {
+		btnXemChiTiet = new JButton("Xem Chi Tiết");
+		btnXemChiTiet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				int i = table.getSelectedRow();
@@ -162,13 +184,13 @@ public class PanelTimKhuyenMai extends JPanel {
 				}
 			}
 		});
-		btnXemChiTit.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnXemChiTit.setBounds(816, 79, 169, 43);
-		panel_1.add(btnXemChiTit);
+		btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnXemChiTiet.setBounds(816, 79, 169, 43);
+		panel_1.add(btnXemChiTiet);
 		
 		
 		//Sắp diễn ra
-		JCheckBox checkBoxSapDienRa = new JCheckBox("Sắp Diễn Ra");
+		checkBoxSapDienRa = new JCheckBox("Sắp Diễn Ra");
 		checkBoxSapDienRa.setFont(new Font("Tahoma", Font.BOLD, 15));
 		checkBoxSapDienRa.setBounds(762, 32, 140, 23);
 		panel_1.add(checkBoxSapDienRa);
@@ -193,7 +215,7 @@ public class PanelTimKhuyenMai extends JPanel {
 			}
 		});
 		//Hêt Hạn
-		JCheckBox checkBoxHetHan = new JCheckBox("Hết Hạn");
+		checkBoxHetHan = new JCheckBox("Hết Hạn");
 		checkBoxHetHan.setFont(new Font("Tahoma", Font.BOLD, 15));
 		checkBoxHetHan.setBounds(988, 30, 122, 23);
 		panel_1.add(checkBoxHetHan);
@@ -219,14 +241,14 @@ public class PanelTimKhuyenMai extends JPanel {
 		});
 		
 		//Đang áp dụng
-		JCheckBox checkBoxDangSuDung = new JCheckBox("Đang áp dụng");
+		checkBoxDangSuDung = new JCheckBox("Đang áp dụng");
 		checkBoxDangSuDung.setFont(new Font("Tahoma", Font.BOLD, 15));
 		checkBoxDangSuDung.setBounds(1169, 32, 148, 23);
 		panel_1.add(checkBoxDangSuDung);
 		buttonGroup.add(checkBoxDangSuDung);
 		
-		JButton btnXoa = new JButton("Xóa Khuyến Mãi");
-		btnXoa.addActionListener(new ActionListener() {
+		btnXoaKhuyenMai = new JButton("Xóa Khuyến Mãi");
+		btnXoaKhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				int i = table.getSelectedRow();
 				boolean flag = true;
@@ -267,9 +289,9 @@ public class PanelTimKhuyenMai extends JPanel {
 				
 			}
 		});
-		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnXoa.setBounds(1093, 79, 169, 43);
-		panel_1.add(btnXoa);
+		btnXoaKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnXoaKhuyenMai.setBounds(1093, 79, 200, 43);
+		panel_1.add(btnXoaKhuyenMai);
 		checkBoxDangSuDung.addItemListener(new ItemListener() {
 			
 			@Override
@@ -338,5 +360,19 @@ public class PanelTimKhuyenMai extends JPanel {
 		model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
 		
+	}
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		lbllTimKhuyenMai.setText(rd.getString("timKM"));
+		lbllNgayBatDau.setText(rd.getString("ngayBatDau"));
+		lbllNgayKetThuc.setText(rd.getString("ngayKetThuc"));
+		checkBoxSapDienRa.setText(rd.getString("ngayKetThuc"));
+		checkBoxHetHan.setText(rd.getString("hetHan"));
+		checkBoxDangSuDung.setText(rd.getString("dangApDung"));
+		btnTim.setText(rd.getString("tim"));
+		btnTaoMoi.setText(rd.getString("lammoi"));
+		btnXemChiTiet.setText(rd.getString("xemChiTiet"));
+		btnXoaKhuyenMai.setText(rd.getString("xoaKhuyenMai"));
 	}
 }
