@@ -17,15 +17,30 @@ import dao.DAO_KhuyenMai;
 import dao.DAO_chiTietKhachDH;
 import entity.ChiTietKhachDH;
 import entity.KhachDH;
+import entity.Subject;
+import entity.SubjectDH;
 import entity.userInfo;
 import list.DanhSachKhachDH;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -59,6 +74,7 @@ public class PanelKHDatSach extends JPanel {
 	private JTextField txtTienKhachGui;
 	private double total;
 	private JTextField txtTongTien;
+	private JButton btnInHD;
 //	public int discount;
 	/**
 	 * Create the panel.
@@ -109,6 +125,11 @@ public class PanelKHDatSach extends JPanel {
 		txtMaDH.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Tạo Đơn");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refresh();
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnNewButton.setBounds(193, 92, 105, 37);
 		add(btnNewButton);
@@ -391,19 +412,19 @@ public class PanelKHDatSach extends JPanel {
 		add(txtTongTien);
 		txtTongTien.setColumns(10);
 		
-		JButton btnNewButton_2 = new JButton("Hủy Bỏ");
-		btnNewButton_2.setBackground(new Color(255, 0, 0));
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnHuyBo = new JButton("Hủy Bỏ");
+		btnHuyBo.setBackground(new Color(255, 0, 0));
+		btnHuyBo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
 			}
 		});
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_2.setBounds(1028, 908, 141, 42);
-		add(btnNewButton_2);
+		btnHuyBo.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnHuyBo.setBounds(1028, 908, 141, 42);
+		add(btnHuyBo);
 		
-		JButton btnNewButton_2_1 = new JButton("Đặt Hàng");
-		btnNewButton_2_1.addActionListener(new ActionListener() {
+		JButton btnDatHang = new JButton("Đặt Hàng");
+		btnDatHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(!txtTienPhaiCoc.getText().equalsIgnoreCase("")) {
@@ -441,21 +462,34 @@ public class PanelKHDatSach extends JPanel {
 					for(int i=0;i<limit;i++) {
 						daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString())));
 					}
-					refresh();
+					btnInHD.setEnabled(true);
+//					refresh();
+					
 					JOptionPane.showMessageDialog(null, "Đặt hàng thành công!!");
 				}
 			}
 		});
-		btnNewButton_2_1.setBackground(new Color(0, 255, 0));
-		btnNewButton_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_2_1.setBounds(1204, 908, 141, 42);
-		add(btnNewButton_2_1);
+		btnDatHang.setBackground(new Color(0, 255, 0));
+		btnDatHang.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnDatHang.setBounds(1204, 908, 141, 42);
+		add(btnDatHang);
 		
-		JButton btnNewButton_2_2 = new JButton("In Hóa Đơn");
-		btnNewButton_2_2.setBackground(new Color(255, 215, 0));
-		btnNewButton_2_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_2_2.setBounds(1368, 908, 141, 42);
-		add(btnNewButton_2_2);
+		btnInHD = new JButton("In Hóa Đơn");
+		btnInHD.setEnabled(false);
+		btnInHD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int n = table.getRowCount();
+				if(n>0) {
+					printReport();
+				}else {
+					JOptionPane.showMessageDialog(null, "Vui lòng thanh toán trước khi in hóa đơn!!!");
+				}
+			}
+		});
+		btnInHD.setBackground(new Color(255, 215, 0));
+		btnInHD.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnInHD.setBounds(1368, 908, 141, 42);
+		add(btnInHD);
 		
 		JLabel lblNewLabel_6 = new JLabel("Tiền Cọc");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -544,6 +578,74 @@ public class PanelKHDatSach extends JPanel {
 		
 		return -1;
 	}
+	
+	public ArrayList<SubjectDH>listDH(){
+		ArrayList<SubjectDH>list = new ArrayList<SubjectDH>();
+		Locale localVN = new Locale("vi","VN");
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(localVN);
+		model = (DefaultTableModel) table.getModel();
+		int n = table.getRowCount();
+		for(int i=0;i<n;i++) {
+			list.add(new SubjectDH(model.getValueAt(i,1).toString(),Integer.parseInt(model.getValueAt(i, 2).toString()),currencyFormat.format(Double.parseDouble(model.getValueAt(i, 3).toString())),currencyFormat.format(Double.parseDouble(model.getValueAt(i, 4).toString()))));
+			
+		}
+		
+		return list;
+	}
+	private void printReport() {
+		try {
+			String filePath = "src\\resources\\PhieuDatSach.jrxml";
+			
+//			Subject subject1 = new Subject("Java",5,"50000",0,"260VND");
+//			Subject subject2 = new Subject("JavaScript",2,"50000",0,"260VND");
+//			Subject subject3 = new Subject("Jsp",3,"50000",0,"260VND");
+//			
+//			
+			List<SubjectDH>list = new ArrayList<SubjectDH>();
+			list = listDH();
+			
+			
+
+			Locale localeCN = new Locale("vi","VN");
+			NumberFormat currency = NumberFormat.getCurrencyInstance(localeCN);
+			
+			model = (DefaultTableModel) table.getModel();				
+			JRBeanCollectionDataSource dataSource = 
+					new JRBeanCollectionDataSource(list);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("maDH",txtMaDH.getText());
+			parameters.put("tenKH",txtTenKH.getText());
+			parameters.put("ngayDat",dateFormat.format(new Date()));
+			parameters.put("tongTien", txtTongTien.getText());
+			if(txtTienKhachGui.getText().equalsIgnoreCase("")) {
+				parameters.put("tienCoc", "0");
+			}else {
+				parameters.put("tienCoc", txtTienKhachGui.getText());
+				
+			}
+			
+			parameters.put("tableData", dataSource);
+			
+			JasperReport report = JasperCompileManager.compileReport(filePath);
+			
+			JasperPrint print = 
+					JasperFillManager.fillReport(report, parameters,dataSource);
+			JasperViewer jv = new JasperViewer(print,false);
+			jv.setVisible(true);
+			
+			
+//			JasperExportManager.exportReportToPdfFile(print,
+//					"C:\\Users\\phant\\Downloads\\Total-Count-Of-Particular-Column-Values\\Total-Count-Of-Particular-"
+//					+ "Column-Values\\src\\main\\resources\\student.pdf");
+//			
+//			System.out.println("Report Created...");
+//			
+			
+		} catch(Exception e) {
+			System.out.println("Exception while creating report");
+		}
+	}
 	public void refresh() {
 		model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
@@ -554,10 +656,12 @@ public class PanelKHDatSach extends JPanel {
 		txtDiaChi.setText("");
 		txtMaSach.setText("");
 		txtSoLuong.setText("");
+		
 		total = 0;
 		txtTienKhachGui.setText("");
 		txtTienPhaiCoc.setText("");
 		txtTongTien.setText("");
+		btnInHD.setEnabled(false);
 	}
 	private double totalChange() {
 		double sum = 0;

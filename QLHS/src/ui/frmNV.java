@@ -614,6 +614,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(bill);
+				bill.banHang.refresh();
 			}
 		});
 		  menuTaoHD.setPreferredSize(new Dimension(180, 41));

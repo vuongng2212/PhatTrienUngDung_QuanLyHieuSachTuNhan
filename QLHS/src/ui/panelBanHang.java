@@ -518,7 +518,7 @@ public class panelBanHang extends JPanel {
 							JOptionPane.showMessageDialog(null, "Tổng chi tiêu của khách hàng đã vượt 300k.LoạiKh set TV");
 						}
 					}
-					
+					btnInHD.setEnabled(true);
 					Locale localVN = new Locale("vi","VN");
 					NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(localVN);
 					
@@ -553,11 +553,17 @@ public class panelBanHang extends JPanel {
 		panel_2.add(btnThanhToan);
 		
 		btnInHD = new JButton("In Hóa Đơn");
+		btnInHD.setEnabled(false);
 		btnInHD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				CustomReport cs = new CustomReport();
 //				cs.setVisible(true);
-				printReport();
+				int n = table.getRowCount();
+				if(n>0) {
+					printReport();	
+				}else {
+					JOptionPane.showMessageDialog(null, "Vui lòng thanh toán trước khi in hóa đơn!!");
+				}
 			}
 		});
 		btnInHD.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -683,6 +689,7 @@ public class panelBanHang extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				firstFlag = true;
 				refresh();
+				
 			}
 		});
 		btnNewButton_1.setBounds(337, 12, 132, 39);
@@ -770,8 +777,9 @@ public class panelBanHang extends JPanel {
 //			printReport();
 //		}
 		private void printReport() {
+			
 			try {
-				String filePath = "D:\\PTUD\\QuanLyHieuSachTuNhan_PTUD_Nhom05\\QLHS\\src\\resources\\HD.jrxml";
+				String filePath = "src\\resources\\HD.jrxml";
 				
 //				Subject subject1 = new Subject("Java",5,"50000",0,"260VND");
 //				Subject subject2 = new Subject("JavaScript",2,"50000",0,"260VND");
@@ -907,6 +915,7 @@ public class panelBanHang extends JPanel {
 		txtTongTien.setText("");
 		txtTienNhan.setText("");
 		lbllTienTra.setText("");
+		btnInHD.setEnabled(false);
 	}
 	public ArrayList<Subject>listHd(){
 		ArrayList<Subject>list = new ArrayList<Subject>();
