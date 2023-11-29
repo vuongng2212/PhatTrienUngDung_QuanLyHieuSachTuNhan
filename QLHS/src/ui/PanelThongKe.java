@@ -385,6 +385,11 @@ public class PanelThongKe extends JPanel {
 						printReport("thongKeSLNhap");
 						DAO_ThongKe.DropViewTKSLNhap();
 					}
+					if(thongKeVal == 1) {
+						DAO_ThongKe.CreateViewTKThuChiNhapSach(date, Date.valueOf(getMinusTime(0)));
+						printReport("thongKeThuChiNhapSach");
+//						DAO_ThongKe.DropViewTKThuChiNhapSach();
+					}
 				}
 			}
 		});

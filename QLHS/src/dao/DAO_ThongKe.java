@@ -57,7 +57,7 @@ public class DAO_ThongKe {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
-		String sql = "DROP VIEW sl_Nhap;";
+		String sql = "DROP VIEW sl_Nhap";
 		try {
 			stm = con.prepareStatement(sql);
 			stm.executeUpdate();
@@ -91,6 +91,45 @@ public class DAO_ThongKe {
 		}
 		return ds;	
 	}	
+	
+	public boolean CreateViewTKThuChiNhapSach(Date start, Date end) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "CREATE VIEW thuChi_Nhap as Select pn.maNH, ngayNhap , chietKhau ,thanhTien = SUM(ctPNH.soLuong*sp.donGiaGoc*(100-pn.chietKhau)/100) from phieuNhap pn join chiTietNhapHang ctPNH on pn.maNH = ctPNH.maNH join sanPham sp on sp.maSP = ctPNH.maSP "
+				+"where ngayNhap BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1 "
+				+"group by pn.maNH, ngayNhap, chietKhau;";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
+	public boolean DropViewTKThuChiNhapSach() {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "DROP VIEW thuChi_Nhap";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
 	public ArrayList<ThongKeEntity>SachBanChay(int dateNumber){
 		ArrayList<ThongKeEntity> ds = new ArrayList<ThongKeEntity>();
 		ConnectDB.getInstance();

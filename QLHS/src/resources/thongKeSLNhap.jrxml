@@ -82,7 +82,7 @@ FROM "sl_Nhap"]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Mã sản phẩm]]></text>
 			</staticText>
@@ -97,7 +97,7 @@ FROM "sl_Nhap"]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tên sản phẩm]]></text>
 			</staticText>
@@ -112,7 +112,7 @@ FROM "sl_Nhap"]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Số lượng nhập]]></text>
 			</staticText>
@@ -127,7 +127,7 @@ FROM "sl_Nhap"]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Số lượng gốc]]></text>
 			</staticText>
@@ -142,7 +142,7 @@ FROM "sl_Nhap"]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13"/>
+					<font size="13" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Số lượng hiện tại]]></text>
 			</staticText>

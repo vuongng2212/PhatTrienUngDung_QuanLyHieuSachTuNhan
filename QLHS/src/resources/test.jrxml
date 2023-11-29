@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="test" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df18e001-ac87-46b7-96ee-abb23307c18f">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[InRodUNoaV9OaGFwIiAsMTUsMTUsNmNlMWEwNjEtNWUxZC00N2U2LWI3OTUtYTI5ODU1MDI1NWRi
+Ow==]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (8)"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM "thuChi_Nhap"]]>
+	</queryString>
+	<field name="maNH" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="maNH"/>
+		<property name="com.jaspersoft.studio.field.label" value="maNH"/>
+	</field>
+	<field name="ngayNhap" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="ngayNhap"/>
+		<property name="com.jaspersoft.studio.field.label" value="ngayNhap"/>
+	</field>
+	<field name="chietKhau" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="chietKhau"/>
+		<property name="com.jaspersoft.studio.field.label" value="chietKhau"/>
+	</field>
+	<field name="thanhTien" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="thanhTien"/>
+		<property name="com.jaspersoft.studio.field.label" value="thanhTien"/>
+	</field>
+	<group name="maNH">
+		<groupExpression><![CDATA[$F{maNH}]]></groupExpression>
+	</group>
+	<group name="ngayNhap">
+		<groupExpression><![CDATA[$F{ngayNhap}]]></groupExpression>
+	</group>
+	<group name="chietKhau">
+		<groupExpression><![CDATA[$F{chietKhau}]]></groupExpression>
+	</group>
+	<group name="thanhTien">
+		<groupExpression><![CDATA[$F{thanhTien}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="42" y="25" width="100" height="30" uuid="8d91c97d-74b3-4358-93f3-d1ba028d8629"/>
+				<textFieldExpression><![CDATA[$F{maNH}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
