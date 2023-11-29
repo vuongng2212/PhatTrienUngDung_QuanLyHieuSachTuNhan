@@ -31,7 +31,6 @@
 	<classpathentry kind="lib" path="libs/jackson-annotations-2.10.0.jar"/>
 	<classpathentry kind="lib" path="libs/jackson-databind-2.10.0.jar"/>
 	<classpathentry kind="lib" path="libs/jasperreports-6.16.0.jar"/>
-	<classpathentry kind="lib" path="libs/jasperreports-6.5.1.jar"/>
 	<classpathentry kind="lib" path="libs/javax.inject-1.jar"/>
 	<classpathentry kind="lib" path="libs/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="libs/jfreechart-1.0.19.jar"/>
