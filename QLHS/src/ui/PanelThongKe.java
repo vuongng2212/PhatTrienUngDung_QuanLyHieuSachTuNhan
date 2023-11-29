@@ -108,7 +108,7 @@ public class PanelThongKe extends JPanel {
 	 */
 	public PanelThongKe() {
 		
-		setBounds(0,0,1534,1017);
+		setBounds(0, 200, 1920, 816);
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -129,7 +129,7 @@ public class PanelThongKe extends JPanel {
 		add(lbllThongKE);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 94, 969, 168);
+		panel_1.setBounds(0, 94, 1388, 168);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -239,7 +239,7 @@ public class PanelThongKe extends JPanel {
 		chk30Ngay.addActionListener(actionListener);
 		
 		JPanel panelShowInfo = new JPanel();
-		panelShowInfo.setBounds(1002, 94, 522, 168);
+		panelShowInfo.setBounds(1398, 94, 522, 168);
 		panelShowInfo.setBackground(UIManager.getColor("Button.light"));
 		add(panelShowInfo);
 		panelShowInfo.setLayout(null);
@@ -372,14 +372,31 @@ public class PanelThongKe extends JPanel {
 		btnThongKe.setBackground(new Color(0, 255, 255));
 		btnThongKe.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThongKe.setIcon(new ImageIcon(img_statics));
-		btnThongKe.setBounds(746, 11, 209, 48);
+		btnThongKe.setBounds(1169, 11, 209, 48);
 		panel_1.add(btnThongKe);
 		
 		JButton btnChiTiet = new JButton("In Thống Kê");
+		btnChiTiet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(thongKeVal!= -1 && date != null) {
+					DAO_ThongKe = new DAO_ThongKe();
+					if(thongKeVal == 0) {
+						DAO_ThongKe.CreateViewTKSLNhap(date, Date.valueOf(getMinusTime(0)));
+						printReport("thongKeSLNhap");
+						DAO_ThongKe.DropViewTKSLNhap();
+					}
+					if(thongKeVal == 1) {
+						DAO_ThongKe.CreateViewTKThuChiNhapSach(date, Date.valueOf(getMinusTime(0)));
+						printReport("thongKeThuChiNhapSach");
+//						DAO_ThongKe.DropViewTKThuChiNhapSach();
+					}
+				}
+			}
+		});
 		btnChiTiet.setBackground(new Color(144, 238, 144));
 		btnChiTiet.setIcon(new ImageIcon(img_details));
 		btnChiTiet.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnChiTiet.setBounds(746, 95, 209, 48);
+		btnChiTiet.setBounds(1169, 109, 209, 48);
 		panel_1.add(btnChiTiet);
 		
 		JLabel lblNewLabel_1 = new JLabel("Danh Sách Hóa Đơn Bán Hàng");
@@ -418,7 +435,8 @@ public class PanelThongKe extends JPanel {
 	        String user = "sa";
 	        String pass = "123";
 	        Connection con = DriverManager.getConnection(URL, user, pass);
-			JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/"+fileName+".jrxml"));
+	        String path = "/resources/"+fileName+".jrxml";
+			JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream(path));
 			JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
 			JasperViewer jv = new JasperViewer(jp);
 			jv.setVisible(true);

@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +14,64 @@ import entity.SanPham;
 import entity.ThongKeEntity;
 
 public class DAO_ThongKe {
+	public ArrayList<SanPham> ThongKeSLNhap(Date start, Date end) {
+		ArrayList<SanPham> ds = new ArrayList<SanPham>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "Select sp.maSP , tenSP, soLuongNhap = SUM(ctPNH.soLuong), soLuongGoc = sp.soLuong - SUM(ctPNH.soLuong), sp.soLuong from phieuNhap pn join chiTietNhapHang ctPNH on pn.maNH = ctPNH.maNH join sanPham sp on sp.maSP = ctPNH.maSP\r\n"
+					+ "where ngayNhap BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1\r\n"
+					+ "group by sp.maSP, tenSP, sp.soLuong";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			ds.add(new SanPham(rs.getString("maSP"),rs.getString("tenSP"),rs.getInt("soLuongNhap"),rs.getInt("soLuongGoc"),rs.getInt("soLuong")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ds;	
+
+	}	
+	public boolean CreateViewTKSLNhap(Date start, Date end) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "CREATE VIEW sl_Nhap as Select sp.maSP , tenSP, soLuongNhap = SUM(ctPNH.soLuong), soLuongGoc = sp.soLuong - SUM(ctPNH.soLuong), sp.soLuong from phieuNhap pn join chiTietNhapHang ctPNH on pn.maNH = ctPNH.maNH join sanPham sp on sp.maSP = ctPNH.maSP\r\n"
+				+ "where ngayNhap BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1\r\n"
+				+ "group by sp.maSP, tenSP, sp.soLuong;";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
+	public boolean DropViewTKSLNhap() {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "DROP VIEW sl_Nhap";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
+	
 	public ArrayList<PhieuNhapHang> baoCaoThuChiNhapSach(Date start, Date end) {
 		ArrayList<PhieuNhapHang> ds = new ArrayList<PhieuNhapHang>();
 		ConnectDB.getInstance();
@@ -32,6 +91,45 @@ public class DAO_ThongKe {
 		}
 		return ds;	
 	}	
+	
+	public boolean CreateViewTKThuChiNhapSach(Date start, Date end) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "CREATE VIEW thuChi_Nhap as Select pn.maNH, ngayNhap , chietKhau ,thanhTien = SUM(ctPNH.soLuong*sp.donGiaGoc*(100-pn.chietKhau)/100) from phieuNhap pn join chiTietNhapHang ctPNH on pn.maNH = ctPNH.maNH join sanPham sp on sp.maSP = ctPNH.maSP "
+				+"where ngayNhap BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1 "
+				+"group by pn.maNH, ngayNhap, chietKhau;";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
+	public boolean DropViewTKThuChiNhapSach() {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "DROP VIEW thuChi_Nhap";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(stm);
+		}
+		return true;
+	}
 	public ArrayList<ThongKeEntity>SachBanChay(int dateNumber){
 		ArrayList<ThongKeEntity> ds = new ArrayList<ThongKeEntity>();
 		ConnectDB.getInstance();
@@ -72,25 +170,16 @@ public class DAO_ThongKe {
 	}
 	
 	
-	
-	public ArrayList<SanPham> ThongKeSLNhap(Date start, Date end) {
-		ArrayList<SanPham> ds = new ArrayList<SanPham>();
-		ConnectDB.getInstance();
-		Connection con = ConnectDB.getConnection();
-		try {
-			String sql = "Select sp.maSP , tenSP, soLuongNhap = SUM(ctPNH.soLuong), soLuongGoc = sp.soLuong - SUM(ctPNH.soLuong), sp.soLuong from phieuNhap pn join chiTietNhapHang ctPNH on pn.maNH = ctPNH.maNH join sanPham sp on sp.maSP = ctPNH.maSP\r\n"
-					+ "where ngayNhap BETWEEN CAST('"+start+"' AS DATE) AND CAST('"+end+"' AS DATE) and trangThai = 1\r\n"
-					+ "group by sp.maSP, tenSP, sp.soLuong";
-//			System.out.println(sql);
-			Statement statement =con.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
-		while(rs.next()) {
-			ds.add(new SanPham(rs.getString("maSP"),rs.getString("tenSP"),rs.getInt("soLuongNhap"),rs.getInt("soLuongGoc"),rs.getInt("soLuong")));
-		}			
-		}catch (SQLException e) {
-			e.printStackTrace();
+	private void close(PreparedStatement stm) {
+		// TODO Auto-generated method stub
+		if(stm!=null) {
+			try {
+				stm.close();
+			} catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}
-		return ds;	
-
-	}	
+	}
+	
 }
