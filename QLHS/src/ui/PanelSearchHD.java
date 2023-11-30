@@ -40,6 +40,7 @@ public class PanelSearchHD extends JPanel {
 	private JLabel lbllNgayTao;
 	private JLabel lbllTimHoaDon;
 	private JButton btnLamMoi;
+	private String maHD,maNV,maKh,ngayTao,thanhTien;
 	/**
 	 * Create the panel.
 	 */
@@ -195,6 +196,15 @@ public class PanelSearchHD extends JPanel {
 		btnTimKiem.setText(rd.getString("tim"));
 		btnLamMoi.setText(rd.getString("lammoi"));
 		btnXemChiTiet.setText(rd.getString("xemChiTiet"));
+		
+		maHD= rd.getString("maHoaDon");
+		maNV=rd.getString("maNV");
+		maKh=rd.getString("maKH");
+		ngayTao=rd.getString("ngayTao");
+		thanhTien=rd.getString("thanhTien");
+		model = (DefaultTableModel) table.getModel();
+		String[] column = {maHD,maNV,maKh,ngayTao,thanhTien};
+		model.setColumnIdentifiers(column);
 	}
 	
 }

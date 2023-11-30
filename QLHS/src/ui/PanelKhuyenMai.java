@@ -80,6 +80,7 @@ public class PanelKhuyenMai extends JPanel {
 	private JButton btnTaoKhuyenMai;
 	private JLabel lbllTaoKM;
 	private JLabel lbllSach;
+	private String maSach,tenSach,tacGia,soLgTonKho,mucGiam;
 	/**
 	 * Create the panel.
 	 */
@@ -539,5 +540,14 @@ public class PanelKhuyenMai extends JPanel {
 		danhSachSP.setText(rd.getString("danhSachSP"));
 		btnSua.setText(rd.getString("sua"));
 		btnXoa.setText(rd.getString("xoa"));
+		
+		maSach= rd.getString("maSach");
+		tenSach= rd.getString("tenSach");
+		tacGia= rd.getString("tacGia");
+		soLgTonKho= rd.getString("soLuongTonKho");
+		mucGiam= rd.getString("mucGiam");
+		model = (DefaultTableModel) table.getModel();
+		String[] column = {maSach,tenSach,tacGia,soLgTonKho,mucGiam};
+		model.setColumnIdentifiers(column);
 	}
 }

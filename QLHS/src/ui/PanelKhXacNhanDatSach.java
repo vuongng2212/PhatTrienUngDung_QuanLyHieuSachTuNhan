@@ -111,6 +111,27 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	public JLabel lbllThanhTien;
 	public JLabel lbllTienDaCoc;
 	public JLabel lbllTienPhaiTraThem;
+	private String textError0;
+	private String textError1;
+	private String textError2;
+	private String textError3;
+	private String textError4;
+	private String textError5;
+	private String textError6;
+	private String textError7;
+	private String textError8;
+	private String textError9;
+	private String textError10;
+	private String textError11;
+	private String textError12;
+	private String textError13;
+	private String textError14;
+	private String textError15;
+	private String textError16;
+	private String maDH,khachDH,nhanVienDat,ngayDat,trangThai;
+	private String ma,tenSP,soLuong,giaBanCl,discount,thanhTiencl;
+	
+	
 	/**
 	 * Create the panel.
 	 */
@@ -121,6 +142,23 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			
 			e.printStackTrace();
 		}
+		textError0="Xác nhận hủy bỏ ";
+		textError1="Đã hủy đơn đặt!";
+		textError2="khách hàng đã hủy quá 3 đơn hàng. Hệ thống sẽ đưa vào danh sách không cho đặt đơn";
+		textError3="Đúng 3 lần hủy sẽ bị đưa vào danh sách cấm. Vui lòng không hủy đơn.";
+		textError4="Số lần khách đã hủy là: ";
+		textError5=" lần.";
+		textError6="Vui lòng chọn sách !!";
+		textError7="Vui lòng điền số lượng";
+		textError8="Số Lương vượt quá trong kho!!";
+		textError9= "Thêm Thành Công!";
+		textError10="Sản phẩm đã có trên list giao dịch";
+		textError11="Sửa thành công!!";
+		textError12="Sửa số lượng sẩn phẩm đã đặt phải lớn hơn số lượng trước đó!!!";
+		textError13="Vui lòng chọn dòng cần sửa!!";
+		textError14="Sản phẩm đã đặt trước không thể xóa!!";
+		textError15="Lập hóa đơn thành công!!!";
+		textError16="Tổng chi tiêu của khách đã vượt 300k. Loại Khách hàng chuyển thành thành viên";
 		dialogKH = new DialogAddKH3();
 		rowAddSp = new Object[5];
 		thanhTien = 0;
@@ -213,8 +251,13 @@ public class PanelKhXacNhanDatSach extends JPanel {
 				txtTienCoc.setText(String.format("%.1f", daoKh.tienCocTheoMa(maDH)));
 				rowInfo = new Object[6];
 				if(modelDonDatHang.getValueAt(i, 4).toString().equalsIgnoreCase("Chưa Thanh Toán")) {
+					System.out.println("Chua thanh toan!!");
 					btnXacNhan.setEnabled(true);
 					btnHuyBo.setEnabled(true);
+					btnTim3.setEnabled(true);
+					btnAdd.setEnabled(true);
+					btnSua.setEnabled(true);
+					btnXoa.setEnabled(true);
 				}
 				if(i>=0) {
 					for (ChiTietKhachDH kh : listChiTietKh.getList()) {
@@ -354,7 +397,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 					dao_chiTietHD.add(chit);
 					daosp.giamSoLuong(chit.getMaSP(), chit.getSoLuong());
 				}
-				JOptionPane.showMessageDialog(null, "Lập hóa đơn thành công!!!");
+				JOptionPane.showMessageDialog(null, textError15);
 				btnInHoaDon.setEnabled(true);
 				daoKh.updateDaXacNhan(txtMaDH.getText());
 				if(txtLoai.getText().equalsIgnoreCase("VL")) {
@@ -363,7 +406,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 					double tongTien = daoKm.tongTienCuaKH(daoKh.tenMaKHTheoDH(txtMaDH.getText()));
 					if(tongTien >=300000) {
 						daoKhachHang.updateLoaiKH(daoKh.tenMaKHTheoDH(txtMaDH.getText()));
-						JOptionPane.showMessageDialog(null,"Tổng chi tiêu của khách đã vượt 300k. Loại Khách hàng chuyển thành thành viên");
+						JOptionPane.showMessageDialog(null,textError16);
 					}
 				}
 				refresh();
@@ -448,6 +491,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		btnInHoaDon.setEnabled(false);
 		btnInHoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnInHoaDon.setBounds(1348, 898, 162, 45);
@@ -456,17 +500,17 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		btnHuyBo = new JButton("Hủy Bỏ");
 		btnHuyBo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option =  JOptionPane.showOptionDialog(null, "Xác nhận hủy bỏ ", "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				int option =  JOptionPane.showOptionDialog(null, textError0, "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				switch (option) {
 				case JOptionPane.YES_OPTION:
 					daoKh.updateHuy(txtMaDH.getText());
-					JOptionPane.showMessageDialog(null, "Đã hủy đơn đặt!");
+					JOptionPane.showMessageDialog(null, textError1);
 					int soLanHuy = daoKh.soLanHuy(daoKh.tenMaKHTheoDH(txtMaDH.getText()));
 					if(soLanHuy>=3) {
-						JOptionPane.showMessageDialog(null, "khách hàng đã hủy quá 3 đơn hàng. Hệ thống sẽ đưa vào danh sách không cho đặt đơn");
+						JOptionPane.showMessageDialog(null, textError2);
 					}else {
-						JOptionPane.showMessageDialog(null, "Đúng 3 lần hủy sẽ bị đưa vào danh sách cấm. Vui lòng không hủy đơn.");
-						JOptionPane.showMessageDialog(null, "Số lần khách đã hủy là: "+ soLanHuy +" lần.");
+						JOptionPane.showMessageDialog(null, textError3);
+						JOptionPane.showMessageDialog(null,textError4+ soLanHuy +textError5);
 						refresh();
 						
 					}
@@ -488,12 +532,13 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(lbllThemSach);
 		
 		btnTim3 = new JButton("Tìm");
+		btnTim3.setEnabled(false);
 		btnTim3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				onOpenFormSPButtonClick();
 			}
 		});
-		btnTim3.setBounds(834, 853, 58, 34);
+		btnTim3.setBounds(834, 853, 87, 34);
 		add(btnTim3);
 		
 		lbllMaSach = new JLabel("Mã Sách");
@@ -502,6 +547,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(lbllMaSach);
 		
 		txtMaSach = new JTextField();
+		txtMaSach.setEditable(false);
 		txtMaSach.setBounds(1018, 853, 66, 34);
 		add(txtMaSach);
 		txtMaSach.setColumns(10);
@@ -517,18 +563,19 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(txtSoLuong);
 		
 		btnAdd = new JButton("Thêm");
+		btnAdd.setEnabled(false);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int discount = 0;
 				if(txtMaSach.getText().equalsIgnoreCase("")) {
-					JOptionPane.showMessageDialog(null,"Vui lòng chọn sách !!");
+					JOptionPane.showMessageDialog(null,textError6);
 				}else {
 					if(txtSoLuong.getText().equalsIgnoreCase("")) {
-						JOptionPane.showMessageDialog(null, "Vui lòng điền số lượng");
+						JOptionPane.showMessageDialog(null, textError7);
 					}else {
 						if(indexTrungTrenBang(txtMaSach.getText()) ==-1) {
 							if(Integer.parseInt(txtSoLuong.getText()) > soLuongSPTemp) {
-								JOptionPane.showMessageDialog(null, "Số Lương vượt quá trong kho!!");
+								JOptionPane.showMessageDialog(null, textError8);
 							}else {
 								if(daoKm.ktraHienDangKhuyenMai(txtMaSach.getText())) {
 									discount = daoKm.discountSPDangKM(txtMaSach.getText());
@@ -553,12 +600,12 @@ public class PanelKhXacNhanDatSach extends JPanel {
 								modelSPAdd.addRow(rowAddSp);
 								txtMaSach.setText("");
 								txtSoLuong.setText("");
-								JOptionPane.showMessageDialog(null, "Thêm Thành Công!");
+								JOptionPane.showMessageDialog(null,textError9);
 								txtThanhTien.setText(String.format("%.1f", tinhThanhTien()));
 								txtTienTraThem.setText(String.format("%.1f",tienKhachPhaiTra()));
 							}
 						}else {
-							JOptionPane.showMessageDialog(null, "Sản phẩm đã có trên list giao dịch");
+							JOptionPane.showMessageDialog(null, textError10);
 							txtSoLuong.setText("");
 							txtMaSach.setText("");
 						}
@@ -570,6 +617,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(btnAdd);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setEnabled(false);
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = tableDetails.getSelectedRow();
@@ -587,11 +635,11 @@ public class PanelKhXacNhanDatSach extends JPanel {
 							double soLuong = Double.parseDouble(modelInfo.getValueAt(i, 2).toString());
 							double total = (giaBan*soLuong)  - (giaBan*soLuong*discount/100);
 							modelInfo.setValueAt(total, i, 5);
-							JOptionPane.showMessageDialog(null,"Sửa thành công!!");
+							JOptionPane.showMessageDialog(null,textError11);
 							txtSoLuong.setText("");
 							txtMaSach.setText("");
 						}else{
-							JOptionPane.showMessageDialog(null, "Sửa số lượng sẩn phẩm đã đặt phải lớn hơn số lượng trước đó!!!");
+							JOptionPane.showMessageDialog(null, textError12);
 						}
 					}else {
 						System.out.println("Thoat khỏi limit!!");
@@ -601,7 +649,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 						double soLuong = Double.parseDouble(modelInfo.getValueAt(i, 2).toString());
 						double total = (giaBan*soLuong)  - (giaBan*soLuong*discount/100);
 						modelInfo.setValueAt(total, i, 5);
-						JOptionPane.showMessageDialog(null,"Sửa thành công!!");
+						JOptionPane.showMessageDialog(null,textError11);
 						txtSoLuong.setText("");
 						txtMaSach.setText("");
 						txtThanhTien.setText(String.format("%.1f", tinhThanhTien()));
@@ -609,7 +657,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 						
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần sửa!!");
+					JOptionPane.showMessageDialog(null, textError13);
 				}
 			}
 		});
@@ -618,13 +666,14 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setEnabled(false);
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = tableDetails.getSelectedRow();
 				if(i <limit) {
 					txtSoLuong.setText("");
 					txtMaSach.setText("");
-					JOptionPane.showMessageDialog(null, "Sản phẩm đã đặt trước không thể xóa!!");
+					JOptionPane.showMessageDialog(null, textError14);
 				}else {
 					modelInfo = (DefaultTableModel) tableDetails.getModel();
 //					 i = tableDetails.getRowCount();
@@ -734,6 +783,10 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	}
 			
 	public void refresh() {
+		btnTim3.setEnabled(false);
+		btnAdd.setEnabled(false);
+		btnSua.setEnabled(false);
+		btnXoa.setEnabled(false);
 		modelDonDatHang = (DefaultTableModel) table.getModel();
 		btnInHoaDon.setEnabled(false);
 		btnHuyBo.setEnabled(false);
@@ -795,6 +848,43 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		btnHuyBo.setText(rd.getString("huyBo"));
 		btnXacNhan.setText(rd.getString("xacNhan"));
 		btnInHoaDon.setText(rd.getString("inHD"));
+		
+		textError0= rd.getString("textErrorXacNhanDH0");
+		textError1= rd.getString("textErrorXacNhanDH1");
+		textError2= rd.getString("textErrorXacNhanDH2");
+		textError3= rd.getString("textErrorXacNhanDH3");
+		textError4= rd.getString("textErrorXacNhanDH4");
+		textError5= rd.getString("textErrorXacNhanDH5");
+		textError6= rd.getString("textErrorXacNhanDH6");
+		textError7= rd.getString("textErrorXacNhanDH7");
+		textError8= rd.getString("textErrorXacNhanDH8");
+		textError9= rd.getString("textErrorXacNhanDH9");
+		textError10= rd.getString("textErrorXacNhanDH10");
+		textError11= rd.getString("textErrorXacNhanDH11");
+		textError12= rd.getString("textErrorXacNhanDH12");
+		textError13= rd.getString("textErrorXacNhanDH13");
+		textError14= rd.getString("textErrorXacNhanDH14");
+		textError15= rd.getString("textErrorXacNhanDH15");
+		textError16= rd.getString("textErrorXacNhanDH16");
+		
+		maDH=rd.getString("maDonDat");
+		khachDH=rd.getString("khachDatHang");
+		nhanVienDat=rd.getString("nhanVienDH");
+		ngayDat=rd.getString("ngayDatHang");
+		trangThai=rd.getString("trangThai");
+		ma=rd.getString("ma");
+		tenSP=rd.getString("tenSP");
+		soLuong=rd.getString("soluong");
+		giaBanCl=rd.getString("donGia");
+		discount=rd.getString("sale");
+		thanhTiencl=rd.getString("thanhTien");
+		
+		String[] column = {maDH,khachDH,nhanVienDat,ngayDat,trangThai};
+		
+		modelDonDatHang.setColumnIdentifiers(column);
+		String[] column2 = {ma,tenSP,soLuong,giaBanCl,discount,thanhTiencl};
+		modelInfo.setColumnIdentifiers(column2);
+		
 		
 	}
 	public void refreshCondition() {

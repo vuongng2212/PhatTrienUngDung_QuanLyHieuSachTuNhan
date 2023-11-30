@@ -143,8 +143,8 @@ public class panelBanHang extends JPanel {
 	private boolean firstFlag;
 //	private
 	
-	
-	
+	//Phần Column của table
+	private String maSachCl,tenSachCL,soLuongCL,giaBancl,discountCl,thanhTiencl;
 //	private ArrayList<SanPham>
 	
 	
@@ -984,6 +984,15 @@ public class panelBanHang extends JPanel {
 		btnThanhToan.setText(rd.getString("thanhToan"));
 		btnInHD.setText(rd.getString("inHD"));
 		
+		maSachCl = rd.getString("maSach");
+		tenSachCL= rd.getString("tenSach");
+		soLuongCL= rd.getString("soluong");
+		giaBancl= rd.getString("donGia");
+		discountCl= rd.getString("sale");
+		thanhTiencl= rd.getString("thanhTien");
+		model = (DefaultTableModel) table.getModel();
+		String[] columnsp = {maSachCl,tenSachCL,soLuongCL,giaBancl,discountCl,thanhTiencl};
+		model.setColumnIdentifiers(columnsp);
 		//Change Text for Lbll
 		
 	}

@@ -52,6 +52,7 @@ public class PanelSearchProduct extends JPanel {
 	private JLabel lbllTenSach;
 	private JButton btnTroVe;
 	private JLabel lbllTimSach;
+	private String maSachCl,tenSachcl,tenTGcl,danhMuccl,nhaXBcl,namXBcl,soLuongcl,donGiaMuacl,donGiaBancl;
 	
 	public PanelSearchProduct() {
 		daosp = new DAO_SanPham();
@@ -451,5 +452,18 @@ public class PanelSearchProduct extends JPanel {
 		lbllNXB.setText(rd.getString("NXB"));
 		btnSearch.setText(rd.getString("tim"));
 		btnRefresh.setText(rd.getString("lammoi"));
+		
+		 maSachCl=rd.getString("maSach");
+		 tenSachcl=rd.getString("tenSach");
+		 tenTGcl=rd.getString("tacGia");
+		 danhMuccl=rd.getString("danhMuc");
+		 nhaXBcl=rd.getString("NXB");
+		 namXBcl=rd.getString("namXB");
+		 soLuongcl=rd.getString("soluong");
+		 donGiaMuacl=rd.getString("donGiaMua");
+		 donGiaBancl=rd.getString("donGiaBan");
+		 model = (DefaultTableModel) table.getModel();
+		 String[] column = {maSachCl,tenSachcl,tenTGcl,danhMuccl,nhaXBcl,namXBcl,soLuongcl,donGiaMuacl,donGiaBancl};
+		 model.setColumnIdentifiers(column);
 	}
 }

@@ -68,11 +68,22 @@ public class panelProduct extends JPanel {
 	private JButton btnSearch;
 	private JLabel lbllDonGiaBan;
 	private JLabel lbllSach;
-
+	private String textError0,textError1,textError2,textError3,textError4,textError5,textError6;
+	private String maSPcl,tenSPcl,tacGiacl,danhMuccl,nhaXBcl,namXBcl,soLuongcl,giaGoccl,giaBancl;
 	/**
 	 * Create the panel.
 	 */
 	public panelProduct() {
+		textError0= "Vui lòng điền tất cả thông tin";
+		textError1="Thêm thành công";
+		textError2="Vui lòng kiểm tra lại";
+		textError3="Đã sửa thành công";
+		textError4="Vui lòng chọn bảng cần sửa";
+		textError5="Xóa thành công";
+		textError6="Vui lòng chọn hàng cần xóa";
+		
+		
+		
 		listSp = new DanhSachSanPham();
 		try {
 			ConnectDB.getInstance().connect();
@@ -203,7 +214,7 @@ public class panelProduct extends JPanel {
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(txtMaSach.getText().equals("") || txtTenSach.getText().equals("") || txtTheLoai.getText().equals("") || txtSoLuong.getText().equals("") || txtTacGia.getText().equals("") || txtNXB.getText().equals("") || txtNamXB.getText().equals("") || txtDonGiaGoc.getText().equals("") || txtDonGiaBan.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Vui lòng điền tất cả thông tin");
+					JOptionPane.showMessageDialog(null,textError0);
 				}else {
 					if(listSp.timSPTheoMa(txtMaSach.getText())==-1) {
 						System.out.println("Bat dau");
@@ -245,9 +256,9 @@ public class panelProduct extends JPanel {
 						txtDonGiaGoc.setText("");
 						txtDonGiaBan.setText("");
 //						txtTinhTrang.setText("");
-						JOptionPane.showMessageDialog(null, "Thêm thành công");
+						JOptionPane.showMessageDialog(null, textError1);
 					}else {
-						JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại");
+						JOptionPane.showMessageDialog(null, textError2);
 					}
 				}
 				
@@ -290,9 +301,9 @@ public class panelProduct extends JPanel {
 					model.setValueAt(txtDonGiaGoc.getText(), i, 7);
 					model.setValueAt(txtDonGiaBan.getText(), i, 8);
 //					model.setValueAt(txtTinhTrang.getText(), i, 9);
-					JOptionPane.showMessageDialog(null, "Đã sửa thành công");
+					JOptionPane.showMessageDialog(null, textError3);
 				}else {
-					JOptionPane.showMessageDialog(null,"Vui lòng chọn bảng cần sửa");
+					JOptionPane.showMessageDialog(null,textError4);
 				}
 			}
 		});
@@ -311,9 +322,9 @@ public class panelProduct extends JPanel {
 					daoSp.delete(txtMaSach.getText());
 					listSp.xoa(i);
 					model.removeRow(i);
-					JOptionPane.showMessageDialog(null, "Xóa thành công");
+					JOptionPane.showMessageDialog(null,textError5);
 				}else {
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn hàng cần xóa");
+					JOptionPane.showMessageDialog(null,textError6);
 				}
 			}
 		});
@@ -433,5 +444,25 @@ public class panelProduct extends JPanel {
 		btnThem.setText(rd.getString("them"));
 		btnSua.setText(rd.getString("sua"));
 		btnXoa.setText(rd.getString("xoa"));
+		
+		maSPcl=rd.getString("maSP");
+		tenSPcl=rd.getString("tenSP");
+		tacGiacl=rd.getString("tacGia");
+		danhMuccl=rd.getString("danhMuc");
+		nhaXBcl=rd.getString("NXB");
+		namXBcl=rd.getString("namXB");
+		soLuongcl=rd.getString("soluong");
+		giaGoccl=rd.getString("donGiaMua");
+		giaBancl=rd.getString("donGiaBan");
+		Object[] column = {maSPcl,tenSPcl,tacGiacl,danhMuccl,nhaXBcl,namXBcl,soLuongcl,giaGoccl,giaBancl};
+		model.setColumnIdentifiers(column);
+		textError0= rd.getString("textErrorProduct0");
+		textError1=rd.getString("textErrorProduct1");
+		textError2=rd.getString("textErrorProduct2");
+		textError3=rd.getString("textErrorProduct3");
+		textError4=rd.getString("textErrorProduct4");
+		textError5=rd.getString("textErrorProduct5");
+		textError6=rd.getString("textErrorProduct6");
+		
 	}
 }

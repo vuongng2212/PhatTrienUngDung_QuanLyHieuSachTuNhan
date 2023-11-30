@@ -55,6 +55,8 @@ public class PanelCustomer extends JPanel {
 	private JLabel lbllSDTKH;
 	private JButton btnTimKiemKH;
 	private JButton btnCapNhat;
+	private String maKH,tenKH,soDT,diaChi,LoaiKH;
+	
 	
 	public PanelCustomer() {
 		listKH = new DanhSachKhachHang();
@@ -307,5 +309,13 @@ public class PanelCustomer extends JPanel {
 		btnTimKiemKH.setText(rd.getString("timKH"));
 		btnCapNhat.setText(rd.getString("capNhatKH"));
 		BtnRefresh.setText(rd.getString("lammoi"));
+		
+		 maKH=rd.getString("maKH");
+		 tenKH=rd.getString("tenKH");
+		 soDT=rd.getString("SDT");
+		 diaChi=rd.getString("diaChi");
+		 LoaiKH=rd.getString("loaiKH");
+		 Object[] column = {maKH,tenKH,soDT,diaChi,LoaiKH};
+			model.setColumnIdentifiers(column);
 	}
 }

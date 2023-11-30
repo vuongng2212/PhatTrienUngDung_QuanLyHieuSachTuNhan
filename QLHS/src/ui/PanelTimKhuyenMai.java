@@ -66,6 +66,7 @@ public class PanelTimKhuyenMai extends JPanel {
 	private JLabel lbllNgayBatDau;
 
 	private JLabel lbllTimKhuyenMai;
+	private String maKMcl,ngayTao,ngayHetHan;
 	/**
 	 * Create the panel.
 	 */
@@ -374,5 +375,13 @@ public class PanelTimKhuyenMai extends JPanel {
 		btnTaoMoi.setText(rd.getString("lammoi"));
 		btnXemChiTiet.setText(rd.getString("xemChiTiet"));
 		btnXoaKhuyenMai.setText(rd.getString("xoaKhuyenMai"));
+		
+		maKMcl= rd.getString("maKM");
+		ngayTao= rd.getString("ngayTao");
+		ngayHetHan= rd.getString("ngayHetHan");
+		
+		String[] column = {maKMcl,ngayTao,ngayHetHan};
+		model.setColumnIdentifiers(column);
+		
 	}
 }

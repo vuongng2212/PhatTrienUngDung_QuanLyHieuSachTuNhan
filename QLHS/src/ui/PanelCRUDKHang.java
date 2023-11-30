@@ -65,6 +65,7 @@ public class PanelCRUDKHang extends JPanel {
 	private JButton btnXoa;
 	private JLabel lblNewLabel;
 	private JLabel lblTnKhchHng;
+	private String maKH,tenKH,SDT,diaChi,loaiKH;
  	
  	public PanelCRUDKHang(PanelCustomer panelCustomer) {
  		listKH = new DanhSachKhachHang();
@@ -608,6 +609,14 @@ public class PanelCRUDKHang extends JPanel {
 		btnAdd.setText(rd.getString("them"));
 		btnSua.setText(rd.getString("sua"));
 		btnXoa.setText(rd.getString("xoa"));
+		 
+		 maKH=rd.getString("maKH");
+		 tenKH=rd.getString("tenKH");
+		 SDT=rd.getString("SDT");
+		 diaChi=rd.getString("diaChi");
+		 loaiKH=rd.getString("loaiKH");
+		 Object[] column = {maKH,tenKH,SDT,diaChi,loaiKH};
+			model.setColumnIdentifiers(column);
 	}
 	
 }

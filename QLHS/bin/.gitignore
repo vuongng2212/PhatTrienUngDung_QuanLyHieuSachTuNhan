@@ -1,3 +1,7 @@
+/ui/
+/image/
+/list/
+/resources/
 /bcprov-jdk15on-1.64.jar
 /bridj-0.7.0.jar
 /castor-core-1.4.1.jar
@@ -13,7 +17,6 @@
 /dao/
 /ecj-3.21.0.jar
 /entity/
-/image/
 /interfaces/
 /itext-2.1.7.js8.jar
 /jackson-annotations-2.10.0.jar
@@ -25,11 +28,8 @@
 /jcalendar-1.4.jar
 /jcommon-1.0.23.jar
 /jfreechart-1.0.19.jar
-/list/
 /log4j-1.2.17.jar
-/resources/
 /slf4j-api-1.7.2.jar
 /slf4j-log4j12-1.6.2.jar
 /sqljdbc42.jar
-/ui/
 /webcam-capture-0.3.12.jar
