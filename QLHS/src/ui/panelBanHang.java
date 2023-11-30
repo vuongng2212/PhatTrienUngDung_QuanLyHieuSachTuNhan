@@ -506,8 +506,8 @@ public class panelBanHang extends JPanel {
 					
 					SimpleDateFormat dateformat = new SimpleDateFormat();
 					
-					tongTien = 0;
-					txtTongTien.setText(String.format("%.2f", tongTien));
+//					tongTien = 0;
+//					txtTongTien.setText(String.format("%.2f", tongTien));
 					
 					JOptionPane.showMessageDialog(null,"Tạo Hóa Đơn Thành Công");
 					if(txtLoaiKH.getText().equalsIgnoreCase("VL")) {
@@ -682,6 +682,7 @@ public class panelBanHang extends JPanel {
 		add(lbllMaHD);
 		
 		txtMaHD = new JTextField();
+		txtMaHD.setEditable(false);
 		txtMaHD.setBounds(106, 17, 60, 28);
 		add(txtMaHD);
 		txtMaHD.setColumns(10);
@@ -689,9 +690,20 @@ public class panelBanHang extends JPanel {
 		btnTaoHD = new JButton("Tạo Hóa Đơn");
 		btnTaoHD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				tongTien = 0;
+				txtTongTien.setText(String.format("%.2f", tongTien));
 				firstFlag = true;
 				refresh();
-				
+				String maSinh =  daoHD.sinhMaHD();
+				if(!maSinh.equalsIgnoreCase("")) {
+					String result = maSinh.substring(2);
+					int so = Integer.parseInt(result) + 1;
+					String numberPart = String.format("%03d",so);
+					txtMaHD.setText("HD"+numberPart);
+				}else {
+					txtMaHD.setText("HD001");
+				}
 			}
 		});
 		btnTaoHD.setBounds(337, 12, 132, 39);

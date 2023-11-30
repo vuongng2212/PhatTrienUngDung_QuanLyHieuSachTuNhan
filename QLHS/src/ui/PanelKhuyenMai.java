@@ -73,7 +73,6 @@ public class PanelKhuyenMai extends JPanel {
 	private JLabel lbllChonSpKhuyenMai;
 	private JLabel danhSachSP;
 	private JButton btnTaoMoi;
-	private JButton btnInDanhSach;
 	private JLabel lbllKhuyenMai;
 	private JLabel lbllNgayBatDau;
 	private JLabel lbllNgayKetthuc;
@@ -121,7 +120,7 @@ public class PanelKhuyenMai extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(0, 255, 255));
-		panel_1.setBounds(0, 303, 1534, 99);
+		panel_1.setBounds(0, 208, 1534, 99);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -268,16 +267,16 @@ public class PanelKhuyenMai extends JPanel {
 		
 		lbllChonSpKhuyenMai = new JLabel("Chọn sản phẩm khuyến mãi");
 		lbllChonSpKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllChonSpKhuyenMai.setBounds(0, 259, 370, 45);
+		lbllChonSpKhuyenMai.setBounds(0, 152, 370, 45);
 		add(lbllChonSpKhuyenMai);
 		
 		danhSachSP = new JLabel("Danh Sách Sản Phẩm");
 		danhSachSP.setFont(new Font("Tahoma", Font.BOLD, 15));
-		danhSachSP.setBounds(0, 413, 184, 35);
+		danhSachSP.setBounds(0, 318, 184, 35);
 		add(danhSachSP);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 447, 1534, 439);
+		scrollPane.setBounds(0, 364, 1534, 439);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -341,7 +340,7 @@ public class PanelKhuyenMai extends JPanel {
 				
 			}
 		});
-		btnHoanTat.setBounds(862, 184, 167, 45);
+		btnHoanTat.setBounds(1335, 108, 167, 45);
 		add(btnHoanTat);
 		
 		btnTaoMoi = new JButton("Tạo Mới");
@@ -364,48 +363,39 @@ public class PanelKhuyenMai extends JPanel {
 				}
 			}
 		});
-		btnTaoMoi.setBounds(554, 184, 160, 45);
+		btnTaoMoi.setBounds(1143, 108, 160, 45);
 		add(btnTaoMoi);
-		
-		btnInDanhSach = new JButton("In Danh Sách");
-		btnInDanhSach.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnInDanhSach.setEnabled(false);
-		btnInDanhSach.setFocusable(false);
-		btnInDanhSach.setBounds(1138, 184, 160, 45);
-		add(btnInDanhSach);
 		
 		lbllKhuyenMai = new JLabel("Mã Khuyến Mãi");
 		lbllKhuyenMai.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllKhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllKhuyenMai.setBounds(74, 94, 128, 45);
+		lbllKhuyenMai.setBounds(10, 116, 128, 35);
 		add(lbllKhuyenMai);
 		
 		txtMaKM = new JTextField();
-		txtMaKM.setBounds(212, 96, 86, 45);
+		txtMaKM.setEditable(false);
+		txtMaKM.setBounds(148, 108, 86, 45);
 		add(txtMaKM);
 		txtMaKM.setColumns(10);
 		
 		kethuc = new JDateChooser();
 		kethuc.setDateFormatString("dd-MM-yyyy");
-		kethuc.setBounds(1188, 96, 178, 35);
+		kethuc.setBounds(740, 118, 178, 35);
 		add(kethuc);
 		
 		batdau = new JDateChooser();
 		batdau.setDateFormatString("dd-MM-yyyy");
-		batdau.setBounds(688, 101, 178, 35);
+		batdau.setBounds(392, 118, 178, 35);
 		add(batdau);
 		
 		lbllNgayBatDau = new JLabel("Ngày bắt đầu");
 		lbllNgayBatDau.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbllNgayBatDau.setBounds(566, 101, 112, 35);
+		lbllNgayBatDau.setBounds(258, 118, 112, 35);
 		add(lbllNgayBatDau);
 		
 		lbllNgayKetthuc = new JLabel("Ngày Kết Thúc");
 		lbllNgayKetthuc.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lbllNgayKetthuc.setBounds(1055, 96, 123, 37);
+		lbllNgayKetthuc.setBounds(606, 111, 123, 37);
 		add(lbllNgayKetthuc);
 		
 		btnTaoKhuyenMai = new JButton("Tạo Khuyến Mãi");
@@ -414,6 +404,7 @@ public class PanelKhuyenMai extends JPanel {
 				
 				if(flag()) {
 //					Calendar calendar = new Calendar();
+
 					 Date currentDate = new Date(System.currentTimeMillis());
 					 SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 					 long currenMill = currentDate.getTime();
@@ -436,6 +427,15 @@ public class PanelKhuyenMai extends JPanel {
 						flagStart = true;
 						batdau.setEnabled(false);
 						kethuc.setEnabled(false);
+						String ma = daoKm.sinhMaKM();
+						if(!ma.equalsIgnoreCase("")) {
+							String result = ma.substring(2);
+							int so = Integer.parseInt(result) + 1;
+							String numberPart = String.format("%03d",so);
+							txtMaKM.setText("KM"+numberPart);
+						}else {
+							txtMaKM.setText("KM001");
+						}
 							
 					}
 				}else {
@@ -444,7 +444,7 @@ public class PanelKhuyenMai extends JPanel {
 
 			}
 		});
-		btnTaoKhuyenMai.setBounds(227, 184, 160, 45);
+		btnTaoKhuyenMai.setBounds(947, 108, 160, 45);
 		add(btnTaoKhuyenMai);
 	}
 	private void onOpenFormButtonClick() {

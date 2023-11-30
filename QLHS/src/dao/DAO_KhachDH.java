@@ -136,6 +136,23 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		}
 		return dsKhachDH;
 	}
+	public String sinhMaDH() {
+		String ma = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select top 1 maDH from datSach where maDH like 'DH%' order by maDH desc";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			ma = rs.getString("maDH");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ma;
+	}
 
 	public String tenKHTheoMa(String str) {
 		String name = "";

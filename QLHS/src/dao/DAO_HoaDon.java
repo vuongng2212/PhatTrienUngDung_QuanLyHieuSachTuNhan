@@ -73,8 +73,25 @@ public class DAO_HoaDon implements daoInterface<HoaDon, DanhSachHoaDon>{
 			close(stm);
 			return true;
 		}
-		
 	}
+	public String sinhMaHD() {
+		String ma = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select top 1 maHD from hoaDon where maHD like 'HD%' order by maHD desc";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			ma = rs.getString("maHD");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ma;
+	}
+
 
 	@Override
 	public boolean update(HoaDon obj) {

@@ -56,6 +56,23 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		
 		return total;
 	}
+	public String sinhMaKM() {
+		String ma = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select top 1 maKM from khuyenMai order by maKM desc";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			ma = rs.getString("maKM");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ma;
+	}
 	
 	
 	public ArrayList<KhuyenMai3Field>getHetHan(){

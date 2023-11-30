@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import connectDB.ConnectDB;
+import dao.DAO_HoaDon;
 import dao.DAO_KhachDH;
 import dao.DAO_KhuyenMai;
 import dao.DAO_chiTietKhachDH;
@@ -179,6 +180,7 @@ public class PanelKHDatSach extends JPanel {
 		add(lbllMaDH);
 		
 		txtMaDH = new JTextField();
+		txtMaDH.setEditable(false);
 		txtMaDH.setBounds(138, 92, 76, 37);
 		add(txtMaDH);
 		txtMaDH.setColumns(10);
@@ -187,6 +189,15 @@ public class PanelKHDatSach extends JPanel {
 		btnTaoDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
+				String ma = daoKhachDh.sinhMaDH();
+				if(!ma.equalsIgnoreCase("")) {
+					String result = ma.substring(2);
+					int so = Integer.parseInt(result) + 1;
+					String numberPart = String.format("%03d",so);
+					txtMaDH.setText("DH"+numberPart);
+				}else {
+					txtMaDH.setText("DH001");
+				}
 			}
 		});
 		btnTaoDon.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -505,7 +516,7 @@ public class PanelKHDatSach extends JPanel {
 								for(int i=0;i<limit;i++) {
 									daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString())));
 								}
-								refresh();
+//								refresh();
 
 								JOptionPane.showMessageDialog(null, textError4);
 								
