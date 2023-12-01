@@ -17,6 +17,9 @@ import dao.DAO_SanPham;
 import dao.DAO_ThongKe;
 import entity.PhieuNhapHang;
 import entity.SanPham;
+import entity.Subject;
+import entity.SubjectKhachHangThanThiet;
+import entity.SubjectSachBanChay;
 import entity.ThongKeEntity;
 import list.DanhSachChiTietHoaDon;
 import list.DanhSachHoaDon;
@@ -28,6 +31,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.awt.SystemColor;
@@ -51,8 +55,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -390,6 +399,12 @@ public class PanelThongKe extends JPanel {
 						printReport("thongKeThuChiNhapSach");
 //						DAO_ThongKe.DropViewTKThuChiNhapSach();
 					}
+					if(thongKeVal ==2 ) {
+						printReportSachBanChay();
+					}
+					if(thongKeVal ==3) {
+						printReportKhachHangThanThiet();
+					}
 				}
 			}
 		});
@@ -446,6 +461,103 @@ public class PanelThongKe extends JPanel {
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	private ArrayList<SubjectSachBanChay>listSachBanChay(){
+		ArrayList<SubjectSachBanChay>list = new ArrayList<SubjectSachBanChay>();
+		Locale localVN = new Locale("vi","VN");
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(localVN);
+		tableModel = (DefaultTableModel) table.getModel();
+		int n = table.getRowCount();
+		for(int i=0;i<n;i++) {
+			list.add(new SubjectSachBanChay(tableModel.getValueAt(i, 0).toString(),tableModel.getValueAt(i, 1).toString(),Integer.parseInt(tableModel.getValueAt(i, 2).toString()),currencyFormat.format(Double.parseDouble(tableModel.getValueAt(i, 3).toString()))));
+		}
+		return list;
+	}
+	private ArrayList<SubjectKhachHangThanThiet>listKhachHangThanThiet(){
+		ArrayList<SubjectKhachHangThanThiet>list = new ArrayList<SubjectKhachHangThanThiet>();
+		Locale localVN = new Locale("vi","VN");
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(localVN);
+		tableModel = (DefaultTableModel) table.getModel();
+		int n = table.getRowCount();
+		for(int i=0;i<n;i++) {
+			list.add(new SubjectKhachHangThanThiet(tableModel.getValueAt(i, 0).toString(),tableModel.getValueAt(i, 1).toString(),Integer.parseInt(tableModel.getValueAt(i,2).toString()),currencyFormat.format(Double.parseDouble(tableModel.getValueAt(i, 3).toString()))));
+		}
+		return list;
+	}
+	private void printReportSachBanChay() {
+		try {
+			String filePath = "src\\resources\\SachBanChay.jrxml";
+			
+//			Subject subject1 = new Subject("Java",5,"50000",0,"260VND");
+//			Subject subject2 = new Subject("JavaScript",2,"50000",0,"260VND");
+//			Subject subject3 = new Subject("Jsp",3,"50000",0,"260VND");
+//			
+//			
+			List<SubjectSachBanChay> list = new ArrayList<SubjectSachBanChay>();
+			list = listSachBanChay();
+			
+
+			Locale localeCN = new Locale("vi","VN");
+			NumberFormat currency = NumberFormat.getCurrencyInstance(localeCN);
+			
+			JRBeanCollectionDataSource dataSource = 
+					new JRBeanCollectionDataSource(list);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("ngay", -dateReturn);
+			
+			parameters.put("tableData", dataSource);
+			
+			JasperReport report = JasperCompileManager.compileReport(filePath);
+			
+			JasperPrint print = 
+					JasperFillManager.fillReport(report, parameters,dataSource);
+			JasperViewer jv = new JasperViewer(print,false);
+			jv.setVisible(true);
+
+		} catch(Exception e) {
+			System.out.println("Exception while creating report");
+		}
+	}
+	private void printReportKhachHangThanThiet() {
+		try {
+			String filePath = "src\\resources\\khachHangThanThiet.jrxml";
+			
+		
+			List<SubjectKhachHangThanThiet> list = new ArrayList<SubjectKhachHangThanThiet>();
+			list = listKhachHangThanThiet();
+			
+
+			Locale localeCN = new Locale("vi","VN");
+			NumberFormat currency = NumberFormat.getCurrencyInstance(localeCN);
+			
+			
+			JRBeanCollectionDataSource dataSource = 
+					new JRBeanCollectionDataSource(list);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+
+			parameters.put("ngay", -dateReturn);
+			parameters.put("tableData", dataSource);
+			
+			JasperReport report = JasperCompileManager.compileReport(filePath);
+			
+			JasperPrint print = 
+					JasperFillManager.fillReport(report, parameters,dataSource);
+			JasperViewer jv = new JasperViewer(print,false);
+			jv.setVisible(true);
+			
+			
+//			JasperExportManager.exportReportToPdfFile(print,
+//					"C:\\Users\\phant\\Downloads\\Total-Count-Of-Particular-Column-Values\\Total-Count-Of-Particular-"
+//					+ "Column-Values\\src\\main\\resources\\student.pdf");
+//			
+//			System.out.println("Report Created...");
+//			
+			
+		} catch(Exception e) {
+			System.out.println("Exception while creating report");
 		}
 	}
 }
