@@ -73,7 +73,40 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		}
 		return ma;
 	}
-	
+	public String ngayTaoTheoMa(String maKM) {
+		String ma = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select distinct ngayTao from khuyenMai where maKM = '"+maKM+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			ma = rs.getString("ngayTao");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ma;
+	}
+	public String ngayHetHanTheoMa(String maKM) {
+		String ma = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select distinct ngayHetHan from khuyenMai where maKM = '"+maKM+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			ma = rs.getString("ngayHetHan");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ma;
+	}
 	
 	public ArrayList<KhuyenMai3Field>getHetHan(){
 		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();

@@ -377,7 +377,6 @@ public class frmNV extends JFrame {
 		comboCountries.setFont(new Font("Tahoma", Font.BOLD, 16));
 		FillCountries();
 		comboCountries.addItemListener(new ItemListener() {
-			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				int index = comboCountries.getSelectedIndex();

@@ -3,8 +3,13 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,7 +20,16 @@ import javax.swing.table.DefaultTableModel;
 import connectDB.ConnectDB;
 import dao.DAO_KhuyenMai;
 import entity.ChiTietKhuyenMai;
+import entity.Subject;
+import entity.SubjectKm;
 import list.DanhSachKhuyenMai;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -26,7 +40,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class DialogShowKhuyenMai extends JDialog {
-
+	
 	private final JPanel contentPanel = new JPanel();
 	public String textReturn;
 	private JTable table;
@@ -36,6 +50,7 @@ public class DialogShowKhuyenMai extends JDialog {
 	private DefaultTableModel model;
 	private ArrayList<ChiTietKhuyenMai>listCT;
 	private JTextField txtMaKM;
+	private JButton btnInKM;
 	
 
 	
@@ -135,6 +150,15 @@ public class DialogShowKhuyenMai extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 					}
 				});
+				{
+					btnInKM = new JButton("In Khuyến Mãi");
+					btnInKM.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							printReport();
+						}
+					});
+					buttonPane.add(btnInKM);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -174,6 +198,65 @@ public class DialogShowKhuyenMai extends JDialog {
 			row[3] = km.getDiscount();
 			model.addRow(row);
 		}
-		
+	}
+	private void printReport() {
+		try {
+			String filePath = "src\\resources\\XuatKM.jrxml";
+			
+//			Subject subject1 = new Subject("Java",5,"50000",0,"260VND");
+//			Subject subject2 = new Subject("JavaScript",2,"50000",0,"260VND");
+//			Subject subject3 = new Subject("Jsp",3,"50000",0,"260VND");
+//			
+//			
+			List<SubjectKm> list = new ArrayList<SubjectKm>();
+			list = listTable();
+			
+//			list.add(subject1);
+//			list.add(subject2);
+//			list.add(subject3);
+			Locale localeCN = new Locale("vi","VN");
+			NumberFormat currency = NumberFormat.getCurrencyInstance(localeCN);
+			
+			model = (DefaultTableModel) table.getModel();				
+			JRBeanCollectionDataSource dataSource = 
+					new JRBeanCollectionDataSource(list);
+			
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("maKM", txtMaKM.getText());
+			parameters.put("ngayTao", daoKm.ngayTaoTheoMa(txtMaKM.getText()));
+			System.out.println(daoKm.ngayTaoTheoMa(txtMaKM.getText()));
+			parameters.put("ngayHetHan",daoKm.ngayHetHanTheoMa(txtMaKM.getText()));
+			System.out.println(daoKm.ngayHetHanTheoMa(txtMaKM.getText()));
+			parameters.put("tableData", dataSource);
+			
+			
+			JasperReport report = JasperCompileManager.compileReport(filePath);
+			
+			JasperPrint print = 
+					JasperFillManager.fillReport(report, parameters,dataSource);
+			JasperViewer jv = new JasperViewer(print,false);
+			jv.setVisible(true);
+			
+			
+//			JasperExportManager.exportReportToPdfFile(print,
+//					"C:\\Users\\phant\\Downloads\\Total-Count-Of-Particular-Column-Values\\Total-Count-Of-Particular-"
+//					+ "Column-Values\\src\\main\\resources\\student.pdf");
+//			
+//			System.out.println("Report Created...");
+//			
+			
+		} catch(Exception e) {
+			System.out.println("Exception while creating report");
+		}
+	}
+	ArrayList<SubjectKm>listTable(){
+		ArrayList<SubjectKm>list = new ArrayList<SubjectKm>();
+		model = (DefaultTableModel) table.getModel();
+		int n = table.getRowCount();
+		for(int i=0;i<n;i++) {
+			list.add(new SubjectKm(model.getValueAt(i, 0).toString(), model.getValueAt(i, 1).toString(), Integer.parseInt(model.getValueAt(i, 3).toString())));
+		}
+		return list;
 	}
 }
+

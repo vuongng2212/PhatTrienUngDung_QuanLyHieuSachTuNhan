@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="XuatKM" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="74caa76c-9104-4bfe-92ab-e7edbfe7b120">
+	<parameter name="maKM" class="java.lang.String"/>
+	<parameter name="ngayTao" class="java.lang.String"/>
+	<parameter name="ngayHetHan" class="java.lang.String"/>
+	<parameter name="tableData" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="maSP" class="java.lang.String"/>
+	<field name="tenSP" class="java.lang.String"/>
+	<field name="discount" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="591" height="50" uuid="cf334c05-8433-45ea-8350-f855f62016fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Chương Trình Khuyến Mãi]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="130" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="131" height="30" uuid="31787a66-a544-44f1-a4cc-6c60a5e0f114"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Mã Khuyến Mãi:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-20" y="30" width="131" height="30" uuid="5ccde938-23ec-4e45-b09b-c8f5af76ccfd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Ngày Bắt Đầu:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-20" y="60" width="131" height="28" uuid="778165ab-ee46-4585-adbd-bcfab0368add"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Ngày Kết Thúc:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="2" width="121" height="28" uuid="11df2270-cf38-4674-99af-7d1981d9db15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{maKM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="32" width="121" height="28" uuid="624b0226-ae18-4ebc-981f-99267f8caac3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ngayTao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="60" width="121" height="28" uuid="9d021dfa-5fa4-47eb-b043-d1b8d096b373"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ngayHetHan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-20" y="97" width="201" height="31" uuid="970ac3f1-c2a1-4b03-9f36-329cfcc6d163"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Chi tiết Sản Phẩm:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="0" width="250" height="30" uuid="94bdcbd9-c6d2-41ec-9e94-5526751f1f87"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sách]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="241" height="30" uuid="6e16665a-d35b-465f-9bd5-21dec973a139"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Discount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-20" y="0" width="101" height="30" uuid="aa44c8a4-e170-4153-86c2-734e463eae7d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mã Sách]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="-1" width="101" height="21" uuid="85ff5877-7426-4708-b771-cf981532f221"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{maSP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="251" height="20" uuid="41e4b8de-f7e1-46c5-a719-80212c2ee2a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenSP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="241" height="20" uuid="abd1d823-7d34-4fde-b354-f7e3092dce8a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
