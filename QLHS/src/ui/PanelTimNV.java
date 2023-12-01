@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -33,9 +34,9 @@ public class PanelTimNV extends JPanel {
 	private JTextField txtTen;
 	private JTextField txtSDT;
 	private JTextField txtDiaChi;
-	private JTextField txtMa;
 	private JTextField txtEmail;
 	private JTable table;
+	private JDateChooser dateChooser;
 	private DefaultTableModel tableModel;
 	private DanhSachNhanVien ls;
 	private DAO_NhanVien DAO_NV;
@@ -120,7 +121,7 @@ public class PanelTimNV extends JPanel {
 		lblTimNV.setBounds(0, 40, 400, 50);
 		westPanel.add(lblTimNV);
 		
-		JDateChooser dateChooser = new JDateChooser();
+		dateChooser = new JDateChooser();
 		dateChooser.setBounds(205, 350, 160, 30);
 		dateChooser.getDate();
 		dateChooser.setDateFormatString("yyyy-MM-dd");
@@ -137,9 +138,21 @@ public class PanelTimNV extends JPanel {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					txtTen.setText(table.getValueAt(row, 2).toString());
+					String d = table.getValueAt(row, 3).toString();
 					String gt = table.getValueAt(row, 4).toString();
 					txtSDT.setText(table.getValueAt(row, 5).toString());
 					txtEmail.setText(table.getValueAt(row, 7).toString());
+					cbGT.setSelectedItem(gt);
+					SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+					java.util.Date date = null;
+					try {
+						date = sdf1.parse(d);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+					dateChooser.setDate(sqlStartDate);
 				}				
 			}
 		});
@@ -161,6 +174,11 @@ public class PanelTimNV extends JPanel {
 		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnLamMoi.setBackground(new Color(0, 128, 255));
 		btnLamMoi.setBounds(215, 445, 130, 50);
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reFresh();
+			}
+		});
 		westPanel.add(btnLamMoi);
 		
 		JButton btnTim = new JButton("Tìm");
@@ -176,7 +194,7 @@ public class PanelTimNV extends JPanel {
 				if(gioiTinh=="Nam"){
 					gt = 1;
 				}
-				loadData(ten, sdt, email, gt, d);
+				find(ten, sdt, email, gt, d);
 			}
 		});
 		btnTim.setForeground(new Color(0, 0, 160));
@@ -184,6 +202,7 @@ public class PanelTimNV extends JPanel {
 		btnTim.setBackground(Color.GREEN);
 		btnTim.setBounds(35, 445, 130, 50);
 		westPanel.add(btnTim);
+		reFresh();
 	}
 	public void deleteAllDataJtable() {
 		DefaultTableModel dm = (DefaultTableModel)table.getModel();
@@ -192,7 +211,31 @@ public class PanelTimNV extends JPanel {
 		    dm.removeRow(0);
 		}
 	}
-	public void loadData(String tenNV, String sdt, String email, Integer gt, String ns) {
+	private void xoaTrang() {
+		txtTen.setText("");
+		txtSDT.setText("");
+		txtEmail.setText("");
+	}
+	public void reFresh() {
+		xoaTrang();
+		//delete all
+		deleteAllDataJtable();
+		//Load data
+		DAO_NV = new DAO_NhanVien();
+		stt = 1;
+		ls.clear();
+		for(NhanVien nv: DAO_NV.getAll()) {
+			ls.themNhanVien(nv);
+			String gioiTinh = "Nam";
+			if(nv.getGioiTinh()==0) {
+				gioiTinh = "Nữ";
+			}
+			Object row[] = {stt++,nv.getMaNV(),nv.getTenNV(),nv.getDoB(),gioiTinh,nv.getSDT(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu()};
+			tableModel.addRow(row);
+		}
+		dateChooser.setCalendar(null);
+	}
+	public void find(String tenNV, String sdt, String email, Integer gt, String ns) {
 		deleteAllDataJtable();
 		DAO_NV = new DAO_NhanVien();
 
@@ -200,11 +243,7 @@ public class PanelTimNV extends JPanel {
 		stt =1;
 		for(NhanVien nv: DAO_NV.findNV(tenNV,sdt,email,gt,ns)) {
 			ls.themNhanVien(nv);
-			String gioiTinh = "Nam";
-			if(nv.getGioiTinh()==0) {
-				gioiTinh = "Nữ";
-			}
-			Object row[] = {stt++,nv.getMaNV(),nv.getTenNV(),nv.getDoB(),gioiTinh,nv.getSDT(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu()};
+			Object row[] = {stt++,nv.getMaNV(),nv.getTenNV(),nv.getDoB(),gt,nv.getSDT(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu()};
 			tableModel.addRow(row);
 		}
 

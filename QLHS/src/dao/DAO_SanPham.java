@@ -184,11 +184,11 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 
 		return listSP;
 	}
-	
+	//written by Vuong
 	public ArrayList<SanPham> findSP(String tenSP, String danhMuc, String nhaXB, String namXB) {
 		ArrayList<SanPham> ds = new ArrayList<SanPham>();
 		
-		String strTen = "tenSP = N'" +tenSP+ "'";
+		String strTen = "tenSP like N'%" +tenSP+ "%'";
 		String strDanhMuc = "danhMuc = N'"+danhMuc+"'";
 		String strNhaXB = "nhaXB = N'"+nhaXB+"'";
 		String strNamXB = "namXB = "+namXB+"";

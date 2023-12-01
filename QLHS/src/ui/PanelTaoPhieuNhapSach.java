@@ -36,7 +36,7 @@ import java.util.Date;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
-public class PanelNhapHang extends JPanel {
+public class PanelTaoPhieuNhapSach extends JPanel {
 	private JTextField txtTen;
 	private JTextField txtSoLuongNhap;
 	private JTextField txtChietKhau;
@@ -57,7 +57,7 @@ public class PanelNhapHang extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelNhapHang() {
+	public PanelTaoPhieuNhapSach() {
 		lsSP = new DanhSachSanPham();
 		lsCTPDH = new DanhSachChiTietPDH();
 		try {
@@ -291,6 +291,16 @@ public class PanelNhapHang extends JPanel {
 		tblPanel.add(btnThem);
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnThem.setBackground(new Color(0, 255, 64));
+		
+		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getSP();
+			}
+		});
+		btnLamMoi.setBackground(new Color(0, 255, 64));
+		btnLamMoi.setBounds(969, 11, 90, 30);
+		tblPanel.add(btnLamMoi);
 		
 		JButton btnXoa = new JButton("Xóa sản phẩm");
 		btnXoa.addActionListener(new ActionListener() {

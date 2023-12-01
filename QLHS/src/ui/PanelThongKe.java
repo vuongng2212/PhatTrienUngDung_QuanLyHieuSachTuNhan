@@ -34,23 +34,13 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
-import java.awt.SystemColor;
 import java.awt.Color;
-import javax.swing.JToggleButton;
-import javax.swing.JList;
-import javax.swing.JSlider;
 import javax.swing.JTable;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -63,7 +53,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
@@ -169,19 +158,15 @@ public class PanelThongKe extends JPanel {
                     if(checkBox.getText().equalsIgnoreCase("Hôm nay")) {
                     	date = Date.valueOf(getMinusTime(0));
                     	dateReturn = 0;
-                    	System.out.println(date);
                     }else if(checkBox.getText().equalsIgnoreCase("Hôm qua")) {
                     	date = Date.valueOf(getMinusTime(1));
                     	dateReturn = -1;
-                    	System.out.println(date);
-                    }else if(checkBox.getText().equalsIgnoreCase("7 ngày trước")) {
+                    }else if(checkBox.getText().equalsIgnoreCase("7 ngày gần nhất")) {
                     	date = Date.valueOf(getMinusTime(7));
                     	dateReturn = -7;
-                    	System.out.println(date);
-                    }else if(checkBox.getText().equalsIgnoreCase("30 ngày trước")) {
+                    }else if(checkBox.getText().equalsIgnoreCase("30 ngày gần nhất")) {
                     	date = Date.valueOf(getMinusTime(30));
                     	dateReturn = -30;
-                    	System.out.println(date);
                     }
                 } 
             }
@@ -233,14 +218,14 @@ public class PanelThongKe extends JPanel {
 		panel_1.add(chkHomQua);
 		chkHomQua.addActionListener(actionListener);
 		
-		JCheckBox chk7Ngay = new JCheckBox("7 ngày trước");
+		JCheckBox chk7Ngay = new JCheckBox("7 ngày gần nhất");
 		chk7Ngay.setFont(new Font("Tahoma", Font.BOLD, 15));
 		buttonNgayGroup.add(chk7Ngay);
 		chk7Ngay.setBounds(367, 95, 280, 23);
 		panel_1.add(chk7Ngay);
 		chk7Ngay.addActionListener(actionListener);
 		
-		JCheckBox chk30Ngay = new JCheckBox("30 ngày trước");
+		JCheckBox chk30Ngay = new JCheckBox("30 ngày gần nhất");
 		chk30Ngay.setFont(new Font("Tahoma", Font.BOLD, 15));
 		chk30Ngay.setBounds(367, 140, 280, 23);
 		buttonNgayGroup.add(chk30Ngay);
@@ -288,6 +273,11 @@ public class PanelThongKe extends JPanel {
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_5.setBounds(353, 60, 83, 28);
 		panelShowInfo.add(lblNewLabel_5);
+		
+		JLabel lblDonVi = new JLabel("VND");
+		lblDonVi.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblDonVi.setBounds(353, 111, 83, 28);
+		panelShowInfo.add(lblDonVi);
 		
 		panelContent = new JPanel();
 		panelContent.setBounds(0, 316, 1920, 489);
@@ -397,7 +387,7 @@ public class PanelThongKe extends JPanel {
 					if(thongKeVal == 1) {
 						DAO_ThongKe.CreateViewTKThuChiNhapSach(date, Date.valueOf(getMinusTime(0)));
 						printReport("thongKeThuChiNhapSach");
-//						DAO_ThongKe.DropViewTKThuChiNhapSach();
+						DAO_ThongKe.DropViewTKThuChiNhapSach();
 					}
 					if(thongKeVal ==2 ) {
 						printReportSachBanChay();
@@ -453,7 +443,7 @@ public class PanelThongKe extends JPanel {
 	        String path = "/resources/"+fileName+".jrxml";
 			JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream(path));
 			JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
-			JasperViewer jv = new JasperViewer(jp);
+			JasperViewer jv = new JasperViewer(jp, false);
 			jv.setVisible(true);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

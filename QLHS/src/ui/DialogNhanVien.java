@@ -28,6 +28,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class DialogNhanVien extends JDialog {
@@ -37,6 +39,7 @@ public class DialogNhanVien extends JDialog {
 	private JTextField txtTen;
 	private JTextField txtSDT;
 	private JTextField txtEmail;
+	private JDateChooser dateChooser;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private DanhSachNhanVien ls;
@@ -129,7 +132,7 @@ public class DialogNhanVien extends JDialog {
 		headerPanel.add(lblTenNV);
 		
 		JLabel lblGT = new JLabel("Giới tính");
-		lblGT.setBounds(10, 44, 46, 20);
+		lblGT.setBounds(10, 44, 69, 20);
 		headerPanel.add(lblGT);
 		
 		JLabel lblSDT = new JLabel("SDT");
@@ -140,8 +143,9 @@ public class DialogNhanVien extends JDialog {
 		lblEmail.setBounds(285, 44, 46, 20);
 		headerPanel.add(lblEmail);
 		
-		JDateChooser dateChooser = new JDateChooser();
+		dateChooser = new JDateChooser();
 		dateChooser.setBounds(628, 11, 110, 20);
+		dateChooser.setDateFormatString("yyyy-MM-dd");
 		headerPanel.add(dateChooser);
 		
 		txtTen = new JTextField();
@@ -161,7 +165,7 @@ public class DialogNhanVien extends JDialog {
 		
 		JComboBox cbGT = new JComboBox();
 		cbGT.setModel(new DefaultComboBoxModel(new String[] {"Nam", "Nữ"}));
-		cbGT.setBounds(66, 43, 51, 22);
+		cbGT.setBounds(89, 43, 51, 22);
 		headerPanel.add(cbGT);
 		
 		JButton btnTim = new JButton("Tìm");
@@ -180,12 +184,22 @@ public class DialogNhanVien extends JDialog {
 			}
 		});
 		btnTim.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnTim.setBounds(649, 43, 89, 23);
+		btnTim.setBounds(553, 43, 89, 23);
 		headerPanel.add(btnTim);
 		
 		JLabel lblNgaySinh = new JLabel("Ngày sinh");
 		lblNgaySinh.setBounds(553, 11, 65, 20);
 		headerPanel.add(lblNgaySinh);
+		
+		JButton btnLamMoi = new JButton("Làm mới");
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reFresh();
+			}
+		});
+		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnLamMoi.setBounds(652, 43, 89, 23);
+		headerPanel.add(btnLamMoi);
 		
 		String[] headers = { "STT", "Họ và tên", "Ngày sinh", "Giới tính", "SĐT", "Email"};
 		tableModel = new DefaultTableModel(headers, 0);
@@ -203,6 +217,23 @@ public class DialogNhanVien extends JDialog {
 					else {
 						txtMaNV.setText("");
 					}
+					txtTen.setText(table.getValueAt(row, 1).toString());
+					String d = table.getValueAt(row, 2).toString();
+					String gt = table.getValueAt(row, 3).toString();
+					txtSDT.setText(table.getValueAt(row, 4).toString());
+					txtEmail.setText(table.getValueAt(row, 5).toString());
+					
+					SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+					java.util.Date date = null;
+					try {
+						date = sdf1.parse(d);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+					dateChooser.setDate(sqlStartDate);
+					cbGT.setSelectedItem(gt);
 				}				
 			}
 		});
@@ -213,14 +244,38 @@ public class DialogNhanVien extends JDialog {
 //		table.getColumnModel().getColumn(2).setPreferredWidth(100);
 
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		
 		contentPanel.add(scroll);
+		reFresh();
 	}
 	public void deleteAllDataJtable() {
 		DefaultTableModel dm = (DefaultTableModel)table.getModel();
 		while(dm.getRowCount() > 0)
 		{
 		    dm.removeRow(0);
+		}
+	}
+	private void xoaTrang() {
+		txtTen.setText("");
+		txtSDT.setText("");
+		txtEmail.setText("");
+		dateChooser.setCalendar(null);
+	}
+	public void reFresh() {
+		xoaTrang();
+		//delete all
+		deleteAllDataJtable();
+		//Load data
+		DAO_NV = new DAO_NhanVien();
+		stt = 1;
+		ls.clear();
+		for(NhanVien nv: DAO_NV.getAll()) {
+			ls.themNhanVien(nv);
+			String gioiTinh = "Nam";
+			if(nv.getGioiTinh()==0) {
+				gioiTinh = "Nữ";
+			}
+			Object row[] = {stt++,nv.getTenNV(),nv.getDoB(),gioiTinh,nv.getSDT(),nv.getEmail()};
+			tableModel.addRow(row);
 		}
 	}
 	public void loadData(String tenNV, String sdt, String email, Integer gt, String ns) {
@@ -246,5 +301,4 @@ public class DialogNhanVien extends JDialog {
 	public String getMaNVSelected() {
 		return txtMaNV.getText();
 	}
-
 }

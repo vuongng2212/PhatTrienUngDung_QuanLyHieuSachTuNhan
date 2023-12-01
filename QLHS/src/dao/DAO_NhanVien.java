@@ -187,8 +187,8 @@ public class DAO_NhanVien {
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
 		
-		String strTen = "tenNV = N'"+tenNV+"'";
-		String strSDT = "soDienThoai = N'"+tenNV+"'";
+		String strTen = "tenNV like N'%"+tenNV+"%'";
+		String strSDT = "soDienThoai = N'"+sdt+"'";
 		String strEmail = "email = N'"+ email +"'";
 		String strDate = "ngaySinh = '" +ns+ "'";
 		String strGender = "gioiTinh = " + gt;
