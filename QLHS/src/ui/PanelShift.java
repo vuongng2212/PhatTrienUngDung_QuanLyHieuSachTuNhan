@@ -38,8 +38,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class PanelShift extends JPanel {
-	private JLabel lblValDate,lblValCa,lblValTen,lblStartHour,lblEndHour;
+	private JLabel lblDateVal,lblValCa,lblValTen,lblStartHour,lblEndHour;
 	private JTextField txtMaNV;
+	private JButton btnTim,btnLuu,btnXoa,btnSua;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private DanhSachPhanCongCa ls;
@@ -81,7 +82,7 @@ public class PanelShift extends JPanel {
 		dateChooser.setBounds(1211, 89, 140, 30);
 		add(dateChooser);
 		
-		JButton btnTim = new JButton("Tìm");
+		btnTim = new JButton("Tìm");
 		btnTim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Date date = new Date(dateChooser.getDate().getTime());
@@ -106,14 +107,16 @@ public class PanelShift extends JPanel {
 						if(r!=-1) {
 							int c = table.getSelectedColumn();
 							str = (String) table.getValueAt(r,c);
-							lblValDate.setText(headers[c]);
+							lblDateVal.setText(headers[c]);
 							if(!str.equals("")) {
 								txtMaNV.setText(str.substring(0, 5));
 								lblValTen.setText(str.substring(6));
+								disableButton(false, true, true);
 							}
 							else {
 								txtMaNV.setText("");
 								lblValTen.setText("");
+								disableButton(true, false, false);
 							}
 							int caVal = r +1;
 							lblValCa.setText(""+caVal);
@@ -127,7 +130,7 @@ public class PanelShift extends JPanel {
 				});
 				table.setRowHeight(300);
 				table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-				
+				table.setCellSelectionEnabled(true);
 				if(tableCheck==true) {
 					loadCa(headers);
 				}
@@ -201,11 +204,11 @@ public class PanelShift extends JPanel {
 		btnShowNV.setBounds(243, 139, 30, 30);
 		panel.add(btnShowNV);
 		
-		JButton btnXoa = new JButton("Xóa ca");
+		btnXoa = new JButton("Xóa ca");
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(DAO_pcc.delete(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblValDate.getText())) {
+					if(DAO_pcc.delete(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblDateVal.getText())) {
 						JOptionPane.showMessageDialog(getParent(), "Xóa thành công");
 					}
 					else {
@@ -229,11 +232,11 @@ public class PanelShift extends JPanel {
 		btnXoa.setBackground(new Color(255, 0, 0));
 		btnXoa.setBounds(315, 324, 89, 30);
 		panel.add(btnXoa);
-		JButton btnLuu = new JButton("Lưu");
+		btnLuu = new JButton("Lưu");
 		btnLuu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(DAO_pcc.add(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblValDate.getText())) {
+					if(DAO_pcc.add(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblDateVal.getText())) {
 						JOptionPane.showMessageDialog(getParent(), "Thêm thành công");
 					}
 					else {
@@ -258,10 +261,10 @@ public class PanelShift extends JPanel {
 		btnLuu.setBounds(22, 324, 89, 30);
 		panel.add(btnLuu);
 		
-		lblValDate = new JLabel("");
-		lblValDate.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblValDate.setBounds(147, 55, 115, 30);
-		panel.add(lblValDate);
+		lblDateVal = new JLabel("");
+		lblDateVal.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblDateVal.setBounds(147, 55, 115, 30);
+		panel.add(lblDateVal);
 		
 		lblValCa = new JLabel("");
 		lblValCa.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -283,11 +286,11 @@ public class PanelShift extends JPanel {
 		lblEndHour.setBounds(147, 257, 115, 30);
 		panel.add(lblEndHour);
 		
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(DAO_pcc.update(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblValDate.getText())) {
+					if(DAO_pcc.update(txtMaNV.getText(),Integer.parseInt(lblValCa.getText()),lblDateVal.getText())) {
 						JOptionPane.showMessageDialog(getParent(), "Cập nhật thành công");
 					}
 					else {
@@ -367,5 +370,10 @@ public class PanelShift extends JPanel {
 	        now.add(Calendar.DAY_OF_MONTH, 1);
 	    }
 	    return days;
+	}
+	public void disableButton(boolean isLuu, boolean isSua, boolean isXoa) {
+		btnLuu.setEnabled(isLuu);
+		btnSua.setEnabled(isSua);
+		btnXoa.setEnabled(isXoa);
 	}
 }
