@@ -87,6 +87,24 @@ public class DAO_KhachHang implements daoInterface<KhachHang, DanhSachKhachHang>
 		}
 		return ma;
 	}
+	public KhachHang khTheoMa(String maKH) {
+		KhachHang kh = new KhachHang();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from khachHang where tinhTrang = 1 and maKH = '" + maKH +"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			kh =  new KhachHang(rs.getString("maKH"),rs.getString("tenKH"),rs.getString("SDT"),rs.getString("diaChi"),rs.getString("loaiKH"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return kh;
+	}
+	
 	
 	@Override
 	public boolean add(KhachHang obj) {

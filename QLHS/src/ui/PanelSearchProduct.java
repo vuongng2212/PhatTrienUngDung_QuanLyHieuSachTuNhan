@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -427,10 +428,17 @@ public class PanelSearchProduct extends JPanel {
 			}
 		});
 		String[] column = {"Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá Mua","Đơn Giá Bán"};
-		model = new DefaultTableModel(column,0);
+//		model = new DefaultTableModel(column,0);
+		model = new DefaultTableModel();
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
 		scrollPane.setBounds(0, 0, 1534, 663);
 		
 		scrollPane.setViewportView(table);

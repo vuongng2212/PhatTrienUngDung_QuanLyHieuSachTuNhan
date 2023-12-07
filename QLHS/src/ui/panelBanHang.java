@@ -728,6 +728,11 @@ public class panelBanHang extends JPanel {
 		model.setColumnIdentifiers(columnsp);
 		table.setModel(model);	
 		scrollPane.setViewportView(table);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 	}
 	private void onOpenFormButtonClick() {
 //		SanPhamFrm spFrm = new SanPhamFrm();

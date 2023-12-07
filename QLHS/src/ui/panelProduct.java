@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -460,6 +461,11 @@ public class panelProduct extends JPanel {
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		
 		for (SanPham sp : listSp.getList()) {
 			row[0] = sp.getMaSP();

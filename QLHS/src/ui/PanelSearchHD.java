@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
@@ -152,6 +153,11 @@ public class PanelSearchHD extends JPanel {
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		refresh();
 	}
 	public void refresh() {

@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Font;
@@ -330,7 +331,11 @@ public class PanelTimKhuyenMai extends JPanel {
 		row = new Object[3];
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
-		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		scrollPane.setViewportView(table);
 		
 		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");

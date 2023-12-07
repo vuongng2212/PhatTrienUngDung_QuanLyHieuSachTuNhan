@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import connectDB.ConnectDB;
@@ -293,7 +294,11 @@ public class PanelKhuyenMai extends JPanel {
 		row = new Object[5];
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
-		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}	
 		scrollPane.setViewportView(table);
 		
 		btnHoanTat = new JButton("Hoàn Tất");

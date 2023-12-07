@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -290,7 +291,12 @@ public class PanelCustomer extends JPanel {
 		model.setColumnIdentifiers(column);
 		table_1.setModel(model);
 		scrollPane.setViewportView(table_1);
-		table_1.setBackground(SystemColor.activeCaptionBorder);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table_1.getColumnCount();i++) {
+			table_1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
+//		table_1.setBackground(SystemColor.activeCaptionBorder);
 		
 		for (KhachHang kh : listKH.getList()) {
 			row[0] = kh.getMaKH();

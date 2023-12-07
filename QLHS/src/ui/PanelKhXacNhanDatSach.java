@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
@@ -25,6 +26,7 @@ import entity.ChiTietHoaDon;
 import entity.ChiTietKhachDH;
 import entity.HoaDon;
 import entity.KhachDH;
+import entity.KhachHang;
 import entity.Subject;
 import list.DanhSachChiTietKhachDH;
 import list.DanhSachKhachDH;
@@ -242,6 +244,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		scrollPane_1.setViewportView(scrollPane);
 		
 		table = new JTable();
+		
 		JTableHeader header = table.getTableHeader();
 		header.addMouseListener(new MouseAdapter() {
 			@Override
@@ -299,6 +302,8 @@ public class PanelKhXacNhanDatSach extends JPanel {
 					btnAdd.setEnabled(true);
 					btnSua.setEnabled(true);
 					btnXoa.setEnabled(true);
+					btnInHoaDon.setEnabled(false);
+					
 				}
 				if(i>=0) {
 					for (ChiTietKhachDH kh : listChiTietKh.getList()) {
@@ -329,7 +334,12 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		modelDonDatHang.setColumnIdentifiers(column);
 		table.setModel(modelDonDatHang);
 				
-				scrollPane.setViewportView(table);
+		scrollPane.setViewportView(table);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}		
 		modelDonDatHang = new DefaultTableModel();
 		rowDatHang = new Object[4];
 		
@@ -450,7 +460,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 						JOptionPane.showMessageDialog(null,textError16);
 					}
 				}
-				refresh();
+//				refresh();
 			}
 		});
 		
@@ -534,7 +544,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int n = tableDetails.getRowCount();
 				if(n>0) {
-					
+					printReport();
 				}else {
 					JOptionPane.showMessageDialog(null,"Vui lòng thanh toán trước khi in hóa đơn");
 				}
@@ -757,6 +767,10 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		modelInfo.setColumnIdentifiers(column2);
 		tableDetails.setModel(modelInfo);
 		scrollPane_2.setViewportView(tableDetails);
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<tableDetails.getColumnCount();i++) {
+			tableDetails.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		String[] columnAdd = {"Mã","Tên Sản Phẩm","Số Lượng","Giá Bán","Discount","Thành Tiền"};
 		modelSPAdd.setColumnIdentifiers(columnAdd);
 		
@@ -829,15 +843,17 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	}
 	private void printReport() {
 		try {
-			String filePath = "src\\resources\\HD.jrxml";
+			String filePath = "src\\resources\\HoaDonLayHang.jrxml";
 			
 //			Subject subject1 = new Subject("Java",5,"50000",0,"260VND");
 //			Subject subject2 = new Subject("JavaScript",2,"50000",0,"260VND");
 //			Subject subject3 = new Subject("Jsp",3,"50000",0,"260VND");
 //			
 //			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			List<Subject> list = new ArrayList<Subject>();
 			list = listHd();
+			daoKhachHang = new DAO_KhachHang();
 			
 //			list.add(subject1);
 //			list.add(subject2);
@@ -847,15 +863,15 @@ public class PanelKhXacNhanDatSach extends JPanel {
 			JRBeanCollectionDataSource dataSource = 
 					new JRBeanCollectionDataSource(list);
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("tenKH", txtKH.getText());
-//			parameters.put("SDT", .getText());
-//			parameters.put("DiaChi", txtDiaChi.getText());
-//			parameters.put("TongTien",currency.format(Double.parseDouble(txtTongTien.getText())));
-//			parameters.put("VAT", currency.format(Double.parseDouble(txtTongTien.getText())/10));
-//			parameters.put("TienPhaiTra", currency.format(Double.parseDouble(txtTongTien.getText())));
-//			parameters.put("tienKhachGui", currency.format(Double.parseDouble(txtTienNhan.getText())));
-//			parameters.put("tienTra", currency.format(Double.parseDouble(lbllTienTra.getText())));
-//			parameters.put("maHD", txtMaHD.getText());
+			
+			KhachHang kh = daoKhachHang.khTheoMa(daoKh.maKHTheoMa(txtMaDH.getText()));
+			parameters.put("tenKH", kh.getTenKH());
+			parameters.put("SDT", kh.getSdt());
+			parameters.put("diaChi", kh.getDiaChi());
+			parameters.put("tongTien",currency.format(Double.parseDouble(txtThanhTien.getText())));
+			parameters.put("ngayDat", txtNgayDat.getText());
+			parameters.put("ngayLay", dateFormat.format(new Date()));
+			parameters.put("ma", txtMaDH.getText());
 			parameters.put("tableData", dataSource);
 			
 			JasperReport report = JasperCompileManager.compileReport(filePath);

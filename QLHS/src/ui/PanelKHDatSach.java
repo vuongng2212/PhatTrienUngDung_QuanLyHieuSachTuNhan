@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import connectDB.ConnectDB;
@@ -282,7 +283,11 @@ public class PanelKHDatSach extends JPanel {
 		btnSearchKH = new JButton("");
 		btnSearchKH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				onOpenFormButtonClick();
+				if(!txtMaDH.getText().equalsIgnoreCase("")) {
+					onOpenFormButtonClick();
+				}else {
+					JOptionPane.showMessageDialog(null,"Vui lòng chọn tạo đơn hàng trước khi chọn khách hàng!!");
+				}
 			}
 		});
 		btnSearchKH.setIcon(new ImageIcon(img_kinhLup));
@@ -330,6 +335,7 @@ public class PanelKHDatSach extends JPanel {
 		txtSoLuong.setColumns(10);
 		
 		btnThem = new JButton("Thêm");
+		btnThem.setEnabled(false);
 		btnThem.setBackground(new Color(0, 255, 0));
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -361,6 +367,8 @@ public class PanelKHDatSach extends JPanel {
 						
 						txtMaSach.setText("");
 						txtSoLuong.setText("");
+						btnThem.setEnabled(false);
+						JOptionPane.showMessageDialog(null,"Thêm thành công!!");
 					}else {
 						JOptionPane.showMessageDialog(null,textError);
 					}
@@ -373,6 +381,7 @@ public class PanelKHDatSach extends JPanel {
 		panel_2.add(btnThem);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setEnabled(false);
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model = (DefaultTableModel) table.getModel();
@@ -397,7 +406,11 @@ public class PanelKHDatSach extends JPanel {
 						txtTongTien.setText(String.format("%.1f",total));
 						txtTienPhaiCoc.setText("");
 					}
-					
+					JOptionPane.showMessageDialog(null, "Đã sửa!!");
+					txtMaSach.setText("");
+					txtSoLuong.setText("");
+					btnSua.setEnabled(false);
+					btnXoa.setEnabled(false);
 				}
 			}
 		});
@@ -406,6 +419,7 @@ public class PanelKHDatSach extends JPanel {
 		panel_2.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setEnabled(false);
 		btnXoa.setBackground(new Color(218, 112, 214));
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -426,6 +440,11 @@ public class PanelKHDatSach extends JPanel {
 						txtTienPhaiCoc.setText("");
 					}
 					model.removeRow(i);
+					JOptionPane.showMessageDialog(null, "Đã xóa thành công!!");
+					txtMaSach.setText("");
+					txtSoLuong.setText("");
+					btnSua.setEnabled(false);
+					btnXoa.setEnabled(false);
 				}
 			}
 		});
@@ -447,7 +466,18 @@ public class PanelKHDatSach extends JPanel {
 		btnChon = new JButton("Chọn");
 		btnChon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				onOpenFormSPButtonClick();
+				if(!txtMaDH.getText().equalsIgnoreCase("")) {
+					if(!txtMaKH.getText().equalsIgnoreCase("")) {
+						onOpenFormSPButtonClick();
+						btnThem.setEnabled(true);
+						btnSua.setEnabled(false);
+						btnXoa.setEnabled(false);
+					}else {
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng trước khi thêm sản phẩm!!");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Vui lòng bấm nút tạo đơn đặt hàng trước khi thêm sản phẩm!");
+				}
 			}
 		});
 		btnChon.setBounds(114, 14, 76, 25);
@@ -458,6 +488,7 @@ public class PanelKHDatSach extends JPanel {
 		add(scrollPane);
 		
 		table = new JTable();
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -465,6 +496,9 @@ public class PanelKHDatSach extends JPanel {
 				int i = table.getSelectedRow();
 				txtMaSach.setText(model.getValueAt(i, 0).toString());
 				txtSoLuong.setText(model.getValueAt(i, 2).toString());
+				btnThem.setEnabled(false);
+				btnSua.setEnabled(true);
+				btnXoa.setEnabled(true);
 			}
 		});
 		model = new DefaultTableModel();
@@ -473,6 +507,11 @@ public class PanelKHDatSach extends JPanel {
 		model.setColumnIdentifiers(column);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for(int i = 0;i<table.getColumnCount();i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		
 		lbllTongTien = new JLabel("Tổng Tiền");
 		lbllTongTien.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -516,6 +555,8 @@ public class PanelKHDatSach extends JPanel {
 								for(int i=0;i<limit;i++) {
 									daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString())));
 								}
+								btnDatHang.setEnabled(false);
+								btnInHD.setEnabled(true);
 //								refresh();
 
 								JOptionPane.showMessageDialog(null, textError4);
@@ -538,6 +579,7 @@ public class PanelKHDatSach extends JPanel {
 						for(int i=0;i<limit;i++) {
 							daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString())));
 						}
+						btnDatHang.setEnabled(false);
 						btnInHD.setEnabled(true);
 //						refresh();
 						
