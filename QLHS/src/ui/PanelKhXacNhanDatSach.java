@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 import com.toedter.calendar.JDateChooser;
@@ -24,8 +25,15 @@ import entity.ChiTietHoaDon;
 import entity.ChiTietKhachDH;
 import entity.HoaDon;
 import entity.KhachDH;
+import entity.Subject;
 import list.DanhSachChiTietKhachDH;
 import list.DanhSachKhachDH;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -33,11 +41,14 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -231,6 +242,36 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		scrollPane_1.setViewportView(scrollPane);
 		
 		table = new JTable();
+		JTableHeader header = table.getTableHeader();
+		header.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int n = header.columnAtPoint(e.getPoint());
+				System.out.println(n);
+				daoKh = new DAO_KhachDH();
+				listDH = new DanhSachKhachDH();
+				listDH = daoKh.getAllCondition(n);
+				modelDonDatHang = (DefaultTableModel) table.getModel();
+				modelDonDatHang.setRowCount(0);
+				rowDatHang = new  Object[5];
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				for (KhachDH dh : listDH.getList()) {
+					rowDatHang[0] = dh.getMaDH();
+					rowDatHang[1] = daoKh.tenKHTheoMa(dh.getMaKh());
+					rowDatHang[2] = daoKh.tenNVTheoMa(dh.getMaNv());
+					rowDatHang[3] = dateFormat.format(dh.getNgayDat());
+					int trangThai = dh.getTrangThai();
+					if(trangThai ==0) {
+						rowDatHang[4] = "Chưa Thanh Toán";
+					}else if(trangThai == 1){
+						rowDatHang[4] = "Đã Thanh Toán";
+					}else {
+						rowDatHang[4] = "Đã Hủy Bỏ";	
+					}
+					modelDonDatHang.addRow(rowDatHang);
+				}
+			}
+		});
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -491,7 +532,12 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		btnInHoaDon.setEnabled(false);
 		btnInHoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int n = tableDetails.getRowCount();
+				if(n>0) {
+					
+				}else {
+					JOptionPane.showMessageDialog(null,"Vui lòng thanh toán trước khi in hóa đơn");
+				}
 			}
 		});
 		btnInHoaDon.setBounds(1348, 898, 162, 45);
@@ -781,23 +827,86 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		refresh();
 	}
+	private void printReport() {
+		try {
+			String filePath = "src\\resources\\HD.jrxml";
 			
+//			Subject subject1 = new Subject("Java",5,"50000",0,"260VND");
+//			Subject subject2 = new Subject("JavaScript",2,"50000",0,"260VND");
+//			Subject subject3 = new Subject("Jsp",3,"50000",0,"260VND");
+//			
+//			
+			List<Subject> list = new ArrayList<Subject>();
+			list = listHd();
+			
+//			list.add(subject1);
+//			list.add(subject2);
+//			list.add(subject3);
+			Locale localeCN = new Locale("vi","VN");
+			NumberFormat currency = NumberFormat.getCurrencyInstance(localeCN);
+			JRBeanCollectionDataSource dataSource = 
+					new JRBeanCollectionDataSource(list);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("tenKH", txtKH.getText());
+//			parameters.put("SDT", .getText());
+//			parameters.put("DiaChi", txtDiaChi.getText());
+//			parameters.put("TongTien",currency.format(Double.parseDouble(txtTongTien.getText())));
+//			parameters.put("VAT", currency.format(Double.parseDouble(txtTongTien.getText())/10));
+//			parameters.put("TienPhaiTra", currency.format(Double.parseDouble(txtTongTien.getText())));
+//			parameters.put("tienKhachGui", currency.format(Double.parseDouble(txtTienNhan.getText())));
+//			parameters.put("tienTra", currency.format(Double.parseDouble(lbllTienTra.getText())));
+//			parameters.put("maHD", txtMaHD.getText());
+			parameters.put("tableData", dataSource);
+			
+			JasperReport report = JasperCompileManager.compileReport(filePath);
+			
+			JasperPrint print = 
+					JasperFillManager.fillReport(report, parameters,dataSource);
+			JasperViewer jv = new JasperViewer(print,false);
+			jv.setVisible(true);
+			
+			
+//			JasperExportManager.exportReportToPdfFile(print,
+//					"C:\\Users\\phant\\Downloads\\Total-Count-Of-Particular-Column-Values\\Total-Count-Of-Particular-"
+//					+ "Column-Values\\src\\main\\resources\\student.pdf");
+//			
+//			System.out.println("Report Created...");
+//			
+			
+		} catch(Exception e) {
+			System.out.println("Exception while creating report");
+		}
+		
+	}
+	private ArrayList<Subject>listHd(){
+		ArrayList<Subject>list = new ArrayList<Subject>();
+		Locale localVN = new Locale("vi","VN");
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(localVN);
+		modelInfo = (DefaultTableModel) tableDetails.getModel();
+		int n = tableDetails.getRowCount();
+		for(int i=0;i<n;i++) {
+			list.add(new Subject(modelInfo.getValueAt(i, 1).toString(),Integer.parseInt(modelInfo.getValueAt(i, 2).toString()),currencyFormat.format(Double.parseDouble(modelInfo.getValueAt(i, 3).toString())),Integer.parseInt(modelInfo.getValueAt(i, 4).toString()),currencyFormat.format(Double.parseDouble(modelInfo.getValueAt(i, 5).toString()))));
+			
+		}
+		return list;
+	}
+	
 	public void refresh() {
 		btnTim3.setEnabled(false);
 		btnAdd.setEnabled(false);
 		btnSua.setEnabled(false);
 		btnXoa.setEnabled(false);
-		modelDonDatHang = (DefaultTableModel) table.getModel();
 		btnInHoaDon.setEnabled(false);
 		btnHuyBo.setEnabled(false);
 		btnXacNhan.setEnabled(false);
-		modelDonDatHang.setRowCount(0);
+
 		modelInfo = (DefaultTableModel) tableDetails.getModel();
 		modelInfo.setRowCount(0);
 		daoKh = new DAO_KhachDH();
 		listDH = new DanhSachKhachDH();
-//		daoKhachHang = new DAO_KhachHang();
 		listDH = daoKh.getAll();
+		modelDonDatHang = (DefaultTableModel) table.getModel();
+		modelDonDatHang.setRowCount(0);
 		rowDatHang = new  Object[5];
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		for (KhachDH dh : listDH.getList()) {

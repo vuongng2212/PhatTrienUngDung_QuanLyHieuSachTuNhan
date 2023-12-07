@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import connectDB.ConnectDB;
 import dao.DAO_SanPham;
@@ -54,7 +55,7 @@ public class panelProduct extends JPanel {
 	private JButton btnXoa;
 	private JLabel lbllTitle;
 	private JPanel panelSearch;
-	private JLabel lbllTimSach;
+	private JLabel lbllThemSach;
 	private JLabel lbllMaSach;
 	private JLabel lbllTenSach;
 	private JLabel lbllDanhMuc;
@@ -116,11 +117,11 @@ public class panelProduct extends JPanel {
 		add(panelSearch);
 		panelSearch.setLayout(null);
 		
-		lbllTimSach = new JLabel("Tìm Sách");
-		lbllTimSach.setHorizontalAlignment(SwingConstants.CENTER);
-		lbllTimSach.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTimSach.setBounds(10, 11, 109, 31);
-		panelSearch.add(lbllTimSach);
+		lbllThemSach = new JLabel("Thêm Sách");
+		lbllThemSach.setHorizontalAlignment(SwingConstants.CENTER);
+		lbllThemSach.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllThemSach.setBounds(10, 11, 109, 31);
+		panelSearch.add(lbllThemSach);
 		
 		lbllMaSach = new JLabel("Mã Sách");
 		lbllMaSach.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -129,6 +130,7 @@ public class panelProduct extends JPanel {
 		panelSearch.add(lbllMaSach);
 		
 		txtMaSach = new JTextField();
+		txtMaSach.setEditable(false);
 		txtMaSach.setBounds(92, 57, 153, 27);
 		panelSearch.add(txtMaSach);
 		txtMaSach.setColumns(10);
@@ -211,6 +213,7 @@ public class panelProduct extends JPanel {
 		panelSearch.add(txtDonGiaGoc);
 		
 		btnThem = new JButton("Thêm");
+		btnThem.setEnabled(false);
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(txtMaSach.getText().equals("") || txtTenSach.getText().equals("") || txtTheLoai.getText().equals("") || txtSoLuong.getText().equals("") || txtTacGia.getText().equals("") || txtNXB.getText().equals("") || txtNamXB.getText().equals("") || txtDonGiaGoc.getText().equals("") || txtDonGiaBan.getText().equals("")) {
@@ -272,6 +275,7 @@ public class panelProduct extends JPanel {
 		panelSearch.add(btnThem);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setEnabled(false);
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -302,6 +306,7 @@ public class panelProduct extends JPanel {
 					model.setValueAt(txtDonGiaBan.getText(), i, 8);
 //					model.setValueAt(txtTinhTrang.getText(), i, 9);
 					JOptionPane.showMessageDialog(null, textError3);
+					refresh();
 				}else {
 					JOptionPane.showMessageDialog(null,textError4);
 				}
@@ -315,6 +320,7 @@ public class panelProduct extends JPanel {
 		panelSearch.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setEnabled(false);
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -323,6 +329,7 @@ public class panelProduct extends JPanel {
 					listSp.xoa(i);
 					model.removeRow(i);
 					JOptionPane.showMessageDialog(null,textError5);
+					refresh();
 				}else {
 					JOptionPane.showMessageDialog(null,textError6);
 				}
@@ -345,11 +352,21 @@ public class panelProduct extends JPanel {
 		btnSearch = new JButton("");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				panelSearchProduct.setVisible(true);
+//				setVisible(false);
+//				panelSearchProduct.setVisible(true);
+				String maSinh = daoSp.sinhMaSP();
+				if(!maSinh.equalsIgnoreCase("")) {
+					String result = maSinh.substring(2);
+					int so = Integer.parseInt(result)+1;
+					String numberPart = String.format("%03d", so);
+					txtMaSach.setText("SP"+numberPart);
+				}else {
+					txtMaSach.setText("SP001");
+				}
+				btnThem.setEnabled(true);
 			}
 		});
-		btnSearch.setBounds(117, 11, 51, 31);
+		btnSearch.setBounds(126, 11, 51, 31);
 		btnSearch.setIcon(new ImageIcon(img_search));
 		btnSearch.setBackground(null);
 		btnSearch.setOpaque(false);
@@ -388,6 +405,35 @@ public class panelProduct extends JPanel {
 		panelTable.add(scrollPane);
 		
 		table = new JTable();
+		
+		JTableHeader header = table.getTableHeader();
+		header.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int n = header.columnAtPoint(e.getPoint());
+				System.out.println("CLicked in " +n);
+				listSp = new DanhSachSanPham();
+				daoSp = new DAO_SanPham();
+				listSp = daoSp.getAllCondiTion(n);
+				model = (DefaultTableModel) table.getModel();
+				row = new Object[9];
+				model.setRowCount(0);
+				for (SanPham sp : listSp.getList()) {
+					row[0] = sp.getMaSP();
+					row[1] = sp.getTenSP();
+					row[2] = sp.getTenTG();
+					row[3] = sp.getDanhMuc();
+					row[4] = sp.getNhaXB();
+					row[5] = sp.getNamXB();
+					row[6] = sp.getSoLuong();
+					row[7] = sp.getDonGiaGoc();
+					row[8] = sp.getDonGiaMua();
+					model.addRow(row);
+				}
+			}
+			
+		});
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -402,6 +448,9 @@ public class panelProduct extends JPanel {
 				txtDonGiaGoc.setText(model.getValueAt(i, 7).toString());
 				txtDonGiaBan.setText(model.getValueAt(i, 8).toString());
 //				txtTinhTrang.setText(model.getValueAt(i, 9).toString());
+				btnXoa.setEnabled(true);
+				btnSua.setEnabled(true);
+				btnThem.setEnabled(false);
 			}
 		});
 		
@@ -426,12 +475,46 @@ public class panelProduct extends JPanel {
 			model.addRow(row);
 		}
 	}
+	public void refreshTableColumnClick(int n) {
+		listSp = new DanhSachSanPham();
+		daoSp = new DAO_SanPham();
+		listSp = daoSp.getAllCondiTion(n);
+		model = new DefaultTableModel();
+		row = new Object[9];
+		model.setRowCount(0);
+		for (SanPham sp : listSp.getList()) {
+			row[0] = sp.getMaSP();
+			row[1] = sp.getTenSP();
+			row[2] = sp.getTenTG();
+			row[3] = sp.getDanhMuc();
+			row[4] = sp.getNhaXB();
+			row[5] = sp.getNamXB();
+			row[6] = sp.getSoLuong();
+			row[7] = sp.getDonGiaGoc();
+			row[8] = sp.getDonGiaMua();
+			model.addRow(row);
+		}
+	}
+	public void refresh() {
+		txtMaSach.setText("");
+		txtDonGiaBan.setText("");
+		txtDonGiaGoc.setText("");
+		txtNamXB.setText("");
+		txtNXB.setText("");
+		txtSoLuong.setText("");
+		txtTacGia.setText("");
+		txtTenSach.setText("");
+		txtTheLoai.setText("");
+		btnSua.setEnabled(false);
+		btnThem.setEnabled(false);
+		btnXoa.setEnabled(false);
+	}
 	public void refreshLocale(String cs1,String cs2) {
 		Locale locale = new Locale(cs1, cs2);
 		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
 		lbllTitle.setText(rd.getString("thongTinSach"));
 		lbllSach.setText(rd.getString("sach"));
-		lbllTimSach.setText(rd.getString("timsach"));
+		lbllThemSach.setText(rd.getString("timsach"));
 		lbllMaSach.setText(rd.getString("maSach"));
 		lbllTenSach.setText(rd.getString("tenSach"));
 		lbllDanhMuc.setText(rd.getString("danhMuc"));

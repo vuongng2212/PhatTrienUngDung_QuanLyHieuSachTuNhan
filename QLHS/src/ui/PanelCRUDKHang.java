@@ -12,6 +12,7 @@ import java.awt.Image;
 
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import connectDB.ConnectDB;
 import dao.DAO_KhachHang;
@@ -66,6 +67,8 @@ public class PanelCRUDKHang extends JPanel {
 	private JLabel lblNewLabel;
 	private JLabel lblTnKhchHng;
 	private String maKH,tenKH,SDT,diaChi,loaiKH;
+	private JLabel lbllAdKH;
+	private JButton btnThem;
  	
  	public PanelCRUDKHang(PanelCustomer panelCustomer) {
  		listKH = new DanhSachKhachHang();
@@ -126,48 +129,50 @@ public class PanelCRUDKHang extends JPanel {
 		lbllMaKH = new JLabel("Mã Khách Hàng");
 		lbllMaKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllMaKH.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllMaKH.setBounds(66, 23, 128, 30);
+		lbllMaKH.setBounds(72, 78, 128, 30);
 		panel_1.add(lbllMaKH);
 		
 		txtMaKH = new JTextField();
-		txtMaKH.setBounds(204, 23, 195, 30);
+		txtMaKH.setEditable(false);
+		txtMaKH.setBounds(228, 78, 195, 30);
 		panel_1.add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
 		lbllTenKH = new JLabel("Tên Khách Hàng");
 		lbllTenKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTenKH.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTenKH.setBounds(66, 76, 136, 30);
+		lbllTenKH.setBounds(493, 76, 136, 30);
 		panel_1.add(lbllTenKH);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setColumns(10);
-		txtTenKH.setBounds(204, 78, 195, 30);
+		txtTenKH.setBounds(639, 78, 195, 30);
 		panel_1.add(txtTenKH);
 		
 		lbllSDT = new JLabel("Số Điện Thoại");
 		lbllSDT.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllSDT.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllSDT.setBounds(448, 78, 128, 30);
+		lbllSDT.setBounds(829, 76, 128, 30);
 		panel_1.add(lbllSDT);
 		
 		txtPhone = new JTextField();
 		txtPhone.setColumns(10);
-		txtPhone.setBounds(586, 78, 186, 30);
+		txtPhone.setBounds(967, 78, 186, 30);
 		panel_1.add(txtPhone);
 		
 		lbllDiaChi = new JLabel("Địa Chỉ");
 		lbllDiaChi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDiaChi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDiaChi.setBounds(796, 78, 118, 30);
+		lbllDiaChi.setBounds(1119, 76, 118, 30);
 		panel_1.add(lbllDiaChi);
 		
 		txtDiaChi = new JTextField();
 		txtDiaChi.setColumns(10);
-		txtDiaChi.setBounds(924, 80, 205, 30);
+		txtDiaChi.setBounds(1247, 78, 205, 30);
 		panel_1.add(txtDiaChi);
 		
 		btnAdd = new JButton("Thêm");
+		btnAdd.setEnabled(false);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(".....");
@@ -211,6 +216,7 @@ public class PanelCRUDKHang extends JPanel {
 		panel_1.add(btnAdd);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setEnabled(false);
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -237,6 +243,7 @@ public class PanelCRUDKHang extends JPanel {
 		panel_1.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setEnabled(false);
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -261,6 +268,34 @@ public class PanelCRUDKHang extends JPanel {
 		btnXoa.setBounds(989, 132, 128, 30);
 		panel_1.add(btnXoa);
 		
+		lbllAdKH = new JLabel("Thêm Khách Hàng");
+		lbllAdKH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllAdKH.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllAdKH.setBounds(38, 11, 162, 30);
+		panel_1.add(lbllAdKH);
+		
+		btnThem = new JButton("Them");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			String maSinh = daoKh.sinhMaKH();
+			if(!maSinh.equalsIgnoreCase("")) {
+				String result = maSinh.substring(2);
+				int so = Integer.parseInt(result)+1;
+				String numberPart = String.format("%03d", so);
+				txtMaKH.setText("KH"+numberPart);
+			}else {
+				txtMaKH.setText("KH001");
+			}
+				
+				
+				
+				btnAdd.setEnabled(true);
+				
+			}
+		});
+		btnThem.setBounds(231, 11, 99, 30);
+		panel_1.add(btnThem);
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 285, 1534, 732);
 		add(panel_2);
@@ -271,9 +306,33 @@ public class PanelCRUDKHang extends JPanel {
 		panel_2.add(scrollPane);
 		
 		table = new JTable();
+		JTableHeader header = table.getTableHeader();
+		header.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int n = header.columnAtPoint(e.getPoint());
+				listKH = new DanhSachKhachHang();
+				daoKh = new DAO_KhachHang();
+				listKH = daoKh.getAllForCondition(n);
+				model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
+				for (KhachHang kh : listKH.getList()) {
+					row[0] = kh.getMaKH();
+					row[1] = kh.getTenKH();
+					row[2] = kh.getSdt();
+					row[3] = kh.getDiaChi();
+					row[4] = kh.getLoaiKH();
+					model.addRow(row);
+					
+				}
+			}
+		});
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				btnAdd.setEnabled(false);
+				btnXoa.setEnabled(true);
+				btnSua.setEnabled(true);
 				int i = table.getSelectedRow();
 				txtMaKH.setText(model.getValueAt(i, 0).toString());
 				txtTenKH.setText(model.getValueAt(i, 1).toString());
@@ -339,45 +398,46 @@ public class PanelCRUDKHang extends JPanel {
 		lbllMaKH = new JLabel("Mã Khách Hàng");
 		lbllMaKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllMaKH.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllMaKH.setBounds(66, 23, 128, 30);
+		lbllMaKH.setBounds(72, 78, 128, 30);
 		panel_1.add(lbllMaKH);
 		
 		txtMaKH = new JTextField();
-		txtMaKH.setBounds(204, 23, 195, 30);
+		txtMaKH.setEditable(false);
+		txtMaKH.setBounds(228, 78, 195, 30);
 		panel_1.add(txtMaKH);
 		txtMaKH.setColumns(10);
 		
 		lbllTenKH = new JLabel("Tên Khách Hàng");
 		lbllTenKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTenKH.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllTenKH.setBounds(66, 78, 136, 30);
+		lbllTenKH.setBounds(493, 76, 136, 30);
 		panel_1.add(lbllTenKH);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setColumns(10);
-		txtTenKH.setBounds(204, 78, 195, 30);
+		txtTenKH.setBounds(639, 78, 195, 30);
 		panel_1.add(txtTenKH);
 		
 		lbllSDT = new JLabel("Số Điện Thoại");
 		lbllSDT.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllSDT.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllSDT.setBounds(448, 78, 128, 30);
+		lbllSDT.setBounds(829, 76, 128, 30);
 		panel_1.add(lbllSDT);
 		
 		txtPhone = new JTextField();
 		txtPhone.setColumns(10);
-		txtPhone.setBounds(586, 78, 186, 30);
+		txtPhone.setBounds(967, 78, 186, 30);
 		panel_1.add(txtPhone);
 		
 		lbllDiaChi = new JLabel("Địa Chỉ");
 		lbllDiaChi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDiaChi.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllDiaChi.setBounds(796, 78, 118, 30);
+		lbllDiaChi.setBounds(1119, 76, 118, 30);
 		panel_1.add(lbllDiaChi);
 		
 		txtDiaChi = new JTextField();
 		txtDiaChi.setColumns(10);
-		txtDiaChi.setBounds(924, 80, 205, 30);
+		txtDiaChi.setBounds(1247, 78, 205, 30);
 		panel_1.add(txtDiaChi);
 		
 //		JLabel lbllLoaiKH = new JLabel("Loại Khách Hàng");
@@ -391,7 +451,36 @@ public class PanelCRUDKHang extends JPanel {
 //		txtLoaiKH.setBounds(1319, 80, 205, 30);
 //		panel_1.add(txtLoaiKH);
 		
+		lbllAdKH = new JLabel("Thêm Khách Hàng");
+		lbllAdKH.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbllAdKH.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllAdKH.setBounds(38, 11, 162, 30);
+		panel_1.add(lbllAdKH);
+		
+		btnThem = new JButton("Them");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			String maSinh = daoKh.sinhMaKH();
+			if(!maSinh.equalsIgnoreCase("")) {
+				String result = maSinh.substring(2);
+				int so = Integer.parseInt(result)+1;
+				String numberPart = String.format("%03d", so);
+				txtMaKH.setText("KH"+numberPart);
+			}else {
+				txtMaKH.setText("KH001");
+			}
+				
+				
+				
+				btnAdd.setEnabled(true);
+				
+			}
+		});
+		btnThem.setBounds(231, 11, 99, 30);
+		panel_1.add(btnThem);
+		
 		btnAdd = new JButton("Thêm");
+		btnAdd.setEnabled(false);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(".....");
@@ -424,6 +513,7 @@ public class PanelCRUDKHang extends JPanel {
 							txtDiaChi.setText("");
 //							txtLoaiKH.setText("");
 							JOptionPane.showMessageDialog(null, "Thêm Thành Công");
+							refresh();
 						}else {
 							JOptionPane.showMessageDialog(null, "...");
 						}
@@ -445,6 +535,7 @@ public class PanelCRUDKHang extends JPanel {
 		panel_1.add(btnAdd);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setEnabled(false);
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -475,6 +566,7 @@ public class PanelCRUDKHang extends JPanel {
 					model.setValueAt(txtDiaChi.getText(), i, 3);
 //					model.setValueAt(txtLoaiKH.getText(), i, 4);
 					JOptionPane.showMessageDialog(null, "Đã Sửa Thành Công");
+					refresh();
 				
 				}else {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn hàng cần sửa");
@@ -490,6 +582,7 @@ public class PanelCRUDKHang extends JPanel {
 		panel_1.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setEnabled(false);
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
@@ -501,6 +594,7 @@ public class PanelCRUDKHang extends JPanel {
 					model.removeRow(i);
 					
 					JOptionPane.showMessageDialog(null, "Xóa Thành Công");
+					refresh();
 				
 					}else {
 						JOptionPane.showMessageDialog(null, "Vui Lòng Chọn Hàng Cần Xóa");
@@ -524,6 +618,28 @@ public class PanelCRUDKHang extends JPanel {
 		panel_2.add(scrollPane);
 		
 		table = new JTable();
+		JTableHeader header = table.getTableHeader();
+		header.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int n = header.columnAtPoint(e.getPoint());
+				listKH = new DanhSachKhachHang();
+				daoKh = new DAO_KhachHang();
+				listKH = daoKh.getAllForCondition(n);
+				model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
+				row = new Object[5];
+				for (KhachHang kh : listKH.getList()) {
+					row[0] = kh.getMaKH();
+					row[1] = kh.getTenKH();
+					row[2] = kh.getSdt();
+					row[3] = kh.getDiaChi();
+					row[4] = kh.getLoaiKH();
+					model.addRow(row);
+					
+				}
+			}
+		});
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -533,7 +649,9 @@ public class PanelCRUDKHang extends JPanel {
 				txtPhone.setText(model.getValueAt(i, 2).toString());
 				txtDiaChi.setText(model.getValueAt(i, 3).toString());
 //				txtLoaiKH.setText(model.getValueAt(i, 4).toString());
-				
+				btnAdd.setEnabled(false);
+				btnSua.setEnabled(true);
+				btnXoa.setEnabled(true);
 			}
 		});
 		model = new DefaultTableModel();
@@ -596,6 +714,13 @@ public class PanelCRUDKHang extends JPanel {
 			row[4] = kh.getLoaiKH();
 			model.addRow(row);
 		}
+		btnXoa.setEnabled(false);
+		btnSua.setEnabled(false);
+		btnAdd.setEnabled(false);
+		txtDiaChi.setText("");
+		txtMaKH.setText("");
+		txtTenKH.setText("");
+		txtPhone.setText("");
 	}
 	public void refreshLocale(String cs1,String cs2) {
 		Locale locale = new Locale(cs1, cs2);
@@ -618,5 +743,4 @@ public class PanelCRUDKHang extends JPanel {
 		 Object[] column = {maKH,tenKH,SDT,diaChi,loaiKH};
 			model.setColumnIdentifiers(column);
 	}
-	
 }

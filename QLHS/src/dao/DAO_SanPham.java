@@ -35,6 +35,44 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			return dsSP;	
 	}
 	
+
+	public DanhSachSanPham getAllCondiTion(int n) {
+		String textKey  = "";
+		if(n==0) {
+			textKey= "maSP";
+		}else if(n==1) {
+			textKey= "tenSP";
+		}else if(n==2) {
+			textKey = "tenTacGia";
+		}else if(n==3) {
+			textKey = "danhMuc";
+		}else if(n==4) {
+			textKey="nhaXB";
+		}else if(n==5) {
+			textKey = "namXB";
+		}else if(n==6) {
+			textKey = "soLuong";
+		}else if(n==7) {
+			textKey="donGiaGoc";
+		}else if(n==8) {
+			textKey="donGiaMua";
+		}
+		DanhSachSanPham dsSP = new DanhSachSanPham();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			
+			String sql = "select * from sanPham where tinhTrang = 1 order by "+textKey+" desc";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			dsSP.add(new SanPham(rs.getString("maSP"), rs.getString("tenSP"), rs.getString("tenTacGia"), rs.getString("nhaXB"), rs.getInt("namXB"), rs.getInt("soLuong"), rs.getDouble("donGiaGoc"), rs.getDouble("donGiaMua"), rs.getString("tinhTrang"), rs.getString("danhMuc")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+			return dsSP;	
+	}
 	
 	@SuppressWarnings("finally")
 	@Override
@@ -67,6 +105,23 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 			close(stm);
 			return true;
 		}
+	}
+	public String sinhMaSP() {
+		String ma = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select top 1 maSP from sanPham where maSP like 'SP%' order by maSP desc";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			ma = rs.getString("maSP");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ma;
 	}
 	@Override
 	public boolean update(SanPham sp) {

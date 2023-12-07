@@ -11,6 +11,7 @@ import java.awt.Image;
 
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import connectDB.ConnectDB;
 import dao.DAO_SanPham;
@@ -23,6 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -397,11 +400,40 @@ public class PanelSearchProduct extends JPanel {
 		panel_1.setLayout(null);
 
 		table = new JTable();
+		JTableHeader header = table.getTableHeader();
+		
+		header.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int n = header.columnAtPoint(e.getPoint());
+				System.out.println("CLicked in " +n);
+				listsp = new DanhSachSanPham();
+				daosp = new DAO_SanPham();
+				listsp = daosp.getAllCondiTion(n);
+				row = new Object[9];
+				model.setRowCount(0);
+				for (SanPham sp : listsp.getList()) {
+					row[0] = sp.getMaSP();
+					row[1] = sp.getTenSP();
+					row[2] = sp.getTenTG();
+					row[3] = sp.getDanhMuc();
+					row[4] = sp.getNhaXB();
+					row[5] = sp.getNamXB();
+					row[6] = sp.getSoLuong();
+					row[7] = sp.getDonGiaGoc();
+					row[8] = sp.getDonGiaMua();
+					model.addRow(row);
+				}
+			}
+		});
 		String[] column = {"Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá Mua","Đơn Giá Bán"};
 		model = new DefaultTableModel(column,0);
+		model.setColumnIdentifiers(column);
+		table.setModel(model);
 		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(0, 0, 1534, 663);
-		scrollPane.setViewportView(table = new JTable(model));
+		
+		scrollPane.setViewportView(table);
 		table.setRowHeight(25);
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);

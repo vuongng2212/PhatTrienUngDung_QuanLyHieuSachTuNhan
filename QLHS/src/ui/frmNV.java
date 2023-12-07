@@ -629,6 +629,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(product);
+				product.refresh();
 			}
 		});
 		  menuSanPham.add(menuTimSP);
@@ -710,6 +711,7 @@ public class frmNV extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menuClicked(panelCRUDKHang);
+				panelCRUDKHang.refresh();
 			}
 		});
 		  menuKhachHang.add(menuItemTimKH);

@@ -47,6 +47,50 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		}
 		return dsKhachDH;
 	}
+	public DanhSachKhachDH getAllCondition(int n) {
+		String textKey = "";
+		if(n==0) {
+			textKey="maDH";
+		}else if(n==1) {
+			textKey="maKH";
+		}else if(n==2) {
+			textKey="maNV";
+		}else if(n==3) {
+			textKey="ngayTaoDH";
+		}else if(n==4) {
+			textKey="trangThai";
+		}else if(n==5) {
+			textKey="tienCoc";
+		}
+		DanhSachKhachDH dsKhachDH = new DanhSachKhachDH();
+		ConnectDB.getInstance();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from datSach order by "+textKey + " desc";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			try {
+				dsKhachDH.add(new KhachDH(rs.getString("maDH"), rs.getString("maKH"), rs.getString("maNV"), dateFormat.parse(rs.getString("ngayTaoDH")), Integer.parseInt(rs.getString("trangThai")),Double.parseDouble(rs.getString("tienCoc"))));	
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsKhachDH;
+	}
 	public DanhSachKhachDH getToConditionsMaKH(String maKH) {
 		DanhSachKhachDH dsKhachDH = new DanhSachKhachDH();
 		ConnectDB.getInstance();

@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import connectDB.ConnectDB;
 import dao.DAO_KhachHang;
@@ -22,6 +23,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -259,6 +262,28 @@ public class PanelCustomer extends JPanel {
 		panelTable.add(scrollPane);
 		
 		table_1 = new JTable();
+		JTableHeader header = table_1.getTableHeader();
+		header.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int n = header.columnAtPoint(e.getPoint());
+				System.out.println("Click : "+n);
+				listKH = new DanhSachKhachHang();
+				daoKh = new DAO_KhachHang();
+				listKH = daoKh.getAllForCondition(n);
+				model = (DefaultTableModel) table_1.getModel();
+				model.setRowCount(0);
+				for (KhachHang kh : listKH.getList()) {
+					row[0] = kh.getMaKH();
+					row[1] = kh.getTenKH();
+					row[2] = kh.getSdt();
+					row[3] = kh.getDiaChi();
+					row[4] = kh.getLoaiKH();
+					model.addRow(row);
+					
+				}
+			}
+		});
 		model = new DefaultTableModel();
 		Object[] column = {"Mã Khách Hàng","Tên Khách Hàng","Số Điện Thoại","Địa Chỉ","Loại Khách Hàng"};
 		Object[] row = new Object[5];
