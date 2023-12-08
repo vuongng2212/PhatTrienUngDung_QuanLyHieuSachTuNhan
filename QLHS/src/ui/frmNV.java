@@ -30,6 +30,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import dao.DAO_NhanVien;
 import entity.Country;
 
 import javax.swing.JLabel;
@@ -132,6 +133,7 @@ public class frmNV extends JFrame {
 	private JMenuItem itemXemLichLam;
 	private JMenuItem menuXacNhanDatSach;
 	private JMenuItem xemKM;
+	private JLabel lbllInfo;
 	/**
 	 * Launch the application.
 	 */
@@ -328,10 +330,10 @@ public class frmNV extends JFrame {
 		icon_user.setIcon(new ImageIcon(img_user));
 		panel_1.add(icon_user);
 		
-		JLabel lblNewLabel_3 = new JLabel("User:  Văn A");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3.setBounds(81, 138, 195, 59);
-		panel_1.add(lblNewLabel_3);
+		lbllInfo = new JLabel("Người Dùng");
+		lbllInfo.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbllInfo.setBounds(156, 138, 150, 59);
+		panel_1.add(lbllInfo);
 		
 		
 		JLabel icon_logout = new JLabel("");
@@ -499,6 +501,12 @@ public class frmNV extends JFrame {
 		lbllDateShow.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lbllDateShow.setBounds(125, 100, 215, 38);
 		panel_1.add(lbllDateShow);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("User");
+		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1.setBounds(69, 138, 77, 59);
+		panel_1.add(lblNewLabel_3_1);
 		
 		JPanel panelFrm = new JPanel();
 		panelFrm.setBounds(386, 41, 1534, 976);
@@ -962,5 +970,9 @@ public class frmNV extends JFrame {
 		searchKm.dialogShow.dialogFixKm = dialogFixKm;
 		searchKm.dialogShow.dialogFixKm.dialogShowKhuyenMai = searchKm.dialogShow;
 	}
-	
+	public void setInfoUser(String str) {
+		DAO_NhanVien daoNV = new DAO_NhanVien();
+		
+		lbllInfo.setText(daoNV.getTenNV(str));
+	}
 }

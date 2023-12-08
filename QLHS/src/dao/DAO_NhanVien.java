@@ -52,6 +52,42 @@ public class DAO_NhanVien {
 
 	}
 	
+	
+	public String getMaNV(String str) {
+		String s = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select maNV from nhanVien where soDienThoai = N'"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+			s = rs.getString("maNV");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return s;
+	}
+	
+	public String getTenNV(String str) {
+		String s = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select tenNV from nhanVien where soDienThoai = N'"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+			s = rs.getString("tenNV");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return s;
+	}
 		
 
 	public boolean add(NhanVien nv) {

@@ -355,6 +355,7 @@ public class panelProduct extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 //				setVisible(false);
 //				panelSearchProduct.setVisible(true);
+				refresh();
 				String maSinh = daoSp.sinhMaSP();
 				if(!maSinh.equalsIgnoreCase("")) {
 					String result = maSinh.substring(2);

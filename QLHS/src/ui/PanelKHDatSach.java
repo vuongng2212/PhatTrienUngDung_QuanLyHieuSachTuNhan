@@ -573,7 +573,7 @@ public class PanelKHDatSach extends JPanel {
 					}else {
 						daoChiTietDh = new DAO_chiTietKhachDH();
 						
-						daoKhachDh.add(new KhachDH(txtMaDH.getText(),txtMaKH.getText() , "NV001", new Date(), 0,0));
+						daoKhachDh.add(new KhachDH(txtMaDH.getText(),txtMaKH.getText() , userInfo.maNV, new Date(), 0,0));
 						int limit = table.getRowCount();
 						model = (DefaultTableModel) table.getModel();
 						for(int i=0;i<limit;i++) {

@@ -16,6 +16,7 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 
 import connectDB.ConnectDB;
+import dao.DAO_NhanVien;
 import dao.DAO_account;
 import entity.Account;
 import entity.NhanVien;
@@ -109,7 +110,10 @@ public class LoginForm extends JFrame {
 							if(role.equals("Nhân viên")) {
 								try {
 									frmNV frame = new frmNV();
+									frame.setInfoUser(user);
 									frame.setVisible(true);
+									DAO_NhanVien daoNv = new DAO_NhanVien();
+									userInfo.maNV = daoNv.getMaNV(user);
 								} catch (Exception e2) {
 									e2.printStackTrace();
 								}

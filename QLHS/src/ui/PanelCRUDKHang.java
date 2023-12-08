@@ -278,6 +278,11 @@ public class PanelCRUDKHang extends JPanel {
 		btnThem = new JButton("Them");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				refresh();
+				txtDiaChi.setText("");
+				txtMaKH.setText("");
+				txtTenKH.setText("");
+				txtPhone.setText("");
 			String maSinh = daoKh.sinhMaKH();
 			if(!maSinh.equalsIgnoreCase("")) {
 				String result = maSinh.substring(2);
@@ -465,6 +470,7 @@ public class PanelCRUDKHang extends JPanel {
 		btnThem = new JButton("Them");
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				refresh();
 			String maSinh = daoKh.sinhMaKH();
 			if(!maSinh.equalsIgnoreCase("")) {
 				String result = maSinh.substring(2);
