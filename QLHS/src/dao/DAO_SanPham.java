@@ -123,6 +123,57 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		}
 		return ma;
 	}
+	public String searchTenSP(String str) {
+		String tenSP = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select tenSP from sanPham where maSP = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			tenSP = rs.getString("tenSP");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tenSP;
+	}
+	public String searchTenTacGia(String str) {
+		String tacGia = "";
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select tenTacGia from sanPham where maSP = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			tacGia = rs.getString("tenTacGia");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tacGia;
+	}
+	public int searchSoLuong(String str) {
+		int soLuong = -1;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select soLuong from sanPham where maSP = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			soLuong = rs.getInt("soLuong");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return soLuong;
+	}
 	@Override
 	public boolean update(SanPham sp) {
 		// TODO Auto-generated method stub

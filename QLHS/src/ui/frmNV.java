@@ -120,6 +120,7 @@ public class frmNV extends JFrame {
 	private DialogAddSP dialogAddSp;
 	private DialogAddKH dialogAddKh;
 	private DialogAddKH3 dialogAddKH3;
+	private DialogFixKm dialogFixKm;
 	private JMenuItem menuSearchHD;
 	private PanelSearchHD searchHD;
 	private DialogXemHD xemHD;
@@ -194,6 +195,7 @@ public class frmNV extends JFrame {
 		dialogSP3 = new DialogAddSP3();
 		dialogAddKh = new DialogAddKH();
 		dialogAddKH3 = new DialogAddKH3();
+		dialogFixKm = new DialogFixKm();
 		dialogfrm = new SanPhamFrm();
 		dialogKH2 = new DialogAddKH2();
 		dialogfrm.setKhuyenMai(khuyenMai);
@@ -537,6 +539,7 @@ public class frmNV extends JFrame {
 		dialogSP3.setVisible(false);
 		dialogAddKh.setVisible(false);
 		dialogAddKH3.setVisible(false);
+		dialogFixKm.setVisible(false);
 		searchKm.setVisible(false);
 		khuyenMai.setVisible(false);
 		panelFrm.add(product);
@@ -949,12 +952,15 @@ public class frmNV extends JFrame {
 		product.panelSearchProduct = panelSearchProduct;
 		panelSearchProduct.panelProduct = product;
 		searchKm.dialogShow = dialogShowKm;
+		searchKm.dialogShow.timKhuyenMai = searchKm;
 		bill.banHang.dialogAddSp = dialogAddSp;
 		searchHD.xemHd = xemHD;
 		panelDatSach.dialogSP = dialogSP2;
 		panelXacNhanDatSach.dialogSP = dialogSP3;
 		bill.banHang.dialogAddKH = dialogAddKh;
 		panelXacNhanDatSach.dialogKH = dialogAddKH3;
+		searchKm.dialogShow.dialogFixKm = dialogFixKm;
+		searchKm.dialogShow.dialogFixKm.dialogShowKhuyenMai = searchKm.dialogShow;
 	}
 	
 }

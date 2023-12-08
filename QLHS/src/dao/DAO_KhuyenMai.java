@@ -144,8 +144,28 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		}
 			
 		return listKm;
-		
 	}
+	
+	public ArrayList<KhuyenMai>listKmKhiBietMa(String str){
+		ArrayList<KhuyenMai>listKm = new ArrayList<KhuyenMai>();
+		ConnectDB.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Connection con = ConnectDB.getConnection();
+		
+		try {
+			String sql = "select * from khuyenMai where maKM = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		while(rs.next()) {
+			listKm.add(new KhuyenMai(rs.getString("maKM"),rs.getString("maSP"),Integer.parseInt(rs.getString("discount")),rs.getDate("ngayTao"),rs.getDate("ngayHetHan")));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listKm;
+	}
+	
+	
 //	public boolean xoaKM(String str) {
 //		
 //	}
@@ -194,6 +214,27 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 	
 //	public ArrayList<sanpham>
 	
+	public boolean ktraKmSapXayRa(String str) {
+		ConnectDB.getInstance();
+		String ma = "";
+		Connection con = ConnectDB.getConnection();		
+		try {
+			String sql = "select distinct maKM from khuyenMai where ngayTao > GETDATE() and maKM = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			ma = rs.getString("maKM");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(!ma.equalsIgnoreCase("")) {
+			return true;
+		}
+		return false;
+	}
+	
 	public ArrayList<KhuyenMai3Field>getSapDienRa(){
 		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
 		ConnectDB.getInstance();
@@ -210,23 +251,34 @@ public class DAO_KhuyenMai implements daoInterface<KhuyenMai, DanhSachKhuyenMai>
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-			
 		return listKm;
-		
 	}
 	
 	public ArrayList<KhuyenMai3Field>getSearchConditions(String dateBd,String dateKt){
+		
 		ArrayList<KhuyenMai3Field>listKm = new ArrayList<KhuyenMai3Field>();
 		ConnectDB.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
 		try {
-			String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayTao >= ? and ngayHetHan <= ?";
-			
-			stm = con.prepareStatement(sql);
-			stm.setString(1, dateBd);
-			stm.setString(2, dateKt);
+			if(dateBd.equalsIgnoreCase("")) {
+				String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayHetHan <= ?";
+				stm = con.prepareStatement(sql);
+				stm.setString(1, dateKt);
+				
+			}else if(dateKt.equalsIgnoreCase("")) {
+				String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayTao >= ?";
+				stm = con.prepareStatement(sql);
+				stm.setString(1, dateBd);
+			}else {
+				String sql = "select distinct maKM,ngayTao,ngayHetHan from khuyenMai where ngayTao >= ? and ngayHetHan <= ?";
+				
+				stm = con.prepareStatement(sql);
+				stm.setString(1, dateBd);
+				stm.setString(2, dateKt);
+			}
+
 			
 			
 //			Statement statement =con.createStatement();

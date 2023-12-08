@@ -34,6 +34,8 @@ import net.sf.jasperreports.view.JasperViewer;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -51,10 +53,29 @@ public class DialogShowKhuyenMai extends JDialog {
 	private ArrayList<ChiTietKhuyenMai>listCT;
 	private JTextField txtMaKM;
 	private JButton btnInKM;
+	public DialogFixKm dialogFixKm;
+	public PanelTimKhuyenMai timKhuyenMai;
+//	public panels
 	
 
 	
 	
+	public DialogFixKm getDialogFixKm() {
+		return dialogFixKm;
+	}
+
+	public PanelTimKhuyenMai getTimKhuyenMai() {
+		return timKhuyenMai;
+	}
+
+	public void setTimKhuyenMai(PanelTimKhuyenMai timKhuyenMai) {
+		this.timKhuyenMai = timKhuyenMai;
+	}
+
+	public void setDialogFixKm(DialogFixKm dialogFixKm) {
+		this.dialogFixKm = dialogFixKm;
+	}
+
 	public DialogShowKhuyenMai(String textReturn) {
 		new DialogShowKhuyenMai();
 		
@@ -90,6 +111,7 @@ public class DialogShowKhuyenMai extends JDialog {
 	
 	public DialogShowKhuyenMai() {
 		model = new DefaultTableModel();
+		dialogFixKm = new DialogFixKm();
 		
 		try {
 			ConnectDB.getInstance().connect();
@@ -157,6 +179,25 @@ public class DialogShowKhuyenMai extends JDialog {
 							printReport();
 						}
 					});
+					{
+						JButton btnNewButton = new JButton("Thay Đổi");
+						btnNewButton.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								if(daoKm.ktraKmSapXayRa(txtMaKM.getText())) {
+
+//									dialogFixKm.dialogShowKhuyenMai = this;
+									dialogFixKm.refreshWhereOpen(txtMaKM.getText());
+									dialogFixKm.setModal(true);
+									dialogFixKm.setVisible(true);
+									System.out.println("sap khuyen mai");
+								}else {
+									JOptionPane.showMessageDialog(null, "Chỉ có khuyến mãi sắp xảy ra mới có thể sửa đổi!!");
+								}
+
+							}
+						});
+						buttonPane.add(btnNewButton);
+					}
 					buttonPane.add(btnInKM);
 				}
 				okButton.setActionCommand("OK");

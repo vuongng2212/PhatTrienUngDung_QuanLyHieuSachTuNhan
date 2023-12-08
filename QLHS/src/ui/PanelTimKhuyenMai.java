@@ -150,8 +150,34 @@ public class PanelTimKhuyenMai extends JPanel {
 					}else {
 						JOptionPane.showMessageDialog(null,"Ngày Bắt Đầu phải lớn hơn ngày kết thúc");	
 					}
+				}else if(batdau.getDate()!=null && ketThuc.getDate()==null){
+					SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+//					System.out.println("Ngay bat dau: "+dateformat.format(batdau.getDate()) + " Ngay ket thuc: "+dateformat.format(ketThuc.getDate()));
+					ArrayList<KhuyenMai3Field>listKmCond = daoKm.getSearchConditions(dateformat.format(batdau.getDate()),"");
+					model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					for (KhuyenMai3Field km : listKmCond) {
+						row[0] = km.getMaKm();
+						row[1] = km.getNgayTao();
+						row[2] = km.getNgayHetHan();
+						model.addRow(row);
+					}
+//					JOptionPane.showMessageDialog(null,"Không được để trong kết thúc");
+				}else if(batdau.getDate()==null && ketThuc.getDate()!=null) {
+					SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+//					System.out.println("Ngay bat dau: "+dateformat.format(batdau.getDate()) + " Ngay ket thuc: "+dateformat.format(ketThuc.getDate()));
+					ArrayList<KhuyenMai3Field>listKmCond = daoKm.getSearchConditions("",dateformat.format(ketThuc.getDate()));
+					model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					for (KhuyenMai3Field km : listKmCond) {
+						row[0] = km.getMaKm();
+						row[1] = km.getNgayTao();
+						row[2] = km.getNgayHetHan();
+						model.addRow(row);
+					}
+//					JOptionPane.showMessageDialog(null, "Không được để trống bắt đầu");
 				}else {
-					JOptionPane.showMessageDialog(null,"Vui lòng không để trống!!");
+					JOptionPane.showMessageDialog(null, "Không được để trống!!");
 				}
 				
 			}
@@ -171,6 +197,7 @@ public class PanelTimKhuyenMai extends JPanel {
 		panel_1.add(btnTaoMoi);
 		
 		btnXemChiTiet = new JButton("Xem Chi Tiết");
+		btnXemChiTiet.setEnabled(false);
 		btnXemChiTiet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -213,7 +240,8 @@ public class PanelTimKhuyenMai extends JPanel {
 					row[2] = km.getNgayHetHan();
 					model.addRow(row);
 				}
-				
+				batdau.setDate(null);
+				ketThuc.setDate(null);
 			}
 		});
 		//Hêt Hạn
@@ -239,6 +267,8 @@ public class PanelTimKhuyenMai extends JPanel {
 					row[2] = km.getNgayHetHan();
 					model.addRow(row);
 				}
+				batdau.setDate(null);
+				ketThuc.setDate(null);
 			}
 		});
 		
@@ -310,7 +340,8 @@ public class PanelTimKhuyenMai extends JPanel {
 					row[2] = km.getNgayHetHan();
 					model.addRow(row);
 				}
-				
+				batdau.setDate(null);
+				ketThuc.setDate(null);
 			}
 		});
 		
@@ -324,6 +355,7 @@ public class PanelTimKhuyenMai extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getSelectedRow();
 				txtReturn = model.getValueAt(i, 0).toString();
+				btnXemChiTiet.setEnabled(true);
 			}
 		});
 		model = new DefaultTableModel();
@@ -348,6 +380,9 @@ public class PanelTimKhuyenMai extends JPanel {
 
 	}
 	public void refresh() {
+		btnXemChiTiet.setEnabled(false);
+		batdau.setDate(null);
+		ketThuc.setDate(null);
 		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 		model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
