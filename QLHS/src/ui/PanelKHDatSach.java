@@ -289,6 +289,13 @@ public class PanelKHDatSach extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(!txtMaDH.getText().equalsIgnoreCase("")) {
 					onOpenFormButtonClick();
+					if(txtMaKH.getText().equalsIgnoreCase("")) {
+						txtMaKH.setText("");
+						txtTenKH.setText("");
+						txtLoaiKh.setText("");
+						txtDiaChi.setText("");
+						txtSDT.setText("");
+					}
 				}else {
 					JOptionPane.showMessageDialog(null,"Vui lòng chọn tạo đơn hàng trước khi chọn khách hàng!!");
 				}
@@ -596,6 +603,8 @@ public class PanelKHDatSach extends JPanel {
 									daoChiTietDh.add(new ChiTietKhachDH(txtMaDH.getText(), model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()), Double.parseDouble(model.getValueAt(i, 3).toString())));
 								}
 								btnDatHang.setEnabled(false);
+								
+								truSoLuongSP();
 								btnInHD.setEnabled(true);
 //								refresh();
 
@@ -621,6 +630,7 @@ public class PanelKHDatSach extends JPanel {
 						}
 						btnDatHang.setEnabled(false);
 						btnInHD.setEnabled(true);
+						truSoLuongSP();
 //						refresh();
 						
 						JOptionPane.showMessageDialog(null, textError7);
@@ -682,6 +692,14 @@ public class PanelKHDatSach extends JPanel {
 		dialog.setModal(true);
 		dialog.setVisible(true);
 	}
+	public void truSoLuongSP() {
+		model = (DefaultTableModel) table.getModel();
+		DAO_SanPham daosp = new DAO_SanPham();
+		int n = table.getRowCount();
+		for(int i=0;i<n;i++) {
+			daosp.giamSoLuong(model.getValueAt(i, 0).toString(), Integer.parseInt(model.getValueAt(i, 2).toString()));
+		}
+	}
 	public void onDataReturned(String str) {
 		System.out.println("Ma sp vua tra ve la:" + str);
 		txtMaKH.setText(str);
@@ -693,8 +711,16 @@ public class PanelKHDatSach extends JPanel {
 		}
 		daoKhachDh  = new DAO_KhachDH();
 		int soLanHuy = daoKhachDh.soLanHuy(txtMaKH.getText());
+		
 		if(soLanHuy >=3) {
 			JOptionPane.showMessageDialog(null, textError9);
+			txtMaKH.setText("");
+			txtTenKH.setText("");
+			txtLoaiKh.setText("");
+			txtDiaChi.setText("");
+			txtSDT.setText("");
+		}else if(daoKhachDh.soDonChuaXuLy(txtMaKH.getText()) >=3) {
+			JOptionPane.showMessageDialog(null, "Khách có "+daoKhachDh.soDonChuaXuLy(txtMaKH.getText())+" Đơn chưa xử lý. Vui lòng xử lý nó trước khi đặt đơn mới.");
 			txtMaKH.setText("");
 			txtTenKH.setText("");
 			txtLoaiKh.setText("");

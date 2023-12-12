@@ -45,6 +45,8 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -558,25 +560,36 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		btnHuyBo = new JButton("Hủy Bỏ");
 		btnHuyBo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option =  JOptionPane.showOptionDialog(null, textError0, "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-				switch (option) {
-				case JOptionPane.YES_OPTION:
-					daoKh.updateHuy(txtMaDH.getText());
-					JOptionPane.showMessageDialog(null, textError1);
-					int soLanHuy = daoKh.soLanHuy(daoKh.tenMaKHTheoDH(txtMaDH.getText()));
-					if(soLanHuy>=3) {
-						JOptionPane.showMessageDialog(null, textError2);
-					}else {
-						JOptionPane.showMessageDialog(null, textError3);
-						JOptionPane.showMessageDialog(null,textError4+ soLanHuy +textError5);
-						refresh();
+				if(soSanhPhaiNgayHT()) {
+					JOptionPane.showMessageDialog(null, "Vì hủy đơn đặt hàng trong ngày đặt hàng nên sẽ không bị tính!");
+					DAO_KhachDH khachdh = new DAO_KhachDH();
+					khachdh.deleteChiTietdonDH(txtMaDH.getText());
+					khachdh.deletedonDH(txtMaDH.getText());
+					tangSoLuongSP();
+					refresh();
+//					JOptionPane.showMessageDialog(null, "La ngay hien hanh");
+				}else {
+					int option =  JOptionPane.showOptionDialog(null, textError0, "Xác Nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+					switch (option) {
+					case JOptionPane.YES_OPTION:
+						daoKh.updateHuy(txtMaDH.getText());
+						JOptionPane.showMessageDialog(null, textError1);
+						int soLanHuy = daoKh.soLanHuy(daoKh.tenMaKHTheoDH(txtMaDH.getText()));
+						if(soLanHuy>=3) {
+							JOptionPane.showMessageDialog(null, textError2);
+						}else {
+							JOptionPane.showMessageDialog(null, textError3);
+							JOptionPane.showMessageDialog(null,textError4+ soLanHuy +textError5);
+							tangSoLuongSP();
+							refresh();
+							
+						}
 						
-					}
-					
-					break;
+						break;
 
-				default:
-					break;
+					default:
+						break;
+					}
 				}
 			}
 		});
@@ -864,6 +877,28 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		refresh();
 	}
+	
+	private boolean soSanhPhaiNgayHT() {
+//		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+//		LocalDate date = 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate date = LocalDate.parse(txtNgayDat.getText(),formatter);
+		LocalDate currentDate = LocalDate.now();
+		if(currentDate.equals(date)) {
+			return true;
+		}
+		return false;
+
+	}
+	private void tangSoLuongSP() {
+		modelInfo = (DefaultTableModel) tableDetails.getModel();
+		int n = tableDetails.getRowCount();
+		DAO_SanPham daosp = new DAO_SanPham();
+		for(int i=0;i<n;i++) {
+			daosp.tangSoLuong(modelInfo.getValueAt(i,0).toString(), Integer.parseInt(modelInfo.getValueAt(i, 2).toString()));
+		}
+	}
+	
 	private void printReport() {
 		try {
 			String filePath = "src\\resources\\HoaDonLayHang.jrxml";
@@ -968,6 +1003,12 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		}
 		txtMaKH.setText("");
 		txtLoaiKH.setText("");
+		txtMaDH.setText("");
+		txtNV.setText("");
+		txtNgayDat.setText("");
+		txtKH.setText("");
+		txtLoai.setText("");
+		txtTienCoc.setText("");
 		batdau.setDate(null);
 	}
 	public void refreshLocale(String cs1,String cs2) {

@@ -207,23 +207,42 @@ public class DAO_SanPham implements daoInterface<SanPham, DanhSachSanPham>{
 		return true;
 	}
 	public void giamSoLuong(String maSP,int count) {
+		System.out.println("Bat dau tru so k");
 		ConnectDB.getInstance();
-		DAO_SanPham daosp = new DAO_SanPham();
+//		DAO_SanPham daosp = new DAO_SanPham();
 		Connection con = ConnectDB.getConnection();
-		int soLuongTemp = daosp.getSoLuongSP(maSP);
-		int sum = soLuongTemp - count;
+//		int soLuongTemp = daosp.getSoLuongSP(maSP);
+//		int sum = soLuongTemp - count;
 		PreparedStatement stm = null;
-		String sql = "update  sanPham set soLuong = ? where maSP = ?";
+		String sql = "update sanPham set soLuong = soLuong - ? where maSP = ?";
 		try {
 			stm = con.prepareStatement(sql);
-			stm.setInt(1, sum);
+			stm.setInt(1, count);
 			stm.setString(2, maSP);		
 			stm.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO: handle exception
 		}	
-		
+	}
+	public void tangSoLuong(String maSP,int count) {
+		System.out.println("Bat dau tru so k");
+		ConnectDB.getInstance();
+//		DAO_SanPham daosp = new DAO_SanPham();
+		Connection con = ConnectDB.getConnection();
+//		int soLuongTemp = daosp.getSoLuongSP(maSP);
+//		int sum = soLuongTemp - count;
+		PreparedStatement stm = null;
+		String sql = "update sanPham set soLuong = soLuong + ? where maSP = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setInt(1, count);
+			stm.setString(2, maSP);		
+			stm.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}	
 	}
 	public int getSoLuongSP(String str) {
 		ConnectDB.getInstance();

@@ -252,7 +252,7 @@ public class panelBanHang extends JPanel {
 				if(!txtMaSP.getText().equalsIgnoreCase("")) {
 					if(!txtMaSP.getText().equalsIgnoreCase("")){
 						if(indexMaSPInList(txtMaSP.getText())==-1) {
-							if(soLuongSPTemp > Integer.parseInt(txtSoLuong.getText())) {
+							if(soLuongSPTemp >= Integer.parseInt(txtSoLuong.getText())) {
 								System.out.println("Được");
 								if(daokm.ktraHienDangKhuyenMai(txtMaSP.getText())) {
 									discount = daokm.discountSPDangKM(txtMaSP.getText());
@@ -511,7 +511,7 @@ public class panelBanHang extends JPanel {
 		btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Double.parseDouble(lbllTienTra.getText())>0) {
+				if(Double.parseDouble(lbllTienTra.getText())>=0) {
 					DefaultTableModel model =(DefaultTableModel) table.getModel();
 					int sum = model.getRowCount();
 					daosp = new DAO_SanPham();
@@ -546,10 +546,13 @@ public class panelBanHang extends JPanel {
 						daokm = new DAO_KhuyenMai();
 						daokh = new DAO_KhachHang();
 						double total = daokm.tongTienCuaKH(txtMaKH.getText());
-						if(total >=300000) {
-							daokh.updateLoaiKH(txtMaKH.getText());
-							JOptionPane.showMessageDialog(null, "Tổng chi tiêu của khách hàng đã vượt 300k.LoạiKh set TV");
+						if(!txtMaKH.getText().equalsIgnoreCase("KH000")) {
+							if(total >=300000) {
+								daokh.updateLoaiKH(txtMaKH.getText());
+								JOptionPane.showMessageDialog(null, "Tổng chi tiêu của khách hàng đã vượt 300k.LoạiKh set TV");
+							}
 						}
+						
 					}
 					btnInHD.setEnabled(true);
 					Locale localVN = new Locale("vi","VN");
@@ -701,6 +704,24 @@ public class panelBanHang extends JPanel {
 		txtLoaiKH.setBackground(new Color(255, 255, 255));
 		txtLoaiKH.setEditable(false);
 		txtLoaiKH.setColumns(10);
+		
+		JLabel lblKhchnDanh = new JLabel("Khách Ẩn Danh");
+		lblKhchnDanh.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblKhchnDanh.setBounds(10, 54, 105, 26);
+		panel.add(lblKhchnDanh);
+		
+		JButton btnKnowns = new JButton("Guest");
+		btnKnowns.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtMaKH.setText("KH000");
+				txtTenKH.setText("Unknown");
+				txtLoaiKH.setText("VL");
+				txtSDT.setText("Unknown");
+				txtDiaChi.setText("Unknown");
+			}
+		});
+		btnKnowns.setBounds(123, 57, 89, 23);
+		panel.add(btnKnowns);
 		
 		lbllThemSach = new JLabel("Thêm Sách");
 		lbllThemSach.setFont(new Font("Tahoma", Font.BOLD, 13));
