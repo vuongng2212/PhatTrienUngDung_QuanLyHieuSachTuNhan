@@ -199,6 +199,7 @@ public class PanelKHDatSach extends JPanel {
 				}else {
 					txtMaDH.setText("DH001");
 				}
+				btnDatHang.setEnabled(true);
 			}
 		});
 		btnTaoDon.setFont(new Font("Tahoma", Font.BOLD, 13));
