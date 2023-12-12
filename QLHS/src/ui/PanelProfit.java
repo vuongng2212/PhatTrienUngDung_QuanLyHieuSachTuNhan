@@ -27,14 +27,16 @@ public class PanelProfit extends JPanel {
 	public JTextField txtChucVu;
 	public JoptionChangePwd changePwd;
 	private DAO_NhanVien nv;
-
+	public DialogChangeSDT changeSDT;
+	public DialogChangeEmail changeEmail;
 	/**
 	 * Create the panel.
 	 */
 	public PanelProfit() {
 		setBounds(0,0,1534,1017);
 		setLayout(null);
-		
+		changeSDT = new DialogChangeSDT();
+		changeEmail = new DialogChangeEmail();
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 255, 0));
 		panel.setBounds(0, 0, 1534, 91);
@@ -61,6 +63,8 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllMaNV);
 		
 		txtMaNV = new JTextField();
+		txtMaNV.setEditable(false);
+		txtMaNV.setHorizontalAlignment(SwingConstants.CENTER);
 		txtMaNV.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtMaNV.setBounds(234, 32, 215, 39);
 		panel_1.add(txtMaNV);
@@ -73,6 +77,8 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllTenNV);
 		
 		txtTenNV = new JTextField();
+		txtTenNV.setEditable(false);
+		txtTenNV.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTenNV.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtTenNV.setColumns(10);
 		txtTenNV.setBounds(710, 32, 215, 39);
@@ -85,6 +91,8 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllNgaySinh);
 		
 		txtNgaySinh = new JTextField();
+		txtNgaySinh.setEditable(false);
+		txtNgaySinh.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNgaySinh.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtNgaySinh.setColumns(10);
 		txtNgaySinh.setBounds(1255, 32, 215, 39);
@@ -97,6 +105,7 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllGioiTinh);
 		
 		txtGioiTinh = new JTextField();
+		txtGioiTinh.setHorizontalAlignment(SwingConstants.CENTER);
 		txtGioiTinh.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtGioiTinh.setColumns(10);
 		txtGioiTinh.setBounds(234, 108, 215, 39);
@@ -109,6 +118,8 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllSoDienThoai);
 		
 		txtDienThoai = new JTextField();
+		txtDienThoai.setEditable(false);
+		txtDienThoai.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDienThoai.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtDienThoai.setColumns(10);
 		txtDienThoai.setBounds(710, 108, 215, 39);
@@ -121,6 +132,8 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllDiaChi);
 		
 		txtDiaChi = new JTextField();
+		txtDiaChi.setEditable(false);
+		txtDiaChi.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDiaChi.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtDiaChi.setColumns(10);
 		txtDiaChi.setBounds(1255, 108, 215, 39);
@@ -133,6 +146,8 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllEmail);
 		
 		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
+		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEmail.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(421, 205, 215, 39);
@@ -145,12 +160,20 @@ public class PanelProfit extends JPanel {
 		panel_1.add(lbllChucVu);
 		
 		txtChucVu = new JTextField();
-		txtChucVu.setFont(new Font("Tahoma", Font.BOLD, 13));
+		txtChucVu.setHorizontalAlignment(SwingConstants.CENTER);
+		txtChucVu.setEditable(false);
+		txtChucVu.setText("Nhân Viên");
+		txtChucVu.setFont(new Font("Tahoma", Font.BOLD, 15));
 		txtChucVu.setColumns(10);
 		txtChucVu.setBounds(877, 205, 215, 39);
 		panel_1.add(txtChucVu);
 		
 		JButton btnDoiSDT = new JButton("Thay Đổi SDT");
+		btnDoiSDT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				changeSDT();
+			}
+		});
 		btnDoiSDT.setBackground(new Color(255, 0, 255));
 		btnDoiSDT.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnDoiSDT.setBounds(180, 336, 171, 59);
@@ -167,18 +190,19 @@ public class PanelProfit extends JPanel {
 		});
 		btnDoiMatKhau.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnDoiMatKhau.setBackground(Color.MAGENTA);
-		btnDoiMatKhau.setBounds(552, 336, 171, 59);
+		btnDoiMatKhau.setBounds(552, 336, 177, 59);
 		panel_1.add(btnDoiMatKhau);
 		
-		JButton btnLuu = new JButton("Lưu Thay Đổi");
-		btnLuu.addActionListener(new ActionListener() {
+		JButton btnEmail = new JButton("Thay Đổi Email");
+		btnEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				changeEmail();
 			}
 		});
-		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnLuu.setBackground(Color.MAGENTA);
-		btnLuu.setBounds(905, 336, 171, 59);
-		panel_1.add(btnLuu);
+		btnEmail.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnEmail.setBackground(Color.MAGENTA);
+		btnEmail.setBounds(905, 336, 171, 59);
+		panel_1.add(btnEmail);
 		
 		JButton btnHoanTac = new JButton("Hoàn Tác");
 		btnHoanTac.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -187,9 +211,10 @@ public class PanelProfit extends JPanel {
 		panel_1.add(btnHoanTac);
 //		refresh();
 	}
-	private void refresh() {
+	public void refresh() {
 		nv = new DAO_NhanVien();
-		NhanVien nhanvien = nv.getNV(userInfo.getMaNV());
+//		NhanVien nhanvien = nv.getNV(userInfo.maNV);
+		NhanVien nhanvien = nv.getNVTheoMa(userInfo.maNV);
 			SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 		
 		  txtMaNV.setText(nhanvien.getMaNV());
@@ -205,5 +230,20 @@ public class PanelProfit extends JPanel {
 		  txtDiaChi.setText(nhanvien.getDiaChi());
 		  txtEmail.setText(nhanvien.getEmail());
 		  txtChucVu.setText(nhanvien.getChucVu());
+		  userInfo.sdt = nhanvien.getSDT();
+		  userInfo.maNV = nhanvien.getMaNV();
 	}
+	public void changeSDT() {
+		changeSDT.profit = this;
+		changeSDT.refresh();
+		changeSDT.setModal(true);
+		changeSDT.setVisible(true);
+	}
+	public void changeEmail() {
+		changeEmail.profit = this;
+		changeEmail.refresh();
+		changeEmail.setModal(true);
+		changeEmail.setVisible(true);
+	}
+
 }

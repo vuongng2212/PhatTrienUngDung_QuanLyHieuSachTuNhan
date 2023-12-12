@@ -134,6 +134,7 @@ public class frmNV extends JFrame {
 	private JMenuItem menuXacNhanDatSach;
 	private JMenuItem xemKM;
 	private JLabel lbllInfo;
+	private DialogChangeSDT changeSDT;
 	/**
 	 * Launch the application.
 	 */
@@ -194,6 +195,7 @@ public class frmNV extends JFrame {
 		dialogAddSp = new DialogAddSP();
 		xemHD = new DialogXemHD();
 		dialogSP2 = new DialogAddSP2();
+		changeSDT = new DialogChangeSDT();
 		dialogSP3 = new DialogAddSP3();
 		dialogAddKh = new DialogAddKH();
 		dialogAddKH3 = new DialogAddKH3();
@@ -544,6 +546,7 @@ public class frmNV extends JFrame {
 		dialogAddSp.setVisible(false);
 		xemHD.setVisible(false);
 		dialogSP2.setVisible(false);
+		changeSDT.setVisible(false);
 		dialogSP3.setVisible(false);
 		dialogAddKh.setVisible(false);
 		dialogAddKH3.setVisible(false);
@@ -598,6 +601,7 @@ public class frmNV extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				menuClicked(profit);
+				profit.refresh();
 				
 			}
 		});
@@ -964,6 +968,8 @@ public class frmNV extends JFrame {
 		bill.banHang.dialogAddSp = dialogAddSp;
 		searchHD.xemHd = xemHD;
 		panelDatSach.dialogSP = dialogSP2;
+//		profit.changeSDT.profit = profit;
+		changeSDT.profit = profit;
 		panelXacNhanDatSach.dialogSP = dialogSP3;
 		bill.banHang.dialogAddKH = dialogAddKh;
 		panelXacNhanDatSach.dialogKH = dialogAddKH3;
