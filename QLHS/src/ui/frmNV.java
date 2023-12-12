@@ -125,6 +125,7 @@ public class frmNV extends JFrame {
 	private JMenuItem menuSearchHD;
 	private PanelSearchHD searchHD;
 	private DialogXemHD xemHD;
+	private DialogAddKHSearchHD dialogSearchKHHD;
 	private PanelKHDatSach panelDatSach;
 	private PanelKhXacNhanDatSach panelXacNhanDatSach;
 	private DialogAddSP2 dialogSP2;
@@ -194,6 +195,7 @@ public class frmNV extends JFrame {
 		dialogShowKm = new DialogShowKhuyenMai();
 		dialogAddSp = new DialogAddSP();
 		xemHD = new DialogXemHD();
+		dialogSearchKHHD = new DialogAddKHSearchHD();
 		dialogSP2 = new DialogAddSP2();
 		changeSDT = new DialogChangeSDT();
 		dialogSP3 = new DialogAddSP3();
@@ -502,7 +504,7 @@ public class frmNV extends JFrame {
 		lbllDateShow = new JLabel();
 		lbllDateShow.setText(currentDate);
 		lbllDateShow.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbllDateShow.setBounds(125, 100, 215, 38);
+		lbllDateShow.setBounds(125, 100, 242, 38);
 		panel_1.add(lbllDateShow);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("User");
@@ -546,6 +548,7 @@ public class frmNV extends JFrame {
 		dialogShowKm.setVisible(false);
 		dialogAddSp.setVisible(false);
 		xemHD.setVisible(false);
+		dialogSearchKHHD.setVisible(false);
 		dialogSP2.setVisible(false);
 		changeSDT.setVisible(false);
 		dialogSP3.setVisible(false);
@@ -870,17 +873,6 @@ public class frmNV extends JFrame {
 
 			
 		panelMenu.add(menuBarSystem);
-
-		
-		
-		JLabel lbllNgonNgu_1 = new JLabel("Ngôn Ngữ");
-		lbllNgonNgu_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllNgonNgu_1.setBounds(1682, 0, 102, 41);
-		contentPane.add(lbllNgonNgu_1);
-		
-		JComboBox comboCountries_1 = new JComboBox();
-		comboCountries_1.setBounds(1781, 0, 139, 41);
-		contentPane.add(comboCountries_1);
 		
 		JLabel icon_logout_1 = new JLabel("");
 		icon_logout_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -968,6 +960,7 @@ public class frmNV extends JFrame {
 		searchKm.dialogShow.timKhuyenMai = searchKm;
 		bill.banHang.dialogAddSp = dialogAddSp;
 		searchHD.xemHd = xemHD;
+		searchHD.dialogAddKH = dialogSearchKHHD;
 		panelDatSach.dialogSP = dialogSP2;
 //		profit.changeSDT.profit = profit;
 		changeSDT.profit = profit;

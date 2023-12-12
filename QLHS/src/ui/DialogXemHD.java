@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DialogXemHD extends JDialog {
 
@@ -103,13 +105,6 @@ public class DialogXemHD extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("In Hóa Đơn");
-				okButton.setFont(new Font("Tahoma", Font.BOLD, 13));
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
 		}
 //		refresh();
 	}

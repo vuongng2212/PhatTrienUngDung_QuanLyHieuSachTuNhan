@@ -146,8 +146,63 @@ public class DAO_HoaDon implements daoInterface<HoaDon, DanhSachHoaDon>{
 			e.printStackTrace();
 		}
 		return listHD;
-	
 	}
+
+	public ArrayList<HoaDon>SearchHDTheomaKH(String str){
+		ArrayList<HoaDon>listHD = new ArrayList<HoaDon>();
+		SimpleDateFormat dateformat  = new SimpleDateFormat("yyyy-MM-dd");
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+
+
+		try {
+			String sql = "select * from hoaDon where maKH = '" + str+ "'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			try {
+				listHD.add(new HoaDon(rs.getString("maHD"),rs.getString("maNV"),rs.getString("maKH"),dateFormat.parse(rs.getString("ngayTaoHD")),Double.parseDouble(rs.getString("thanhTien"))));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listHD;
+	}
+	
+	public ArrayList<HoaDon>SearchHDTheomaKHvaNgay(String ngay,String maKH){
+		ArrayList<HoaDon>listHD = new ArrayList<HoaDon>();
+		SimpleDateFormat dateformat  = new SimpleDateFormat("yyyy-MM-dd");
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+
+
+		try {
+			String sql = "select * from hoaDon where ngayTaoHD = '" + ngay+ "' and maKH = '"+maKH+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+			try {
+				listHD.add(new HoaDon(rs.getString("maHD"),rs.getString("maNV"),rs.getString("maKH"),dateFormat.parse(rs.getString("ngayTaoHD")),Double.parseDouble(rs.getString("thanhTien"))));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listHD;
+	}
+	
+	
 	@Override
 	public boolean delete(String ma) {
 		ConnectDB.getInstance();

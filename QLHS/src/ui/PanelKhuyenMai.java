@@ -156,8 +156,9 @@ public class PanelKhuyenMai extends JPanel {
 		panel_1.add(lbllChonSachCuThe);
 		
 		lbllNhapDiscount = new JLabel("Nhập Discout:");
+		lbllNhapDiscount.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllNhapDiscount.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbllNhapDiscount.setBounds(352, 45, 111, 54);
+		lbllNhapDiscount.setBounds(269, 45, 194, 54);
 		panel_1.add(lbllNhapDiscount);
 		
 		txtDisCount = new JTextField();

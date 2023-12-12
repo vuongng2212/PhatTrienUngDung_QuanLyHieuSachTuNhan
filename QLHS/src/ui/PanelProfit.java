@@ -192,7 +192,7 @@ public class PanelProfit extends JPanel {
 		});
 		btnDoiSDT.setBackground(new Color(255, 0, 255));
 		btnDoiSDT.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnDoiSDT.setBounds(180, 336, 171, 59);
+		btnDoiSDT.setBounds(166, 336, 208, 59);
 		panel_1.add(btnDoiSDT);
 		
 		btnDoiMatKhau = new JButton("Thay Đổi Mật Khẩu");
