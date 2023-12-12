@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import connectDB.ConnectDB;
 import entity.Account;
 import entity.NhanVien;
+import entity.PhieuNhapHang;
 import list.DanhSachNhanVien;
 
 public class DAO_NhanVien {
@@ -34,6 +35,24 @@ public class DAO_NhanVien {
 
 	}	
 	
+	public String getLastNV() {
+		String str = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select TOP 1 maNV from nhanVien ORDER BY maNV DESC ";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+			str = rs.getString("maNV");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return str;	
+
+	}
+	
 	public String getPwd(String user) {
 		String s = null;
 		ConnectDB.getInstance();
@@ -50,6 +69,7 @@ public class DAO_NhanVien {
 		}
 		return s;
 	}
+	
 	public String getPwdForChange(String str) {
 		String s = null;
 		ConnectDB.getInstance();

@@ -118,7 +118,7 @@ public class PanelShift extends JPanel {
 								lblValTen.setText("");
 								disableButton(true, false, false);
 							}
-							int caVal = r +1;
+							int caVal = r + 1;
 							lblValCa.setText(""+caVal);
 							
 							DAO_ca = new DAO_Ca();
