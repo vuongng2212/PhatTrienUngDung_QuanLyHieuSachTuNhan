@@ -931,6 +931,9 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	}
 	
 	public void refresh() {
+		DAO_KhachDH daoKhachDH = new DAO_KhachDH();
+		daoKhachDH.updateDonDatHangCoCoc();
+		daoKhachDH.updateDonDatHangKhongCoc();
 		btnTim3.setEnabled(false);
 		btnAdd.setEnabled(false);
 		btnSua.setEnabled(false);

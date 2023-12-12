@@ -215,6 +215,45 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		
 		return ma;
 	}
+	public void updateDonDatHangKhongCoc() {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update datSach set trangThai = -1 where  DATEDIFF(day,GETDATE(),ngayTaoDH) <-15 and tienCoc = 0 and trangThai = 0";
+		try {
+			stm = con.prepareStatement(sql);
+			
+//			stm.setString(1, sdt);
+//			stm.setString(2, manv);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}	
+	}
+	public void updateDonDatHangCoCoc() {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update datSach set trangThai = -1 where  DATEDIFF(day,GETDATE(),ngayTaoDH) <-30 and tienCoc != 0 and trangThai = 0";
+		try {
+			stm = con.prepareStatement(sql);
+			
+//			stm.setString(1, sdt);
+//			stm.setString(2, manv);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}	
+	}
+	
 
 	public String tenKHTheoMa(String str) {
 		String name = "";
