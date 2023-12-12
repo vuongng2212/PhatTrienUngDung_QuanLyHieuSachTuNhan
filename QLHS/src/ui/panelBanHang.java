@@ -145,6 +145,8 @@ public class panelBanHang extends JPanel {
 	
 	//Phần Column của table
 	private String maSachCl,tenSachCL,soLuongCL,giaBancl,discountCl,thanhTiencl;
+	private JTextField txtTrongKho;
+	private JLabel lblTrongKho;
 //	private ArrayList<SanPham>
 	
 	
@@ -237,7 +239,7 @@ public class panelBanHang extends JPanel {
 		txtSach.add(btnSearch);
 		
 		lbllSoLuong = new JLabel("Số Lượng");
-		lbllSoLuong.setBounds(488, 15, 85, 21);
+		lbllSoLuong.setBounds(626, 12, 85, 21);
 		txtSach.add(lbllSoLuong);
 		lbllSoLuong.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
@@ -273,9 +275,9 @@ public class panelBanHang extends JPanel {
 									row[5] = total;
 									model.addRow(row);
 //									tongTien+= giaBan*(Integer.parseInt(txtSoLuong.getText())) - ((discount/100)*(giaBan*(Integer.parseInt(txtSoLuong.getText()))));
-									tongTien+=total;
+//									tongTien+=total;
 									System.out.println(tongTien);
-									txtTongTien.setText(String.format("%.2f", tongTien));
+									txtTongTien.setText(String.format("%.2f", tongThanhTien()));
 									JOptionPane.showMessageDialog(null, "Thêm Thành Công");
 								}else {
 									if(txtLoaiKH.getText().equalsIgnoreCase("TV"))
@@ -305,6 +307,7 @@ public class panelBanHang extends JPanel {
 								}
 							txtMaSP.setText("");
 							txtSoLuong.setText("");
+							txtTrongKho.setText("");
 							}else {
 								JOptionPane.showMessageDialog(null, "Số Lượng vượt quá mức cho phép!");
 							}
@@ -348,7 +351,7 @@ public class panelBanHang extends JPanel {
 		
 		
 		txtSoLuong = new JTextField();
-		txtSoLuong.setBounds(583, 9, 42, 31);
+		txtSoLuong.setBounds(721, 9, 42, 31);
 		txtSach.add(txtSoLuong);
 		txtSoLuong.setColumns(10);
 		
@@ -358,10 +361,23 @@ public class panelBanHang extends JPanel {
 				int i = table.getSelectedRow();
 				DefaultTableModel  model = (DefaultTableModel)table.getModel();
 				if(i>=0) {
-					model.setValueAt(txtSoLuong.getText(), i, 2);
-					JOptionPane.showMessageDialog(null, "Sửa Thành Công!!");
+					if(Integer.parseInt(txtSoLuong.getText()) < Integer.parseInt(txtTrongKho.getText())) {
+						model.setValueAt(txtSoLuong.getText(), i, 2);
+						double soLuong = Double.parseDouble(model.getValueAt(i, 2).toString());
+						double giaBan = Double.parseDouble(model.getValueAt(i, 3).toString());
+						double discount = Double.parseDouble(model.getValueAt(i, 4).toString());
+						double tongTien = ((soLuong*giaBan) - ((soLuong*giaBan*discount)/100));
+						model.setValueAt(tongTien, i, 5);
+						txtTongTien.setText(String.format("%5.2f",tongThanhTien()));
+						
+						JOptionPane.showMessageDialog(null, "Sửa Thành Công!!");
+					}else {
+						JOptionPane.showMessageDialog(null, "Số lượng lớn hơn trong kho không thể sửa.!");
+					}
+					
 					txtMaSP.setText("");
 					txtSoLuong.setText("");
+					txtTrongKho.setText("");
 				}else {
 					JOptionPane.showMessageDialog(null, "Chọn dòng cần xóa!!");
 				}
@@ -381,7 +397,11 @@ public class panelBanHang extends JPanel {
 				switch (option) {
 				case JOptionPane.YES_OPTION:
 					model.removeRow(i);
+					txtTongTien.setText(String.format("%.2f", tongThanhTien()));
 					JOptionPane.showMessageDialog(null, "Xóa Thành Công!!!");
+					txtMaSP.setText("");
+					txtSoLuong.setText("");
+					txtTrongKho.setText("");
 					break;
 
 				default:
@@ -394,6 +414,18 @@ public class panelBanHang extends JPanel {
 		btnXoa.setBackground(new Color(102, 204, 0));
 		btnXoa.setBounds(1067, 9, 121, 31);
 		txtSach.add(btnXoa);
+		
+		lblTrongKho = new JLabel("Trong Kho");
+		lblTrongKho.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTrongKho.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTrongKho.setBounds(363, 12, 177, 21);
+		txtSach.add(lblTrongKho);
+		
+		txtTrongKho = new JTextField();
+		txtTrongKho.setEditable(false);
+		txtTrongKho.setColumns(10);
+		txtTrongKho.setBounds(561, 9, 42, 31);
+		txtSach.add(txtTrongKho);
 		String[] column = {"Mã Sách","Tên Sách","Tên Tác Giả","Danh Mục","Nhà XB","năm XB","Số Lượng","Đơn Giá","Tình Trạng","Khuyến Mãi"};
 		
 		DefaultTableModel model = new DefaultTableModel();
@@ -717,10 +749,12 @@ public class panelBanHang extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				DAO_SanPham daosp = new DAO_SanPham();
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				int i = table.getSelectedRow();
 				txtMaSP.setText(model.getValueAt(i, 0).toString());
 				txtSoLuong.setText(model.getValueAt(i, 2).toString());
+				txtTrongKho.setText(String.valueOf(daosp.searchSoLuong(String.valueOf(model.getValueAt(i, 0).toString()))));
 			}
 		});
 		String[] columnsp = {"Mã Sách","Tên Sách","Số Lượng","Giá Bán","Discount","Thành Tiền"};
@@ -757,8 +791,10 @@ public class panelBanHang extends JPanel {
 		}
 	}
 	public void onDataReturned(String str) {
+		DAO_SanPham daosp = new DAO_SanPham();
 		System.out.println("Ma sp vua tra ve la:" + str);
 		txtMaSP.setText(str);
+		txtTrongKho.setText(String.valueOf(daosp.searchSoLuong(str)));
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
@@ -876,7 +912,19 @@ public class panelBanHang extends JPanel {
 //			model.addRow(rowSP);
 //		}
 //	}
+	
+	private double tongThanhTien() {
+		double sum = 0;
+		model = (DefaultTableModel) table.getModel();
+		int n = table.getRowCount();
+		for(int i=0;i<n;i++) {
+			sum += Double.parseDouble(model.getValueAt(i, 5).toString());
+		}
 
+		return sum;
+		
+	}
+		
 	private boolean checkFlagKH() {
 		if(txtMaKH.getText().equalsIgnoreCase("")) {
 			return false;
@@ -908,6 +956,7 @@ public class panelBanHang extends JPanel {
         return matcher.matches();
     }
 	
+	
 	private int indexMaSPInList(String str) {
 		model = (DefaultTableModel) table.getModel();
 		int size = model.getRowCount();
@@ -925,6 +974,7 @@ public class panelBanHang extends JPanel {
 //		listEnty = null;
 //		txtMaHD.setText("");
 		txtMaKH.setText("");
+		txtTrongKho.setText("");
 		txtMaSP.setText("");
 		txtSoLuong.setText("");
 		txtDiaChi.setText("");
@@ -1000,6 +1050,7 @@ public class panelBanHang extends JPanel {
 		btnHuy.setText(rd.getString("huyBo"));
 		btnThanhToan.setText(rd.getString("thanhToan"));
 		btnInHD.setText(rd.getString("inHD"));
+		lblTrongKho.setText(rd.getString("trongKho"));
 		
 		maSachCl = rd.getString("maSach");
 		tenSachCL= rd.getString("tenSach");

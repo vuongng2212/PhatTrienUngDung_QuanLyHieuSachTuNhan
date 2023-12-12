@@ -143,6 +143,8 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	private String textError16;
 	private String maDH,khachDH,nhanVienDat,ngayDat,trangThai;
 	private String ma,tenSP,soLuong,giaBanCl,discount,thanhTiencl;
+	private JLabel lblKho;
+	private JTextField txtKho;
 	
 	
 	/**
@@ -584,7 +586,7 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		lbllThemSach = new JLabel("Thêm Sách");
 		lbllThemSach.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lbllThemSach.setBounds(752, 852, 72, 34);
+		lbllThemSach.setBounds(706, 853, 72, 34);
 		add(lbllThemSach);
 		
 		btnTim3 = new JButton("Tìm");
@@ -594,28 +596,28 @@ public class PanelKhXacNhanDatSach extends JPanel {
 				onOpenFormSPButtonClick();
 			}
 		});
-		btnTim3.setBounds(834, 853, 87, 34);
+		btnTim3.setBounds(777, 854, 66, 34);
 		add(btnTim3);
 		
 		lbllMaSach = new JLabel("Mã Sách");
 		lbllMaSach.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lbllMaSach.setBounds(943, 852, 66, 35);
+		lbllMaSach.setBounds(943, 853, 66, 35);
 		add(lbllMaSach);
 		
 		txtMaSach = new JTextField();
 		txtMaSach.setEditable(false);
-		txtMaSach.setBounds(1018, 853, 66, 34);
+		txtMaSach.setBounds(1019, 854, 75, 34);
 		add(txtMaSach);
 		txtMaSach.setColumns(10);
 		
 		lbllSoLuong = new JLabel("Số Lượng");
 		lbllSoLuong.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lbllSoLuong.setBounds(1090, 852, 66, 35);
+		lbllSoLuong.setBounds(1104, 853, 66, 35);
 		add(lbllSoLuong);
 		
 		txtSoLuong = new JTextField();
 		txtSoLuong.setColumns(10);
-		txtSoLuong.setBounds(1155, 853, 58, 34);
+		txtSoLuong.setBounds(1176, 853, 37, 34);
 		add(txtSoLuong);
 		
 		btnAdd = new JButton("Thêm");
@@ -679,12 +681,27 @@ public class PanelKhXacNhanDatSach extends JPanel {
 				int i = tableDetails.getSelectedRow();
 				System.out.println(limit);
 				if(i>=0) {
-					if(i<limit) {
-						System.out.println("Đã loại vào limit");
-						int index = Integer.parseInt(txtSoLuong.getText());
-//						int indexGoc = Integer.parseInt(modelInfo.getValueAt(i, 2).toString());
-						int indexGoc = daoChiTiet.soLuongDaDatTheoMaSPvaMaDH(modelInfo.getValueAt(i, 0).toString(),txtMaDH.getText());
-						if(index >= indexGoc) {
+					if(Integer.parseInt(txtSoLuong.getText())<= Integer.parseInt(txtKho.getText())) {
+						if(i<limit) {
+							System.out.println("Đã loại vào limit");
+							int index = Integer.parseInt(txtSoLuong.getText());
+//							int indexGoc = Integer.parseInt(modelInfo.getValueAt(i, 2).toString());
+							int indexGoc = daoChiTiet.soLuongDaDatTheoMaSPvaMaDH(modelInfo.getValueAt(i, 0).toString(),txtMaDH.getText());
+							if(index >= indexGoc) {
+								modelInfo.setValueAt(txtSoLuong.getText(), i, 2);
+								double discount = Double.parseDouble(modelInfo.getValueAt(i, 4).toString());
+								double giaBan = Double.parseDouble(modelInfo.getValueAt(i, 3).toString());
+								double soLuong = Double.parseDouble(modelInfo.getValueAt(i, 2).toString());
+								double total = (giaBan*soLuong)  - (giaBan*soLuong*discount/100);
+								modelInfo.setValueAt(total, i, 5);
+								JOptionPane.showMessageDialog(null,textError11);
+								txtSoLuong.setText("");
+								txtMaSach.setText("");
+							}else{
+								JOptionPane.showMessageDialog(null, textError12);
+							}
+						}else {
+							System.out.println("Thoat khỏi limit!!");
 							modelInfo.setValueAt(txtSoLuong.getText(), i, 2);
 							double discount = Double.parseDouble(modelInfo.getValueAt(i, 4).toString());
 							double giaBan = Double.parseDouble(modelInfo.getValueAt(i, 3).toString());
@@ -694,23 +711,15 @@ public class PanelKhXacNhanDatSach extends JPanel {
 							JOptionPane.showMessageDialog(null,textError11);
 							txtSoLuong.setText("");
 							txtMaSach.setText("");
-						}else{
-							JOptionPane.showMessageDialog(null, textError12);
+							txtThanhTien.setText(String.format("%.1f", tinhThanhTien()));
+							txtTienTraThem.setText(String.format("%.1f",tienKhachPhaiTra()));
+							
 						}
 					}else {
-						System.out.println("Thoat khỏi limit!!");
-						modelInfo.setValueAt(txtSoLuong.getText(), i, 2);
-						double discount = Double.parseDouble(modelInfo.getValueAt(i, 4).toString());
-						double giaBan = Double.parseDouble(modelInfo.getValueAt(i, 3).toString());
-						double soLuong = Double.parseDouble(modelInfo.getValueAt(i, 2).toString());
-						double total = (giaBan*soLuong)  - (giaBan*soLuong*discount/100);
-						modelInfo.setValueAt(total, i, 5);
-						JOptionPane.showMessageDialog(null,textError11);
-						txtSoLuong.setText("");
 						txtMaSach.setText("");
-						txtThanhTien.setText(String.format("%.1f", tinhThanhTien()));
-						txtTienTraThem.setText(String.format("%.1f",tienKhachPhaiTra()));
-						
+						txtSoLuong.setText("");
+						txtKho.setText("");
+						JOptionPane.showMessageDialog(null, "Vượt quá số lượng trong kho!");
 					}
 				}else {
 					JOptionPane.showMessageDialog(null, textError13);
@@ -753,11 +762,13 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		tableDetails.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				DAO_SanPham daosp = new DAO_SanPham();
 				int i = tableDetails.getSelectedRow();
 				modelInfo = (DefaultTableModel) tableDetails.getModel();
 				if(i >=0) {
 					txtMaSach.setText(modelInfo.getValueAt(i, 0).toString());
 					txtSoLuong.setText(modelInfo.getValueAt(i, 2).toString());
+					txtKho.setText(String.valueOf(daosp.searchSoLuong(modelInfo.getValueAt(i, 0).toString())));
 				}
 			}
 		});
@@ -788,11 +799,11 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		
 		lbllThanhTien = new JLabel("Thành Tiền");
 		lbllThanhTien.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lbllThanhTien.setBounds(743, 814, 77, 24);
+		lbllThanhTien.setBounds(723, 814, 77, 24);
 		add(lbllThanhTien);
 		
 		txtThanhTien = new JTextField();
-		txtThanhTien.setBounds(839, 814, 89, 29);
+		txtThanhTien.setBounds(805, 814, 89, 29);
 		txtThanhTien.setEditable(false);
 		add(txtThanhTien);
 		txtThanhTien.setColumns(10);
@@ -812,13 +823,13 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		lbllTienPhaiTraThem = new JLabel("Tiền Phải Trả Thêm");
 		lbllTienPhaiTraThem.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTienPhaiTraThem.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lbllTienPhaiTraThem.setBounds(943, 817, 159, 24);
+		lbllTienPhaiTraThem.setBounds(919, 814, 159, 24);
 		add(lbllTienPhaiTraThem);
 		
 		txtTienTraThem = new JTextField();
 		txtTienTraThem.setColumns(10);
 		txtTienTraThem.setEditable(false);
-		txtTienTraThem.setBounds(1112, 814, 101, 29);
+		txtTienTraThem.setBounds(1099, 812, 101, 29);
 		add(txtTienTraThem);
 		
 		btnTaomoi = new JButton("Làm Mới");
@@ -829,6 +840,18 @@ public class PanelKhXacNhanDatSach extends JPanel {
 		});
 		btnTaomoi.setBounds(449, 114, 123, 34);
 		add(btnTaomoi);
+		
+		lblKho = new JLabel("Kho");
+		lblKho.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblKho.setBounds(857, 853, 37, 35);
+		add(lblKho);
+		
+		txtKho = new JTextField();
+		txtKho.setEditable(false);
+
+		txtKho.setColumns(10);
+		txtKho.setBounds(892, 854, 37, 34);
+		add(txtKho);
 //		String[] columnTable = {""}; 
 		
 		
@@ -1069,6 +1092,8 @@ public class PanelKhXacNhanDatSach extends JPanel {
 	public void onDataReturnedSP(String str) {
 		System.out.println("Ma sp vua tra ve la:" + str);
 		txtMaSach.setText(str);
+		DAO_SanPham daosp = new DAO_SanPham();
+		txtKho.setText(String.valueOf(daosp.searchSoLuong(str)));
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
