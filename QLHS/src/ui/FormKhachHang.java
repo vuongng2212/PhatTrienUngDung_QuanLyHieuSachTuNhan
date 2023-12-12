@@ -155,7 +155,7 @@ public class FormKhachHang extends JFrame {
 		btnRefresh.setForeground(new Color(0, 191, 255));
 		btnRefresh.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnRefresh.setIcon(new ImageIcon(img_update));
-		btnRefresh.setBounds(1070, 104, 119, 40);
+		btnRefresh.setBounds(1070, 104, 140, 40);
 		panelSearch.add(btnRefresh);
 		
 		cbDM = new JComboBox();

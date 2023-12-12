@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -13,6 +14,7 @@ import java.time.Year;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -33,6 +35,7 @@ import com.toedter.calendar.JDateChooser;
 
 import connectDB.ConnectDB;
 import dao.DAO_NhanVien;
+import dao.DAO_account;
 import entity.NhanVien;
 import list.DanhSachNhanVien;
 
@@ -49,10 +52,12 @@ public class PanelQLNV extends JPanel{
 	private DefaultTableModel tableModel;
 	private DanhSachNhanVien ls;
 	private DAO_NhanVien DAO_NV;
+	private DAO_account DAO_acc;
 	private JTextField txtMa,txtTen,txtSDT,txtDiaChi,txtEmail;
 	private JComboBox cbGT,cbCV;
 	private JDateChooser dateChooser;
 	private int stt = 1;
+	private Image img_TaoMaDH = new ImageIcon(FormNVQuanLy.class.getResource("/image/added.png")).getImage().getScaledInstance(30, 30,Image.SCALE_SMOOTH );
 	/**
 	 * Create the panel.
 	 */
@@ -144,7 +149,7 @@ public class PanelQLNV extends JPanel{
 		txtMa = new JTextField();
 		txtMa.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMa.setColumns(10);
-		txtMa.setBounds(205, 61, 160, 30);
+		txtMa.setBounds(205, 61, 120, 30);
 		westPanel.add(txtMa);
 		
 		JLabel lblDiaChi = new JLabel("Địa chỉ:");
@@ -188,6 +193,7 @@ public class PanelQLNV extends JPanel{
 			public void mousePressed(MouseEvent e) {
 				int row = table.getSelectedRow();
 				if(row != -1) {
+					txtMa.setEditable(false);
 					txtMa.setText(table.getValueAt(row, 1).toString());
 					txtTen.setText(table.getValueAt(row, 2).toString());
 					String gt = table.getValueAt(row, 4).toString();
@@ -242,7 +248,7 @@ public class PanelQLNV extends JPanel{
 					String diaChi = txtDiaChi.getText();
 					String email = txtEmail.getText();
 					String CV = cbCV.getSelectedItem().toString();
-
+					DAO_NV = new DAO_NhanVien();
 					NhanVien nv = new NhanVien(ma, ten, ns, gt, sdt, diaChi, email, CV);
 					if(table.getValueAt(r, 1).toString().equals(ma)) {
 						if (DAO_NV.updateNhanVien(nv)) {
@@ -264,7 +270,7 @@ public class PanelQLNV extends JPanel{
 		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnSua.setBackground(new Color(0, 128, 255));
-		btnSua.setBounds(155, 445, 100, 30);
+		btnSua.setBounds(10, 516, 130, 30);
 		westPanel.add(btnSua);
 		
 		JButton btnThem = new JButton("Thêm");
@@ -301,7 +307,7 @@ public class PanelQLNV extends JPanel{
 		btnThem.setForeground(new Color(0, 0, 160));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnThem.setBackground(Color.GREEN);
-		btnThem.setBounds(10, 445, 100, 30);
+		btnThem.setBounds(10, 445, 130, 30);
 		westPanel.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
@@ -310,12 +316,14 @@ public class PanelQLNV extends JPanel{
 				// TODO Auto-generated method stub
 				int r = table.getSelectedRow();
 				if (r != -1) {
+					DAO_acc = new DAO_account();
 					int tb = JOptionPane.showConfirmDialog(getParent(), "Bạn muốn xóa nhân viên này không?", "Chú ý!", JOptionPane.YES_NO_OPTION);
 					if (tb == JOptionPane.YES_OPTION) {
 						ls.xoaNV(r);
+						DAO_acc.deleteAcc(table.getValueAt(r, 5).toString());
 						DAO_NV.delete(table.getValueAt(r, 1).toString());
 						tableModel.removeRow(r);
-						JOptionPane.showMessageDialog(getParent(), "Xoá dịch nhân viên thành công!");
+						JOptionPane.showMessageDialog(getParent(), "Xoá nhân viên thành công!");
 						xoaTrang();
 						loadData();
 					}
@@ -329,8 +337,35 @@ public class PanelQLNV extends JPanel{
 		btnXoa.setForeground(new Color(0, 0, 160));
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnXoa.setBackground(new Color(255, 0, 0));
-		btnXoa.setBounds(290, 445, 100, 30);
+		btnXoa.setBounds(205, 516, 130, 30);
 		westPanel.add(btnXoa);
+		
+		JButton btnRefresh = new JButton("Làm mới");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadData();
+			}
+		});
+		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnRefresh.setBackground(new Color(0, 128, 255));
+		btnRefresh.setBounds(205, 445, 130, 30);
+		westPanel.add(btnRefresh);
+		
+		JButton btnKhoiTaoMa = new JButton("");
+		btnKhoiTaoMa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DAO_NV = new DAO_NhanVien();
+				String ma = DAO_NV.getLastNV();
+				if(ma!=null) {	
+					Integer strToInt = Integer.parseInt(ma.substring(2));
+					String s = String.format("%03d", strToInt + 1);
+					txtMa.setText("NV"+s);
+				}
+			}
+		});
+		btnKhoiTaoMa.setIcon(new ImageIcon(img_TaoMaDH));
+		btnKhoiTaoMa.setBounds(335, 61, 30, 30);
+		westPanel.add(btnKhoiTaoMa);
 		
 		JButton btnTaoQR = new JButton("Tạo QR");
 		btnTaoQR.addActionListener(new ActionListener() {
@@ -376,7 +411,7 @@ public class PanelQLNV extends JPanel{
 		deleteAllDataJtable();
 		//Load data
 		DAO_NV = new DAO_NhanVien();
-
+		stt = 1;
 		ls.clear();
 		for(NhanVien nv: DAO_NV.getAll()) {
 			ls.themNhanVien(nv);
@@ -389,11 +424,13 @@ public class PanelQLNV extends JPanel{
 		}
 	}
 	private void xoaTrang() {
+		txtMa.setEditable(true);
 		txtMa.setText("");
 		txtTen.setText("");
 		txtSDT.setText("");
 		txtDiaChi.setText("");
 		txtEmail.setText("");
+		dateChooser.setCalendar(null);
 	}
 	private boolean validData() {
 		String maNV = txtMa.getText().trim();

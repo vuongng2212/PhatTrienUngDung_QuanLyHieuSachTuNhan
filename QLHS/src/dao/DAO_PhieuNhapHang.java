@@ -32,7 +32,6 @@ public class DAO_PhieuNhapHang {
 	}	
 	public String getLastPhieuDH() {
 		String sttmaNH = null;
-		ArrayList<PhieuNhapHang> ds = new ArrayList<PhieuNhapHang>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {

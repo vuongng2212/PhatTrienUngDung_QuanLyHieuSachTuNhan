@@ -1,4 +1,7 @@
 /ui/
+<<<<<<< HEAD
+/dao/
+=======
 /bcprov-jdk15on-1.64.jar
 /bridj-0.7.0.jar
 /castor-core-1.4.1.jar
@@ -33,3 +36,4 @@
 /slf4j-log4j12-1.6.2.jar
 /sqljdbc42.jar
 /webcam-capture-0.3.12.jar
+>>>>>>> 6abd07c510ebce47a5c03051aab59dda6ca534bc
