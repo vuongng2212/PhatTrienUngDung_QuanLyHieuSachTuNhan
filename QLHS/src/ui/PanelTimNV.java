@@ -243,7 +243,11 @@ public class PanelTimNV extends JPanel {
 		stt =1;
 		for(NhanVien nv: DAO_NV.findNV(tenNV,sdt,email,gt,ns)) {
 			ls.themNhanVien(nv);
-			Object row[] = {stt++,nv.getMaNV(),nv.getTenNV(),nv.getDoB(),gt,nv.getSDT(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu()};
+			String strGender = "Nam";
+			if(nv.getGioiTinh()==0){
+				strGender = "Nữ";
+			}
+			Object row[] = {stt++,nv.getMaNV(),nv.getTenNV(),nv.getDoB(),strGender,nv.getSDT(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu()};
 			tableModel.addRow(row);
 		}
 
