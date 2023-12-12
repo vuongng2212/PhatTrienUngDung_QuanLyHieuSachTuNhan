@@ -215,6 +215,45 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		
 		return ma;
 	}
+	public void deleteChiTietdonDH(String maDH) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+//		String sql = "update datSach set trangThai = -1 where  DATEDIFF(day,GETDATE(),ngayTaoDH) <-15 and tienCoc = 0 and trangThai = 0";
+		String sql = "delete from chiTietDatSach where maDH = '"+maDH+"'";
+		try {
+			stm = con.prepareStatement(sql);
+			
+//			stm.setString(1, sdt);
+//			stm.setString(2, manv);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
+	}
+	public void deletedonDH(String maDH) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "delete from datSach where maDH = '"+maDH+"'";
+		try {
+			stm = con.prepareStatement(sql);
+			
+//			stm.setString(1, sdt);
+//			stm.setString(2, manv);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
+	}
 	public void updateDonDatHangKhongCoc() {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
@@ -368,6 +407,25 @@ public class DAO_KhachDH implements daoInterface<KhachDH, DanhSachKhachDH>{
 		
 		try {
 			String sql = "select COUNT(*) as soLan from datSach where trangThai = -1 and maKH = '" + maKH +"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		while(rs.next()) {
+//			coc = Double.parseDouble(rs.getString("tienCoc"));
+			count = Integer.parseInt(rs.getString("soLan"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public int soDonChuaXuLy(String maKH) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		int count = 0;
+		
+		try {
+			String sql = "select COUNT(*) as soLan from datSach where trangThai = 0 and maKH = '" + maKH +"'";
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 //			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

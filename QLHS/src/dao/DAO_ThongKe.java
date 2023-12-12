@@ -154,8 +154,8 @@ public class DAO_ThongKe {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sql = "select khachHang.maKH,khachHang.tenKH,count(*) as tong,sum(hoaDon.thanhTien) AS tongTien  from hoaDon join khachHang on hoaDon.maKH = khachHang.maKH where ngayTaoHD >= CAST(DATEADD(DAY,"+dateNumber+",GETDATE()) AS DATE)\r\n"
-					+ "group by khachHang.tenKH,khachHang.maKH";
+			String sql = "select khachHang.maKH,khachHang.tenKH,count(*) as tong,sum(hoaDon.thanhTien) AS tongTien  from hoaDon join khachHang on hoaDon.maKH = khachHang.maKH where khachHang.tinhTrang!=0 and ngayTaoHD >= CAST(DATEADD(DAY,"+dateNumber+",GETDATE()) AS DATE)\r\n"
+					+ "group by khachHang.tenKH,khachHang.maKH ";
 			System.out.println(sql);
 			Statement statement =con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
