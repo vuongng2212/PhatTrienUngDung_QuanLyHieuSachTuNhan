@@ -398,6 +398,7 @@ public class frmNV extends JFrame {
 				panelSearchProduct.refreshLocale(country[0], country[1]);
 				panelXacNhanDatSach.refreshLocale(country[0], country[1]);
 				customer.refreshLocale(country[0], country[1]);
+				profit.refreshLocale(country[0], country[1]);
 				
 				
 				
@@ -423,8 +424,8 @@ public class frmNV extends JFrame {
 				menuKhachHang.setText(rd.getString("khachHang"));
 				menuItemTimKH.setText(rd.getString("timKH"));
 				menuItemQlKH.setText(rd.getString("qlKH"));
-				menuThongKeSP.setText(rd.getString("thongKe"));
-				menuThongKe.setText(rd.getString("thongKe"));
+//				menuThongKeSP.setText(rd.getString("thongKe"));
+				menuThongKe.setText(rd.getString("khuyenMai"));
 				thongKe.setText(rd.getString("thongKe"));
 				xemKM.setText(rd.getString("xemKM"));
 				menuKhuyenMai.setText(rd.getString("khuyenMai"));
@@ -612,7 +613,7 @@ public class frmNV extends JFrame {
 		  itemXemLichLam.setFont(new Font("Tímes New Roman",Font.BOLD,12));
 		  itemXemLichLam.setPreferredSize(new Dimension(180, 41));
 		  menuHeThong.add(itemQLtaiKhoan);
-		  menuHeThong.add(itemXemLichLam);
+//		  menuHeThong.add(itemXemLichLam);
 		  
 		  
 		  menuSanPham = new JMenu("Sản Phẩm");
@@ -733,7 +734,7 @@ public class frmNV extends JFrame {
 		  menuKhachHang.add(menuItemQlKH);
 		  
 		  
-		  menuThongKe = new JMenu("Thống Kê");
+		  menuThongKe = new JMenu("Khuyến Mãi");
 		  menuThongKe.setBorder(new LineBorder(Color.black, 1));
 		  menuThongKe.setBackground(new Color(0, 128, 0));
 		  menuThongKe.setFont(new Font("Times New Roman", Font.BOLD, 18)); ////
@@ -774,7 +775,7 @@ public class frmNV extends JFrame {
 				menuClicked(khuyenMai);
 			}
 		});
-		  menuThongKe.add(thongKe);
+//		  menuThongKe.add(thongKe);
 		  menuThongKe.add(xemKM);
 		  menuThongKe.add(menuKhuyenMai);
 		  

@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import connectDB.ConnectDB;
+import dao.DAO_NhanVien;
 import dao.DAO_account;
 import entity.userInfo;
 
@@ -32,13 +33,14 @@ import java.awt.event.ActionEvent;
 public class JoptionChangePwd extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtOldPwd;
 	private DAO_account daoAccout;
 	private JPasswordField txtNewPwd;
 	private JPasswordField txtConfirm;
 	private boolean flagFirst;
 	private boolean flagSecond;
 	private boolean flagThird;
+	private JPasswordField txtPasswordCu;
+	private String sdt;
 	/**
 	 * Launch the application.
 	 */
@@ -56,7 +58,7 @@ public class JoptionChangePwd extends JDialog {
 	 * Create the dialog.
 	 */
 	public JoptionChangePwd() {
-		
+//		System.out.println(userInfo.sdt);
 		flagFirst = false;
 		flagSecond = false;
 		flagThird = false;
@@ -68,7 +70,7 @@ public class JoptionChangePwd extends JDialog {
 		}
 		
 		daoAccout = new DAO_account();
-		userInfo.setSdt("0799558911");
+
 		setBounds(100, 100, 703, 370);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(0, 255, 255));
@@ -80,33 +82,6 @@ public class JoptionChangePwd extends JDialog {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(160, 38, 149, 43);
 		contentPanel.add(lblNewLabel);
-		
-		txtOldPwd = new JTextField();
-		txtOldPwd.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(128, 0, 0)));
-		txtOldPwd.setBounds(319, 35, 243, 51);
-		contentPanel.add(txtOldPwd);
-		txtOldPwd.setColumns(10);
-		txtOldPwd.addFocusListener(new FocusAdapter() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				
-				try {
-					ConnectDB.getInstance().connect();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				daoAccout = new DAO_account();
-				if(txtOldPwd.getText().equalsIgnoreCase(daoAccout.ReturnPwd(userInfo.getSdt()))) {
-					flagFirst = true;
-				}else {
-					JOptionPane.showMessageDialog(null, "Nhập mật khẩu cũ bị saii!!!");
-					flagFirst = false;
-				}
-			}
-			
-		});
 		
 		JLabel lblNhpMtKhu = new JLabel("Nhập Mật Khẩu Mới");
 		lblNhpMtKhu.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -150,6 +125,10 @@ public class JoptionChangePwd extends JDialog {
 		});
 		
 		contentPanel.add(txtConfirm);
+		
+		txtPasswordCu = new JPasswordField();
+		txtPasswordCu.setBounds(317, 38, 245, 43);
+		contentPanel.add(txtPasswordCu);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -158,21 +137,23 @@ public class JoptionChangePwd extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+//						System.out.println(userInfo.sdt);
 						if(checkFirst()) {
 							if(checkEmpty()) {
 								if(checkTrung()) {
-									try {
-										ConnectDB.getInstance().connect();
-									} catch (SQLException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
+									
 									daoAccout = new DAO_account();
-									daoAccout.ChangePwd(userInfo.getSdt(), txtNewPwd.getText());
+									daoAccout.ChangePwd(userInfo.sdt,txtNewPwd.getText().toString());
 									dispose();
 									JOptionPane.showMessageDialog(null,"Đổi mật khẩu thành công!!");
+								}else {
+									JOptionPane.showMessageDialog(null, "Xác nhận mật khẩu 1 cách chính xác!!");
 								}
+							}else {
+								JOptionPane.showMessageDialog(null, "Không được để trống!!");
 							}
+						}else {
+							JOptionPane.showMessageDialog(null, "Mật khẩu cũ không chính xác!!");
 						}
 						
 						
@@ -190,6 +171,7 @@ public class JoptionChangePwd extends JDialog {
 		}
 	}
 	private boolean checkFirst() {
+		
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e1) {
@@ -197,7 +179,8 @@ public class JoptionChangePwd extends JDialog {
 			e1.printStackTrace();
 		}
 		daoAccout = new DAO_account();
-		if(txtOldPwd.getText().equalsIgnoreCase(daoAccout.ReturnPwd(userInfo.getSdt()))) {
+		DAO_NhanVien nv = new DAO_NhanVien();
+		if(txtPasswordCu.getText().toString().equalsIgnoreCase(nv.getPwdForChange(userInfo.maNV))) {
 			return true;
 		}
 		return false;

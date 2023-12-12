@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import dao.DAO_NhanVien;
 import entity.NhanVien;
@@ -14,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 
 public class PanelProfit extends JPanel {
@@ -29,6 +32,19 @@ public class PanelProfit extends JPanel {
 	private DAO_NhanVien nv;
 	public DialogChangeSDT changeSDT;
 	public DialogChangeEmail changeEmail;
+	private JLabel lbllMaNV;
+	private JLabel lbllTenNV;
+	private JPanel panel_1;
+	private JLabel lbllGioiTinh;
+	private JLabel lbllSoDienThoai;
+	private JLabel lbllDiaChi;
+	private JLabel lbllEmail;
+	private JLabel lbllChucVu;
+	private JButton btnDoiSDT;
+	private JButton btnDoiMatKhau;
+	private JButton btnEmail;
+	private JButton btnHoanTac;
+	private JLabel lbllNgaySinh;
 	/**
 	 * Create the panel.
 	 */
@@ -50,13 +66,13 @@ public class PanelProfit extends JPanel {
 		lblNewLabel.setBounds(0, 0, 1534, 91);
 		panel.add(lblNewLabel);
 		
-		JPanel panel_1 = new JPanel();
+		panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 165, 0));
 		panel_1.setBounds(0, 91, 1534, 926);
 		add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lbllMaNV = new JLabel("Mã Nhân Viên");
+		lbllMaNV = new JLabel("Mã Nhân Viên");
 		lbllMaNV.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllMaNV.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllMaNV.setBounds(83, 32, 136, 36);
@@ -70,7 +86,7 @@ public class PanelProfit extends JPanel {
 		panel_1.add(txtMaNV);
 		txtMaNV.setColumns(10);
 		
-		JLabel lbllTenNV = new JLabel("Tên Nhân Viên");
+		lbllTenNV = new JLabel("Tên Nhân Viên");
 		lbllTenNV.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllTenNV.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllTenNV.setBounds(552, 32, 136, 36);
@@ -84,7 +100,7 @@ public class PanelProfit extends JPanel {
 		txtTenNV.setBounds(710, 32, 215, 39);
 		panel_1.add(txtTenNV);
 		
-		JLabel lbllNgaySinh = new JLabel("Ngày Sinh");
+		lbllNgaySinh = new JLabel("Ngày Sinh");
 		lbllNgaySinh.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllNgaySinh.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllNgaySinh.setBounds(1109, 32, 111, 36);
@@ -98,7 +114,7 @@ public class PanelProfit extends JPanel {
 		txtNgaySinh.setBounds(1255, 32, 215, 39);
 		panel_1.add(txtNgaySinh);
 		
-		JLabel lbllGioiTinh = new JLabel("Giới Tính");
+		lbllGioiTinh = new JLabel("Giới Tính");
 		lbllGioiTinh.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllGioiTinh.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllGioiTinh.setBounds(83, 108, 136, 36);
@@ -111,7 +127,7 @@ public class PanelProfit extends JPanel {
 		txtGioiTinh.setBounds(234, 108, 215, 39);
 		panel_1.add(txtGioiTinh);
 		
-		JLabel lbllSoDienThoai = new JLabel("Số Điện Thoại");
+		lbllSoDienThoai = new JLabel("Số Điện Thoại");
 		lbllSoDienThoai.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllSoDienThoai.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllSoDienThoai.setBounds(552, 108, 136, 36);
@@ -125,7 +141,7 @@ public class PanelProfit extends JPanel {
 		txtDienThoai.setBounds(710, 108, 215, 39);
 		panel_1.add(txtDienThoai);
 		
-		JLabel lbllDiaChi = new JLabel("Địa Chỉ");
+		lbllDiaChi = new JLabel("Địa Chỉ");
 		lbllDiaChi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllDiaChi.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllDiaChi.setBounds(1109, 108, 111, 36);
@@ -139,7 +155,7 @@ public class PanelProfit extends JPanel {
 		txtDiaChi.setBounds(1255, 108, 215, 39);
 		panel_1.add(txtDiaChi);
 		
-		JLabel lbllEmail = new JLabel("Email");
+		lbllEmail = new JLabel("Email");
 		lbllEmail.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllEmail.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllEmail.setBounds(270, 205, 136, 36);
@@ -153,7 +169,7 @@ public class PanelProfit extends JPanel {
 		txtEmail.setBounds(421, 205, 215, 39);
 		panel_1.add(txtEmail);
 		
-		JLabel lbllChucVu = new JLabel("Chức Vụ");
+		lbllChucVu = new JLabel("Chức Vụ");
 		lbllChucVu.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbllChucVu.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbllChucVu.setBounds(721, 205, 136, 36);
@@ -168,7 +184,7 @@ public class PanelProfit extends JPanel {
 		txtChucVu.setBounds(877, 205, 215, 39);
 		panel_1.add(txtChucVu);
 		
-		JButton btnDoiSDT = new JButton("Thay Đổi SDT");
+		btnDoiSDT = new JButton("Thay Đổi SDT");
 		btnDoiSDT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changeSDT();
@@ -179,7 +195,7 @@ public class PanelProfit extends JPanel {
 		btnDoiSDT.setBounds(180, 336, 171, 59);
 		panel_1.add(btnDoiSDT);
 		
-		JButton btnDoiMatKhau = new JButton("Thay Đổi Mật Khẩu");
+		btnDoiMatKhau = new JButton("Thay Đổi Mật Khẩu");
 		btnDoiMatKhau.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changePwd = new JoptionChangePwd();
@@ -193,7 +209,7 @@ public class PanelProfit extends JPanel {
 		btnDoiMatKhau.setBounds(552, 336, 177, 59);
 		panel_1.add(btnDoiMatKhau);
 		
-		JButton btnEmail = new JButton("Thay Đổi Email");
+		btnEmail = new JButton("Thay Đổi Email");
 		btnEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changeEmail();
@@ -204,7 +220,7 @@ public class PanelProfit extends JPanel {
 		btnEmail.setBounds(905, 336, 171, 59);
 		panel_1.add(btnEmail);
 		
-		JButton btnHoanTac = new JButton("Hoàn Tác");
+		btnHoanTac = new JButton("Hoàn Tác");
 		btnHoanTac.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnHoanTac.setBackground(Color.MAGENTA);
 		btnHoanTac.setBounds(1220, 336, 171, 59);
@@ -245,5 +261,20 @@ public class PanelProfit extends JPanel {
 		changeEmail.setModal(true);
 		changeEmail.setVisible(true);
 	}
-
+	public void refreshLocale(String cs1,String cs2) {
+		Locale locale = new Locale(cs1, cs2);
+		ResourceBundle rd = ResourceBundle.getBundle("resources.content",locale);
+		lbllMaNV.setText(rd.getString("maNV"));
+		lbllTenNV.setText(rd.getString("tenNV"));
+		lbllNgaySinh.setText(rd.getString("ngaySinh"));
+		lbllGioiTinh.setText(rd.getString("gioiTinh"));
+		lbllSoDienThoai.setText(rd.getString("soDienThoai"));
+		lbllDiaChi.setText(rd.getString("diaChi"));
+		lbllChucVu.setText(rd.getString("chucVu"));
+		btnDoiSDT.setText(rd.getString("thayDoiSDT"));
+		btnDoiMatKhau.setText(rd.getString("doiMatKhau"));
+		btnEmail.setText(rd.getString("doiEmail"));
+		btnHoanTac.setText(rd.getString("hoanTac"));
+		
+	}
 }

@@ -113,6 +113,7 @@ public class DAO_account {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stm = null;
+		System.out.println(username);
 		String sql = "update taiKhoan set password = ? where username = ?";
 		try {
 			stm = con.prepareStatement(sql);
