@@ -49,9 +49,49 @@ public class DAO_NhanVien {
 			e.printStackTrace();
 		}
 		return s;
-
 	}
-	
+	public String getPwdForChange(String str) {
+		String s = null;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select password from taiKhoan join nhanVien on taiKhoan.username = nhanVien.soDienThoai where nhanVien.maNV = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+			s = rs.getString("password");
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return s;
+	}
+	public NhanVien getNVTheoMa(String str) {
+		NhanVien nv = new NhanVien();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "select * from nhanVien where maNV = '"+str+"'";
+			Statement statement =con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+		if(rs.next()) {
+//			s = rs.getString("password");
+			nv.setMaNV(rs.getString("maNV"));
+			nv.setTenNV(rs.getString("tenNV"));
+			nv.setDoB(rs.getDate("ngaySinh"));
+			nv.setGioiTinh(rs.getInt("gioiTinh"));
+			nv.setSDT(rs.getString("soDienThoai"));
+			nv.setDiaChi(rs.getString("diaChi"));
+			nv.setEmail(rs.getString("email"));
+			nv.setChucVu(rs.getString("chucVu"));
+		}			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return nv;
+	}
 	
 	public String getMaNV(String str) {
 		String s = null;
@@ -141,6 +181,44 @@ public class DAO_NhanVien {
 			close(stm);
 		}
 		return true;
+	}
+	public void updateSDT(String sdt,String manv) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update nhanVien set soDienThoai = ? where maNV = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			
+			stm.setString(1, sdt);
+			stm.setString(2, manv);
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
+	}
+	public void updateEmail(String email,String manv) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "update nhanVien set email = ? where maNV = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, email);
+			stm.setString(2, manv);
+			
+			stm.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			close(stm);
+		}
 	}
 	public NhanVien getNV(String maNV) {
 		NhanVien nv = new NhanVien();

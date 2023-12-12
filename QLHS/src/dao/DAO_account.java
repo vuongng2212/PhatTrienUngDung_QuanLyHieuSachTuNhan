@@ -28,7 +28,37 @@ public class DAO_account {
 			e.printStackTrace();
 		}
 		return false;
-	}	
+	}
+	public void deleteAcc(String str) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "delete from taiKhoan where username = ?";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, str);
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	public void insertAcc(String username,String pwd) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stm = null;
+		String sql = "insert into taiKhoan(username,password) values (?,?)";
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, username);
+			stm.setString(2, pwd);
+			
+			stm.executeUpdate();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 	public String getRole(String sdt) {
 		String str = null;
 		ConnectDB.getInstance();

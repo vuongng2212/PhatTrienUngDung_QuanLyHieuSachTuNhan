@@ -114,6 +114,8 @@ public class LoginForm extends JFrame {
 									frame.setVisible(true);
 									DAO_NhanVien daoNv = new DAO_NhanVien();
 									userInfo.maNV = daoNv.getMaNV(user);
+									userInfo.sdt = user;
+									
 								} catch (Exception e2) {
 									e2.printStackTrace();
 								}
