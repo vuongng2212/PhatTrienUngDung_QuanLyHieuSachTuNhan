@@ -896,13 +896,6 @@ public class panelBanHang extends JPanel {
 				jv.setVisible(true);
 				
 				
-//				JasperExportManager.exportReportToPdfFile(print,
-//						"C:\\Users\\phant\\Downloads\\Total-Count-Of-Particular-Column-Values\\Total-Count-Of-Particular-"
-//						+ "Column-Values\\src\\main\\resources\\student.pdf");
-//				
-//				System.out.println("Report Created...");
-//				
-				
 			} catch(Exception e) {
 				System.out.println("Exception while creating report");
 			}
